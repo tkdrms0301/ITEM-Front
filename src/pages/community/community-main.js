@@ -1,7 +1,7 @@
 export const CommunityMain = () => {
   return (
     <div>
-      <h1>Community Main1</h1>
+      <h1>Community Main</h1>
     </div>
   );
 };
