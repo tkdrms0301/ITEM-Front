@@ -2,14 +2,12 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import RestoreIcon from "@mui/icons-material/Restore";
 import Handyman from "@mui/icons-material/Handyman";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PersonIcon from "@mui/icons-material/Person";
 import PeopleIcon from "@mui/icons-material/People";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import HomeIcon from "@mui/icons-material/Home";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function SimpleBottomNavigation() {
@@ -28,8 +26,8 @@ export default function SimpleBottomNavigation() {
         position: "fixed",
         bottom: 0,
         borderTop: "1px solid black",
-      }}
-    >
+        zIndex: 1200,
+      }}>
       <BottomNavigation showLabels value={value} onChange={handleChange}>
         <BottomNavigationAction
           label="Market"
