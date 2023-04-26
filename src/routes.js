@@ -3,6 +3,8 @@ import { CommonMyPage } from "./pages/common/common-mypage";
 import { CommunityMain } from "./pages/community/community-main";
 import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
+import { Login } from "./pages/common/login";
+import { Sign } from "./pages/common/sign";
 
 export const routes = [
   {
@@ -24,5 +26,13 @@ export const routes = [
   {
     path: "/market",
     element: <MarketMain />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/sign",
+    element: <Sign />,
   },
 ];
