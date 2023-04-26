@@ -1,0 +1,11 @@
+.repair_list_item {
+  border: 1px rgb(151, 151, 151) solid;
+  margin: 2px;
+}
+.repair_shop_detail_link {
+  text-decoration: none;
+  color: black;
+}
+.repair_shop_detail_link:visited {
+  color: black;
+}
