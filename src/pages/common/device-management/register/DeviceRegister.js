@@ -10,15 +10,17 @@ import {
 import { categorys, brands, products } from "../constant";
 import { useState } from "react";
 import DeviceMenuItem from "./DeviceMenuItem";
+import DeviceInput from "./DeviceInput";
 
 const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
   const [deviceInfo, setDeviceInfo] = useState({
     brand: 0,
     category: 0,
     product: 0,
+    etc: "",
   });
 
-  const { brand, category, product } = deviceInfo;
+  const { brand, category, product, etc } = deviceInfo;
 
   const brandData = {
     selectName: "brand",
@@ -35,15 +37,23 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
   const productData = {
     selectName: "product",
     selectValue: product,
-    dataList: [{ id: 0, name: "제품명" }, ...products],
+    dataList: [{ id: 0, name: "기타" }, ...products],
   };
 
   const onChangeDeviceInfo = (e) => {
     const { name, value } = e.target;
-    setDeviceInfo({
-      ...deviceInfo,
-      [name]: value,
-    });
+    if (name === "product") {
+      setDeviceInfo({
+        ...deviceInfo,
+        [name]: value,
+        etc: "",
+      });
+    } else {
+      setDeviceInfo({
+        ...deviceInfo,
+        [name]: value,
+      });
+    }
   };
 
   const deviceRegister = () => {
@@ -78,10 +88,17 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
                 onChangeDeviceInfo={onChangeDeviceInfo}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <DialogContentText>제품명</DialogContentText>
               <DeviceMenuItem
                 dataList={productData}
+                deviceInfo={deviceInfo}
+                onChangeDeviceInfo={onChangeDeviceInfo}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DialogContentText>기타 제품명</DialogContentText>
+              <DeviceInput
                 deviceInfo={deviceInfo}
                 onChangeDeviceInfo={onChangeDeviceInfo}
               />
