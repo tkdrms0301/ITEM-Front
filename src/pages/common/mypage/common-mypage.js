@@ -17,7 +17,7 @@ import { BottomMenu } from "./bottomMenu";
 
 export const CommonMyPage = () => {
   const [userName, setUserName] = useState("홍길동");
-  const [point, setPoint] = useState(0);
+  const [point, setPoint] = useState(15000);
   const [isSubscription, setIsSubscription] = useState(false);
   const [account, setAccount] = useState("충전계좌 : 하나은행 05-50053-34");
 

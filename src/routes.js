@@ -3,7 +3,7 @@ import { CommunityMain } from "./pages/community/community-main";
 import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
 import { Login } from "./pages/common/login";
-import { Sign } from "./pages/common/sign";
+import { Sign } from "./pages/common/sign/sign";
 import { CommonMyPage } from "./pages/common/mypage/common-mypage";
 
 export const routes = [
