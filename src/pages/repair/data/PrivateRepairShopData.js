@@ -1,4 +1,4 @@
-export const PrivateRepairShop = [
+export const PrivateRepairShopData = [
   {
     memberId: "1",
     email: "ano@naver.com",
@@ -35,6 +35,14 @@ export const PrivateRepairShop = [
     shopAddress: "경북 구미시 옥계남로 82-1",
     description: "B노정비소입니다.",
     services: [
+      { serviceName: "타이어 교체" },
+      { serviceName: "엔진오일 교체" },
+      { serviceName: "에어컨 가스 충전" },
+      { serviceName: "브레이크 오일 교체" },
+      { serviceName: "타이어 교체" },
+      { serviceName: "엔진오일 교체" },
+      { serviceName: "에어컨 가스 충전" },
+      { serviceName: "브레이크 오일 교체" },
       { serviceName: "타이어 교체" },
       { serviceName: "엔진오일 교체" },
       { serviceName: "에어컨 가스 충전" },
