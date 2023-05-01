@@ -1,10 +1,10 @@
 import { Home } from "./pages/home/home";
-import { CommonMyPage } from "./pages/common/common-mypage";
 import { CommunityMain } from "./pages/community/community-main";
 import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
 import { Login } from "./pages/common/login";
-import { Sign } from "./pages/common/sign";
+import { Sign } from "./pages/common/sign/sign";
+import { CommonMyPage } from "./pages/common/mypage/common-mypage";
 import { PrivateRepairShopList } from "./pages/repair/PrivateRepairShopList";
 import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.js";
 import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
