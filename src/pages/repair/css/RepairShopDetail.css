@@ -1,0 +1,88 @@
+.shop_title {
+  background-color: #00af6691;
+  color: white;
+  border-radius: 10px;
+  width: 90vw;
+  padding-bottom: 20vw;
+  margin: 0 auto;
+}
+.shop_title .shop_name {
+  font-size: 10vw;
+  padding: 5vw;
+}
+.tab_menu {
+  background-color: #dcdcdc;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 2vw;
+  margin-top: 10px;
+  padding: 0 10px;
+  justify-content: center;
+}
+.tab_menu .submenu {
+  display: flex;
+  justify-content: center;
+  /*  width: 380px;
+      heigth: 30px; */
+  width: calc(100% / 3);
+  padding: 10px 0;
+  font-size: 15px;
+  transition: 0.5s;
+  /* border-radius: 10px 10px 0px 0px; */
+}
+.tab_menu .focused {
+  background-color: rgb(255, 255, 255);
+  color: rgb(21, 20, 20);
+}
+.shop_content {
+  text-align: center;
+}
+.shop_service_list {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 40vw;
+  margin-top: 10px;
+  padding: 0 10px;
+  overflow: scroll;
+  height: 100vw;
+}
+.shop_service_list .each_service {
+  border: 1px solid black;
+  width: 90%;
+  margin: 1vw;
+  padding: 5vw;
+}
+.reservation_area {
+  position: fixed;
+  display: flex;
+  justify-content: space-evenly;
+  bottom: 20vw;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+.reservation_area .reservation_button {
+  background-color: #2e8fff;
+  border-radius: 10px;
+  padding: 1vw 10vw;
+}
+.reservation_area .reservation_button > p {
+  color: white;
+  font-size: 5vw;
+}
+#repair_shop_map {
+  width: 60vw;
+  height: 60vw;
+  margin: 5vw auto;
+}
+
+.invisible {
+  display: none;
+}
