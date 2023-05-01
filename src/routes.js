@@ -9,6 +9,7 @@ import { PrivateRepairShopList } from "./pages/repair/PrivateRepairShopList";
 import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.js";
 import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
 import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
+import DeviceManagement from "./pages/common/device-management/index.js";
 
 export const routes = [
   {
@@ -18,6 +19,10 @@ export const routes = [
   {
     path: "/mypage",
     element: <CommonMyPage />,
+  },
+  {
+    path: "/mypage/device",
+    element: <DeviceManagement />,
   },
   {
     path: "/community",
