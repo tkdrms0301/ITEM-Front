@@ -13,7 +13,7 @@ const App = () => {
     <>
       <ResponsiveAppBar isLogin={isLogin}></ResponsiveAppBar>
       <SimpleBottomNavigation></SimpleBottomNavigation>
-      <Box className="mainscreen" sx={{ pt: 10, pb: 10 }}>
+      <Box className="mainscreen" sx={{ pt: "56px", pb: "56px" }}>
         {content}
       </Box>
     </>
