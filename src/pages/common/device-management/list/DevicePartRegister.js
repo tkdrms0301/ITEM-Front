@@ -12,14 +12,15 @@ import { useState } from "react";
 import DeviceMenuItem from "../register/DeviceMenuItem";
 import DeviceInput from "../register/DeviceInput";
 
-const DeviceUpdate = ({ updateOpen, updateCloseHandle, deviceUpdate }) => {
+const DevicePartRegister = ({ registerOpen, registerCloseHandle }) => {
   const [deviceInfo, setDeviceInfo] = useState({
     brand: 0,
     category: 0,
     product: 0,
+    etc: "",
   });
 
-  const { brand, category, product } = deviceInfo;
+  const { brand, category, product, etc } = deviceInfo;
 
   const brandData = {
     selectName: "brand",
@@ -41,21 +42,34 @@ const DeviceUpdate = ({ updateOpen, updateCloseHandle, deviceUpdate }) => {
 
   const onChangeDeviceInfo = (e) => {
     const { name, value } = e.target;
-    setDeviceInfo({
-      ...deviceInfo,
-      [name]: value,
-    });
+    if (name === "product") {
+      setDeviceInfo({
+        ...deviceInfo,
+        [name]: value,
+        etc: "",
+      });
+    } else {
+      setDeviceInfo({
+        ...deviceInfo,
+        [name]: value,
+      });
+    }
+  };
+
+  const deviceRegister = () => {
+    console.log(deviceInfo);
+    alert("device part register");
   };
 
   return (
     <>
-      <Dialog open={updateOpen} onClose={updateCloseHandle}>
-        <DialogTitle>기기 수정</DialogTitle>
+      <Dialog open={registerOpen} onClose={registerCloseHandle}>
+        <DialogTitle>기기 부품 등록</DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <DialogContentText>
-                수정할 기기의 브랜드, 카테고리, 제품명을 선택해주세요
+                등록할 기기 부품의 브랜드, 카테고리, 제품명을 선택해주세요
               </DialogContentText>
             </Grid>
             <Grid item xs={12}>
@@ -92,15 +106,15 @@ const DeviceUpdate = ({ updateOpen, updateCloseHandle, deviceUpdate }) => {
           </Grid>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 2 }}>
-          <Button variant="contained" onClick={updateCloseHandle}>
+          <Button variant="contained" onClick={registerCloseHandle}>
             취소
           </Button>
-          <Button variant="contained" onClick={deviceUpdate}>
-            수정
+          <Button variant="contained" onClick={deviceRegister}>
+            등록
           </Button>
         </DialogActions>
       </Dialog>
     </>
   );
 };
-export default DeviceUpdate;
+export default DevicePartRegister;

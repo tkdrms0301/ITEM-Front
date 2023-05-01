@@ -14,11 +14,12 @@ import { Account } from "./account";
 import { ButtonMenu } from "./buttonMenu";
 import { Subscription } from "./subscription";
 import { BottomMenu } from "./bottomMenu";
+import DeviceManagement from "../device-management/index";
 
 export const CommonMyPage = () => {
-  const [userName, setUserName] = useState("홍길동");
+  const [userName, setUserName] = useState("성세경");
   const [point, setPoint] = useState(15000);
-  const [isSubscription, setIsSubscription] = useState(false);
+  const [isSubscription, setIsSubscription] = useState(true);
   const [account, setAccount] = useState("충전계좌 : 하나은행 05-50053-34");
 
   const onSubmitUpdate = (e) => {
@@ -26,7 +27,7 @@ export const CommonMyPage = () => {
   };
 
   return (
-    <Grid container spacing={1}>
+    <Grid container>
       <Header userName={userName}></Header>
       <Point point={point}></Point>
       <Account account={account}></Account>
