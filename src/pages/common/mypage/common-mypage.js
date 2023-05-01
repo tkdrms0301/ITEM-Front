@@ -31,7 +31,7 @@ export const CommonMyPage = () => {
       <Header userName={userName}></Header>
       <Point point={point}></Point>
       <Account account={account}></Account>
-      <ButtonMenu></ButtonMenu> 
+      <ButtonMenu></ButtonMenu>
       <Subscription isSubscription={isSubscription}></Subscription>
       <BottomMenu></BottomMenu>
     </Grid>
