@@ -7,7 +7,8 @@ import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
 import { PostForm } from "./pages/community/postForm";
 import { DataMain } from "./pages/data/data-main";
-
+import { Login } from "./pages/common/login";
+import { Sign } from "./pages/common/sign";
 export const routes = [
   {
     path: "/",
@@ -48,5 +49,12 @@ export const routes = [
   {
     path: "/data",
     element: <DataMain />,
+    
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/sign",
+    element: <Sign />,
   },
 ];
