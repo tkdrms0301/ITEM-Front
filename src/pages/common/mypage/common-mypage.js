@@ -14,6 +14,7 @@ import { Account } from "./account";
 import { ButtonMenu } from "./buttonMenu";
 import { Subscription } from "./subscription";
 import { BottomMenu } from "./bottomMenu";
+import DeviceManagement from "../device-management/index";
 
 export const CommonMyPage = () => {
   const [userName, setUserName] = useState("성세경");
@@ -30,7 +31,7 @@ export const CommonMyPage = () => {
       <Header userName={userName}></Header>
       <Point point={point}></Point>
       <Account account={account}></Account>
-      <ButtonMenu></ButtonMenu>
+      <ButtonMenu></ButtonMenu> 
       <Subscription isSubscription={isSubscription}></Subscription>
       <BottomMenu></BottomMenu>
     </Grid>
