@@ -22,9 +22,9 @@ export const PostContent = ({ postId }) => {
         console.log(error);
       });
   }, [postId]);
-  if (!loaded) {
-    return <CircularProgress />;
-  }
+  // if (!loaded) {
+  //   return <CircularProgress />;
+  // }
   console.log("post.userId:", post.userId);
   return (
     <>
