@@ -1,6 +1,7 @@
 import { Home } from "./pages/home/home";
 import { CommunityMain } from "./pages/community/community-main";
 import { CommunityMyPage } from "./pages/community/community-mypage";
+import { SearchResult } from "./pages/community/searchResult";
 import { SinglePostView } from "./pages/community/singlePostView";
 import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
@@ -14,6 +15,7 @@ import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.
 import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
 import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
 import DeviceManagement from "./pages/common/device-management/index.js";
+import { Reservation } from "./pages/repair/user/reservation";
 
 export const routes = [
   {
@@ -33,12 +35,12 @@ export const routes = [
     element: <CommunityMain />,
   },
   {
-    path: "/community",
-    element: <CommunityMain />,
-  },
-  {
     path: "/community/mypage/:userid",
     element: <CommunityMyPage />,
+  },
+  {
+    path: "/community/search",
+    element: <SearchResult />,
   },
   {
     path: "/community/post/:postid",
@@ -67,6 +69,10 @@ export const routes = [
   {
     path: "/repair/publicShops",
     element: <PublicRepairShopList />,
+  },
+  {
+    path: "/repair/privateShops/:repairShopId/reservation",
+    element: <Reservation />,
   },
   {
     path: "/repair/publicShops/:repairShopId",

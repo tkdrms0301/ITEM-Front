@@ -1,14 +1,13 @@
 import { Grid, Box } from "@mui/material";
 import { FloatingWriteButton } from "./component/FloatingWriteButton";
-import { PostingCategory } from "./component/PostingCategory";
-import { SearchButton } from "./component/SearchButton";
 import { MyPageButton } from "./component/MyPageButton";
 import { PostsList } from "./component/postsList";
-import { baseURL, userId } from "./testing-String";
+import { testBaseURL, userId } from "./testing-String";
+import { SearchBar } from "./component/searchBar";
 
 export const CommunityMain = () => {
   // const query = "https://dummyjson.com/posts";
-  const query = baseURL + "/posts";
+  const query = testBaseURL + "/posts";
 
   return (
     <>
@@ -23,13 +22,10 @@ export const CommunityMain = () => {
           zIndex: 100,
         }}
       >
-        <Grid item xs={8}>
-          <PostingCategory />
+        <Grid item xs={8} sx={{ height: "100%" }}>
+          <SearchBar />
         </Grid>
-        <Grid item xs={2}>
-          <SearchButton />
-        </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <MyPageButton userId={userId} />
         </Grid>
         <Grid item xs={12} sx={{ mt: -1 }}>
