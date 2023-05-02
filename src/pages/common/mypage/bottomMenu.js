@@ -2,7 +2,7 @@ import { Container, Grid } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
-export const BottomMenu = ({ buttonMenu }) => {
+export const BottomMenu = ({ buttonMenu, userId }) => {
   const navigate = useNavigate();
 
   return (
@@ -64,7 +64,7 @@ export const BottomMenu = ({ buttonMenu }) => {
               fontSize: "15px",
               fontWeight: "bold",
             }}
-            onClick={(e) => navigate(`/`)}
+            onClick={(e) => navigate(`/community/mypage/${userId}`)}
           >
             커뮤니티 마이페이지
           </Grid>
