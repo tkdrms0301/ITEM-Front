@@ -9,7 +9,7 @@ import {
   Autocomplete,
   Container,
 } from "@mui/material";
-import { BackButton } from "./component/backButton";
+import { BackButton } from "../../component/backButton";
 import { userId } from "./testing-String";
 
 export const PostForm = () => {
@@ -136,7 +136,7 @@ export const PostForm = () => {
             )}
             inputValue={tagValue}
             onInputChange={handleTagChange}
-            sx={{ mt: "1%" }}
+            sx={{ mt: "3%" }}
           />
           <TextField
             required

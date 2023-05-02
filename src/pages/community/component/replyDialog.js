@@ -53,7 +53,7 @@ export const ReplyDialog = ({
             autoFocus
             margin="dense"
             id="reply"
-            label="답글"
+            label={"답글"}
             type="text"
             fullWidth
             multiline
