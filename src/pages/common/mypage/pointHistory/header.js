@@ -8,7 +8,7 @@ import {
   Avatar,
 } from "@mui/material";
 
-import { BackButton } from "../../../community/component/backButton";
+import { BackButton } from "../../../../component/backButton";
 
 export const Header = () => {
   return (

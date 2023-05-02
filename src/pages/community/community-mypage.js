@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import { Box, Tabs, Tab } from "@mui/material";
 import { BackButton } from "../../component/backButton";
 import { PostsList } from "./component/postsList";
-import { tempNumberForCommentedPostingList } from "./testing-String";
+import {
+  tempNumberForCommentedPostingList,
+  testBaseURL,
+} from "./testing-String";
 
 export const CommunityMyPage = () => {
   const { userid } = useParams();
@@ -16,8 +19,8 @@ export const CommunityMyPage = () => {
 
   // const postQuery = `https://dummyjson.com/posts/user/${userid}`;
   // const commentQuery = `https://dummyjson.com/posts/user/${tempNumberForCommentedPostingList}`;
-  const postQuery = `https://68261330-f21c-4897-aa3f-cb6314ec6656.mock.pstmn.io/api/posts/user/${userid}`;
-  const commentQuery = `https://68261330-f21c-4897-aa3f-cb6314ec6656.mock.pstmn.io/api/posts/user/${tempNumberForCommentedPostingList}`;
+  const postQuery = `${testBaseURL}/posts/user/${userid}`;
+  const commentQuery = `${testBaseURL}/posts/user/${tempNumberForCommentedPostingList}`;
 
   console.log("userid : " + userid);
   return (
