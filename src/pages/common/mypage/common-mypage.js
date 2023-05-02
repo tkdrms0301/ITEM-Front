@@ -27,7 +27,7 @@ export const CommonMyPage = () => {
   };
 
   return (
-    <Grid container spacing={1}>
+    <Grid container>
       <Header userName={userName}></Header>
       <Point point={point}></Point>
       <Account account={account}></Account>
