@@ -1,11 +1,4 @@
-import {
-  Container,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import { Container, Grid } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +7,7 @@ export const ButtonMenu = ({}) => {
   const buttonMenu = [
     {
       name: "이용내역",
-      link: "/",
+      link: "/point/history",
     },
     {
       name: "충전",

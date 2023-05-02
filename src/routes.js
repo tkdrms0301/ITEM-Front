@@ -16,6 +16,7 @@ import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
 import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
 import DeviceManagement from "./pages/common/device-management/index.js";
 import { Reservation } from "./pages/repair/user/reservation";
+import { PointHistory } from "./pages/common/mypage/pointHistory/pointHistory";
 
 export const routes = [
   {
@@ -93,5 +94,9 @@ export const routes = [
   {
     path: "/data",
     element: <DataMain />,
+  },
+  {
+    path: "/point/history",
+    element: <PointHistory />,
   },
 ];
