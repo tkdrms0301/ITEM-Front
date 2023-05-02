@@ -14,6 +14,7 @@ import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.
 import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
 import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
 import DeviceManagement from "./pages/common/device-management/index.js";
+import { PointHistory } from "./pages/common/mypage/pointHistory";
 
 export const routes = [
   {
@@ -87,5 +88,9 @@ export const routes = [
   {
     path: "/data",
     element: <DataMain />,
+  },
+  {
+    path: "/point/history",
+    element: <PointHistory />,
   },
 ];
