@@ -69,7 +69,6 @@ export const RepairForm = ({ roleType }) => {
       type: "address",
       vali: validateNickname,
     },
-
     {
       name: "password",
       ref: password,

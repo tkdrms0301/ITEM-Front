@@ -40,6 +40,7 @@ export const SellerForm = ({ roleType }) => {
     console.log(passwordVali.current.value);
     console.log(phoneNumber.current.value);
     console.log(companyName.current.value);
+    console.log(companyNumber.current.value);
     console.log(companyAddress.current.value);
     console.log(companyPhoneNumber.current.value);
     console.log(companyDescription.current.value);
@@ -94,32 +95,32 @@ export const SellerForm = ({ roleType }) => {
       type: "phoneNumber",
     },
     {
-      name: "shopName",
-      ref: shopName,
-      id: "shopName",
-      label: "가게명",
-      type: "shopName",
+      name: "companyName",
+      ref: companyName,
+      id: "companyName",
+      label: "회사명",
+      type: "companyName",
     },
     {
-      name: "shopAddress",
-      ref: shopAddress,
-      id: "shopAddress",
-      label: "가게 주소",
-      type: "shopAddress",
+      name: "companyNumber",
+      ref: companyNumber,
+      id: "companyNumber",
+      label: "사업자번호",
+      type: "companyNumber",
     },
     {
-      name: "shopPhoneNumber",
-      ref: shopPhoneNumber,
-      id: "shopPhoneNumber",
-      label: "가게 전화번호",
-      type: "shopPhoneNumber",
+      name: "companyPhoneNumber",
+      ref: companyPhoneNumber,
+      id: "companyPhoneNumber",
+      label: "회사 전화번호",
+      type: "companyPhoneNumber",
     },
     {
-      name: "shopDescription",
-      ref: shopDescription,
-      id: "shopDescription",
-      label: "가게 설명",
-      type: "shopDescription",
+      name: "companyDescription",
+      ref: companyDescription,
+      id: "companyDescription",
+      label: "회사 설명",
+      type: "companyDescription",
     },
   ];
 

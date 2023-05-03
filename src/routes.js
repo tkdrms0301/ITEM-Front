@@ -5,7 +5,6 @@ import { SearchResult } from "./pages/community/searchResult";
 import { SinglePostView } from "./pages/community/singlePostView";
 import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
-import { Login } from "./pages/common/login";
 import { Sign } from "./pages/common/sign/sign";
 import { PostForm } from "./pages/community/postForm";
 import { DataMain } from "./pages/data/data-main";
@@ -20,6 +19,7 @@ import { PointHistory } from "./pages/common/mypage/pointHistory/pointHistory";
 import { Estimate } from "./pages/repair/estimate/estimate";
 import { ReservationHistory } from "./pages/repair/reservation/history";
 import { HistoryDetail } from "./pages/repair/reservation/historyDetail";
+import { Login } from "./pages/common/login/login";
 
 export const routes = [
   {
