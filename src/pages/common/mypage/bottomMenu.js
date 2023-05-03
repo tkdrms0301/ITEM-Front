@@ -83,7 +83,7 @@ export const BottomMenu = ({ buttonMenu, userId }) => {
             fontSize: "15px",
             fontWeight: "bold",
           }}
-          onClick={(e) => navigate(`/InfoCorrection`)}
+          onClick={(e) => navigate(`/user/infoUpdate`)}
         >
           개인정보 수정
         </Grid>

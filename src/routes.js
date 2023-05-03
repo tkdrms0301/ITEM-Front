@@ -20,6 +20,7 @@ import { Estimate } from "./pages/repair/estimate/estimate";
 import { ReservationHistory } from "./pages/repair/reservation/history";
 import { HistoryDetail } from "./pages/repair/reservation/historyDetail";
 import { Login } from "./pages/common/login/login";
+import { InfoUpdate } from "./pages/common/info-update/infoUpdate";
 
 export const routes = [
   {
@@ -117,5 +118,9 @@ export const routes = [
   {
     path: "/point/history",
     element: <PointHistory />,
+  },
+  {
+    path: "/user/infoUpdate",
+    element: <InfoUpdate />,
   },
 ];
