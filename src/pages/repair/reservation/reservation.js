@@ -28,6 +28,7 @@ export const Reservation = () => {
   const [isUpdate, setIsUpdate] = useState(
     window.location.href.includes("update")
   );
+
   const getUpdateData = () => {
     const getData = reservationHistoryForUser[0];
     return {
@@ -66,10 +67,13 @@ export const Reservation = () => {
     handleCompleted();
   };
   const handleSelect = (event, value) => {
-    setData({
-      ...data,
-      product: value,
-    });
+    if (value !== "") {
+      setData({
+        ...data,
+        product: value,
+      });
+    }
+
     //findProductImg(value);
     setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
 
@@ -202,8 +206,8 @@ export const Reservation = () => {
           renderInput={(params) => (
             <TextField {...params} label="제품 선택" variant="outlined" />
           )}
-          inputValue={data.product}
           onInputChange={handleSelect}
+          inputValue={data.product}
           onChange={(event, value, reason) => {
             if (reason === "clear") {
               setProductImg("");
