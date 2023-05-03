@@ -15,8 +15,11 @@ import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.
 import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
 import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
 import DeviceManagement from "./pages/common/device-management/index.js";
-import { Reservation } from "./pages/repair/user/reservation";
+import { Reservation } from "./pages/repair/reservation/reservation";
 import { PointHistory } from "./pages/common/mypage/pointHistory/pointHistory";
+import { Estimate } from "./pages/repair/estimate/estimate";
+import { ReservationHistory } from "./pages/repair/reservation/history";
+import { HistoryDetail } from "./pages/repair/reservation/historyDetail";
 
 export const routes = [
   {
@@ -74,6 +77,22 @@ export const routes = [
   {
     path: "/repair/privateShops/:repairShopId/reservation",
     element: <Reservation />,
+  },
+  {
+    path: "/repair/privateShops/:repairShopId/update/:reservationId",
+    element: <Reservation />,
+  },
+  {
+    path: "/repair/mypage/reservation",
+    element: <ReservationHistory />,
+  },
+  {
+    path: "/repair/mypage/reservation/:reservationId",
+    element: <HistoryDetail />,
+  },
+  {
+    path: "/repair/privateShops/:repairShopId/estimate",
+    element: <Estimate />,
   },
   {
     path: "/repair/publicShops/:repairShopId",

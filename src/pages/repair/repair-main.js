@@ -12,6 +12,8 @@ export const RepairMain = () => {
         <Link to={"/repair/publicShops"} className="public_shop_search">
           <div>공식 수리점 찾기</div>
         </Link>
+
+        <Link to={"/repair/mypage/reservation"}>예약내역</Link>
       </div>
     </>
   );
