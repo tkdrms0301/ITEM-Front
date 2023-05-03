@@ -16,7 +16,7 @@ export const Header = ({ userName }) => {
     <Container
       maxWidth={false}
       sx={{
-        pt: 1,
+        pt: 2,
         pb: 1,
         borderBottom: "2px solid gray",
         display: "flex",

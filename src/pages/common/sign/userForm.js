@@ -22,6 +22,9 @@ export const UserForm = ({ roleType }) => {
   const validateNickname = (e) => {
     console.log(nickName.current.value);
   };
+  const validatePassword = (e) => {
+    console.log(passwordVali.current.value);
+  };
 
   const signUpSubmit = () => {
     console.log(roleType);
@@ -72,6 +75,7 @@ export const UserForm = ({ roleType }) => {
       id: "password-validate",
       label: "비밀번호 확인",
       type: "password",
+      vali: validatePassword,
     },
     {
       name: "phoneNumber",
@@ -116,12 +120,15 @@ export const UserForm = ({ roleType }) => {
                 name={data.name}
                 variant="outlined"
                 id={data.id}
+                required
                 inputRef={data.ref}
                 label={data.label}
                 type={data.type}
                 sx={{ width: "60%" }}
               />
-              {data.name === "email" || data.name === "nickName" ? (
+              {data.name === "email" ||
+              data.name === "nickName" ||
+              data.name === "password-validate" ? (
                 <Button variant="outlined" sx={{ ml: 2 }} onClick={data.vali}>
                   중복확인
                 </Button>
