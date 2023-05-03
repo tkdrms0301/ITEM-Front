@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Header } from "./header";
-import { SeachDate } from "./seachDate";
+import { SearchDate } from "./searchDate";
 import { HistoryList } from "./historyList";
 
 export const PointHistory = () => {
@@ -33,7 +33,7 @@ export const PointHistory = () => {
   return (
     <>
       <Header />
-      <SeachDate
+      <SearchDate
         firstDate={firstDate}
         setFirstDate={setFirstDate}
         secondaryDate={secondaryDate}

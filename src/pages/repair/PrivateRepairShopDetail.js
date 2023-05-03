@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { PrivateRepairShopData } from "./data/PrivateRepairShopData.js";
 import "./css/RepairShopDetail.css";
+
 const { kakao } = window;
 
 let map, lat, lng;
@@ -143,10 +144,22 @@ export const PrivateRepairShopDetail = () => {
             </div>
           </div>
           <div className="reservation_area">
-            <div className="reservation_button">
+            <div
+              className="reservation_button"
+              onClick={() => {
+                window.location.href =
+                  window.location.pathname + "/reservation";
+              }}
+            >
               <p>예약하기</p>
             </div>
-            <div className="reservation_button">
+            <div
+              className="reservation_button"
+              onClick={() => {
+                window.location.href =
+                  window.location.pathname + "/estimate";
+              }}
+            >
               <p>견적받기</p>
             </div>
           </div>
