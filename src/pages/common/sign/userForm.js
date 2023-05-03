@@ -1,26 +1,20 @@
 import {
   Container,
   Grid,
-  Typography,
-  Box,
   Link,
   TextField,
   CssBaseline,
-  FormControlLabel,
-  Checkbox,
   Button,
 } from "@mui/material";
-import { useRef, useState, useEffect } from "react";
-import { Header } from "./header";
-import { RoleList } from "./roleList";
-import { Filter } from "@mui/icons-material";
+import { useRef } from "react";
 
 export const UserForm = ({ roleType }) => {
-  
   const emailRef = useRef(null);
   const nickName = useRef(null);
+  const address = useRef(null);
   const password = useRef(null);
   const passwordVali = useRef(null);
+  const phoneNumber = useRef(null);
 
   const validateEmail = (e) => {
     console.log(emailRef.current.value);
@@ -32,9 +26,11 @@ export const UserForm = ({ roleType }) => {
   const signUpSubmit = () => {
     console.log(roleType);
     console.log(emailRef.current.value);
+    console.log(address.current.value);
     console.log(nickName.current.value);
     console.log(password.current.value);
     console.log(passwordVali.current.value);
+    console.log(phoneNumber.current.value);
   };
 
   const boxList = [
@@ -42,7 +38,7 @@ export const UserForm = ({ roleType }) => {
       name: "email",
       ref: emailRef,
       id: "email",
-      label: "Email Address",
+      label: "이메일 주소",
       type: "email",
       vali: validateEmail,
     },
@@ -50,23 +46,39 @@ export const UserForm = ({ roleType }) => {
       name: "nickName",
       ref: nickName,
       id: "nickName",
-      label: "Nick Name",
+      label: "닉네임(중복불가)",
       type: "nickName",
       vali: validateNickname,
     },
     {
+      name: "address",
+      ref: address,
+      id: "address",
+      label: "사용자 주소",
+      type: "address",
+      vali: validateNickname,
+    },
+
+    {
       name: "password",
       ref: password,
       id: "password",
-      label: "password",
+      label: "비밀번호",
       type: "password",
     },
     {
       name: "password-validate",
       ref: passwordVali,
       id: "password-validate",
-      label: "Confirm Password",
+      label: "비밀번호 확인",
       type: "password",
+    },
+    {
+      name: "phoneNumber",
+      ref: phoneNumber,
+      id: "phoneNumber",
+      label: "개인 휴대전화(- 제외)",
+      type: "phoneNumber",
     },
   ];
 
