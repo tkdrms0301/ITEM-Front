@@ -32,10 +32,12 @@ export const Subscription = ({ isSubscription }) => {
           sx={{
             backgroundColor: "#1ABD9A",
             borderRadius: "10px",
-            color: "black",
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             fontWeight: "bold",
-            fontSize: "4vw",
-            textAlign: "center",
+            fontSize: "3.5vw",
           }}
         >
           활성화
@@ -49,8 +51,10 @@ export const Subscription = ({ isSubscription }) => {
             borderRadius: "10px",
             color: "white",
             fontWeight: "bold",
-            fontSize: "4vw",
-            textAlign: "center",
+            fontSize: "3.5vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           비활성화

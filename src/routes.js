@@ -5,7 +5,6 @@ import { SearchResult } from "./pages/community/searchResult";
 import { SinglePostView } from "./pages/community/singlePostView";
 import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
-import { Login } from "./pages/common/login";
 import { Sign } from "./pages/common/sign/sign";
 import { PostForm } from "./pages/community/postForm";
 import { DataMain } from "./pages/data/data-main";
@@ -15,8 +14,13 @@ import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.
 import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
 import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
 import DeviceManagement from "./pages/common/device-management/index.js";
-import { Reservation } from "./pages/repair/user/reservation";
+import { Reservation } from "./pages/repair/reservation/reservation";
 import { PointHistory } from "./pages/common/mypage/pointHistory/pointHistory";
+import { Estimate } from "./pages/repair/estimate/estimate";
+import { ReservationHistory } from "./pages/repair/reservation/history";
+import { HistoryDetail } from "./pages/repair/reservation/historyDetail";
+import { Login } from "./pages/common/login/login";
+import { InfoUpdate } from "./pages/common/info-update/infoUpdate";
 
 export const routes = [
   {
@@ -76,6 +80,22 @@ export const routes = [
     element: <Reservation />,
   },
   {
+    path: "/repair/privateShops/:repairShopId/update/:reservationId",
+    element: <Reservation />,
+  },
+  {
+    path: "/repair/mypage/reservation",
+    element: <ReservationHistory />,
+  },
+  {
+    path: "/repair/mypage/reservation/:reservationId",
+    element: <HistoryDetail />,
+  },
+  {
+    path: "/repair/privateShops/:repairShopId/estimate",
+    element: <Estimate />,
+  },
+  {
     path: "/repair/publicShops/:repairShopId",
     element: <PublicRepairShopDetail />,
   },
@@ -98,5 +118,9 @@ export const routes = [
   {
     path: "/point/history",
     element: <PointHistory />,
+  },
+  {
+    path: "/user/infoUpdate",
+    element: <InfoUpdate />,
   },
 ];

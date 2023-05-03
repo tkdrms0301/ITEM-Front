@@ -15,33 +15,65 @@ import {
 import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { testServiceTime, services, products } from "../data/test";
+import {
+  testServiceTime,
+  services,
+  products,
+  reservationHistoryForUser,
+} from "../data/test";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 export const Reservation = () => {
+  // for update
+  const [isUpdate, setIsUpdate] = useState(
+    window.location.href.includes("update")
+  );
+
+  const getUpdateData = () => {
+    const getData = reservationHistoryForUser[0];
+    return {
+      userId: getData.uid,
+      repairId: shopId,
+      product: getData.product,
+      services: getData.service,
+      comment: getData.userComment,
+      date: getData.date,
+      time: getData.time,
+    };
+  };
+
+  // for update end
+
   const shopId = useParams();
   const [productImg, setProductImg] = useState("");
 
   //transtmit data
-  const [data, setData] = useState({
-    userId: 0,
-    repairId: shopId,
-    product: "",
-    services: [],
-    comment: "",
-    date: "",
-    time: "",
-  });
+  const [data, setData] = useState(
+    isUpdate
+      ? getUpdateData()
+      : {
+          userId: 0,
+          repairId: shopId,
+          product: "",
+          services: [],
+          comment: "",
+          date: "",
+          time: "",
+        }
+  );
   const handleData = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
 
     handleCompleted();
   };
   const handleSelect = (event, value) => {
-    setData({
-      ...data,
-      product: value,
-    });
+    if (value !== "") {
+      setData({
+        ...data,
+        product: value,
+      });
+    }
+
     //findProductImg(value);
     setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
 
@@ -113,7 +145,6 @@ export const Reservation = () => {
 
   //completed end
 
-  console.log(data);
   return (
     <>
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
@@ -162,9 +193,9 @@ export const Reservation = () => {
       </Dialog>
 
       <TitleButtonBar
-        title={"예약 신청"}
-        buttonLabel={"신청"}
-        query={""}
+        title={isUpdate ? "예약 수정" : "예약 신청"}
+        buttonLabel={isUpdate ? "수정" : "신청"}
+        query={isUpdate ? "query - update" : "query - new"}
         transmitData={data}
         completed={completed}
       />
@@ -175,8 +206,8 @@ export const Reservation = () => {
           renderInput={(params) => (
             <TextField {...params} label="제품 선택" variant="outlined" />
           )}
-          inputValue={data.product}
           onInputChange={handleSelect}
+          inputValue={data.product}
           onChange={(event, value, reason) => {
             if (reason === "clear") {
               setProductImg("");

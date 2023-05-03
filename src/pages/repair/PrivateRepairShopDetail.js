@@ -142,14 +142,23 @@ export const PrivateRepairShopDetail = () => {
               </div>
             </div>
           </div>
-          {/* <div className="reservation_area">
-            <div className="reservation_button">
+          <div className="reservation_area">
+            <div
+              className="reservation_button"
+              onClick={() => {
+                window.location.href =
+                  window.location.pathname + "/reservation";
+              }}>
               <p>예약하기</p>
             </div>
-            <div className="reservation_button">
+            <div
+              className="reservation_button"
+              onClick={() => {
+                window.location.href = window.location.pathname + "/estimate";
+              }}>
               <p>견적받기</p>
             </div>
-          </div> */}
+          </div>
         </>
       ) : null}
     </>
