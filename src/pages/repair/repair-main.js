@@ -17,7 +17,6 @@ export const RepairMain = () => {
             <div>공식 수리점 찾기</div>
           </Link>
   
-        <Link to={"/repair/mypage/reservation"}>예약내역</Link>
       </div>
         <div>
           <Link
