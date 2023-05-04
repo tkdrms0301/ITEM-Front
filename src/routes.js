@@ -9,10 +9,11 @@ import { Sign } from "./pages/common/sign/sign";
 import { PostForm } from "./pages/community/postForm";
 import { DataMain } from "./pages/data/data-main";
 import { CommonMyPage } from "./pages/common/mypage/common-mypage";
-import { PrivateRepairShopList } from "./pages/repair/PrivateRepairShopList";
-import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.js";
-import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
-import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
+import { PrivateRepairShopList } from "./pages/repair/AroundRepairShop/PrivateRepairShopList";
+import { PrivateRepairShopDetail } from "./pages/repair/AroundRepairShop/PrivateRepairShopDetail.js";
+import { PublicRepairShopList } from "./pages/repair/AroundRepairShop/PublicRepairShopList";
+import { PublicRepairShopDetail } from "./pages/repair/AroundRepairShop/PublicRepairShopDetail.js";
+import { ReportResult } from "./pages/repair/report/ReportResult";
 import DeviceManagement from "./pages/common/device-management/index.js";
 import { Reservation } from "./pages/repair/reservation/reservation";
 import { PointHistory } from "./pages/common/mypage/pointHistory/pointHistory";
@@ -68,7 +69,7 @@ export const routes = [
     element: <PrivateRepairShopList />,
   },
   {
-    path: "/repair/privateShops/:repairShopId",
+    path: "/repair/privateShops/detail",
     element: <PrivateRepairShopDetail />,
   },
   {
@@ -98,6 +99,14 @@ export const routes = [
   {
     path: "/repair/publicShops/:repairShopId",
     element: <PublicRepairShopDetail />,
+  },
+  {
+    path: "/repair/readReport",
+    element: <ReportResult isRegist={false} />,
+  },
+  {
+    path: "/repair/registReport",
+    element: <ReportResult isRegist={true} />,
   },
   {
     path: "/market",
