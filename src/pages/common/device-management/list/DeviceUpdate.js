@@ -10,6 +10,7 @@ import {
 import { categorys, brands, products } from "../constant";
 import { useState } from "react";
 import DeviceMenuItem from "../register/DeviceMenuItem";
+import DeviceInput from "../register/DeviceInput";
 
 const DeviceUpdate = ({ updateOpen, updateCloseHandle, deviceUpdate }) => {
   const [deviceInfo, setDeviceInfo] = useState({
@@ -35,7 +36,7 @@ const DeviceUpdate = ({ updateOpen, updateCloseHandle, deviceUpdate }) => {
   const productData = {
     selectName: "product",
     selectValue: product,
-    dataList: [{ id: 0, name: "제품명" }, ...products],
+    dataList: [{ id: 0, name: "기타" }, ...products],
   };
 
   const onChangeDeviceInfo = (e) => {
@@ -73,10 +74,17 @@ const DeviceUpdate = ({ updateOpen, updateCloseHandle, deviceUpdate }) => {
                 onChangeDeviceInfo={onChangeDeviceInfo}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <DialogContentText>제품명</DialogContentText>
               <DeviceMenuItem
                 dataList={productData}
+                deviceInfo={deviceInfo}
+                onChangeDeviceInfo={onChangeDeviceInfo}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DialogContentText>기타 제품명</DialogContentText>
+              <DeviceInput
                 deviceInfo={deviceInfo}
                 onChangeDeviceInfo={onChangeDeviceInfo}
               />

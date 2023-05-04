@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Header } from "../common/mypage/header";
 
 export const Home = () => {
   return (
     <>
+      <Header userName={"홍길동"}></Header>
       <div>
         <h1>Home</h1>
       </div>

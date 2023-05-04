@@ -1,14 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PrivateRepairShopData } from "./data/PrivateRepairShopData.js";
-import "./css/RepairShopDetail.css";
+import "../css/RepairShopDetail.css";
 const { kakao } = window;
 
 let map, lat, lng;
 
 export const PrivateRepairShopDetail = () => {
-  const { repairShopId } = useParams();
-
   const [selectShop, setSelectShop] = useState(null);
 
   function getPrivateShopLocation() {
@@ -34,15 +31,11 @@ export const PrivateRepairShopDetail = () => {
     });
   }
 
-  useEffect(() => {
-    PrivateRepairShopData.map((eachRepairShop) => {
-      if (eachRepairShop.memberId === repairShopId) {
-        setSelectShop(eachRepairShop);
+  const location = useLocation();
 
-        return false;
-      }
-    });
-  }, [repairShopId]);
+  useEffect(() => {
+    setSelectShop(location.state?.shop);
+  }, []);
 
   const [currentTab, clickTab] = useState(0);
 
@@ -143,10 +136,22 @@ export const PrivateRepairShopDetail = () => {
             </div>
           </div>
           <div className="reservation_area">
-            <div className="reservation_button">
+            <div
+              className="reservation_button"
+              onClick={() => {
+                window.location.href =
+                  window.location.pathname + "/reservation";
+              }}
+            >
               <p>예약하기</p>
             </div>
-            <div className="reservation_button">
+            <div
+              className="reservation_button"
+              onClick={() => {
+                window.location.href =
+                  window.location.pathname + "/estimate";
+              }}
+            >
               <p>견적받기</p>
             </div>
           </div>

@@ -1,15 +1,8 @@
-import {
-  Container,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import { Container, Grid } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
-export const BottomMenu = ({ buttonMenu }) => {
+export const BottomMenu = ({ buttonMenu, userId }) => {
   const navigate = useNavigate();
 
   return (
@@ -71,7 +64,7 @@ export const BottomMenu = ({ buttonMenu }) => {
               fontSize: "15px",
               fontWeight: "bold",
             }}
-            onClick={(e) => navigate(`/`)}
+            onClick={(e) => navigate(`/community/mypage/${userId}`)}
           >
             커뮤니티 마이페이지
           </Grid>
@@ -90,9 +83,27 @@ export const BottomMenu = ({ buttonMenu }) => {
             fontSize: "15px",
             fontWeight: "bold",
           }}
-          onClick={(e) => navigate(`/InfoCorrection`)}
+          onClick={(e) => navigate(`/user/infoUpdate`)}
         >
           개인정보 수정
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            backgroundColor: "#E0E0E0",
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "3px",
+            alignItems: "center",
+            mt: "5%",
+            p: "2%",
+            fontSize: "15px",
+            fontWeight: "bold",
+          }}
+          onClick={(e) => navigate(`/mypage/device`)}
+        >
+          나의 IT 기기관리
         </Grid>
       </Grid>
     </Container>

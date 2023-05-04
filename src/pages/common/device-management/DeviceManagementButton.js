@@ -6,13 +6,14 @@ const fabStyle = {
   top: "auto",
   left: "auto",
   right: 20,
+  bottom: 80,
   margin: 0,
 };
 
 const DeviceManagementButton = ({ registerOpenHandle }) => {
   const fab = {
     color: "primary",
-    sx: { ...fabStyle, bottom: 80 },
+    sx: { ...fabStyle },
     icon: <AddIcon />,
     label: "Add",
     click: () => registerOpenHandle(),

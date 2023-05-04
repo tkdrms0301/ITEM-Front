@@ -1,0 +1,101 @@
+.report_page {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10vw;
+}
+.report_page .top_field {
+  display: flex;
+  height: 15vw;
+  margin-bottom: 5vw;
+  background-color: rgb(233, 233, 233);
+  border-bottom: 1px rgb(184, 184, 184) solid;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+.report_page .top_field .backButton_title {
+  display: flex;
+  align-items: center;
+}
+.report_page .top_field .title {
+  margin-left: 8vw;
+}
+.report_page .area {
+  position: relative;
+  border: 3px black solid;
+  margin: 20px;
+}
+.report_page .area .line {
+  position: absolute;
+  top: -15px;
+  left: 10px;
+  background-color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+.report_page .area .content {
+  display: flex;
+  padding: 30px 10px;
+  align-items: center;
+}
+.report_page .product_info .prod_info__name {
+  margin-left: 15px;
+}
+.report_page .report .report_content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.report_page .report .report_img {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.report_page .report .report_content .report_text {
+  width: 100%;
+}
+.report_page .report .report_img .img_text {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+.report_page .report .report_img .text {
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 20px;
+}
+.report_page .report .report_img .before_img_text {
+  background-color: orange;
+}
+.report_page .report .report_img .after_img_text {
+  background-color: rgb(1, 184, 138);
+}
+.report_page .report .report_img .repair_img_field {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.report_page .report .report_img .img_common_field {
+  text-align: center;
+  display: table;
+  width: 100px;
+  height: 100px;
+}
+.report_page .img_common_field .img_common_div {
+  padding: 10px 0;
+}
+.report_page .img_common_field .img_common_div .img_content {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+}
+
+.report_page .top_field .report_regist_btn {
+  color: white;
+  background-color: rgb(133, 133, 133);
+  padding: 2vw 6vw;
+  border-radius: 7px;
+  margin-right: 15px;
+}

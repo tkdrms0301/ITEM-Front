@@ -1,12 +1,13 @@
-import "./css/RepairListItem.css";
+import "../css/RepairListItem.css";
 import { Link } from "react-router-dom";
 
-const PublicRepairListItem = ({ shop }) => {
+const PrivateRepairListItem = ({ shop }) => {
   return (
     <>
       <Link
-        to={"/repair/publicShops/" + shop.officeShopId}
+        to={"/repair/privateShops/detail"}
         className="repair_shop_detail_link"
+        state={{ shop: shop }}
       >
         <div className="repair_list_item">
           <div className="repair_list_item_info">
@@ -21,4 +22,4 @@ const PublicRepairListItem = ({ shop }) => {
   );
 };
 
-export default PublicRepairListItem;
+export default PrivateRepairListItem;

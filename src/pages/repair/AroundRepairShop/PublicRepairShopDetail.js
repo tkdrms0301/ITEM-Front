@@ -1,14 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PublicRepairShopData } from "./data/PublicRepairShopData.js";
-import "./css/RepairShopDetail.css";
+import "../css/RepairShopDetail.css";
 const { kakao } = window;
 
 let map, lat, lng;
 
 export const PublicRepairShopDetail = () => {
-  const { repairShopId } = useParams();
-
   const [selectShop, setSelectShop] = useState(null);
 
   function getPrivateShopLocation() {
@@ -34,15 +31,11 @@ export const PublicRepairShopDetail = () => {
     });
   }
 
-  useEffect(() => {
-    PublicRepairShopData.map((eachRepairShop) => {
-      if (eachRepairShop.officeShopId === repairShopId) {
-        setSelectShop(eachRepairShop);
+  const location = useLocation();
 
-        return false;
-      }
-    });
-  }, [repairShopId]);
+  useEffect(() => {
+    setSelectShop(location.state?.shop);
+  }, []);
 
   const [currentTab, clickTab] = useState(0);
 
