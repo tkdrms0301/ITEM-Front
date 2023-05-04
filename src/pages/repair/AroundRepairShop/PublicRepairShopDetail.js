@@ -81,6 +81,7 @@ export const PublicRepairShopDetail = () => {
             <ul className="tab_menu">
               {menuArr.map((el, index) => (
                 <li
+                  key={index}
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }

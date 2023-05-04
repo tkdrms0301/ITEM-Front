@@ -1,8 +1,7 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PrivateRepairShopData } from "./data/PrivateRepairShopData.js";
-import "./css/RepairShopDetail.css";
-import Reviews from "./review/index.js";
+import "../css/RepairShopDetail.css";
+import Reviews from "../review/index.js";
 
 const { kakao } = window;
 
@@ -85,6 +84,7 @@ export const PrivateRepairShopDetail = () => {
             <ul className="tab_menu">
               {menuArr.map((el, index) => (
                 <li
+                  key={index}
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
@@ -102,8 +102,10 @@ export const PrivateRepairShopDetail = () => {
                 }>
                 <div className="shop_service_area">
                   <ul className="shop_service_list">
-                    {selectShop.services.map((service) => (
-                      <li className="each_service">{service.serviceName}</li>
+                    {selectShop.services.map((service, index) => (
+                      <li key={index} className="each_service">
+                        {service.serviceName}
+                      </li>
                     ))}
                   </ul>
                 </div>

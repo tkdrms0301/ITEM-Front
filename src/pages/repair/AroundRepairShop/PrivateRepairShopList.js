@@ -107,9 +107,11 @@ export const PrivateRepairShopList = () => {
         <div className="kakao_map" id="map"></div>
         <div className="repair_list">
           {searchRepairShop
-            ? filterName.map((shop) => <PrivateRepairListItem shop={shop} />)
-            : PrivateRepairShopData.map((shop) => (
-                <PrivateRepairListItem shop={shop} />
+            ? filterName.map((shop, index) => (
+                <PrivateRepairListItem key={index} shop={shop} />
+              ))
+            : PrivateRepairShopData.map((shop, index) => (
+                <PrivateRepairListItem key={index} shop={shop} />
               ))}
         </div>
       </div>
