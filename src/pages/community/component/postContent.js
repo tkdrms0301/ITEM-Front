@@ -25,7 +25,7 @@ export const PostContent = ({ postId }) => {
   if (!loaded) {
     return <CircularProgress />;
   }
-  console.log("post.userId:", post.userId);
+
   return (
     <>
       <Typography variant="h5">{post.title}</Typography>

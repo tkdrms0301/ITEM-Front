@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
-import { BackButton } from "./component/backButton";
+import { BackButton } from "../../component/backButton";
 import { userId } from "./testing-String";
 import { CommentsList } from "./component/commentsList";
 import { ReportDialog } from "./component/reportDialog";

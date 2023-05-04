@@ -12,7 +12,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-export const PostsList = (props) => {
+export const PostsList = ({ query }) => {
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ export const PostsList = (props) => {
 
   const fetchMorePosts = () => {
     axios
-      .get(`${props.query}?page=${page}`)
+      .get(`${query}?page=${page}`)
       .then((response) => {
         const newPosts = response.data.posts;
         const hasMorePosts = response.data.hasMore;
@@ -35,7 +35,7 @@ export const PostsList = (props) => {
       });
   };
 
-  const PostList = () => {
+  const PostListWithPage = () => {
     return (
       <List>
         {posts.map((post) => {
@@ -133,7 +133,7 @@ export const PostsList = (props) => {
         </Box>
       } // Loader component
     >
-      <PostList />
+      <PostListWithPage />
     </InfiniteScroll>
   );
 };
