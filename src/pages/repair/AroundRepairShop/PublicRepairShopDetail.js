@@ -1,14 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PrivateRepairShopData } from "./data/PrivateRepairShopData.js";
-import "./css/RepairShopDetail.css";
+import "../css/RepairShopDetail.css";
 const { kakao } = window;
 
 let map, lat, lng;
 
-export const PrivateRepairShopDetail = () => {
-  const { repairShopId } = useParams();
-
+export const PublicRepairShopDetail = () => {
   const [selectShop, setSelectShop] = useState(null);
 
   function getPrivateShopLocation() {
@@ -34,15 +31,11 @@ export const PrivateRepairShopDetail = () => {
     });
   }
 
-  useEffect(() => {
-    PrivateRepairShopData.map((eachRepairShop) => {
-      if (eachRepairShop.memberId === repairShopId) {
-        setSelectShop(eachRepairShop);
+  const location = useLocation();
 
-        return false;
-      }
-    });
-  }, [repairShopId]);
+  useEffect(() => {
+    setSelectShop(location.state?.shop);
+  }, []);
 
   const [currentTab, clickTab] = useState(0);
 
@@ -53,7 +46,7 @@ export const PrivateRepairShopDetail = () => {
   }, [selectShop]);
 
   useEffect(() => {
-    if (currentTab === 1) {
+    if (currentTab === 0 && map) {
       var coords = new kakao.maps.LatLng(lat, lng);
 
       map.relayout();
@@ -63,10 +56,7 @@ export const PrivateRepairShopDetail = () => {
 
   const menuArr = [
     {
-      name: "서비스 목록",
-    },
-    {
-      name: "위치/전화번호",
+      name: "위치 / 전화번호",
     },
     { name: "리뷰" },
   ];
@@ -106,21 +96,6 @@ export const PrivateRepairShopDetail = () => {
                     : "content_visible invisible"
                 }
               >
-                <div className="shop_service_area">
-                  <ul className="shop_service_list">
-                    {selectShop.services.map((service) => (
-                      <li className="each_service">{service.serviceName}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div
-                className={
-                  currentTab === 1
-                    ? "content_visible"
-                    : "content_visible invisible"
-                }
-              >
                 <div className="shop_address_and_phonenum">
                   <div className="kakao_map" id="repair_shop_map"></div>
                   <div className="shop_address">
@@ -133,21 +108,13 @@ export const PrivateRepairShopDetail = () => {
               </div>
               <div
                 className={
-                  currentTab === 2
+                  currentTab === 1
                     ? "content_visible"
                     : "content_visible invisible"
                 }
               >
                 <div className="shop_review_area">Tab menu THREE</div>
               </div>
-            </div>
-          </div>
-          <div className="reservation_area">
-            <div className="reservation_button">
-              <p>예약하기</p>
-            </div>
-            <div className="reservation_button">
-              <p>견적받기</p>
             </div>
           </div>
         </>

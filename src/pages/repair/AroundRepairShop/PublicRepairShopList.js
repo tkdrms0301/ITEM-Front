@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "./css/RepairShopList.css";
-import { getLocation } from "./hooks/getLocation";
-import { RepairShop } from "./data/RepairShop";
-import PrivateRepairListItem from "./PrivateRepairListItem";
+import "../css/RepairShopList.css";
+import { getLocation } from "../hooks/getLocation";
+import { PublicRepairShopData } from "../data/PublicRepairShopData";
+import PublicRepairListItem from "./PublicRepairListItem";
 const { kakao } = window;
 
-export const PrivateRepairShopList = () => {
+export const PublicRepairShopList = () => {
   function displayMarker(locPosition, message, map, cur) {
     var marker;
     if (cur) {
@@ -36,49 +36,49 @@ export const PrivateRepairShopList = () => {
     infowindow.open(map, marker);
   }
 
-  async function setRepairShopMapMark() {
-    await getLocation().then((res) => {
-      if (res.latitude) {
-        var container = document.getElementById("map");
-        var options = {
-          center: new kakao.maps.LatLng(res.latitude, res.longitude),
-          level: 3,
-        };
-        var map = new kakao.maps.Map(container, options);
-
-        displayMarker(options.center, "현재위치", map, true);
-
-        var geocoder = new kakao.maps.services.Geocoder();
-
-        RepairShop.map((shop) => {
-          geocoder.addressSearch(shop.shopAddress, function (result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-              var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-              displayMarker(coords, shop.shopName, map, false);
-
-              const moveLatLon = new kakao.maps.LatLng(
-                res.latitude,
-                res.longitude
-              );
-
-              map.setCenter(moveLatLon);
-            }
-          });
-        });
-      } else {
-        alert("위치 정보를 가져올 수 없습니다.");
-      }
-    });
-  }
-
   useEffect(() => {
-    setRepairShopMapMark();
+    async function setLocation() {
+      await getLocation().then((res) => {
+        if (res.latitude) {
+          var container = document.getElementById("map");
+          var options = {
+            center: new kakao.maps.LatLng(res.latitude, res.longitude),
+            level: 3,
+          };
+          var map = new kakao.maps.Map(container, options);
+
+          displayMarker(options.center, "현재위치", map, true);
+
+          var geocoder = new kakao.maps.services.Geocoder();
+
+          PublicRepairShopData.map((shop) => {
+            geocoder.addressSearch(shop.shopAddress, function (result, status) {
+              if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                displayMarker(coords, shop.shopName, map, false);
+
+                const moveLatLon = new kakao.maps.LatLng(
+                  res.latitude,
+                  res.longitude
+                );
+
+                map.setCenter(moveLatLon);
+              }
+            });
+          });
+        } else {
+          alert("위치 정보를 가져올 수 없습니다.");
+        }
+      });
+    }
+
+    setLocation();
   }, []);
 
   const [searchRepairShop, setSearchRepairShop] = useState("");
 
-  const filterName = RepairShop.filter((p) => {
+  const filterName = PublicRepairShopData.filter((p) => {
     return (
       p.shopName
         .replace(" ", "")
@@ -107,8 +107,10 @@ export const PrivateRepairShopList = () => {
         <div className="kakao_map" id="map"></div>
         <div className="repair_list">
           {searchRepairShop
-            ? filterName.map((shop) => <PrivateRepairListItem shop={shop} />)
-            : RepairShop.map((shop) => <PrivateRepairListItem shop={shop} />)}
+            ? filterName.map((shop) => <PublicRepairListItem shop={shop} />)
+            : PublicRepairShopData.map((shop) => (
+                <PublicRepairListItem shop={shop} />
+              ))}
         </div>
       </div>
     </>

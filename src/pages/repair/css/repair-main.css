@@ -1,0 +1,27 @@
+.shop_search_button_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 5vw;
+  padding-top: 5vw;
+  width: 100vw;
+  height: 100vw;
+}
+.shop_search_button {
+  display: flex;
+  background-color: #d1d1d1;
+  border-radius: 2vw;
+  width: 80vw;
+  height: 20vw;
+  justify-content: center;
+  align-items: center;
+  margin: 5vw auto;
+}
+.shop_search {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+.shop_search:visited {
+  color: black;
+}
