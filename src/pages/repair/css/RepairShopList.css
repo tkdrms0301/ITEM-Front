@@ -1,10 +1,13 @@
+.repair_map_area {
+  height: 170vw;
+}
 .kakao_map {
   width: 100vw;
-  height: 150vw;
+  height: 140vw;
 }
 .repair_list {
   position: relative;
-  height: 50vw;
+  height: 55vw;
   overflow: scroll;
   border: 1px rgb(231, 231, 231) solid;
   top: -80px;
