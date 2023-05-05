@@ -34,7 +34,7 @@ export const TitleButtonBar = ({
         <BackButton />
       </Grid>
       <Grid item xs={8} sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography variant="h5" align="center">
+        <Typography variant="h6" align="center" sx={{ fontWeight: "bold" }}>
           {title}
         </Typography>
       </Grid>

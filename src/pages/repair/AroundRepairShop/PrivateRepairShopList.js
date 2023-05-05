@@ -94,22 +94,25 @@ export const PrivateRepairShopList = () => {
   return (
     <>
       <div>
-        <div className="repair_search_box">
-          <input
-            type="text"
-            className="repair_search_input"
-            value={searchRepairShop}
-            onChange={(e) => {
-              setSearchRepairShop(e.target.value);
-            }}
-          />
+        <div className="kakao_map" id="map">
+          <div className="repair_search_box">
+            <input
+              type="text"
+              className="repair_search_input"
+              value={searchRepairShop}
+              onChange={(e) => {
+                setSearchRepairShop(e.target.value);
+              }}
+            />
+          </div>
         </div>
-        <div className="kakao_map" id="map"></div>
         <div className="repair_list">
           {searchRepairShop
-            ? filterName.map((shop) => <PrivateRepairListItem shop={shop} />)
-            : PrivateRepairShopData.map((shop) => (
-                <PrivateRepairListItem shop={shop} />
+            ? filterName.map((shop, index) => (
+                <PrivateRepairListItem key={index} shop={shop} />
+              ))
+            : PrivateRepairShopData.map((shop, index) => (
+                <PrivateRepairListItem key={index} shop={shop} />
               ))}
         </div>
       </div>

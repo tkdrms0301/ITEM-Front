@@ -82,6 +82,7 @@ export const PrivateRepairShopDetail = () => {
             <ul className="tab_menu">
               {menuArr.map((el, index) => (
                 <li
+                  key={index}
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
@@ -101,8 +102,10 @@ export const PrivateRepairShopDetail = () => {
               >
                 <div className="shop_service_area">
                   <ul className="shop_service_list">
-                    {selectShop.services.map((service) => (
-                      <li className="each_service">{service.serviceName}</li>
+                    {selectShop.services.map((service, index) => (
+                      <li key={index} className="each_service">
+                        {service.serviceName}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -148,8 +151,7 @@ export const PrivateRepairShopDetail = () => {
             <div
               className="reservation_button"
               onClick={() => {
-                window.location.href =
-                  window.location.pathname + "/estimate";
+                window.location.href = window.location.pathname + "/estimate";
               }}
             >
               <p>견적받기</p>

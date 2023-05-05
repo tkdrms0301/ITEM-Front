@@ -47,6 +47,7 @@ export const BottomMenu = ({ buttonMenu, userId }) => {
               fontWeight: "bold",
               p: "5%",
             }}
+            onClick={(e) => navigate(`/mypage/repair`)}
           >
             정비소 마이페이지
           </Grid>
