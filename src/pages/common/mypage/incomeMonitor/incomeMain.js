@@ -11,7 +11,7 @@ export const IncomeMain = () => {
   const [firstDate, setFirstDate] = useState(dayjs("2021-01-01"));
   const [secondaryDate, setSecondaryDate] = useState(dayjs("2023-05-02"));
   const [serviceName, setServiceName] = useState(["전체 서비스"]);
-  const [point, setPoint] = useState(15000);
+  const [point, setPoint] = useState(1500000);
 
   const buttonSubmit = () => {
     console.log(dayjs(firstDate).toDate());

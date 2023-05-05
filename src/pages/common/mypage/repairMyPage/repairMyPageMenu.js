@@ -12,7 +12,7 @@ export const RepairMyPageMenu = () => {
     },
     {
       title: "서비스 항목 관리",
-      navigate: `/mypage/device`,
+      navigate: `/mypage/serviceList/panel`,
     },
   ];
   return (
