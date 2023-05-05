@@ -108,9 +108,11 @@ export const PublicRepairShopList = () => {
         </div>
         <div className="repair_list">
           {searchRepairShop
-            ? filterName.map((shop) => <PublicRepairListItem shop={shop} />)
-            : PublicRepairShopData.map((shop) => (
-                <PublicRepairListItem shop={shop} />
+            ? filterName.map((shop, index) => (
+                <PublicRepairListItem key={index} shop={shop} />
+              ))
+            : PublicRepairShopData.map((shop, index) => (
+                <PublicRepairListItem key={index} shop={shop} />
               ))}
         </div>
       </div>
