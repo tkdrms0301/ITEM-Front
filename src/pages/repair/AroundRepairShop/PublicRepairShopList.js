@@ -93,7 +93,7 @@ export const PublicRepairShopList = () => {
 
   return (
     <>
-      <div>
+      <div className="repair_map_area">
         <div className="kakao_map" id="map">
           <div className="repair_search_box">
             <input
