@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { AppBar, Button, Grid, TextField } from "@mui/material";
 
-const ReplyDialog = ({ onHandleClose, isUpdate }) => {
+const ReplyDialog = ({
+  openReply,
+  handleReplyClose,
+  repairShopId,
+  isUpdate,
+}) => {
   // const [isChild, setIsChild] = useState(commentId ? true : false);
   const replyUpdate = () => {
     const reply = "updating";
@@ -10,7 +15,7 @@ const ReplyDialog = ({ onHandleClose, isUpdate }) => {
   const [reply, setReply] = useState(isUpdate ? replyUpdate : "");
 
   const handleSubmit = () => {
-    onHandleClose();
+    handleReplyClose();
     console.log("reply submitted");
     console.log(reply);
     window.location.reload();

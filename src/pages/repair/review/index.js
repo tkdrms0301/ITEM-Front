@@ -1,21 +1,68 @@
 import { useState, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
+import { useParams } from "react-router";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import { commentList } from "./constant";
+
 import Review from "./Review";
+import ReportDialog from "./component/reportDialog";
 import ReplyDialog from "./component/replyDialog";
 
 const Reviews = () => {
   const [comments, setComments] = useState([...commentList]);
 
-  //reply dialog
-  const [targetCommentId, setTargetCommentId] = useState(0);
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [open, setOpen] = useState(false);
+  //report
+  const [openReport, setOpenReport] = useState(false);
 
+  const [reportInfo, setReportInfo] = useState({
+    reason: "",
+    comment: "",
+    commentId: 0,
+    shopId: 0,
+    ownerId: 0,
+  });
+
+  const handleReportInfo = (e) => {
+    const { name, value } = e.target;
+    setReportInfo({
+      ...reportInfo,
+      [name]: value,
+    });
+  };
+
+  const handleReportOpen = () => {
+    setOpenReport(true);
+  };
+
+  const handleReportClose = () => {
+    setOpenReport(false);
+  };
+
+  //reply dialog
+  const [openReply, setOpenReply] = useState(false);
+
+  const [replyInfo, setReplyInfo] = useState({
+    reply: "",
+    commentId: 0,
+    shopId: 0,
+    userId: 0,
+  });
+
+  const [targetCommentId, setTargetCommentId] = useState(0);
   const changeTargetCommentId = (commentId) => {
     setTargetCommentId(commentId);
   };
+
+  const handleReplyOpen = () => {
+    setOpenReply(true);
+  };
+
+  const handleReplyClose = () => {
+    isNotUpdating();
+    setOpenReply(false);
+  };
+
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const isUpdating = () => {
     setIsUpdate(true);
@@ -24,62 +71,104 @@ const Reviews = () => {
   const isNotUpdating = () => {
     setIsUpdate(false);
   };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    isNotUpdating();
-    setOpen(false);
-  };
-
   const handleReply = () => {
     isUpdating();
-    setOpen(true);
+    setOpenReply(true);
   };
 
   useEffect(() => {
-    if (open) {
+    if (openReply) {
       const textField = document.getElementById("reply");
       textField.focus();
     }
-  }, [open]);
+  }, [openReply]);
+
+  const { repairShopId } = useParams();
+
+  const sessionId = 71;
 
   return (
     <>
-      <Grid container justifyContent="center" sx={{ mb: 2 }} spacing={2}>
-        <Grid item xs={11}>
-          <Button variant="contained" fullWidth={true}>
+      <Grid
+        container
+        justifyContent="center"
+        sx={{ mb: 2 }}
+        spacing={2}
+        onClick={openReply ? handleReplyClose : null}>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            fullWidth={true}
+            onClick={handleReplyOpen}>
             댓글 작성
           </Button>
         </Grid>
-        {comments.map((comment) => {
-          if (comment.comments.length > 0) {
-            return (
-              <Grid item key={comment.id} xs={11}>
-                <Review comment={comment} />
-                {comment.comments.map((comment) => (
-                  <Grid container justifyContent="center" sx={{ mt: 2 }}>
-                    <Grid item xs={1} sx={{ mt: -1 }}>
-                      <SubdirectoryArrowRightIcon />
-                    </Grid>
-                    <Grid item xs={11}>
-                      <Review comment={comment} isReply={true} />
-                    </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={2} justifyContent="center">
+            {comments.map((comment) => {
+              if (comment.comments.length > 0) {
+                return (
+                  <Grid item key={comment.id} xs={11}>
+                    <Review
+                      comment={comment}
+                      sessionId={sessionId}
+                      handleReportOpen={handleReportOpen}
+                      openReply={openReply}
+                      handleReplyOpen={handleReplyOpen}
+                      handleReplyClose={handleReplyClose}
+                      changeTargetCommentId={changeTargetCommentId}
+                      reportInfo={reportInfo}
+                      setReportInfo={setReportInfo}
+                    />
+                    {comment.comments.map((comment) => (
+                      <Grid container justifyContent="center" sx={{ mt: 2 }}>
+                        <Grid item xs={1} sx={{ mt: -1 }}>
+                          <SubdirectoryArrowRightIcon />
+                        </Grid>
+                        <Grid item xs={11}>
+                          <Review
+                            comment={comment}
+                            isReply={true}
+                            handleReportOpen={handleReportOpen}
+                            setReportInfo={setReportInfo}
+                          />
+                        </Grid>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
-            );
-          } else {
-            return (
-              <Grid item key={comment.id} xs={11}>
-                <Review comment={comment} />
-              </Grid>
-            );
-          }
-        })}
+                );
+              } else {
+                return (
+                  <Grid item key={comment.id} xs={11}>
+                    <Review
+                      comment={comment}
+                      handleReportOpen={handleReportOpen}
+                      changeTargetCommentId={changeTargetCommentId}
+                      handleReplyOpen={handleReplyOpen}
+                      setReportInfo={setReportInfo}
+                    />
+                  </Grid>
+                );
+              }
+            })}
+          </Grid>
+        </Grid>
       </Grid>
+      <ReportDialog
+        openReport={openReport}
+        reportInfo={reportInfo}
+        handleReportInfo={handleReportInfo}
+        handleReportClose={handleReportClose}
+      />
+      {openReply && (
+        <ReplyDialog
+          repairShopId={repairShopId}
+          commentId={targetCommentId}
+          openReply={openReply}
+          handleReplyClose={handleReplyClose}
+          isUpdate={isUpdate}
+        />
+      )}
     </>
   );
 };

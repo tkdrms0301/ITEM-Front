@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PublicRepairShopData } from "./data/PublicRepairShopData.js";
-import "./css/RepairShopDetail.css";
-import Reviews from "./review/index.js";
+import "../css/RepairShopDetail.css";
+import Reviews from "../review/index.js";
+
 const { kakao } = window;
 
 let map, lat, lng;

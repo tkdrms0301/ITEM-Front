@@ -7,10 +7,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  MenuItem,
+  Select,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  InputLabel,
 } from "@mui/material";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { useState } from "react";
@@ -54,7 +58,7 @@ export const Reservation = () => {
       : {
           userId: 0,
           repairId: shopId,
-          product: "",
+          product: 0,
           services: [],
           comment: "",
           date: "",
@@ -162,15 +166,13 @@ export const Reservation = () => {
             <ToggleButtonGroup
               exclusive
               value={data.time}
-              onChange={handleTimeSelect}
-            >
+              onChange={handleTimeSelect}>
               {openedTime.map((time) => {
                 return (
                   <ToggleButton
                     key={time.time}
                     value={time.time}
-                    disabled={!time.isEnable}
-                  >
+                    disabled={!time.isEnable}>
                     {time.time}
                   </ToggleButton>
                 );
@@ -185,8 +187,7 @@ export const Reservation = () => {
           <Button
             variant="outlined"
             disabled={data.date === "" || data.time === ""}
-            onClick={handleClose}
-          >
+            onClick={handleClose}>
             선택
           </Button>
         </DialogActions>
@@ -200,21 +201,23 @@ export const Reservation = () => {
         completed={completed}
       />
       <Container sx={{ mt: "56px", pt: "1%" }}>
-        <Autocomplete
-          options={products}
-          getOptionLabel={(option) => option.title}
-          renderInput={(params) => (
-            <TextField {...params} label="제품 선택" variant="outlined" />
-          )}
-          onInputChange={handleSelect}
-          inputValue={data.product}
-          onChange={(event, value, reason) => {
-            if (reason === "clear") {
-              setProductImg("");
-            }
-          }}
-          sx={{ mt: "3%" }}
-        />
+        <FormControl fullWidth sx={{ mt: 1 }}>
+          <InputLabel>제품 선택</InputLabel>
+          <Select
+            name="product"
+            value={data.product}
+            defaultValue={data.product}
+            onChange={handleData}
+            label="제품 선택"
+            fullWidth>
+            {products.map((product, index) => (
+              <MenuItem value={product.id} key={index}>
+                {product.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <Box
           sx={{
             position: "relative",
@@ -226,8 +229,7 @@ export const Reservation = () => {
             mt: "3%",
             padding: "3%",
             alignItems: "center",
-          }}
-        >
+          }}>
           <Typography
             sx={{
               position: "absolute",
@@ -236,8 +238,7 @@ export const Reservation = () => {
               bgcolor: "white",
               px: 1,
               fontSize: "0.8rem",
-            }}
-          >
+            }}>
             제품정보
           </Typography>
           {productImg ? (
@@ -260,8 +261,7 @@ export const Reservation = () => {
                 mr: "5%",
                 bgcolor: "#8C92AC",
                 borderRadius: "10px",
-              }}
-            ></Box>
+              }}></Box>
           )}
           <Typography>{data.product}</Typography>
         </Box>
@@ -274,14 +274,12 @@ export const Reservation = () => {
             width: "100%",
             border: "1px solid #C4C4C4",
             borderRadius: "4px",
-          }}
-        >
+          }}>
           {services.map((service) => (
             <ToggleButton
               key={service.id}
               value={service.title}
-              sx={{ width: "100%", height: "75px" }}
-            >
+              sx={{ width: "100%", height: "75px" }}>
               <SettingsIcon sx={{ fontSize: "40px" }} />
               <Typography variant="h5">{service.title}</Typography>
             </ToggleButton>
@@ -296,8 +294,7 @@ export const Reservation = () => {
           fullWidth
           multiline
           rows={2}
-          sx={{ mt: "3%" }}
-        ></TextField>
+          sx={{ mt: "3%" }}></TextField>
         <Box
           sx={{
             display: "flex",
@@ -309,8 +306,7 @@ export const Reservation = () => {
             border: "1px solid #C4C4C4",
             borderRadius: "4px",
             height: "100px",
-          }}
-        >
+          }}>
           <Box>
             <Typography variant="h6" fontWeight="bold">
               방문 시간 선택

@@ -1,7 +1,18 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
 
-const Review = ({ comment, isReply }) => {
+const Review = ({
+  changeTargetCommentId,
+  openReply,
+  sessionId,
+  handleReplyOpen,
+  handleReplyClose,
+  reportInfo,
+  handleReportOpen,
+  comment,
+  isReply,
+  setReportInfo,
+}) => {
   return (
     <Box
       key={comment.id}
@@ -28,7 +39,12 @@ const Review = ({ comment, isReply }) => {
                 ownerId={comment.user.id}
                 // postId={postId}
                 commentId={comment.id}
+                shopId={comment.shopId}
+                handleReportOpen={handleReportOpen}
+                setReportInfo={setReportInfo}
                 commentContent={comment.body}
+                sessionId={sessionId}
+                // sessionUserId={userId}
                 // onReport={onReport}
                 // handleReply={handleReply}
                 // changeTargetCommentId={changeTargetCommentId}
@@ -50,8 +66,8 @@ const Review = ({ comment, isReply }) => {
                 <Button
                   sx={{ mb: -1 }}
                   onClick={() => {
-                    // changeTargetCommentId(comment.id);
-                    // handleOpen();
+                    changeTargetCommentId(comment.id);
+                    handleReplyOpen();
                   }}>
                   답글
                 </Button>
