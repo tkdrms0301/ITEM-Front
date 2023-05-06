@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { PrivateRepairShopData } from "../data/PrivateRepairShopData.js";
 import "../css/RepairShopDetail.css";
 import Reviews from "../review/index.js";
 
@@ -44,6 +45,8 @@ export const PrivateRepairShopDetail = () => {
   useEffect(() => {
     if (selectShop) {
       getPrivateShopLocation();
+    } else {
+      // 여기다가 스켈레톤 만들기
     }
   }, [selectShop]);
 

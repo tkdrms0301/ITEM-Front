@@ -37,6 +37,7 @@ export const MoreButton = (props) => {
       handleClose();
     }
   };
+
   const handleDelete = () => {
     handleClose();
     const id = isPost ? props.postId : props.commentId;
@@ -62,7 +63,7 @@ export const MoreButton = (props) => {
         {props.sessionId === props.ownerId && (
           <MenuItem onClick={handleDelete}>삭제</MenuItem>
         )}
-        {props.sessionId === props.ownerId && (
+        {props.sessionId !== props.ownerId && (
           <MenuItem onClick={handleReport}>신고</MenuItem>
         )}
       </Menu>

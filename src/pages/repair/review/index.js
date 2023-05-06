@@ -92,10 +92,10 @@ const Reviews = () => {
       <Grid
         container
         justifyContent="center"
-        sx={{ mb: 2 }}
+        sx={{ mb: 2, mt: 1 }}
         spacing={2}
         onClick={openReply ? handleReplyClose : null}>
-        <Grid item xs={12}>
+        <Grid item xs={11}>
           <Button
             variant="contained"
             fullWidth={true}

@@ -35,9 +35,7 @@ const Review = ({
             </Grid>
             <Grid item xs={2}>
               <MoreButton
-                // sessionUserId={userId}
                 ownerId={comment.user.id}
-                // postId={postId}
                 commentId={comment.id}
                 shopId={comment.shopId}
                 handleReportOpen={handleReportOpen}
@@ -47,7 +45,6 @@ const Review = ({
                 // sessionUserId={userId}
                 // onReport={onReport}
                 // handleReply={handleReply}
-                // changeTargetCommentId={changeTargetCommentId}
               />
             </Grid>
           </Grid>

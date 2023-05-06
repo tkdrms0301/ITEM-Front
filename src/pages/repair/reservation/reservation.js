@@ -7,7 +7,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   MenuItem,
   Select,
   TextField,
@@ -67,22 +66,27 @@ export const Reservation = () => {
   );
   const handleData = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-
-    handleCompleted();
   };
   const handleSelect = (event, value) => {
-    if (value !== "") {
-      setData({
-        ...data,
-        product: value,
-      });
-    }
+    // if (value !== "") {
+    //   setData({
+    //     ...data,
+    //     product: value,
+    //   });
+    // }
+    setData({
+      ...data,
+      product: value,
+    });
 
     //findProductImg(value);
     setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
 
     handleCompleted();
   };
+
+  const [value, setValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const handleServicesButton = (e, value) => {
     setData({ ...data, services: value });
 
@@ -201,22 +205,13 @@ export const Reservation = () => {
         completed={completed}
       />
       <Container sx={{ mt: "56px", pt: "1%" }}>
-        <FormControl fullWidth sx={{ mt: 1 }}>
-          <InputLabel>제품 선택</InputLabel>
-          <Select
-            name="product"
-            value={data.product}
-            defaultValue={data.product}
-            onChange={handleData}
-            label="제품 선택"
-            fullWidth>
-            {products.map((product, index) => (
-              <MenuItem value={product.id} key={index}>
-                {product.title}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Select name="product" value={data.product} onChange={handleData}>
+          {products.map((product, index) => {
+            console.log(product.product);
+
+            return <MenuItem value={product.id}>{product.product}</MenuItem>;
+          })}
+        </Select>
 
         <Box
           sx={{

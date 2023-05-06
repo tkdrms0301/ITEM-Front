@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   Button,
   Dialog,
+  DialogTitle,
   DialogActions,
   DialogContent,
   TextField,
@@ -26,8 +27,9 @@ const ReportDialog = ({
   return (
     <>
       <Dialog open={openReport} onClose={handleReportClose} fullWidth>
+        <DialogTitle>정비소 리뷰 신고</DialogTitle>
         <DialogContent>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ mt: 1 }}>
             <TextField
               name="reason"
               value={reason}
