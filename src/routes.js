@@ -22,6 +22,9 @@ import { ReservationHistory } from "./pages/repair/reservation/history";
 import { HistoryDetail } from "./pages/repair/reservation/historyDetail";
 import { Login } from "./pages/common/login/login";
 import { InfoUpdate } from "./pages/common/info-update/infoUpdate";
+import { RepairShopMyPage } from "./pages/common/mypage/repairMyPage/repairShopMyPage";
+import { IncomeMain } from "./pages/common/mypage/incomeMonitor/incomeMain";
+import { ServiceListPanelMain } from "./pages/common/mypage/serviceListManagement/serviceListPanelMain";
 
 export const routes = [
   {
@@ -131,5 +134,17 @@ export const routes = [
   {
     path: "/user/infoUpdate",
     element: <InfoUpdate />,
+  },
+  {
+    path: "/mypage/repair",
+    element: <RepairShopMyPage />,
+  },
+  {
+    path: "/mypage/incomeMonitor",
+    element: <IncomeMain />,
+  },
+  {
+    path: "/mypage/serviceList/panel",
+    element: <ServiceListPanelMain />,
   },
 ];
