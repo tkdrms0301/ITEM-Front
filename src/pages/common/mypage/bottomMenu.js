@@ -47,6 +47,7 @@ export const BottomMenu = ({ buttonMenu, userId }) => {
               fontWeight: "bold",
               p: "5%",
             }}
+            onClick={(e) => navigate(`/mypage/repair`)}
           >
             정비소 마이페이지
           </Grid>
@@ -83,7 +84,7 @@ export const BottomMenu = ({ buttonMenu, userId }) => {
             fontSize: "15px",
             fontWeight: "bold",
           }}
-          onClick={(e) => navigate(`/InfoCorrection`)}
+          onClick={(e) => navigate(`/user/infoUpdate`)}
         >
           개인정보 수정
         </Grid>

@@ -1,3 +1,45 @@
+const reservationHistoryForUser = [
+  {
+    id: 1,
+    uid: 1,
+    shopId: 1,
+    shopName: "서비스센터1",
+    product: 2,
+    img: "https://i.dummyjson.com/data/products/1/1.jpg",
+    service: ["서비스1", "서비스2"],
+    userComment: "서비스1,서비스2필요",
+    date: "2021-10-10",
+    time: "10:00",
+    status: "신청 완료",
+  },
+  {
+    id: 2,
+    uid: 1,
+    shopId: 2,
+    shopName: "서비스센터2",
+    product: 3,
+    img: "https://i.dummyjson.com/data/products/2/1.jpg",
+    service: ["서비스1"],
+    userComment: "서비스1필요",
+    date: "2021-10-09",
+    time: "11:00",
+    status: "정비 완료",
+  },
+];
+
+const users = [
+  {
+    id: 1,
+    name: "김철수",
+    role: "user",
+  },
+  {
+    id: 2,
+    name: "김영희",
+    role: "repair",
+  },
+];
+
 const testServiceTime = [
   {
     time: "10:00",
@@ -108,4 +150,10 @@ const products = [
     ],
   },
 ];
-export { testServiceTime, services, products };
+export {
+  reservationHistoryForUser,
+  users,
+  testServiceTime,
+  services,
+  products,
+};

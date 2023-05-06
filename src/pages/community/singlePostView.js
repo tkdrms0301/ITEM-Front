@@ -124,8 +124,7 @@ export const SinglePostView = () => {
           backgroundColor: "white",
           maxWidth: "sm",
           zIndex: 100,
-        }}
-      >
+        }}>
         <Grid item sx={{ height: "100%" }}>
           <Box
             sx={{
@@ -133,8 +132,7 @@ export const SinglePostView = () => {
               justifyContent: "space-between",
               alignItems: "center",
               height: "100%",
-            }}
-          >
+            }}>
             <BackButton />
           </Box>
         </Grid>
@@ -155,8 +153,7 @@ export const SinglePostView = () => {
             onClick={handleOpen}
             variant="contained"
             fullWidth={true}
-            sx={{ mb: "3%" }}
-          >
+            sx={{ mb: "3%" }}>
             댓글 작성
           </Button>
           <CommentsList

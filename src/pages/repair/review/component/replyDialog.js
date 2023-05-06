@@ -1,19 +1,32 @@
-import { useState } from "react";
 import { AppBar, Button, Grid, TextField } from "@mui/material";
 
-const ReplyDialog = ({ onHandleClose, isUpdate }) => {
-  // const [isChild, setIsChild] = useState(commentId ? true : false);
-  const replyUpdate = () => {
-    const reply = "updating";
-    return reply;
-  };
-  const [reply, setReply] = useState(isUpdate ? replyUpdate : "");
+const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
+  const handleReplySubmit = () => {
+    const type = replyInfo.isUpdate ? "수정" : "작성";
+    if (window.confirm(`답글을 ${type}하시겠습니까 ?`)) {
+      console.log(`답글 ${type} 완료!`);
+      handleReplyClose();
+      console.log(replyInfo);
+      // isUpdate
 
-  const handleSubmit = () => {
-    onHandleClose();
-    console.log("reply submitted");
-    console.log(reply);
-    window.location.reload();
+      // !isUpdate
+
+      //window.location.reload();
+    }
+  };
+
+  const handleCommentSubmit = () => {
+    const type = replyInfo.isUpdate ? "수정" : "작성";
+    if (window.confirm(`댓글을 ${type}하시겠습니까 ?`)) {
+      console.log(`댓글 ${type} 완료!`);
+      handleReplyClose();
+      console.log(replyInfo);
+      // isUpdate
+
+      // !isUpdate
+
+      //window.location.reload();
+    }
   };
 
   const appBarStyle = {
@@ -42,18 +55,21 @@ const ReplyDialog = ({ onHandleClose, isUpdate }) => {
             pr: "2%",
           }}>
           <TextField
+            id="reply"
             autoFocus
             margin="dense"
-            id="reply"
-            label="답글"
+            label={replyInfo.isComment ? "댓글" : "답글"}
             type="text"
             fullWidth
             multiline
             maxRows={5}
-            onChange={(event) => {
-              setReply(event.target.value);
-            }}
-            value={reply}
+            onChange={(e) =>
+              setReplyInfo({
+                ...replyInfo,
+                reply: e.target.value,
+              })
+            }
+            value={replyInfo.reply}
             InputProps={{ sx: { height: "18vh" } }}
             sx={{
               "& .Mui-focused": {
@@ -68,14 +84,16 @@ const ReplyDialog = ({ onHandleClose, isUpdate }) => {
         <Grid item xs={2}>
           <Button
             type="submit"
-            onClick={handleSubmit}
+            onClick={
+              replyInfo.isComment ? handleCommentSubmit : handleReplySubmit
+            }
             variant="contained"
             sx={{
               height: "7vh",
               width: "100%",
               backgroundColor: "#1f497d",
             }}>
-            작성
+            {replyInfo.isUpdate ? "수정" : "작성"}
           </Button>
         </Grid>
       </Grid>

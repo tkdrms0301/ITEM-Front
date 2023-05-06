@@ -1,16 +1,14 @@
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PrivateRepairShopData } from "./data/PrivateRepairShopData.js";
-import "./css/RepairShopDetail.css";
-import Reviews from "./review/index.js";
+import { PrivateRepairShopData } from "../data/PrivateRepairShopData.js";
+import "../css/RepairShopDetail.css";
+import Reviews from "../review/index.js";
 
 const { kakao } = window;
 
 let map, lat, lng;
 
 export const PrivateRepairShopDetail = () => {
-  const { repairShopId } = useParams();
-
   const [selectShop, setSelectShop] = useState(null);
 
   function getPrivateShopLocation() {
@@ -36,21 +34,19 @@ export const PrivateRepairShopDetail = () => {
     });
   }
 
-  useEffect(() => {
-    PrivateRepairShopData.map((eachRepairShop) => {
-      if (eachRepairShop.memberId === repairShopId) {
-        setSelectShop(eachRepairShop);
+  const location = useLocation();
 
-        return false;
-      }
-    });
-  }, [repairShopId]);
+  useEffect(() => {
+    setSelectShop(location.state?.shop);
+  }, []);
 
   const [currentTab, clickTab] = useState(0);
 
   useEffect(() => {
     if (selectShop) {
       getPrivateShopLocation();
+    } else {
+      // 여기다가 스켈레톤 만들기
     }
   }, [selectShop]);
 
@@ -91,6 +87,7 @@ export const PrivateRepairShopDetail = () => {
             <ul className="tab_menu">
               {menuArr.map((el, index) => (
                 <li
+                  key={index}
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
@@ -108,10 +105,30 @@ export const PrivateRepairShopDetail = () => {
                 }>
                 <div className="shop_service_area">
                   <ul className="shop_service_list">
-                    {selectShop.services.map((service) => (
-                      <li className="each_service">{service.serviceName}</li>
+                    {selectShop.services.map((service, index) => (
+                      <li key={index} className="each_service">
+                        {service.serviceName}
+                      </li>
                     ))}
                   </ul>
+                </div>
+                <div className="reservation_area">
+                  <div
+                    className="reservation_button"
+                    onClick={() => {
+                      window.location.href =
+                        window.location.pathname + "/reservation";
+                    }}>
+                    <p>예약하기</p>
+                  </div>
+                  <div
+                    className="reservation_button"
+                    onClick={() => {
+                      window.location.href =
+                        window.location.pathname + "/estimate";
+                    }}>
+                    <p>견적받기</p>
+                  </div>
                 </div>
               </div>
               <div
@@ -142,14 +159,6 @@ export const PrivateRepairShopDetail = () => {
               </div>
             </div>
           </div>
-          {/* <div className="reservation_area">
-            <div className="reservation_button">
-              <p>예약하기</p>
-            </div>
-            <div className="reservation_button">
-              <p>견적받기</p>
-            </div>
-          </div> */}
         </>
       ) : null}
     </>

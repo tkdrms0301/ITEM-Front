@@ -1,15 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PublicRepairShopData } from "./data/PublicRepairShopData.js";
-import "./css/RepairShopDetail.css";
-import Reviews from "./review/index.js";
+import { PublicRepairShopData } from "../data/PublicRepairShopData";
+import "../css/RepairShopDetail.css";
+import Reviews from "../review/index.js";
 const { kakao } = window;
 
 let map, lat, lng;
 
 export const PublicRepairShopDetail = () => {
-  const { repairShopId } = useParams();
-
   const [selectShop, setSelectShop] = useState(null);
 
   function getPrivateShopLocation() {
@@ -35,15 +33,11 @@ export const PublicRepairShopDetail = () => {
     });
   }
 
-  useEffect(() => {
-    PublicRepairShopData.map((eachRepairShop) => {
-      if (eachRepairShop.officeShopId === repairShopId) {
-        setSelectShop(eachRepairShop);
+  const location = useLocation();
 
-        return false;
-      }
-    });
-  }, [repairShopId]);
+  useEffect(() => {
+    setSelectShop(location.state?.shop);
+  }, []);
 
   const [currentTab, clickTab] = useState(0);
 
@@ -87,6 +81,7 @@ export const PublicRepairShopDetail = () => {
             <ul className="tab_menu">
               {menuArr.map((el, index) => (
                 <li
+                  key={index}
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }

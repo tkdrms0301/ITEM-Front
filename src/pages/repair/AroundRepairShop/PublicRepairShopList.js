@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./css/RepairShopList.css";
-import { getLocation } from "./hooks/getLocation";
-import { PublicRepairShopData } from "./data/PublicRepairShopData";
+import "../css/RepairShopList.css";
+import { getLocation } from "../hooks/getLocation";
+import { PublicRepairShopData } from "../data/PublicRepairShopData";
 import PublicRepairListItem from "./PublicRepairListItem";
 const { kakao } = window;
 
@@ -107,9 +107,11 @@ export const PublicRepairShopList = () => {
         <div className="kakao_map" id="map"></div>
         <div className="repair_list">
           {searchRepairShop
-            ? filterName.map((shop) => <PublicRepairListItem shop={shop} />)
-            : PublicRepairShopData.map((shop) => (
-                <PublicRepairListItem shop={shop} />
+            ? filterName.map((shop, index) => (
+                <PublicRepairListItem key={index} shop={shop} />
+              ))
+            : PublicRepairShopData.map((shop, index) => (
+                <PublicRepairListItem key={index} shop={shop} />
               ))}
         </div>
       </div>

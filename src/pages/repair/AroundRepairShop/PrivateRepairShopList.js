@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./css/RepairShopList.css";
-import { getLocation } from "./hooks/getLocation";
-import { RepairShop } from "./data/RepairShop";
+import "../css/RepairShopList.css";
+import { getLocation } from "../hooks/getLocation";
+import { PrivateRepairShopData } from "../data/PrivateRepairShopData";
 import PrivateRepairListItem from "./PrivateRepairListItem";
 const { kakao } = window;
 
@@ -50,7 +50,7 @@ export const PrivateRepairShopList = () => {
 
         var geocoder = new kakao.maps.services.Geocoder();
 
-        RepairShop.map((shop) => {
+        PrivateRepairShopData.map((shop) => {
           geocoder.addressSearch(shop.shopAddress, function (result, status) {
             if (status === kakao.maps.services.Status.OK) {
               var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -78,7 +78,7 @@ export const PrivateRepairShopList = () => {
 
   const [searchRepairShop, setSearchRepairShop] = useState("");
 
-  const filterName = RepairShop.filter((p) => {
+  const filterName = PrivateRepairShopData.filter((p) => {
     return (
       p.shopName
         .replace(" ", "")
@@ -107,8 +107,12 @@ export const PrivateRepairShopList = () => {
         <div className="kakao_map" id="map"></div>
         <div className="repair_list">
           {searchRepairShop
-            ? filterName.map((shop) => <PrivateRepairListItem shop={shop} />)
-            : RepairShop.map((shop) => <PrivateRepairListItem shop={shop} />)}
+            ? filterName.map((shop, index) => (
+                <PrivateRepairListItem key={index} shop={shop} />
+              ))
+            : PrivateRepairShopData.map((shop, index) => (
+                <PrivateRepairListItem key={index} shop={shop} />
+              ))}
         </div>
       </div>
     </>

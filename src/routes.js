@@ -5,18 +5,26 @@ import { SearchResult } from "./pages/community/searchResult";
 import { SinglePostView } from "./pages/community/singlePostView";
 import { RepairMain } from "./pages/repair/repair-main";
 import { MarketMain } from "./pages/market/market-main";
-import { Login } from "./pages/common/login";
 import { Sign } from "./pages/common/sign/sign";
 import { PostForm } from "./pages/community/postForm";
 import { DataMain } from "./pages/data/data-main";
 import { CommonMyPage } from "./pages/common/mypage/common-mypage";
-import { PrivateRepairShopList } from "./pages/repair/PrivateRepairShopList";
-import { PrivateRepairShopDetail } from "./pages/repair/PrivateRepairShopDetail.js";
-import { PublicRepairShopList } from "./pages/repair/PublicRepairShopList";
-import { PublicRepairShopDetail } from "./pages/repair/PublicRepairShopDetail.js";
+import { PrivateRepairShopList } from "./pages/repair/AroundRepairShop/PrivateRepairShopList";
+import { PrivateRepairShopDetail } from "./pages/repair/AroundRepairShop/PrivateRepairShopDetail.js";
+import { PublicRepairShopList } from "./pages/repair/AroundRepairShop/PublicRepairShopList";
+import { PublicRepairShopDetail } from "./pages/repair/AroundRepairShop/PublicRepairShopDetail.js";
+import { ReportResult } from "./pages/repair/report/ReportResult";
 import DeviceManagement from "./pages/common/device-management/index.js";
-import { Reservation } from "./pages/repair/user/reservation";
+import { Reservation } from "./pages/repair/reservation/reservation";
 import { PointHistory } from "./pages/common/mypage/pointHistory/pointHistory";
+import { Estimate } from "./pages/repair/estimate/estimate";
+import { ReservationHistory } from "./pages/repair/reservation/history";
+import { HistoryDetail } from "./pages/repair/reservation/historyDetail";
+import { Login } from "./pages/common/login/login";
+import { InfoUpdate } from "./pages/common/info-update/infoUpdate";
+import { RepairShopMyPage } from "./pages/common/mypage/repairMyPage/repairShopMyPage";
+import { IncomeMain } from "./pages/common/mypage/incomeMonitor/incomeMain";
+import { ServiceListPanelMain } from "./pages/common/mypage/serviceListManagement/serviceListPanelMain";
 
 export const routes = [
   {
@@ -64,7 +72,7 @@ export const routes = [
     element: <PrivateRepairShopList />,
   },
   {
-    path: "/repair/privateShops/:repairShopId",
+    path: "/repair/privateShops/detail",
     element: <PrivateRepairShopDetail />,
   },
   {
@@ -76,8 +84,32 @@ export const routes = [
     element: <Reservation />,
   },
   {
+    path: "/repair/privateShops/:repairShopId/update/:reservationId",
+    element: <Reservation />,
+  },
+  {
+    path: "/repair/mypage/reservation",
+    element: <ReservationHistory />,
+  },
+  {
+    path: "/repair/mypage/reservation/:reservationId",
+    element: <HistoryDetail />,
+  },
+  {
+    path: "/repair/privateShops/:repairShopId/estimate",
+    element: <Estimate />,
+  },
+  {
     path: "/repair/publicShops/:repairShopId",
     element: <PublicRepairShopDetail />,
+  },
+  {
+    path: "/repair/readReport",
+    element: <ReportResult isRegist={false} />,
+  },
+  {
+    path: "/repair/registReport",
+    element: <ReportResult isRegist={true} />,
   },
   {
     path: "/market",
@@ -98,5 +130,21 @@ export const routes = [
   {
     path: "/point/history",
     element: <PointHistory />,
+  },
+  {
+    path: "/user/infoUpdate",
+    element: <InfoUpdate />,
+  },
+  {
+    path: "/mypage/repair",
+    element: <RepairShopMyPage />,
+  },
+  {
+    path: "/mypage/incomeMonitor",
+    element: <IncomeMain />,
+  },
+  {
+    path: "/mypage/serviceList/panel",
+    element: <ServiceListPanelMain />,
   },
 ];
