@@ -1,12 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useNavigate } from "react-router-dom";
 
 export const MoreButton = (props) => {
-  const navigate = useNavigate();
-  const isPost = props.commentId === undefined;
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -17,8 +13,6 @@ export const MoreButton = (props) => {
   };
 
   const handleReport = () => {
-    props.handleReportOpen();
-    handleClose();
     props.setReportInfo({
       reason: "",
       comment: "",
@@ -26,24 +20,31 @@ export const MoreButton = (props) => {
       shopId: props.shopId,
       ownerId: props.ownerId,
     });
+    props.handleReportOpen();
+    handleClose();
   };
 
   const handleUpdate = () => {
-    if (isPost) {
-      navigate(`/community/post/${props.postId}/update`);
-    } else {
-      props.handleReply(props.postId, props.commentId, props.commentContent);
-      props.changeTargetCommentId(props.commentId);
-      handleClose();
-    }
+    props.handleReplyOpen();
+    props.setReplyInfo({
+      ...props.replyInfo,
+      reply: props.commentContent,
+      commentId: props.commentId,
+      shopId: props.shopId,
+      ownerId: props.ownerId,
+      isUpdate: true,
+      isComment: !props.isReply ? true : false,
+    });
+    handleClose();
   };
+
+  useEffect(() => {}, [props.replyInfo]);
 
   const handleDelete = () => {
     handleClose();
-    const id = isPost ? props.postId : props.commentId;
-    const type = isPost ? "post" : "comment";
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      console.log(`${type} ${id} deleted successfully!`);
+    const type = props.isReply ? "답글" : "댓글";
+    if (window.confirm(`${type}을 삭제하시겠습니까 ?`)) {
+      console.log(`${type} ${props.commentId} 삭제 완료!`);
     }
   };
 
@@ -54,7 +55,7 @@ export const MoreButton = (props) => {
         aria-controls="more-menu"
         aria-haspopup="true"
         onClick={handleMenuOpen}>
-        <MoreVertIcon sx={{ fontSize: "30px" }} />
+        <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {props.sessionId === props.ownerId && (

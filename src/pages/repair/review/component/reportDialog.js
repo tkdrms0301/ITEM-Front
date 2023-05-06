@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -14,14 +13,15 @@ const ReportDialog = ({
   openReport,
   reportInfo,
   handleReportInfo,
-  handleReportOpen,
   handleReportClose,
 }) => {
   const { reason, comment } = reportInfo;
 
   const reportSubmit = () => {
-    console.log(reportInfo);
-    handleReportClose();
+    if (window.confirm(`신고하시겠습니까 ?`)) {
+      console.log(reportInfo);
+      handleReportClose();
+    }
   };
 
   return (

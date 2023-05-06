@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
-import { useParams } from "react-router";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
-import { commentList } from "./constant";
+import { commentList, shopId } from "./constant";
 
 import Review from "./Review";
 import ReportDialog from "./component/reportDialog";
 import ReplyDialog from "./component/replyDialog";
 
 const Reviews = () => {
+  const sessionId = 73; // 현재 접속중인 사용자 id
+
   const [comments, setComments] = useState([...commentList]);
 
   //report
@@ -18,8 +19,9 @@ const Reviews = () => {
     reason: "",
     comment: "",
     commentId: 0,
-    shopId: 0,
+    shopId: shopId,
     ownerId: 0,
+    sessionId: sessionId,
   });
 
   const handleReportInfo = (e) => {
@@ -44,36 +46,41 @@ const Reviews = () => {
   const [replyInfo, setReplyInfo] = useState({
     reply: "",
     commentId: 0,
-    shopId: 0,
-    userId: 0,
+    shopId: shopId,
+    sessionId: sessionId,
+    isUpdate: false,
+    isComment: false,
   });
-
-  const [targetCommentId, setTargetCommentId] = useState(0);
-  const changeTargetCommentId = (commentId) => {
-    setTargetCommentId(commentId);
-  };
 
   const handleReplyOpen = () => {
     setOpenReply(true);
+    setReplyInfo({
+      ...replyInfo,
+      commentId: 0,
+      isUpdate: false,
+      isComment: false,
+    });
+  };
+
+  const handleCommentOpen = () => {
+    setOpenReply(true);
+    setReplyInfo({
+      ...replyInfo,
+      reply: "",
+      isUpdate: false,
+      isComment: true,
+    });
   };
 
   const handleReplyClose = () => {
-    isNotUpdating();
     setOpenReply(false);
-  };
-
-  const [isUpdate, setIsUpdate] = useState(false);
-
-  const isUpdating = () => {
-    setIsUpdate(true);
-  };
-
-  const isNotUpdating = () => {
-    setIsUpdate(false);
-  };
-  const handleReply = () => {
-    isUpdating();
-    setOpenReply(true);
+    setReplyInfo({
+      ...replyInfo,
+      reply: "",
+      commentId: 0,
+      isUpdate: false,
+      isComment: false,
+    });
   };
 
   useEffect(() => {
@@ -82,10 +89,6 @@ const Reviews = () => {
       textField.focus();
     }
   }, [openReply]);
-
-  const { repairShopId } = useParams();
-
-  const sessionId = 71;
 
   return (
     <>
@@ -99,29 +102,33 @@ const Reviews = () => {
           <Button
             variant="contained"
             fullWidth={true}
-            onClick={handleReplyOpen}>
+            onClick={handleCommentOpen}>
             댓글 작성
           </Button>
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2} justifyContent="center">
-            {comments.map((comment) => {
+            {comments.map((comment, index) => {
               if (comment.comments.length > 0) {
                 return (
-                  <Grid item key={comment.id} xs={11}>
+                  <Grid item key={index} xs={11}>
                     <Review
                       comment={comment}
                       sessionId={sessionId}
                       handleReportOpen={handleReportOpen}
-                      openReply={openReply}
-                      handleReplyOpen={handleReplyOpen}
-                      handleReplyClose={handleReplyClose}
-                      changeTargetCommentId={changeTargetCommentId}
                       reportInfo={reportInfo}
                       setReportInfo={setReportInfo}
+                      replyInfo={replyInfo}
+                      setReplyInfo={setReplyInfo}
+                      openReply={openReply}
+                      handleReplyOpen={handleReplyOpen}
                     />
-                    {comment.comments.map((comment) => (
-                      <Grid container justifyContent="center" sx={{ mt: 2 }}>
+                    {comment.comments.map((comment, index) => (
+                      <Grid
+                        container
+                        justifyContent="center"
+                        sx={{ mt: 2 }}
+                        key={index}>
                         <Grid item xs={1} sx={{ mt: -1 }}>
                           <SubdirectoryArrowRightIcon />
                         </Grid>
@@ -129,8 +136,13 @@ const Reviews = () => {
                           <Review
                             comment={comment}
                             isReply={true}
+                            sessionId={sessionId}
                             handleReportOpen={handleReportOpen}
                             setReportInfo={setReportInfo}
+                            replyInfo={replyInfo}
+                            setReplyInfo={setReplyInfo}
+                            openReply={openReply}
+                            handleReplyOpen={handleReplyOpen}
                           />
                         </Grid>
                       </Grid>
@@ -143,9 +155,11 @@ const Reviews = () => {
                     <Review
                       comment={comment}
                       handleReportOpen={handleReportOpen}
-                      changeTargetCommentId={changeTargetCommentId}
-                      handleReplyOpen={handleReplyOpen}
+                      sessionId={sessionId}
                       setReportInfo={setReportInfo}
+                      replyInfo={replyInfo}
+                      setReplyInfo={setReplyInfo}
+                      handleReplyOpen={handleReplyOpen}
                     />
                   </Grid>
                 );
@@ -162,11 +176,9 @@ const Reviews = () => {
       />
       {openReply && (
         <ReplyDialog
-          repairShopId={repairShopId}
-          commentId={targetCommentId}
-          openReply={openReply}
           handleReplyClose={handleReplyClose}
-          isUpdate={isUpdate}
+          replyInfo={replyInfo}
+          setReplyInfo={setReplyInfo}
         />
       )}
     </>

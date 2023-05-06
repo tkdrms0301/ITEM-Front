@@ -16,7 +16,7 @@ const commentList = [
         id: 32,
         body: "I really like your creativity!I really like your creativity!I really like your creativity!I really like your creativity!I really like your creativity!I really like your creativity!I really like your creativity!",
         shopId: 2,
-        user: { id: 39, username: "lgherardi12" },
+        user: { id: 73, username: "lgherardi12" },
       },
     ],
   },
@@ -64,4 +64,6 @@ const commentList = [
   },
 ];
 
-export { commentList };
+const shopId = 2;
+
+export { commentList, shopId };
