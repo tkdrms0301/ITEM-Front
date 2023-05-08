@@ -60,7 +60,7 @@ export const ServiceListItem = ({ serviceList }) => {
             >
               <ConstructionIcon sx={{ fontSize: "40px" }} />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={8}>
               <Typography
                 sx={{
                   fontSize: "12px",
