@@ -37,6 +37,8 @@ export const RepairMain = () => {
         </div>
       </div>
       <Link to={"/repair/mypage/reservation"}>예약내역</Link>
+      <div />
+      <Link to={"/repair/mypage/estimate"}>견적내역</Link>
     </>
   );
 };
