@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  FormControl,
   Box,
   Button,
   Container,
@@ -92,24 +93,7 @@ export const Reservation = () => {
   const handleData = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  const handleSelect = (event, value) => {
-    // if (value !== "") {
-    //   setData({
-    //     ...data,
-    //     product: value,
-    //   });
-    // }
-    setData({
-      ...data,
-      product: value,
-    });
 
-    //findProductImg(value);
-    setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
-  };
-
-  const [value, setValue] = useState("");
-  const [inputValue, setInputValue] = useState("");
   const handleServicesButton = (e, value) => {
     setData({ ...data, services: value });
   };
@@ -198,13 +182,22 @@ export const Reservation = () => {
         completed={completed}
       />
       <Container sx={{ mt: "56px", pt: "1%" }}>
-        <Select name="product" value={data.product} onChange={handleData}>
-          {products.map((product, index) => {
-            console.log(product.product);
-
-            return <MenuItem value={product.id}>{product.product}</MenuItem>;
-          })}
-        </Select>
+        <FormControl fullWidth sx={{ mt: 1 }}>
+          <InputLabel>제품 선택</InputLabel>
+          <Select
+            name="product"
+            value={data.product}
+            defaultValue={data.product}
+            onChange={handleData}
+            label="제품 선택"
+            fullWidth>
+            {products.map((product, index) => (
+              <MenuItem value={product.id} key={index}>
+                {product.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <Box
           sx={{
@@ -251,7 +244,11 @@ export const Reservation = () => {
                 borderRadius: "10px",
               }}></Box>
           )}
-          <Typography>{data.product}</Typography>
+          <Typography>
+            {products.map(
+              (product) => product.id === data.product && product.title
+            )}
+          </Typography>
         </Box>
         <ToggleButtonGroup
           value={data.services}
@@ -263,9 +260,7 @@ export const Reservation = () => {
             borderRadius: "4px",
             display: "flex",
             flexDirection: "column",
-          }}
-        >
-
+          }}>
           {services.map((service) => (
             <ToggleButton
               key={service.id}
@@ -273,8 +268,7 @@ export const Reservation = () => {
               sx={{
                 width: "100%",
                 height: "75px",
-              }}
-            >
+              }}>
               <SettingsIcon sx={{ fontSize: "40px" }} />
               <Typography variant="h5">{service.title}</Typography>
             </ToggleButton>
