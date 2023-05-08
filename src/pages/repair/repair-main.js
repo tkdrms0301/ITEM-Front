@@ -27,7 +27,11 @@ export const RepairMain = () => {
           </Link>
         </div>
         <div>
-          <Link to={"/repair/registReport"} className="shop_search">
+          <Link
+            to={"/repair/registReport"}
+            className="shop_search"
+            state={{ repairResultId: 1 }}
+          >
             <div>리포트 등록</div>
           </Link>
         </div>

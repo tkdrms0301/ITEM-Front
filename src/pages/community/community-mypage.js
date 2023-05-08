@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Tabs, Tab } from "@mui/material";
 import { BackButton } from "../../component/backButton";
 import { PostsList } from "./component/postsList";
+
 import {
   tempNumberForCommentedPostingList,
   testBaseURL,

@@ -1,20 +1,31 @@
+.repair_map_area {
+  height: 170vw;
+}
 .kakao_map {
   width: 100vw;
-  height: 100vw;
-  margin-bottom: 10vw;
+  height: 140vw;
 }
 .repair_list {
-  height: 50vw;
+  position: relative;
+  height: 55vw;
   overflow: scroll;
   border: 1px rgb(231, 231, 231) solid;
+  top: -80px;
+  z-index: 1000;
+  background-color: white;
+  border-radius: 20px;
 }
 .repair_search_box {
+  position: relative;
   display: flex;
   justify-content: center;
   margin-bottom: 5vw;
   padding-top: 5vw;
+  z-index: 1000;
 }
 .repair_search_box .repair_search_input {
   width: 80vw;
   height: 10vw;
+  border-radius: 10px;
+  border: 1px rgb(200, 200, 200) solid;
 }

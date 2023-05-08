@@ -11,27 +11,31 @@ export const ReportResult = ({ isRegist }) => {
   const [modalState, setModalState] = useState(false);
   const [modalImgState, setModalImgState] = useState("");
 
-  const [reportResultImgs, setReportResultImgs] = useState([]);
-  const imageInput = useRef();
+  const [reportBeforeImgs, setReportBeforeImgs] = useState([]);
+  const [reportAfterImgs, setReportAfterImgs] = useState([]);
+  const afterImageInput = useRef();
+  const beforeImageInput = useRef();
 
   const [reportResultComment, setReportResultComment] = useState("");
 
   const location = useLocation();
 
   const [reservationId, setReservationId] = useState(0);
-
+  const [reportResultId, setReportResultId] = useState(0);
   const [reportResult, setReportResult] = useState();
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(navigate);
     if (isRegist) {
+      setReportResultId(location.state?.repairResultId);
       setReportResult(RepairReportData);
     } else {
       setReservationId(location.state?.repairId);
       setReportResult(RepairReportData);
     }
-  }, []);
+  }, [isRegist]);
 
   //report
   const [showReportDialog, setShowReportDialog] = useState(false);
@@ -63,26 +67,42 @@ export const ReportResult = ({ isRegist }) => {
 
   //report end
 
-  const onClickPlusImg = () => {
-    imageInput.current.click();
+  const onClickBeforeImgPlus = () => {
+    beforeImageInput.current.click();
   };
-  const saveImgFile = () => {
-    if (imageInput.current && imageInput.current.files.length > 0) {
-      const file = imageInput.current.files[0];
+  const saveBeforeImgFile = () => {
+    if (beforeImageInput.current && beforeImageInput.current.files.length > 0) {
+      const file = beforeImageInput.current.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        setReportResultImgs([...reportResultImgs, reader.result]);
+        setReportBeforeImgs([...reportBeforeImgs, reader.result]);
+      };
+    }
+  };
+  const onClickAfterImgPlus = () => {
+    afterImageInput.current.click();
+  };
+  const saveAfterImgFile = () => {
+    if (afterImageInput.current && afterImageInput.current.files.length > 0) {
+      const file = afterImageInput.current.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setReportAfterImgs([...reportAfterImgs, reader.result]);
       };
     }
   };
   const onClickRegist = () => {
-    console.log("onClickRegist");
+
+    //console.log("onClickRegist");
+
     navigate(
       {
         pathname: "/repair/readReport",
       },
-      { state: { repairId: 1 } }
+      { state: { repairId: 1, prevIsRegist: true } }
+
     );
   };
 
@@ -112,44 +132,85 @@ export const ReportResult = ({ isRegist }) => {
     if (isRegist) {
       return (
         <>
-          {reportResultImgs.map((img, index) => (
-            <div className="img_common_div" key={index}>
-              <img className="img_content" src={img} alt="after" />
+          <div className="img_common_field">
+            {reportBeforeImgs.map((img, index) => (
+              <div className="img_common_div" key={index}>
+                <img className="img_content" src={img} alt="after" />
+              </div>
+            ))}
+            <div className="img_common_div">
+              <img
+                className="img_content"
+                src={process.env.PUBLIC_URL + "/plus.png"}
+                onClick={() => onClickBeforeImgPlus()}
+                alt="add"
+              />
             </div>
-          ))}
-          <div className="img_common_div">
-            <img
-              className="img_content"
-              src={process.env.PUBLIC_URL + "/plus.png"}
-              onClick={() => onClickPlusImg()}
-              alt="add"
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              ref={beforeImageInput}
+              onChange={saveBeforeImgFile}
             />
           </div>
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            ref={imageInput}
-            onChange={saveImgFile}
-          />
+          <div className="img_common_field">
+            {reportAfterImgs.map((img, index) => (
+              <div className="img_common_div" key={index}>
+                <img className="img_content" src={img} alt="after" />
+              </div>
+            ))}
+            <div className="img_common_div">
+              <img
+                className="img_content"
+                src={process.env.PUBLIC_URL + "/plus.png"}
+                onClick={() => onClickAfterImgPlus()}
+                alt="add"
+              />
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              ref={afterImageInput}
+              onChange={saveAfterImgFile}
+            />
+          </div>
         </>
       );
     } else {
       return (
         <>
-          {reportResult.reservationResultImgs.map((img, index) => (
-            <div className="img_common_div" key={index}>
-              <img
-                className="img_content"
-                src={img.reservationResultImg}
-                onClick={() => {
-                  setModalState(true);
-                  setModalImgState(img.reservationResultImg);
-                }}
-                alt="after"
-              />
-            </div>
-          ))}
+          <div className="img_common_field">
+            {reportResult.reservationImgs.map((img, index) => (
+              <div className="img_common_div" key={index}>
+                <img
+                  className="img_content"
+                  src={img.reservationImg}
+                  onClick={() => {
+                    setModalState(true);
+                    setModalImgState(img.reservationImg);
+                  }}
+                  alt="before"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="img_common_field">
+            {reportResult.reservationResultImgs.map((img, index) => (
+              <div className="img_common_div" key={index}>
+                <img
+                  className="img_content"
+                  src={img.reservationResultImg}
+                  onClick={() => {
+                    setModalState(true);
+                    setModalImgState(img.reservationResultImg);
+                  }}
+                  alt="after"
+                />
+              </div>
+            ))}
+          </div>
         </>
       );
     }
@@ -198,7 +259,11 @@ export const ReportResult = ({ isRegist }) => {
   };
 
   const onClickBackBtn = () => {
-    navigate(-1);
+    if (location.state?.prevIsRegist) {
+      navigate(-2);
+    } else {
+      navigate(-1);
+    }
   };
 
   return (
@@ -258,24 +323,7 @@ export const ReportResult = ({ isRegist }) => {
                   <div className="after_img_text text">수리 후</div>
                 </div>
                 <div className="repair_img_field">
-                  <div className="img_common_field">
-                    {reportResult.reservationImgs.map((img, index) => (
-                      <div className="img_common_div" key={index}>
-                        <img
-                          className="img_content"
-                          src={img.reservationImg}
-                          onClick={() => {
-                            setModalState(true);
-                            setModalImgState(img.reservationImg);
-                          }}
-                          alt="before"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="img_common_field">
-                    {reportResultImgContentByIsRegist()}
-                  </div>
+                  {reportResultImgContentByIsRegist()}
                 </div>
               </div>
               {reportResultTextContentByIsRegist()}
