@@ -30,7 +30,7 @@ export const ServiceListItem = ({ serviceList }) => {
     e.stopPropagation();
     handleClose(e);
     console.log(selectedId);
-    navigate(`/`);
+    navigate(`/mypage/serviceList/update`);
   };
 
   return (

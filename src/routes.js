@@ -25,6 +25,8 @@ import { InfoUpdate } from "./pages/common/info-update/infoUpdate";
 import { RepairShopMyPage } from "./pages/common/mypage/repairMyPage/repairShopMyPage";
 import { IncomeMain } from "./pages/common/mypage/incomeMonitor/incomeMain";
 import { ServiceListPanelMain } from "./pages/common/mypage/serviceListManagement/serviceListPanelMain";
+import { ServiceListAddMain } from "./pages/common/mypage/serviceListManagement/serviceListAddMain";
+import { ServiceListUpdateMain } from "./pages/common/mypage/serviceListManagement/serviceListUpdateMain";
 
 export const routes = [
   {
@@ -146,5 +148,13 @@ export const routes = [
   {
     path: "/mypage/serviceList/panel",
     element: <ServiceListPanelMain />,
+  },
+  {
+    path: "/mypage/serviceList/add",
+    element: <ServiceListAddMain />,
+  },
+  {
+    path: "/mypage/serviceList/update",
+    element: <ServiceListUpdateMain />,
   },
 ];
