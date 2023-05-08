@@ -1,6 +1,9 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { PrivateRepairShopData } from "../data/PrivateRepairShopData.js";
 import "../css/RepairShopDetail.css";
+import Reviews from "../review/index.js";
+
 const { kakao } = window;
 
 let map, lat, lng;
@@ -42,6 +45,8 @@ export const PrivateRepairShopDetail = () => {
   useEffect(() => {
     if (selectShop) {
       getPrivateShopLocation();
+    } else {
+      // 여기다가 스켈레톤 만들기
     }
   }, [selectShop]);
 
@@ -86,8 +91,7 @@ export const PrivateRepairShopDetail = () => {
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
-                  onClick={() => selectMenuHandler(index)}
-                >
+                  onClick={() => selectMenuHandler(index)}>
                   {el.name}
                 </li>
               ))}
@@ -98,8 +102,7 @@ export const PrivateRepairShopDetail = () => {
                   currentTab === 0
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
+                }>
                 <div className="shop_service_area">
                   <ul className="shop_service_list">
                     {selectShop.services.map((service, index) => (
@@ -109,14 +112,31 @@ export const PrivateRepairShopDetail = () => {
                     ))}
                   </ul>
                 </div>
+                <div className="reservation_area">
+                  <div
+                    className="reservation_button"
+                    onClick={() => {
+                      window.location.href =
+                        window.location.pathname + "/reservation";
+                    }}>
+                    <p>예약하기</p>
+                  </div>
+                  <div
+                    className="reservation_button"
+                    onClick={() => {
+                      window.location.href =
+                        window.location.pathname + "/estimate";
+                    }}>
+                    <p>견적받기</p>
+                  </div>
+                </div>
               </div>
               <div
                 className={
                   currentTab === 1
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
+                }>
                 <div className="shop_address_and_phonenum">
                   <div className="kakao_map" id="repair_shop_map"></div>
                   <div className="shop_address">
@@ -132,29 +152,11 @@ export const PrivateRepairShopDetail = () => {
                   currentTab === 2
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
-                <div className="shop_review_area">Tab menu THREE</div>
+                }>
+                <div className="shop_review_area">
+                  <Reviews />
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="reservation_area">
-            <div
-              className="reservation_button"
-              onClick={() => {
-                window.location.href =
-                  window.location.pathname + "/reservation";
-              }}
-            >
-              <p>예약하기</p>
-            </div>
-            <div
-              className="reservation_button"
-              onClick={() => {
-                window.location.href = window.location.pathname + "/estimate";
-              }}
-            >
-              <p>견적받기</p>
             </div>
           </div>
         </>

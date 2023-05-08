@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import { MoreButton } from "./moreButton";
@@ -46,8 +45,7 @@ export const CommentsList = ({
           mt: "3%",
           mb: "-2%",
           padding: "3%",
-        }}
-      >
+        }}>
         <Grid container>
           <Grid container item xs={12} justifyContent="space-between">
             <Grid item xs={10}>
@@ -57,8 +55,7 @@ export const CommentsList = ({
                   fontWeight="bold"
                   sx={{ mr: "1%", color: "inherit", textDecoration: "none" }}
                   component={Link}
-                  to={`/community/mypage/${comment.user.id}`}
-                >
+                  to={`/community/mypage/${comment.user.id}`}>
                   {comment.user.username} ·
                 </Typography>
                 <DateView />
@@ -89,15 +86,13 @@ export const CommentsList = ({
                 display: "flex",
                 justifyContent: "flex-end",
                 alignItems: "flex-end",
-              }}
-            >
+              }}>
               {!isReply && (
                 <Button
                   onClick={() => {
                     changeTargetCommentId(comment.id);
                     handleOpen();
-                  }}
-                >
+                  }}>
                   답글
                 </Button>
               )}
