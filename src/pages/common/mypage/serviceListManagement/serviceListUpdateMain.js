@@ -82,12 +82,10 @@ export const ServiceListUpdateMain = () => {
             fullWidth
             required
             variant="outlined"
-            multiline
             defaultValue={serviceName}
             maxRows={1}
             sx={{ mt: 1 }}
             inputRef={serviceNameRef}
-            label="내용을 입력해주세요"
           ></TextField>
         </Grid>
         <Grid item xs={12} sx={{ mt: 3, ml: 2, mr: 2 }}>
@@ -102,7 +100,6 @@ export const ServiceListUpdateMain = () => {
             sx={{ mt: 1 }}
             defaultValue={servcieDescription}
             inputRef={serviceDescriptionRef}
-            label="내용을 입력해주세요"
           ></TextField>
         </Grid>
         <Grid item xs={12} sx={{ mt: 3, ml: 2, mr: 2, mb: 2 }}>
