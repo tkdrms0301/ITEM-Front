@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../data/test";
 
@@ -21,27 +21,10 @@ export const Estimate = () => {
     product: "",
     comment: "",
   });
-  const handleData = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-
-    handleCompleted();
-  };
-  const handleSelect = (event, value) => {
-    setData({
-      ...data,
-      product: value,
-    });
-    //findProductImg(value);
-    setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
-
-    handleCompleted();
-  };
-  //transtmit data end
-
   //completed
   const [completed, setCompleted] = useState({
     isCompleted: false,
-    msg: "",
+    msg: "필수 정보를 모두 입력해주세요.",
   });
   const handleCompleted = () => {
     if (data.product === "" || data.comment === "") {
@@ -58,6 +41,25 @@ export const Estimate = () => {
   };
 
   //completed end
+  const handleData = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const handleSelect = (event, value) => {
+    setData({
+      ...data,
+      product: value,
+    });
+    //findProductImg(value);
+    setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
+  };
+  //transtmit data end
+
+  useEffect(
+    (data) => {
+      handleCompleted();
+    },
+    [data]
+  );
 
   console.log(data);
   return (

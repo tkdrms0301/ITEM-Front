@@ -37,7 +37,7 @@ const MoreButtonRepair = ({ data, role }) => {
     }
   };
   if (role === "user") {
-    if (data.status === "예약 완료") {
+    if (data.status === "응답 대기") {
       return;
     }
     return (
@@ -59,17 +59,12 @@ const MoreButtonRepair = ({ data, role }) => {
             setSelectedId(null);
           }}
         >
-          {data.status === "예약 대기" && (
-            <MenuItem onClick={(e) => handleUpdate(e)}>수정</MenuItem>
-          )}
-          {data.status === "정비 완료" && (
-            <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
-          )}
+          <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
         </Menu>
       </>
     );
   } else if (role === "repair") {
-    if (data.status === "예약 대기" || data.status === "예약 완료") {
+    if (data.status === "응답 대기") {
       return;
     }
     return (
@@ -118,56 +113,36 @@ export const HistoryList = ({ itemList, role }) => {
             }}
             onClick={
               role === "user"
-                ? data.status === "예약 완료" || data.status === "예약 대기"
+                ? data.status === "응답 대기"
                   ? () => {
                       navigate(
-                        { pathname: `/repair/mypage/reservation/${data.id}` },
-                        { state: { role: data.role } }
+                        { pathname: `/repair/mypage/estimate/${data.id}` },
+                        { state: { role: role } }
                       );
                     }
-                  : data.status === "정비 완료"
+                  : data.status === "응답 완료"
                   ? () => {
                       console.log(data.id);
                       navigate(
-                        {
-                          pathname: "/repair/readReport",
-                        },
-                        {
-                          state: { repairId: data.id },
-                        }
+                        { pathname: `/repair/mypage/estimate/${data.id}` },
+                        { state: { role: role } }
                       );
                     }
                   : null
                 : role === "repair"
-                ? data.status === "예약 대기"
+                ? data.status === "응답 대기"
                   ? () => {
                       navigate(
-                        { pathname: `/repair/mypage/reservation/${data.id}` },
+                        { pathname: `/repair/mypage/estimate/${data.id}` },
                         { state: { role: role } }
                       );
                     }
-                  : data.status === "예약 완료"
+                  : data.status === "응답 완료"
                   ? () => {
                       console.log(data.id);
                       navigate(
-                        {
-                          pathname: "/repair/registReport",
-                        },
-                        {
-                          state: { repairId: data.id },
-                        }
-                      );
-                    }
-                  : data.status === "정비 완료"
-                  ? () => {
-                      console.log(data.id);
-                      navigate(
-                        {
-                          pathname: "/repair/readReport",
-                        },
-                        {
-                          state: { repairId: data.id },
-                        }
+                        { pathname: `/repair/mypage/estimate/${data.id}` },
+                        { state: { role: role } }
                       );
                     }
                   : null
@@ -193,9 +168,9 @@ export const HistoryList = ({ itemList, role }) => {
                     sx={{
                       fontWeight: "bold",
                       color:
-                        data.status === "예약 완료"
+                        data.status === "응답 대기"
                           ? "#E3DA64"
-                          : data.status === "정비 완료"
+                          : data.status === "응답 완료"
                           ? "#88CDAB"
                           : "#9A9A9A",
                     }}
@@ -216,7 +191,7 @@ export const HistoryList = ({ itemList, role }) => {
                 </Grid>
                 <Grid item xs={12} sx={{ mt: 0.5 }}>
                   <Typography sx={{ fontWeight: "bold", fontSize: "17px" }}>
-                    {data.service}
+                    {data.userComment}
                   </Typography>
                 </Grid>
               </Grid>

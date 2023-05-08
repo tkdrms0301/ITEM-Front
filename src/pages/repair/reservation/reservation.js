@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   testServiceTime,
@@ -61,68 +61,10 @@ export const Reservation = () => {
           time: "",
         }
   );
-  const handleData = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-
-    handleCompleted();
-  };
-  const handleSelect = (event, value) => {
-    if (value !== "") {
-      setData({
-        ...data,
-        product: value,
-      });
-    }
-
-    //findProductImg(value);
-    setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
-
-    handleCompleted();
-  };
-  const handleServicesButton = (e, value) => {
-    setData({ ...data, services: value });
-
-    handleCompleted();
-  };
-  const handleDateSelect = (e) => {
-    setData({ ...data, date: e.target.value });
-    //for test
-    setOpenedTime(testServiceTime);
-
-    handleCompleted();
-  };
-
-  const handleTimeSelect = (e, value) => {
-    setData({ ...data, time: value });
-
-    handleCompleted();
-  };
-  //transtmit data end
-
-  //dialog
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleCancel = () => {
-    setData({ ...data, date: "", time: "" });
-    setOpen(false);
-
-    handleCompleted();
-  };
-  const handleClose = () => {
-    setOpen(false);
-
-    handleCompleted();
-  };
-  const [openedTime, setOpenedTime] = useState([]);
-
-  //dialog end
-
   //completed
   const [completed, setCompleted] = useState({
     isCompleted: false,
-    msg: "",
+    msg: "필수 정보를 모두 입력해주세요.",
   });
   const handleCompleted = () => {
     if (
@@ -144,6 +86,58 @@ export const Reservation = () => {
   };
 
   //completed end
+  const handleData = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const handleSelect = (event, value) => {
+    // if (value !== "") {
+    //   setData({
+    //     ...data,
+    //     product: value,
+    //   });
+    // }
+    setData({
+      ...data,
+      product: value,
+    });
+    //findProductImg(value);
+    setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
+  };
+  const handleServicesButton = (e, value) => {
+    setData({ ...data, services: value });
+  };
+  const handleDateSelect = (e) => {
+    setData({ ...data, date: e.target.value });
+    //for test
+    setOpenedTime(testServiceTime);
+  };
+
+  const handleTimeSelect = (e, value) => {
+    setData({ ...data, time: value });
+  };
+  //transtmit data end
+
+  //dialog
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleCancel = () => {
+    setData({ ...data, date: "", time: "" });
+    setOpen(false);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [openedTime, setOpenedTime] = useState([]);
+
+  //dialog end
+  useEffect(
+    (data) => {
+      handleCompleted();
+    },
+    [data]
+  );
 
   return (
     <>
@@ -266,7 +260,6 @@ export const Reservation = () => {
           <Typography>{data.product}</Typography>
         </Box>
         <ToggleButtonGroup
-          orientation="vertical"
           value={data.services}
           onChange={handleServicesButton}
           sx={{
@@ -274,13 +267,18 @@ export const Reservation = () => {
             width: "100%",
             border: "1px solid #C4C4C4",
             borderRadius: "4px",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           {services.map((service) => (
             <ToggleButton
               key={service.id}
               value={service.title}
-              sx={{ width: "100%", height: "75px" }}
+              sx={{
+                width: "100%",
+                height: "75px",
+              }}
             >
               <SettingsIcon sx={{ fontSize: "40px" }} />
               <Typography variant="h5">{service.title}</Typography>

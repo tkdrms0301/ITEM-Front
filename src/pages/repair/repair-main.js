@@ -16,8 +16,7 @@ export const RepairMain = () => {
           <Link to={"/repair/publicShops"} className="shop_search">
             <div>공식 수리점 찾기</div>
           </Link>
-  
-      </div>
+        </div>
         <div>
           <Link
             to={"/repair/readReport"}
@@ -34,6 +33,8 @@ export const RepairMain = () => {
         </div>
       </div>
       <Link to={"/repair/mypage/reservation"}>예약내역</Link>
+      <div />
+      <Link to={"/repair/mypage/estimate"}>견적내역</Link>
     </>
   );
 };

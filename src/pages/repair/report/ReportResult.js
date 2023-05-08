@@ -19,6 +19,7 @@ export const ReportResult = ({ isRegist }) => {
   const location = useLocation();
 
   const [reservationId, setReservationId] = useState(0);
+
   const [reportResult, setReportResult] = useState();
 
   const navigate = useNavigate();
@@ -77,10 +78,12 @@ export const ReportResult = ({ isRegist }) => {
   };
   const onClickRegist = () => {
     console.log("onClickRegist");
-    navigate({
-      pathname: "/repair/readReport",
-      state: { repairId: 1 },
-    });
+    navigate(
+      {
+        pathname: "/repair/readReport",
+      },
+      { state: { repairId: 1 } }
+    );
   };
 
   const topButtonByIsRegist = () => {
