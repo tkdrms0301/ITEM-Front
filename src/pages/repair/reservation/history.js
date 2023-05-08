@@ -3,7 +3,11 @@ import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { SearchDate } from "../../common/mypage/pointHistory/searchDate";
 import { HistoryList } from "./historyList";
 import { useState } from "react";
-import { reservationHistoryForUser } from "../data/test";
+import {
+  users,
+  reservationHistoryForUser,
+  reservationHistoryForRepair,
+} from "../data/test";
 import { Container } from "@mui/material";
 
 export const ReservationHistory = () => {
@@ -13,7 +17,19 @@ export const ReservationHistory = () => {
     console.log(dayjs(firstDate).toDate());
     console.log(dayjs(secondaryDate).toDate());
   };
-  console.log(reservationHistoryForUser);
+
+  const [currentUser, setCurrentUser] = useState(
+    // users[0] // user
+    users[1] // repair
+  );
+  const [data, setData] = useState(
+    currentUser.role === "user"
+      ? reservationHistoryForUser
+      : reservationHistoryForRepair
+  );
+  console.log(currentUser);
+  console.log(data);
+
   return (
     <>
       <TitleButtonBar title={"예약 내역"} />
@@ -27,7 +43,7 @@ export const ReservationHistory = () => {
           buttonSubmit={buttonSubmit}
         />
 
-        <HistoryList itemList={reservationHistoryForUser} />
+        <HistoryList itemList={data} role={currentUser.role} />
       </Container>
     </>
   );
