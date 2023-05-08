@@ -14,6 +14,14 @@ export const RepairMyPageMenu = () => {
       title: "서비스 항목 관리",
       navigate: `/mypage/serviceList/panel`,
     },
+    {
+      title: "예약 내역",
+      navigate: `/repair/mypage/reservation`,
+    },
+    {
+      title: "견적 내역",
+      navigate: `/repair/mypage/estimate`,
+    },
   ];
   return (
     <Container
