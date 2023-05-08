@@ -17,28 +17,7 @@ export const RepairMain = () => {
             <div>공식 수리점 찾기</div>
           </Link>
         </div>
-        <div>
-          <Link
-            to={"/repair/readReport"}
-            className="shop_search"
-            state={{ repairId: 1 }}
-          >
-            <div>리포트 조회</div>
-          </Link>
-        </div>
-        <div>
-          <Link
-            to={"/repair/registReport"}
-            className="shop_search"
-            state={{ repairResultId: 1 }}
-          >
-            <div>리포트 등록</div>
-          </Link>
-        </div>
       </div>
-      <Link to={"/repair/mypage/reservation"}>예약내역</Link>
-      <div />
-      <Link to={"/repair/mypage/estimate"}>견적내역</Link>
     </>
   );
 };
