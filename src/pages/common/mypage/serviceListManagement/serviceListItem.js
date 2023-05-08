@@ -3,6 +3,7 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ConstructionIcon from "@mui/icons-material/Construction";
 
 export const ServiceListItem = ({ serviceList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,14 +51,14 @@ export const ServiceListItem = ({ serviceList }) => {
           >
             <Grid
               item
-              xs={3}
+              xs={2}
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <img src={data.img} width={"35%"}></img>
+              <ConstructionIcon sx={{ fontSize: "40px" }} />
             </Grid>
             <Grid item xs={7}>
               <Typography
