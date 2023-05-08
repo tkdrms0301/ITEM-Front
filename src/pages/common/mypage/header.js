@@ -1,16 +1,15 @@
-import {
-  Container,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import { Container, Grid, Typography, Avatar } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export const Header = ({ userName }) => {
-  const navigate = useNavigate();
+export const Header = () => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
+      setUserName(JSON.parse(window.localStorage.getItem("user")).name);
+    }
+  }, []);
 
   return (
     <Container
@@ -26,21 +25,22 @@ export const Header = ({ userName }) => {
         <Grid item xs={8}>
           <img src="/ItemLogo.png" width={"70%"}></img>
         </Grid>
-
-        <Grid
-          item
-          xs={4}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h7" sx={{ mr: 1, fontWeight: "bold" }}>
-            {userName}
-          </Typography>
-          <Avatar></Avatar>
-        </Grid>
+        {userName !== "" ? (
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h7" sx={{ mr: 1, fontWeight: "bold" }}>
+              {userName}
+            </Typography>
+            <Avatar></Avatar>
+          </Grid>
+        ) : null}
       </Grid>
     </Container>
   );

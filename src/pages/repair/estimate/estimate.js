@@ -4,6 +4,10 @@ import {
   Container,
   TextField,
   Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { useEffect, useState } from "react";
@@ -44,14 +48,6 @@ export const Estimate = () => {
   const handleData = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  const handleSelect = (event, value) => {
-    setData({
-      ...data,
-      product: value,
-    });
-    //findProductImg(value);
-    setProductImg("https://i.dummyjson.com/data/products/1/1.jpg");
-  };
   //transtmit data end
 
   useEffect(
@@ -72,21 +68,22 @@ export const Estimate = () => {
         completed={completed}
       />
       <Container sx={{ mt: "56px", pt: "1%" }}>
-        <Autocomplete
-          options={products}
-          getOptionLabel={(option) => option.title}
-          renderInput={(params) => (
-            <TextField {...params} label="제품 선택" variant="outlined" />
-          )}
-          inputValue={data.product}
-          onInputChange={handleSelect}
-          onChange={(event, value, reason) => {
-            if (reason === "clear") {
-              setProductImg("");
-            }
-          }}
-          sx={{ mt: "3%" }}
-        />
+        <FormControl fullWidth sx={{ mt: 1 }}>
+          <InputLabel>제품 선택</InputLabel>
+          <Select
+            name="product"
+            value={data.product}
+            defaultValue={data.product}
+            onChange={handleData}
+            label="제품 선택"
+            fullWidth>
+            {products.map((product, index) => (
+              <MenuItem value={product.id} key={index}>
+                {product.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Box
           sx={{
             position: "relative",
@@ -98,8 +95,7 @@ export const Estimate = () => {
             mt: "3%",
             padding: "3%",
             alignItems: "center",
-          }}
-        >
+          }}>
           <Typography
             sx={{
               position: "absolute",
@@ -108,8 +104,7 @@ export const Estimate = () => {
               bgcolor: "white",
               px: 1,
               fontSize: "0.8rem",
-            }}
-          >
+            }}>
             제품정보
           </Typography>
           {productImg ? (
@@ -132,10 +127,13 @@ export const Estimate = () => {
                 mr: "5%",
                 bgcolor: "#8C92AC",
                 borderRadius: "10px",
-              }}
-            ></Box>
+              }}></Box>
           )}
-          <Typography>{data.product}</Typography>
+          <Typography>
+            {products.map(
+              (product) => product.id === data.product && product.title
+            )}
+          </Typography>
         </Box>
 
         <TextField
@@ -146,8 +144,7 @@ export const Estimate = () => {
           fullWidth
           multiline
           rows={2}
-          sx={{ mt: "3%" }}
-        ></TextField>
+          sx={{ mt: "3%" }}></TextField>
       </Container>
     </>
   );
