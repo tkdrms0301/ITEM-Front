@@ -19,11 +19,16 @@ import { Reservation } from "./pages/repair/reservation/reservation";
 import { PointHistory } from "./pages/common/mypage/pointHistory/pointHistory";
 import { Estimate } from "./pages/repair/estimate/estimate";
 import { ReservationHistory } from "./pages/repair/reservation/history";
-import { HistoryDetail } from "./pages/repair/reservation/historyDetail";
+import { ReservationHistoryDetail } from "./pages/repair/reservation/historyDetail";
 import { Login } from "./pages/common/login/login";
 import { InfoUpdate } from "./pages/common/info-update/infoUpdate";
+import { EstimateHistory } from "./pages/repair/estimate/history";
+import { EstimateHistoryDetail } from "./pages/repair/estimate/historyDetail";
 import { RepairShopMyPage } from "./pages/common/mypage/repairMyPage/repairShopMyPage";
 import { IncomeMain } from "./pages/common/mypage/incomeMonitor/incomeMain";
+import { ServiceListPanelMain } from "./pages/common/mypage/serviceListManagement/serviceListPanelMain";
+import { ServiceListAddMain } from "./pages/common/mypage/serviceListManagement/serviceListAddMain";
+import { ServiceListUpdateMain } from "./pages/common/mypage/serviceListManagement/serviceListUpdateMain";
 
 export const routes = [
   {
@@ -92,11 +97,19 @@ export const routes = [
   },
   {
     path: "/repair/mypage/reservation/:reservationId",
-    element: <HistoryDetail />,
+    element: <ReservationHistoryDetail />,
   },
   {
     path: "/repair/privateShops/:repairShopId/estimate",
     element: <Estimate />,
+  },
+  {
+    path: "/repair/mypage/estimate",
+    element: <EstimateHistory />,
+  },
+  {
+    path: "/repair/mypage/estimate/:estimateId",
+    element: <EstimateHistoryDetail />,
   },
   {
     path: "/repair/publicShops/:repairShopId",
@@ -141,5 +154,17 @@ export const routes = [
   {
     path: "/mypage/incomeMonitor",
     element: <IncomeMain />,
+  },
+  {
+    path: "/mypage/serviceList/panel",
+    element: <ServiceListPanelMain />,
+  },
+  {
+    path: "/mypage/serviceList/add",
+    element: <ServiceListAddMain />,
+  },
+  {
+    path: "/mypage/serviceList/update",
+    element: <ServiceListUpdateMain />,
   },
 ];

@@ -1,6 +1,9 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { PrivateRepairShopData } from "../data/PrivateRepairShopData.js";
 import "../css/RepairShopDetail.css";
+import Reviews from "../review/index.js";
+
 const { kakao } = window;
 
 let map, lat, lng;
@@ -42,6 +45,8 @@ export const PrivateRepairShopDetail = () => {
   useEffect(() => {
     if (selectShop) {
       getPrivateShopLocation();
+    } else {
+      // 여기다가 스켈레톤 만들기
     }
   }, [selectShop]);
 
@@ -109,6 +114,29 @@ export const PrivateRepairShopDetail = () => {
                     ))}
                   </ul>
                 </div>
+                {JSON.parse(window.localStorage.getItem("user")).roleType ===
+                "MEMBER" ? (
+                  <div className="reservation_area">
+                    <div
+                      className="reservation_button"
+                      onClick={() => {
+                        window.location.href =
+                          window.location.pathname + "/reservation";
+                      }}
+                    >
+                      <p>예약하기</p>
+                    </div>
+                    <div
+                      className="reservation_button"
+                      onClick={() => {
+                        window.location.href =
+                          window.location.pathname + "/estimate";
+                      }}
+                    >
+                      <p>견적받기</p>
+                    </div>
+                  </div>
+                ) : null}
               </div>
               <div
                 className={
@@ -134,27 +162,10 @@ export const PrivateRepairShopDetail = () => {
                     : "content_visible invisible"
                 }
               >
-                <div className="shop_review_area">Tab menu THREE</div>
+                <div className="shop_review_area">
+                  <Reviews />
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="reservation_area">
-            <div
-              className="reservation_button"
-              onClick={() => {
-                window.location.href =
-                  window.location.pathname + "/reservation";
-              }}
-            >
-              <p>예약하기</p>
-            </div>
-            <div
-              className="reservation_button"
-              onClick={() => {
-                window.location.href = window.location.pathname + "/estimate";
-              }}
-            >
-              <p>견적받기</p>
             </div>
           </div>
         </>

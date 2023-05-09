@@ -1,17 +1,6 @@
-import {
-  Container,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Avatar,
-} from "@mui/material";
-
-import { useNavigate } from "react-router-dom";
+import { Container, Grid, Typography, Avatar } from "@mui/material";
 
 export const Header = ({ userName }) => {
-  const navigate = useNavigate();
-
   return (
     <Container
       maxWidth={false}
@@ -26,7 +15,6 @@ export const Header = ({ userName }) => {
         <Grid item xs={8}>
           <img src="/ItemLogo.png" width={"70%"}></img>
         </Grid>
-
         <Grid
           item
           xs={4}

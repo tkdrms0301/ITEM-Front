@@ -95,6 +95,7 @@ export const ReportResult = ({ isRegist }) => {
   };
   const onClickRegist = () => {
     //console.log("onClickRegist");
+
     navigate(
       {
         pathname: "/repair/readReport",

@@ -26,19 +26,25 @@
 }
 .report_page .area {
   position: relative;
-  border: 3px black solid;
-  margin: 20px;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  padding: 3%;
+  margin-top: 3%;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin: 3% 16px 20px 16px;
 }
 .report_page .product_info {
   margin-top: 25vw;
 }
 .report_page .area .line {
   position: absolute;
-  top: -15px;
+  top: -10px;
   left: 10px;
   background-color: white;
-  font-weight: bold;
-  font-size: 20px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 0.8rem;
 }
 .report_page .area .content {
   display: flex;

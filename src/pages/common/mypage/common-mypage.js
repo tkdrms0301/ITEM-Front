@@ -6,7 +6,7 @@ import {
   Typography,
   Avatar,
 } from "@mui/material";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "./header";
 import { Point } from "./point";
@@ -14,27 +14,50 @@ import { Account } from "./account";
 import { ButtonMenu } from "./buttonMenu";
 import { Subscription } from "./subscription";
 import { BottomMenu } from "./bottomMenu";
-import DeviceManagement from "../device-management/index";
 
 export const CommonMyPage = () => {
-  const [userName, setUserName] = useState("성세경");
-  const [userId, setUserId] = useState(9);
-  const [point, setPoint] = useState(15000);
-  const [isSubscription, setIsSubscription] = useState(true);
-  const [account, setAccount] = useState("충전계좌 : 하나은행 05-50053-34");
+  const [userState, setUserState] = useState({
+    userName: "",
+    userId: 0,
+    point: 0,
+    isSubscription: false,
+    account: "",
+    roleType: "",
+  });
 
-  const onSubmitUpdate = (e) => {
-    /* 정보수정 최종 요청 */
-  };
+  const { userName, userId, point, isSubscription, account, roleType } =
+    userState;
+
+  useEffect(() => {
+    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
+      //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
+
+      setUserState({
+        ...userState,
+        userName: JSON.parse(window.localStorage.getItem("user")).name,
+        userId: JSON.parse(window.localStorage.getItem("user")).memberId,
+        roleType: JSON.parse(window.localStorage.getItem("user")).roleType,
+        point: 15000,
+        account: "하나은행 05-50053-34",
+        isSubscription: true,
+      });
+    } else {
+      window.location.replace("/login");
+    }
+  }, []);
 
   return (
-    <Grid container>
-      <Header userName={userName}></Header>
-      <Point point={point}></Point>
-      <Account account={account}></Account>
-      <ButtonMenu></ButtonMenu>
-      <Subscription isSubscription={isSubscription}></Subscription>
-      <BottomMenu userId={userId}></BottomMenu>
-    </Grid>
+    <>
+      {userName !== "" ? (
+        <Grid container>
+          <Header userName={userName} />
+          <Point point={point} />
+          <Account account={account} />
+          <ButtonMenu />
+          <Subscription isSubscription={isSubscription} />
+          <BottomMenu userId={userId} roleType={roleType} />
+        </Grid>
+      ) : null}
+    </>
   );
 };

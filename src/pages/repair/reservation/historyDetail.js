@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { reservationHistoryForUser } from "../data/test";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { users } from "../data/test";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export const HistoryDetail = () => {
+export const ReservationHistoryDetail = ({ role }) => {
   const tmp = reservationHistoryForUser[0];
   const [data, setData] = useState(tmp);
+  const tempCurrentUserId = users[1].id;
+  const location = useLocation();
+  const navigate = useNavigate();
+
   console.log(data);
   return (
     <>
-      <TitleButtonBar title="예약 내역상세" />
+      <TitleButtonBar title="예약 내역" />
       <Container
         sx={{
           mt: "56px",
@@ -99,6 +105,8 @@ export const HistoryDetail = () => {
             alignContent={"flex-start"}
             sx={{
               borderBottom: "1px dashed #C4C4C4",
+              mb: "3%",
+              pb: "3%",
             }}
           >
             {data.service.map((item, index) => {
@@ -133,6 +141,8 @@ export const HistoryDetail = () => {
               flex: "1 0 auto",
               mt: "1%",
               borderBottom: "1px dashed #A4A4A4",
+              mb: "3%",
+              pb: "3%",
             }}
           >
             {data.userComment}
@@ -145,6 +155,62 @@ export const HistoryDetail = () => {
             예약 시간 : {data.date} {data.time}
           </Typography>
         </Box>
+        {console.log(location.state)}
+        {location.state?.role === "repair"
+          ? console.log("repair")
+          : console.log("fail")}
+        {location.state?.role === "repair" ? (
+          <Box
+            sx={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-around",
+              width: "100%",
+              height: "100px",
+              border: "1px solid #C4C4C4",
+              borderRadius: "4px",
+              mt: "3%",
+              padding: "3%",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                top: -10,
+                left: 10,
+                bgcolor: "white",
+                px: 1,
+                fontSize: "0.8rem",
+              }}
+            >
+              예약 처리
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() => {
+                console.log(data.id + " 번 예약" + " 거절");
+                navigate(-1);
+              }}
+              sx={{
+                width: "40%",
+                height: "80%",
+              }}
+            >
+              거절
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                console.log(data.id + " 번 예약" + " 수락");
+                navigate(-1);
+              }}
+              sx={{ width: "40%", height: "80%" }}
+            >
+              수락
+            </Button>
+          </Box>
+        ) : null}
       </Container>
     </>
   );

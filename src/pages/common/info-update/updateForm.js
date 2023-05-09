@@ -5,6 +5,7 @@ import {
   TextField,
   CssBaseline,
   Button,
+  Box,
 } from "@mui/material";
 import { useRef } from "react";
 
@@ -100,7 +101,7 @@ export const UpdateForm = () => {
       }}
     >
       <CssBaseline />
-      <form>
+      <Box>
         <Grid
           container
           spacing={2}
@@ -141,13 +142,13 @@ export const UpdateForm = () => {
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
+          color="primary" 
           onClick={signUpSubmit}
           sx={{ mt: 2 }}
         >
           정보 수정
         </Button>
-      </form>
+      </Box>
     </Container>
   );
 };

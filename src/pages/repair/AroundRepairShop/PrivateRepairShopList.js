@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../css/RepairShopList.css";
 import { getLocation } from "../hooks/getLocation";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "react-spring-bottom-sheet/dist/style.css";
 import { PrivateRepairShopData } from "../data/PrivateRepairShopData";
 import PrivateRepairListItem from "./PrivateRepairListItem";
 const { kakao } = window;
@@ -92,6 +94,31 @@ export const PrivateRepairShopList = () => {
   });
 
   return (
+    // <>
+    //   <div className="repair_map_area">
+    //     <div className="kakao_map" id="map">
+    //       <div className="repair_search_box">
+    //         <input
+    //           type="text"
+    //           className="repair_search_input"
+    //           value={searchRepairShop}
+    //           onChange={(e) => {
+    //             setSearchRepairShop(e.target.value);
+    //           }}
+    //         />
+    //       </div>
+    //     </div>
+    //     <div className="repair_list">
+    //       {searchRepairShop
+    //         ? filterName.map((shop, index) => (
+    //             <PrivateRepairListItem key={index} shop={shop} />
+    //           ))
+    //         : PrivateRepairShopData.map((shop, index) => (
+    //             <PrivateRepairListItem key={index} shop={shop} />
+    //           ))}
+    //     </div>
+    //   </div>
+    // </>
     <>
       <div className="repair_map_area">
         <div className="kakao_map" id="map">
@@ -106,15 +133,21 @@ export const PrivateRepairShopList = () => {
             />
           </div>
         </div>
-        <div className="repair_list">
-          {searchRepairShop
-            ? filterName.map((shop, index) => (
-                <PrivateRepairListItem key={index} shop={shop} />
-              ))
-            : PrivateRepairShopData.map((shop, index) => (
-                <PrivateRepairListItem key={index} shop={shop} />
-              ))}
-        </div>
+        <BottomSheet
+          open={true}
+          snapPoints={({ maxHeight }) => [maxHeight * 0.4, maxHeight * 0.8]}
+          blocking={false}
+        >
+          <div className="repair_list">
+            {searchRepairShop
+              ? filterName.map((shop, index) => (
+                  <PrivateRepairListItem key={index} shop={shop} />
+                ))
+              : PrivateRepairShopData.map((shop, index) => (
+                  <PrivateRepairListItem key={index} shop={shop} />
+                ))}
+          </div>
+        </BottomSheet>
       </div>
     </>
   );
