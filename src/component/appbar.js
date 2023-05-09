@@ -9,15 +9,6 @@ import { useEffect, useState } from "react";
 function ResponsiveAppBar() {
   const [isLogin, setIsLogin] = useState(false);
 
-  window.localStorage.setItem(
-    "user",
-    JSON.stringify({
-      memberId: 1,
-      name: "홍길동",
-      roleType: "MEMBER",
-    })
-  );
-
   useEffect(() => {
     console.log();
 

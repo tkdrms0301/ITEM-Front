@@ -5,6 +5,7 @@ import {
   TextField,
   CssBaseline,
   Button,
+  Box,
 } from "@mui/material";
 import { useRef } from "react";
 
@@ -44,6 +45,7 @@ export const SellerForm = ({ roleType }) => {
     console.log(companyAddress.current.value);
     console.log(companyPhoneNumber.current.value);
     console.log(companyDescription.current.value);
+    window.location.replace("/login");
   };
 
   const boxList = [
@@ -137,7 +139,7 @@ export const SellerForm = ({ roleType }) => {
       }}
     >
       <CssBaseline />
-      <form>
+      <Box>
         <Grid
           container
           spacing={2}
@@ -191,7 +193,7 @@ export const SellerForm = ({ roleType }) => {
             </Link>
           </Grid>
         </Grid>
-      </form>
+      </Box>
     </Container>
   );
 };
