@@ -5,6 +5,7 @@ import {
   TextField,
   CssBaseline,
   Button,
+  Box,
 } from "@mui/material";
 import { useRef } from "react";
 
@@ -42,6 +43,7 @@ export const RepairForm = ({ roleType }) => {
     console.log(shopAddress.current.value);
     console.log(shopPhoneNumber.current.value);
     console.log(shopDescription.current.value);
+    window.location.replace("/login");
   };
 
   const boxList = [
@@ -134,7 +136,7 @@ export const RepairForm = ({ roleType }) => {
       }}
     >
       <CssBaseline />
-      <form>
+      <Box>
         <Grid
           container
           spacing={2}
@@ -188,7 +190,7 @@ export const RepairForm = ({ roleType }) => {
             </Link>
           </Grid>
         </Grid>
-      </form>
+      </Box>
     </Container>
   );
 };

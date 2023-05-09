@@ -5,6 +5,7 @@ import {
   TextField,
   CssBaseline,
   Button,
+  Box,
 } from "@mui/material";
 import { useRef } from "react";
 
@@ -34,6 +35,7 @@ export const UserForm = ({ roleType }) => {
     console.log(password.current.value);
     console.log(passwordVali.current.value);
     console.log(phoneNumber.current.value);
+    window.location.replace("/login");
   };
 
   const boxList = [
@@ -99,7 +101,7 @@ export const UserForm = ({ roleType }) => {
       }}
     >
       <CssBaseline />
-      <form>
+      <Box>
         <Grid
           container
           spacing={2}
@@ -153,7 +155,7 @@ export const UserForm = ({ roleType }) => {
             </Link>
           </Grid>
         </Grid>
-      </form>
+      </Box>
     </Container>
   );
 };
