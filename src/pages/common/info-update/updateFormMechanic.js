@@ -33,7 +33,7 @@ export const UpdateFormMechanic = () => {
     console.log(passwordVali.current.value);
   };
 
-  const signUpSubmit = () => {
+  const infoUpdateSubmit = () => {
     console.log(emailRef.current.value);
     console.log(address.current.value);
     console.log(nickName.current.value);
@@ -179,7 +179,7 @@ export const UpdateFormMechanic = () => {
           fullWidth
           variant="contained"
           color="primary"
-          onClick={signUpSubmit}
+          onClick={infoUpdateSubmit}
           sx={{ mt: 2 }}
         >
           정보 수정
