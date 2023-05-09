@@ -1,7 +1,6 @@
 .repair_list_item {
   border: 1px rgb(151, 151, 151) solid;
   margin: 2px;
-  border-radius: 20px;
 }
 .repair_list_item .repair_list_item_info {
   padding: 0 10px;
