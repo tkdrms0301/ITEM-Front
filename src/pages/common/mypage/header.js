@@ -1,16 +1,6 @@
 import { Container, Grid, Typography, Avatar } from "@mui/material";
 
-import { useEffect, useState } from "react";
-
-export const Header = () => {
-  const [userName, setUserName] = useState("");
-
-  useEffect(() => {
-    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
-      setUserName(JSON.parse(window.localStorage.getItem("user")).name);
-    }
-  }, []);
-
+export const Header = ({ userName }) => {
   return (
     <Container
       maxWidth={false}

@@ -1,9 +1,18 @@
+import { useEffect, useState } from "react";
 import { Header } from "../common/mypage/header";
 
 export const Home = () => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
+      setUserName(JSON.parse(window.localStorage.getItem("user")).name);
+    }
+  }, []);
+
   return (
     <>
-      <Header></Header>
+      <Header userName={userName}></Header>
       <div>
         <h1>Home</h1>
       </div>

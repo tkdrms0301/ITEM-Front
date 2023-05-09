@@ -13,7 +13,7 @@ export const Account = ({ account }) => {
       <Grid container>
         <Grid item xs={12} sx={{ textAlign: "right" }}>
           <Typography sx={{ fontSize: "13px", fontWeight: "bold" }}>
-            {account}
+            충전계좌 : {account}
           </Typography>
         </Grid>
       </Grid>
