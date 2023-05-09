@@ -7,13 +7,11 @@ import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 
 function ResponsiveAppBar() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {
-    console.log();
-
-    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
-      setIsLogin(true);
+    if (JSON.parse(window.localStorage.getItem("user")) === null) {
+      setIsLogin(false);
     }
   }, []);
 
@@ -45,16 +43,16 @@ function ResponsiveAppBar() {
               </Typography>
             </Grid>
 
-            <Grid
-              item
-              xs={2}
-              sx={{
-                display: "flex",
-                alignContent: "center",
-                justifyContent: "center",
-              }}
-            >
-              {!isLogin ? (
+            {!isLogin ? (
+              <Grid
+                item
+                xs={2}
+                sx={{
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Typography
                   variant="h7"
                   noWrap
@@ -73,8 +71,8 @@ function ResponsiveAppBar() {
                 >
                   Login
                 </Typography>
-              ) : null}
-            </Grid>
+              </Grid>
+            ) : null}
           </Grid>
         </Toolbar>
       </Container>

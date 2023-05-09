@@ -14,7 +14,6 @@ import { Account } from "./account";
 import { ButtonMenu } from "./buttonMenu";
 import { Subscription } from "./subscription";
 import { BottomMenu } from "./bottomMenu";
-import DeviceManagement from "../device-management/index";
 
 export const CommonMyPage = () => {
   const [userState, setUserState] = useState({
@@ -29,10 +28,6 @@ export const CommonMyPage = () => {
   const { userName, userId, point, isSubscription, account, roleType } =
     userState;
 
-  const onSubmitUpdate = (e) => {
-    /* 정보수정 최종 요청 */
-  };
-
   useEffect(() => {
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
@@ -46,17 +41,23 @@ export const CommonMyPage = () => {
         account: "하나은행 05-50053-34",
         isSubscription: true,
       });
+    } else {
+      window.location.replace("/login");
     }
   }, []);
 
   return (
-    <Grid container>
-      <Header userName={userName}></Header>
-      <Point point={point}></Point>
-      <Account account={account}></Account>
-      <ButtonMenu></ButtonMenu>
-      <Subscription isSubscription={isSubscription}></Subscription>
-      <BottomMenu userId={userId}></BottomMenu>
-    </Grid>
+    <>
+      {userName !== "" ? (
+        <Grid container>
+          <Header userName={userName} />
+          <Point point={point} />
+          <Account account={account} />
+          <ButtonMenu />
+          <Subscription isSubscription={isSubscription} />
+          <BottomMenu userId={userId} roleType={roleType} />
+        </Grid>
+      ) : null}
+    </>
   );
 };
