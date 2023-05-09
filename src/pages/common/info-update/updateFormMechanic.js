@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useRef } from "react";
 
-export const UpdateForm = () => {
+export const UpdateFormMechanic = () => {
   const emailRef = useRef(null);
   const nickName = useRef(null);
   const address = useRef(null);
@@ -18,6 +18,10 @@ export const UpdateForm = () => {
   const passwordVali = useRef(null);
   const phoneNumber = useRef(null);
   const currentPassword = useRef(null);
+  const shopName = useRef(null);
+  const shopAddress = useRef(null);
+  const shopPhoneNumber = useRef(null);
+  const shopDescription = useRef(null);
 
   const validatecurrentPassword = (e) => {
     console.log(currentPassword.current.value);
@@ -37,6 +41,10 @@ export const UpdateForm = () => {
     console.log(newPassword.current.value);
     console.log(passwordVali.current.value);
     console.log(phoneNumber.current.value);
+    console.log(shopName.current.value);
+    console.log(shopAddress.current.value);
+    console.log(shopPhoneNumber.current.value);
+    console.log(shopDescription.current.value);
   };
 
   const boxList = [
@@ -47,6 +55,14 @@ export const UpdateForm = () => {
       label: "현재 비밀번호 확인",
       type: "password",
       vali: validatecurrentPassword,
+    },
+    {
+      name: "nickName",
+      ref: nickName,
+      id: "nickName",
+      label: "닉네임(중복불가)",
+      type: "nickName",
+      vali: validateNickname,
     },
     {
       name: "address",
@@ -71,19 +87,39 @@ export const UpdateForm = () => {
       vali: validatePassword,
     },
     {
-      name: "nickName",
-      ref: nickName,
-      id: "nickName",
-      label: "닉네임(중복불가)",
-      type: "nickName",
-      vali: validateNickname,
-    },
-    {
       name: "phoneNumber",
       ref: phoneNumber,
       id: "phoneNumber",
       label: "개인 휴대전화(-제외)",
       type: "phoneNumber",
+    },
+    {
+      name: "shopName",
+      ref: shopName,
+      id: "shopName",
+      label: "가게명",
+      type: "shopName",
+    },
+    {
+      name: "shopAddress",
+      ref: shopAddress,
+      id: "shopAddress",
+      label: "가게 주소",
+      type: "shopAddress",
+    },
+    {
+      name: "shopPhoneNumber",
+      ref: shopPhoneNumber,
+      id: "shopPhoneNumber",
+      label: "가게 전화번호",
+      type: "shopPhoneNumber",
+    },
+    {
+      name: "shopDescription",
+      ref: shopDescription,
+      id: "shopDescription",
+      label: "가게 설명",
+      type: "shopDescription",
     },
   ];
 
@@ -142,7 +178,7 @@ export const UpdateForm = () => {
           type="submit"
           fullWidth
           variant="contained"
-          color="primary" 
+          color="primary"
           onClick={signUpSubmit}
           sx={{ mt: 2 }}
         >
