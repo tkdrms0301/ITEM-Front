@@ -11,6 +11,8 @@ import { Box } from "@mui/system";
 import { useNavigate } from "react-router";
 
 export const Home = () => {
+  const navigate = useNavigate();
+
   const reservationMenu = [
     {
       title: "S/W 오류",
@@ -30,10 +32,12 @@ export const Home = () => {
     {
       title: "공식서비스",
       icon: <AppleIcon sx={{ fontSize: "35px" }} />,
+      route: "/repair/publicShops",
     },
     {
       title: "사설서비스",
       icon: <BuildIcon sx={{ fontSize: "35px" }} />,
+      route: "/repair/privateShops",
     },
   ];
 
@@ -64,8 +68,6 @@ export const Home = () => {
       });
     }
   }, []);
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -132,7 +134,10 @@ export const Home = () => {
             mr: 4,
           }}
         >
-          <Grid container>
+          <Grid
+            container
+            onClick={(e) => navigate(`/repair/mypage/reservation`)}
+          >
             <Grid
               item
               xs={12}
@@ -231,6 +236,7 @@ export const Home = () => {
                     mt: 2,
                   }}
                   key={index}
+                  onClick={(e) => {navigate(data.route)}}
                 >
                   {data.icon}
                   <Typography
