@@ -8,6 +8,7 @@ import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurned
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
 import AppleIcon from "@mui/icons-material/Apple";
 import { Box } from "@mui/system";
+import { useNavigate } from "react-router";
 
 export const Home = () => {
   const reservationMenu = [
@@ -63,6 +64,8 @@ export const Home = () => {
       });
     }
   }, []);
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -189,7 +192,7 @@ export const Home = () => {
               }}
             >
               <Typography
-                sx={{ pb: 3, mt: 1, color: "#DBDCDC", fontWeight: "bold" }}
+                sx={{ pb: 3, mt: 1, color: "white", fontWeight: "bold" }}
               >
                 첫 예약 혜택
               </Typography>
@@ -267,6 +270,7 @@ export const Home = () => {
                   fontWeight: "bold",
                   fontSize: "19px",
                 }}
+                onClick={(e) => navigate(`/community`)}
               >
                 내 IT 기기 묻고 답하기 {">"}
               </Typography>
