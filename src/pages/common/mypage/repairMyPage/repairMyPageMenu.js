@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const RepairMyPageMenu = () => {
-
   const [userState, setUserState] = useState({
     userName: "",
     userId: 0,
