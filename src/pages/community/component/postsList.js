@@ -9,7 +9,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  CircularProgress,
 } from "@mui/material";
 
 export const PostsList = ({ query }) => {
@@ -99,6 +98,15 @@ export const PostsList = ({ query }) => {
       </List>
     );
   };
+  //refresh function
+
+  // const refresh = () => {
+  //   setPage(1);
+  //   setPosts([]);
+  //   fetchMorePosts();
+  // };
+  // console.log(page);
+  // refresh function end
 
   // useEffect(() => {
   //   axios
@@ -128,10 +136,25 @@ export const PostsList = ({ query }) => {
       next={fetchMorePosts} // Function to load more posts
       hasMore={hasMore} // Boolean indicating if there are more posts to load
       loader={
-        <Box display="flex" justifyContent="center" mt={2}>
-          <CircularProgress />
-        </Box>
+        <p style={{ textAlign: "center" }}>
+          <b>Loading..</b>
+        </p>
       } // Loader component
+      endMessage={
+        <p style={{ textAlign: "center" }}>
+          <b>Yay! You have seen it all</b>
+        </p>
+      } // Message to display when there are no more posts to load
+      // refreshFunction={refresh}
+      // pullDownToRefresh
+      // pullDownToRefreshThreshold={50}
+      // pullDownToRefreshContent={
+      //   <h3 style={{ textAlign: "center" }}>&#8595; Pull down to refresh</h3>
+      // }
+      // releaseToRefreshContent={
+      //   <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
+      // }
+      sx={{ mb: "56px" }}
     >
       <PostListWithPage />
     </InfiniteScroll>
