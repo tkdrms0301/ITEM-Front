@@ -8,27 +8,40 @@ import {
   estimateHistoryForUser,
   estimateHistoryForRepair,
 } from "../data/test";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
+import { SelectFilter } from "../reservation/filter";
 
 export const EstimateHistory = () => {
+  //select filter
+  const [selectValue, setSelectValue] = useState("전체");
+
+  const handleChange = (event) => {
+    setSelectValue(event.target.value);
+  };
+  const itemList = ["전체", "예약 대기", "예약 완료", "정비 완료"];
+  console.log(
+    "🚀 ~ file: history.js:23 ~ ReservationHistory ~ selectValue:",
+    selectValue
+  );
+  //select filter end
+
+  //search date
   const [firstDate, setFirstDate] = useState(dayjs("2021-01-01"));
   const [secondaryDate, setSecondaryDate] = useState(dayjs("2023-05-02"));
   const buttonSubmit = () => {
     console.log(dayjs(firstDate).toDate());
     console.log(dayjs(secondaryDate).toDate());
   };
+  //search date end
 
-  const [currentUser, setCurrentUser] = useState(
-    // users[0] // user
-    users[1] // repair
-  );
+  //user & data
   const [data, setData] = useState(
-    currentUser.role === "user"
+    JSON.parse(window.localStorage.getItem("user")).roleType === "MEMBER"
       ? estimateHistoryForUser
       : estimateHistoryForRepair
   );
-  console.log(currentUser);
   console.log(data);
+  //user & data end
 
   return (
     <>
@@ -42,8 +55,28 @@ export const EstimateHistory = () => {
           setSecondaryDate={setSecondaryDate}
           buttonSubmit={buttonSubmit}
         />
+        <Box
+          sx={{
+            padding: "0 1rem",
+            mt: "1rem",
+          }}
+        >
+          <SelectFilter
+            selectValue={selectValue}
+            handleChange={handleChange}
+            itemList={itemList}
+          />
+        </Box>
 
-        <HistoryList itemList={data} role={currentUser.role} />
+        <HistoryList
+          itemList={data}
+          role={
+            JSON.parse(window.localStorage.getItem("user")).roleType ===
+            "MEMBER"
+              ? "user"
+              : "repair"
+          }
+        />
       </Container>
     </>
   );

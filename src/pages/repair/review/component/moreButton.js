@@ -29,6 +29,7 @@ export const MoreButton = (props) => {
     props.setReplyInfo({
       ...props.replyInfo,
       reply: props.commentContent,
+      rating: props.rating,
       commentId: props.commentId,
       shopId: props.shopId,
       ownerId: props.ownerId,

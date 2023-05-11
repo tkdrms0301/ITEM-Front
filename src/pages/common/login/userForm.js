@@ -7,7 +7,8 @@ import {
   Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useRef } from "react";
+import axios from "axios";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 
 export const LoginForm = () => {
@@ -15,19 +16,34 @@ export const LoginForm = () => {
   const passwordRef = useRef(null);
 
   const signInSubmit = () => {
-    console.log(idRef.current.value);
-    console.log(passwordRef.current.value);
+    const data = {
+      email: idRef.current.value,
+      password: passwordRef.current.value,
+    };
 
-    window.localStorage.setItem(
-      "user",
-      JSON.stringify({
-        memberId: 1,
-        name: "홍길동",
-        roleType: "MEMBER",
+    axios
+      .post("http://localhost:8080/api/auth/login", data)
+      .then((response) => {
+        console.log(response);
+        window.localStorage.setItem(
+          "user",
+          JSON.stringify({
+            memberId: response.data.data.memberId,
+            name: response.data.data.name,
+            roleType: response.data.data.roleType,
+          })
+        );
+
+        window.localStorage.setItem(
+          "token",
+          JSON.stringify({ accessToken: response.headers["access-token"] })
+        );
+
+        window.location.replace("/");
       })
-    );
-
-    window.location.replace("/");
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const boxList = [
@@ -57,8 +73,7 @@ export const LoginForm = () => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}
-    >
+      }}>
       <CssBaseline />
       <Box>
         <Grid
@@ -68,8 +83,7 @@ export const LoginForm = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}
-        >
+          }}>
           {boxList.map((data, index) => (
             <Grid
               item
@@ -79,8 +93,7 @@ export const LoginForm = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -100,8 +113,7 @@ export const LoginForm = () => {
             variant="contained"
             color="primary"
             onClick={signInSubmit}
-            sx={{ width: "80%", mt: 2 }}
-          >
+            sx={{ width: "80%", mt: 2 }}>
             로그인
           </Button>
         </Grid>
