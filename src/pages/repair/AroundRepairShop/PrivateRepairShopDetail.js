@@ -91,7 +91,8 @@ export const PrivateRepairShopDetail = () => {
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
-                  onClick={() => selectMenuHandler(index)}>
+                  onClick={() => selectMenuHandler(index)}
+                >
                   {el.name}
                 </li>
               ))}
@@ -102,7 +103,8 @@ export const PrivateRepairShopDetail = () => {
                   currentTab === 0
                     ? "content_visible"
                     : "content_visible invisible"
-                }>
+                }
+              >
                 <div className="shop_service_area">
                   <ul className="shop_service_list">
                     {selectShop.services.map((service, index) => (
@@ -112,31 +114,37 @@ export const PrivateRepairShopDetail = () => {
                     ))}
                   </ul>
                 </div>
-                <div className="reservation_area">
-                  <div
-                    className="reservation_button"
-                    onClick={() => {
-                      window.location.href =
-                        window.location.pathname + "/reservation";
-                    }}>
-                    <p>예약하기</p>
+                {JSON.parse(window.localStorage.getItem("user")).roleType ===
+                "MEMBER" ? (
+                  <div className="reservation_area">
+                    <div
+                      className="reservation_button"
+                      onClick={() => {
+                        window.location.href =
+                          window.location.pathname + "/reservation";
+                      }}
+                    >
+                      <p>예약하기</p>
+                    </div>
+                    <div
+                      className="reservation_button"
+                      onClick={() => {
+                        window.location.href =
+                          window.location.pathname + "/estimate";
+                      }}
+                    >
+                      <p>견적받기</p>
+                    </div>
                   </div>
-                  <div
-                    className="reservation_button"
-                    onClick={() => {
-                      window.location.href =
-                        window.location.pathname + "/estimate";
-                    }}>
-                    <p>견적받기</p>
-                  </div>
-                </div>
+                ) : null}
               </div>
               <div
                 className={
                   currentTab === 1
                     ? "content_visible"
                     : "content_visible invisible"
-                }>
+                }
+              >
                 <div className="shop_address_and_phonenum">
                   <div className="kakao_map" id="repair_shop_map"></div>
                   <div className="shop_address">
@@ -152,7 +160,8 @@ export const PrivateRepairShopDetail = () => {
                   currentTab === 2
                     ? "content_visible"
                     : "content_visible invisible"
-                }>
+                }
+              >
                 <div className="shop_review_area">
                   <Reviews />
                 </div>

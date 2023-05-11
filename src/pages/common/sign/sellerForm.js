@@ -5,6 +5,7 @@ import {
   TextField,
   CssBaseline,
   Button,
+  Box,
 } from "@mui/material";
 import { useRef } from "react";
 
@@ -30,6 +31,9 @@ export const SellerForm = ({ roleType }) => {
   const validatePassword = (e) => {
     console.log(passwordVali.current.value);
   };
+  const companyNumberPassword = (e) => {
+    console.log(companyNumber.current.value);
+  };
 
   const signUpSubmit = () => {
     console.log(roleType);
@@ -44,6 +48,7 @@ export const SellerForm = ({ roleType }) => {
     console.log(companyAddress.current.value);
     console.log(companyPhoneNumber.current.value);
     console.log(companyDescription.current.value);
+    window.location.replace("/login");
   };
 
   const boxList = [
@@ -107,6 +112,7 @@ export const SellerForm = ({ roleType }) => {
       id: "companyNumber",
       label: "사업자번호",
       type: "companyNumber",
+      vali: companyNumberPassword,
     },
     {
       name: "companyPhoneNumber",
@@ -137,7 +143,7 @@ export const SellerForm = ({ roleType }) => {
       }}
     >
       <CssBaseline />
-      <form>
+      <Box>
         <Grid
           container
           spacing={2}
@@ -166,7 +172,8 @@ export const SellerForm = ({ roleType }) => {
               />
               {data.name === "email" ||
               data.name === "nickName" ||
-              data.name === "password-validate" ? (
+              data.name === "password-validate" ||
+              data.name === "companyNumber" ? (
                 <Button variant="outlined" sx={{ ml: 2 }} onClick={data.vali}>
                   중복확인
                 </Button>
@@ -191,7 +198,7 @@ export const SellerForm = ({ roleType }) => {
             </Link>
           </Grid>
         </Grid>
-      </form>
+      </Box>
     </Container>
   );
 };

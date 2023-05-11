@@ -1,56 +1,283 @@
+import { useEffect, useState } from "react";
 import { Header } from "../common/mypage/header";
+import { Grid, Typography } from "@mui/material";
+import ArticleIcon from "@mui/icons-material/Article";
+import SystemSecurityUpdateWarningIcon from "@mui/icons-material/SystemSecurityUpdateWarning";
+import BuildIcon from "@mui/icons-material/Build";
+import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
+import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
+import AppleIcon from "@mui/icons-material/Apple";
+import { Box } from "@mui/system";
+import { useNavigate } from "react-router";
 
 export const Home = () => {
+  const reservationMenu = [
+    {
+      title: "S/W 오류",
+      icon: <SystemSecurityUpdateWarningIcon sx={{ fontSize: "35px" }} />,
+    },
+    {
+      title: "수리",
+      icon: <BuildIcon sx={{ fontSize: "35px" }} />,
+    },
+    {
+      title: "점검",
+      icon: <AssignmentTurnedInOutlinedIcon sx={{ fontSize: "35px" }} />,
+    },
+  ];
+
+  const aroundPlaceMenu = [
+    {
+      title: "공식서비스",
+      icon: <AppleIcon sx={{ fontSize: "35px" }} />,
+    },
+    {
+      title: "사설서비스",
+      icon: <BuildIcon sx={{ fontSize: "35px" }} />,
+    },
+  ];
+
+  const [userState, setUserState] = useState({
+    userName: "",
+    userId: 0,
+    point: 0,
+    isSubscription: false,
+    account: "",
+    roleType: "",
+  });
+
+  const { userName, userId, point, isSubscription, account, roleType } =
+    userState;
+
+  useEffect(() => {
+    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
+      //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
+
+      setUserState({
+        ...userState,
+        userName: JSON.parse(window.localStorage.getItem("user")).name,
+        userId: JSON.parse(window.localStorage.getItem("user")).memberId,
+        roleType: JSON.parse(window.localStorage.getItem("user")).roleType,
+        point: 15000,
+        account: "하나은행 05-50053-34",
+        isSubscription: true,
+      });
+    }
+  }, []);
+
+  const navigate = useNavigate();
+
   return (
     <>
-      <Header></Header>
-      <div>
-        <h1>Home</h1>
-      </div>
-      <div>
-        Ad reprehenderit irure elit magna eu nisi sit fugiat nisi enim nostrud
-        et. Reprehenderit consequat eiusmod pariatur consequat nulla sunt eu
-        sint incididunt elit sunt. Voluptate ipsum sunt dolor aliqua. Do qui
-        amet incididunt et. Laborum velit reprehenderit non ut deserunt.
-        Pariatur aliqua dolore magna reprehenderit occaecat anim laboris eiusmod
-        excepteur. Qui officia dolor Lorem aliqua ut eu nulla nulla incididunt
-        culpa consequat. Dolore laborum cillum aliqua pariatur est est sint do
-        exercitation. Reprehenderit sint commodo culpa laboris qui irure laboris
-        ipsum ipsum excepteur ad do et. Officia voluptate dolor aliquip laborum
-        labore commodo reprehenderit. Consequat mollit est id ullamco excepteur
-        mollit. Officia cupidatat adipisicing consectetur tempor velit est ad
-        non velit excepteur ad. Consequat adipisicing enim ut est sunt veniam
-        Lorem sit ut. Dolore ut consequat consequat velit duis. Duis duis culpa
-        mollit ut. Sunt sint dolor aute ex mollit esse proident. Lorem enim
-        commodo aliqua cupidatat elit. Magna anim et consequat voluptate. Id et
-        culpa ullamco eu consequat. Lorem tempor duis tempor mollit. Nostrud
-        consequat sunt ex proident aliqua officia consequat nostrud veniam qui
-        quis ea. Consequat qui amet deserunt veniam nisi. Anim ut cupidatat
-        proident nisi. Magna et qui consectetur ipsum amet. Cupidatat consequat
-        aliquip eiusmod quis amet. Anim ea adipisicing anim dolore non aliqua
-        exercitation pariatur nisi consectetur qui adipisicing laboris. Laborum
-        culpa officia mollit nulla cillum voluptate elit ullamco dolor velit.
-        Anim occaecat adipisicing dolore labore commodo laboris ullamco nulla
-        cillum voluptate elit pariatur nulla aliqua. Ea dolor irure non do ut
-        laboris nostrud mollit. Exercitation adipisicing quis dolore ex mollit
-        id adipisicing ad laboris eu esse occaecat sunt culpa. Exercitation
-        officia do occaecat do laborum dolor. Esse cupidatat nisi commodo
-        adipisicing fugiat consectetur eu. Voluptate dolore cupidatat est ad
-        cillum officia in labore nisi in. Tempor reprehenderit ut aliqua ad
-        commodo id eu sit dolor dolore irure. Proident Lorem tempor excepteur
-        eiusmod in pariatur consequat irure dolore incididunt anim amet laborum
-        qui. Proident reprehenderit duis consectetur ut officia reprehenderit ea
-        incididunt officia commodo duis sint ipsum. Dolore pariatur ea in quis
-        aliquip consectetur duis excepteur. Est exercitation eu cillum elit enim
-        velit mollit. Non laborum consequat reprehenderit nisi dolore magna
-        magna dolor sit. Cillum Lorem laborum aliquip quis ex amet irure laborum
-        in mollit proident occaecat ipsum ea. Tempor reprehenderit incididunt
-        qui minim in adipisicing. Duis dolore elit deserunt nisi velit minim
-        quis Lorem culpa consectetur irure. Irure veniam esse officia laborum
-        non incididunt veniam. Officia quis culpa nostrud deserunt fugiat ea
-        aute. Cillum fugiat dolore ad et ut excepteur cillum do excepteur anim
-        aute sit aute.
-      </div>
+      {userName !== "" ? <Header userName={userName}></Header> : null}
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Grid
+          item
+          xs={11}
+          sx={{
+            border: "1px solid gray",
+            borderRadius: "15px",
+            pt: 2,
+            mt: 2,
+            backgroundColor: "#F0F0F0",
+          }}
+        >
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
+                정비소 예약
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "space-around" }}
+            >
+              {reservationMenu.map((data, index) => (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    mt: 2,
+                  }}
+                  key={index}
+                >
+                  {data.icon}
+                  <Typography
+                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
+                  >
+                    {data.title}
+                  </Typography>
+                </Box>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={5}
+          sx={{
+            border: "1px solid gray",
+            borderRadius: "15px",
+            mt: 2,
+            backgroundColor: "#F0F0F0",
+            mr: 4,
+          }}
+        >
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                pt: 3,
+              }}
+            >
+              <ArticleIcon sx={{ fontSize: "35px" }} />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ pb: 3, mt: 1, fontWeight: "bold" }}>
+                정비리포트
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={5}
+          sx={{
+            borderRadius: "15px",
+            mt: 2,
+            backgroundColor: "#86C2FD",
+          }}
+        >
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                pt: 3,
+              }}
+            >
+              <LocalActivityOutlinedIcon sx={{ fontSize: "35px" }} />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{ pb: 3, mt: 1, color: "white", fontWeight: "bold" }}
+              >
+                첫 예약 혜택
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid
+          item
+          xs={11}
+          sx={{
+            border: "1px solid gray",
+            borderRadius: "15px",
+            pt: 2,
+            mt: 2,
+            backgroundColor: "#F0F0F0",
+          }}
+        >
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
+                내 주변 장소
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "space-around" }}
+            >
+              {aroundPlaceMenu.map((data, index) => (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    mt: 2,
+                  }}
+                  key={index}
+                >
+                  {data.icon}
+                  <Typography
+                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
+                  >
+                    {data.title}
+                  </Typography>
+                </Box>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid
+          item
+          xs={11}
+          sx={{
+            border: "1px solid gray",
+            borderRadius: "10px",
+            p: 1,
+            mt: 2,
+            backgroundColor: "#E8E8E8",
+          }}
+        >
+          <Grid container sx={{}}>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "19px",
+                }}
+                onClick={(e) => navigate(`/community`)}
+              >
+                내 IT 기기 묻고 답하기 {">"}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };

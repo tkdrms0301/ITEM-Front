@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../css/RepairShopList.css";
 import { getLocation } from "../hooks/getLocation";
+import { BottomSheet } from "react-spring-bottom-sheet";
+
 import { PublicRepairShopData } from "../data/PublicRepairShopData";
 import PublicRepairListItem from "./PublicRepairListItem";
 const { kakao } = window;
@@ -106,15 +108,21 @@ export const PublicRepairShopList = () => {
             />
           </div>
         </div>
-        <div className="repair_list">
-          {searchRepairShop
-            ? filterName.map((shop, index) => (
-                <PublicRepairListItem key={index} shop={shop} />
-              ))
-            : PublicRepairShopData.map((shop, index) => (
-                <PublicRepairListItem key={index} shop={shop} />
-              ))}
-        </div>
+        <BottomSheet
+          open={true}
+          snapPoints={({ maxHeight }) => [maxHeight * 0.4, maxHeight * 0.8]}
+          blocking={false}
+        >
+          <div className="repair_list">
+            {searchRepairShop
+              ? filterName.map((shop, index) => (
+                  <PublicRepairListItem key={index} shop={shop} />
+                ))
+              : PublicRepairShopData.map((shop, index) => (
+                  <PublicRepairListItem key={index} shop={shop} />
+                ))}
+          </div>
+        </BottomSheet>
       </div>
     </>
   );

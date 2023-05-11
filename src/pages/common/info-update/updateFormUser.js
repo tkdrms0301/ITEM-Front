@@ -9,20 +9,18 @@ import {
 } from "@mui/material";
 import { useRef } from "react";
 
-export const RepairForm = ({ roleType }) => {
+export const UpdateFormUser = () => {
   const emailRef = useRef(null);
   const nickName = useRef(null);
   const address = useRef(null);
   const password = useRef(null);
+  const newPassword = useRef(null);
   const passwordVali = useRef(null);
   const phoneNumber = useRef(null);
-  const shopName = useRef(null);
-  const shopAddress = useRef(null);
-  const shopPhoneNumber = useRef(null);
-  const shopDescription = useRef(null);
+  const currentPassword = useRef(null);
 
-  const validateEmail = (e) => {
-    console.log(emailRef.current.value);
+  const validatecurrentPassword = (e) => {
+    console.log(currentPassword.current.value);
   };
   const validateNickname = (e) => {
     console.log(nickName.current.value);
@@ -31,29 +29,24 @@ export const RepairForm = ({ roleType }) => {
     console.log(passwordVali.current.value);
   };
 
-  const signUpSubmit = () => {
-    console.log(roleType);
+  const infoUpdateSubmit = () => {
     console.log(emailRef.current.value);
     console.log(address.current.value);
     console.log(nickName.current.value);
     console.log(password.current.value);
+    console.log(newPassword.current.value);
     console.log(passwordVali.current.value);
     console.log(phoneNumber.current.value);
-    console.log(shopName.current.value);
-    console.log(shopAddress.current.value);
-    console.log(shopPhoneNumber.current.value);
-    console.log(shopDescription.current.value);
-    window.location.replace("/login");
   };
 
   const boxList = [
     {
-      name: "email",
-      ref: emailRef,
-      id: "email",
-      label: "이메일 주소",
-      type: "email",
-      vali: validateEmail,
+      name: "currentPassword",
+      ref: currentPassword,
+      id: "currentPassword",
+      label: "현재 비밀번호 확인",
+      type: "password",
+      vali: validatecurrentPassword,
     },
     {
       name: "nickName",
@@ -69,57 +62,29 @@ export const RepairForm = ({ roleType }) => {
       id: "address",
       label: "사용자 주소",
       type: "address",
-      vali: validateNickname,
     },
     {
-      name: "password",
-      ref: password,
-      id: "password",
-      label: "비밀번호",
-      type: "password",
+      name: "newPassword",
+      ref: newPassword,
+      id: "newPassword",
+      label: "새 비밀번호",
+      type: "newPassword",
     },
     {
-      name: "password-validate",
+      name: "passwordVali",
       ref: passwordVali,
-      id: "password-validate",
+      id: "passwordVali",
       label: "비밀번호 확인",
-      type: "password",
+      type: "passwordVali",
       vali: validatePassword,
     },
+
     {
       name: "phoneNumber",
       ref: phoneNumber,
       id: "phoneNumber",
-      label: "개인 휴대전화(- 제외)",
+      label: "개인 휴대전화(-제외)",
       type: "phoneNumber",
-    },
-    {
-      name: "shopName",
-      ref: shopName,
-      id: "shopName",
-      label: "가게명",
-      type: "shopName",
-    },
-    {
-      name: "shopAddress",
-      ref: shopAddress,
-      id: "shopAddress",
-      label: "가게 주소",
-      type: "shopAddress",
-    },
-    {
-      name: "shopPhoneNumber",
-      ref: shopPhoneNumber,
-      id: "shopPhoneNumber",
-      label: "가게 전화번호",
-      type: "shopPhoneNumber",
-    },
-    {
-      name: "shopDescription",
-      ref: shopDescription,
-      id: "shopDescription",
-      label: "가게 설명",
-      type: "shopDescription",
     },
   ];
 
@@ -127,6 +92,7 @@ export const RepairForm = ({ roleType }) => {
     <Container
       component="main"
       sx={{
+        mt: "56px",
         width: "80%",
         display: "flex",
         justifyContent: "center",
@@ -163,9 +129,9 @@ export const RepairForm = ({ roleType }) => {
                 type={data.type}
                 sx={{ width: "60%" }}
               />
-              {data.name === "email" ||
+              {data.name === "currentPassword" ||
               data.name === "nickName" ||
-              data.name === "password-validate" ? (
+              data.name === "passwordVali" ? (
                 <Button variant="outlined" sx={{ ml: 2 }} onClick={data.vali}>
                   중복확인
                 </Button>
@@ -178,18 +144,11 @@ export const RepairForm = ({ roleType }) => {
           fullWidth
           variant="contained"
           color="primary"
-          onClick={signUpSubmit}
+          onClick={infoUpdateSubmit}
           sx={{ mt: 2 }}
         >
-          Sign Up
+          정보 수정
         </Button>
-        <Grid container justify="flex-end" sx={{ mt: 2 }}>
-          <Grid item>
-            <Link href="/login" variant="body2">
-              이미 아이디가 있습니까? 로그인
-            </Link>
-          </Grid>
-        </Grid>
       </Box>
     </Container>
   );
