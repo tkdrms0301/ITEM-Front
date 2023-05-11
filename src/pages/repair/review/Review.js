@@ -1,5 +1,6 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, Rating } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
+import { useState } from "react";
 
 const Review = ({
   sessionId,
@@ -33,11 +34,21 @@ const Review = ({
             alignItems="center"
             justifyContent="center"
             spacing={1}>
-            <Grid item xs={10}>
+            <Grid item xs={isReply ? 10 : 5}>
               <Typography variant="subtitle1" fontWeight="bold" align="left">
                 {comment.user.username}
               </Typography>
             </Grid>
+            {isReply ? null : (
+              <Grid item xs={5}>
+                <Rating
+                  readOnly
+                  name="simple-controlled"
+                  value={comment.rating}
+                />
+              </Grid>
+            )}
+
             <Grid item xs={2}>
               <MoreButton
                 ownerId={comment.user.id}
@@ -46,6 +57,7 @@ const Review = ({
                 handleReplyOpen={handleReplyOpen}
                 handleReportOpen={handleReportOpen}
                 setReportInfo={setReportInfo}
+                rating={comment.rating}
                 commentContent={comment.body}
                 sessionId={sessionId}
                 isReply={isReply}

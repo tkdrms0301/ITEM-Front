@@ -4,6 +4,7 @@ const commentList = [
     body: "You are engaging.You are engaging.You are engaging.You are engaging.You are engaging.You are engaging.You are engaging.You are engaging.You are engaging.",
     shopId: 2,
     user: { id: 71, username: "omarsland1y" },
+    rating: 5,
     comments: [],
   },
   {
@@ -11,6 +12,7 @@ const commentList = [
     body: "I really like your creativity!",
     shopId: 2,
     user: { id: 39, username: "lgherardi12" },
+    rating: 3,
     comments: [
       {
         id: 32,
@@ -25,6 +27,7 @@ const commentList = [
     body: "Your sense of fashion is great.\nYou're helping us sound lovely.\nYou are engaging.\nYour sense of fashion is great.\nYou're helping us sound lovely.\nYou are engaging.\nYour sense of fashion is great.\nYou're helping us sound lovely.\nYou are engaging.",
     shopId: 2,
     user: { id: 4, username: "yraigatt3" },
+    rating: 4,
     comments: [
       {
         id: 138,
@@ -39,6 +42,7 @@ const commentList = [
     body: "You're helping us sound lovely.",
     shopId: 2,
     user: { id: 73, username: "wfeldon20" },
+    rating: 5,
     comments: [
       {
         id: 152,
@@ -53,6 +57,7 @@ const commentList = [
     body: "You are engaging.",
     shopId: 2,
     user: { id: 71, username: "omarsland1y" },
+    rating: 3,
     comments: [
       {
         id: 213,

@@ -45,6 +45,7 @@ const Reviews = () => {
 
   const [replyInfo, setReplyInfo] = useState({
     reply: "",
+    rating: 0,
     commentId: 0,
     shopId: shopId,
     sessionId: sessionId,
@@ -57,6 +58,7 @@ const Reviews = () => {
     setReplyInfo({
       ...replyInfo,
       commentId: 0,
+      rating: 0,
       isUpdate: false,
       isComment: false,
     });
@@ -67,6 +69,7 @@ const Reviews = () => {
     setReplyInfo({
       ...replyInfo,
       reply: "",
+      rating: 0,
       isUpdate: false,
       isComment: true,
     });
