@@ -104,22 +104,19 @@ export const PostForm = () => {
             maxWidth: "sm",
             backgroundColor: "white",
             zIndex: 100,
-          }}
-        >
+          }}>
           <Box
             sx={{
               height: "100%",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-            }}
-          >
+            }}>
             <BackButton />
             <Button
               type="submit"
               variant="contained"
-              sx={{ width: "15%", height: "70%", mr: "3%" }}
-            >
+              sx={{ width: "15%", height: "70%", mr: "3%" }}>
               {isUpdating ? "등록" : "수정"}
             </Button>
           </Box>
@@ -167,8 +164,7 @@ export const PostForm = () => {
               mt: "3%",
               mb: "1%",
               padding: "3%",
-            }}
-          >
+            }}>
             <Typography variant="h5" fontWeight="bold">
               {"이미지 업로드"}
             </Typography>
