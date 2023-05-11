@@ -13,19 +13,18 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { users } from "../data/test";
-import { useNavigate, useLocation } from "react-router-dom";
+
+import { useLocation } from "react-router-dom";
 
 export const EstimateHistoryDetail = ({ role }) => {
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const testNeedStatus = 0;
   const [data, setData] = useState(
     location.state?.role === "user"
-      ? estimateHistoryForUser[testNeedStatus]
-      : estimateHistoryForRepair[testNeedStatus]
+      ? estimateHistoryForUser[0] // user, waiting
+      : // estimateHistoryForUser[1] // user, complete
+        estimateHistoryForRepair[0] // repair, waiting
+    // estimateHistoryForRepair[1] // repair, complete
   );
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -214,7 +213,7 @@ export const EstimateHistoryDetail = ({ role }) => {
             <Box
               component="img"
               src={data.img}
-              alt={data.product}
+              alt={data.productName}
               sx={{
                 width: "40%",
                 height: "100%",
@@ -233,7 +232,7 @@ export const EstimateHistoryDetail = ({ role }) => {
               }}
             ></Box>
           )}
-          <Typography>{data.product}</Typography>
+          <Typography>{data.productName}</Typography>
         </Box>
         <Box
           sx={{
