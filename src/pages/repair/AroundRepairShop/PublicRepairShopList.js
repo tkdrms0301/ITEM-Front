@@ -8,6 +8,8 @@ import PublicRepairListItem from "./PublicRepairListItem";
 const { kakao } = window;
 
 export const PublicRepairShopList = () => {
+  const [sortedRepairShopList, setSortedRepairShopList] = useState();
+
   function displayMarker(locPosition, message, map, cur) {
     var marker;
     if (cur) {
@@ -55,37 +57,43 @@ export const PublicRepairShopList = () => {
 
           var geocoder = new kakao.maps.services.Geocoder();
 
-          PublicRepairShopData.map((shop) => {
-            geocoder.addressSearch(shop.shopAddress, function (result, status) {
-              if (status === kakao.maps.services.Status.OK) {
-                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          const promises = PublicRepairShopData.map((shop) => {
+            return new Promise((resolve) => {
+              geocoder.addressSearch(
+                shop.shopAddress,
+                function (result, status) {
+                  if (status === kakao.maps.services.Status.OK) {
+                    var coords = new kakao.maps.LatLng(
+                      result[0].y,
+                      result[0].x
+                    );
 
-                displayMarker(coords, shop.shopName, map, false);
+                    displayMarker(coords, shop.shopName, map, false);
 
-                shop.distance =
-                  Math.round(
-                    getDistance(
-                      {
-                        latitude: options.center.La,
-                        longitude: options.center.Ma,
-                      },
-                      { latitude: coords.La, longitude: coords.Ma }
-                    ) / 100
-                  ) / 10;
+                    shop.distance =
+                      Math.round(
+                        getDistance(
+                          {
+                            latitude: options.center.La,
+                            longitude: options.center.Ma,
+                          },
+                          { latitude: coords.La, longitude: coords.Ma }
+                        ) / 100
+                      ) / 10;
+                    if (shop.distance < 5) {
+                      bounds.extend(coords);
+                    }
 
-                if (shop.distance < 5) {
-                  bounds.extend(coords);
+                    resolve(shop);
+                  }
                 }
-
-                const moveLatLon = new kakao.maps.LatLng(
-                  res.latitude,
-                  res.longitude
-                );
-
-                map.setCenter(moveLatLon);
-                map.setBounds(bounds);
-              }
+              );
             });
+          });
+          Promise.all(promises).then((sortedRepairShopList) => {
+            sortedRepairShopList.sort((a, b) => a.distance - b.distance);
+            setSortedRepairShopList(sortedRepairShopList);
+            map.setBounds(bounds);
           });
         } else {
           alert("위치 정보를 가져올 수 없습니다.");
@@ -98,7 +106,7 @@ export const PublicRepairShopList = () => {
 
   const [searchRepairShop, setSearchRepairShop] = useState("");
 
-  const filterName = PublicRepairShopData.filter((p) => {
+  const filterName = sortedRepairShopList?.filter((p) => {
     return (
       p.shopName
         .replace(" ", "")
@@ -133,14 +141,10 @@ export const PublicRepairShopList = () => {
         >
           <div className="repair_list">
             {searchRepairShop
-              ? filterName
-                  .sort((a, b) => a.distance - b.distance)
-                  .map((shop, index) => (
-                    <PublicRepairListItem key={index} shop={shop} />
-                  ))
-              : PublicRepairShopData.sort(
-                  (a, b) => a.distance - b.distance
-                ).map((shop, index) => (
+              ? filterName.map((shop, index) => (
+                  <PublicRepairListItem key={index} shop={shop} />
+                ))
+              : sortedRepairShopList?.map((shop, index) => (
                   <PublicRepairListItem key={index} shop={shop} />
                 ))}
           </div>
