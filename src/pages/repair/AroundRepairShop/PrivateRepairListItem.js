@@ -11,7 +11,10 @@ const PrivateRepairListItem = ({ shop }) => {
       >
         <div className="repair_list_item">
           <div className="repair_list_item_info">
-            <div className="repair_list_item_info_name">{shop.shopName}</div>
+            <div className="repair_item_name_area">
+              <div className="repair_list_item_info_name">{shop.shopName}</div>
+              <div className="form_cur_distance">{shop.distance}Km</div>
+            </div>
             <div className="repair_list_item_info_address">
               {shop.shopAddress}
             </div>

@@ -211,7 +211,7 @@ export const HistoryList = ({ itemList, role }) => {
                       color: "#747373",
                     }}
                   >
-                    {data.product}
+                    {data.productName}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sx={{ mt: 0.5 }}>

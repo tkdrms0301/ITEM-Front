@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/RepairShopList.css";
 import { getLocation } from "../hooks/getLocation";
+import { getDistance } from "geolib";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import { PrivateRepairShopData } from "../data/PrivateRepairShopData";
@@ -40,6 +41,8 @@ export const PrivateRepairShopList = () => {
 
   async function setRepairShopMapMark() {
     await getLocation().then((res) => {
+      var bounds = new kakao.maps.LatLngBounds();
+
       if (res.latitude) {
         var container = document.getElementById("map");
         var options = {
@@ -49,7 +52,7 @@ export const PrivateRepairShopList = () => {
         var map = new kakao.maps.Map(container, options);
 
         displayMarker(options.center, "현재위치", map, true);
-
+        bounds.extend(options.center);
         var geocoder = new kakao.maps.services.Geocoder();
 
         PrivateRepairShopData.map((shop) => {
@@ -59,12 +62,27 @@ export const PrivateRepairShopList = () => {
 
               displayMarker(coords, shop.shopName, map, false);
 
+              shop.distance =
+                Math.round(
+                  getDistance(
+                    {
+                      latitude: options.center.La,
+                      longitude: options.center.Ma,
+                    },
+                    { latitude: coords.La, longitude: coords.Ma }
+                  ) / 100
+                ) / 10;
+
+              if (shop.distance < 5) {
+                bounds.extend(coords);
+              }
               const moveLatLon = new kakao.maps.LatLng(
                 res.latitude,
                 res.longitude
               );
 
               map.setCenter(moveLatLon);
+              map.setBounds(bounds);
             }
           });
         });
@@ -93,32 +111,8 @@ export const PrivateRepairShopList = () => {
     );
   });
 
+  PrivateRepairShopData.sort((a, b) => a.distance - b.distance);
   return (
-    // <>
-    //   <div className="repair_map_area">
-    //     <div className="kakao_map" id="map">
-    //       <div className="repair_search_box">
-    //         <input
-    //           type="text"
-    //           className="repair_search_input"
-    //           value={searchRepairShop}
-    //           onChange={(e) => {
-    //             setSearchRepairShop(e.target.value);
-    //           }}
-    //         />
-    //       </div>
-    //     </div>
-    //     <div className="repair_list">
-    //       {searchRepairShop
-    //         ? filterName.map((shop, index) => (
-    //             <PrivateRepairListItem key={index} shop={shop} />
-    //           ))
-    //         : PrivateRepairShopData.map((shop, index) => (
-    //             <PrivateRepairListItem key={index} shop={shop} />
-    //           ))}
-    //     </div>
-    //   </div>
-    // </>
     <>
       <div className="repair_map_area">
         <div className="kakao_map" id="map">
@@ -140,10 +134,14 @@ export const PrivateRepairShopList = () => {
         >
           <div className="repair_list">
             {searchRepairShop
-              ? filterName.map((shop, index) => (
-                  <PrivateRepairListItem key={index} shop={shop} />
-                ))
-              : PrivateRepairShopData.map((shop, index) => (
+              ? filterName
+                  .sort((a, b) => a.distance - b.distance)
+                  .map((shop, index) => (
+                    <PrivateRepairListItem key={index} shop={shop} />
+                  ))
+              : PrivateRepairShopData.sort(
+                  (a, b) => a.distance - b.distance
+                ).map((shop, index) => (
                   <PrivateRepairListItem key={index} shop={shop} />
                 ))}
           </div>
