@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 
 function ResponsiveAppBar() {
   const [isLogin, setIsLogin] = useState(true);
@@ -20,14 +21,13 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-            <Grid item xs={10}>
+            <Grid item xs={12}>
               <Typography
                 variant="h5"
                 noWrap
                 component="a"
                 href="/"
                 sx={{
-                  mr: 2,
                   display: { xs: "flex", md: "none" },
                   justifyContent: "center",
                   alignItems: "center",
@@ -44,34 +44,58 @@ function ResponsiveAppBar() {
             </Grid>
 
             {!isLogin ? (
-              <Grid
-                item
-                xs={2}
+              <Box
                 sx={{
                   display: "flex",
-                  alignContent: "center",
+                  position: "absolute",
+                  top: 30,
+                  right: 0,
                   justifyContent: "center",
+
+                  alignItems: "center",
                 }}
               >
                 <Typography
-                  variant="h7"
                   noWrap
                   component="a"
                   href="/login"
                   sx={{
-                    display: { xs: "flex", md: "none" },
+                    fontSize: "13px",
+                    display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     fontFamily: "monospace",
                     fontWeight: "bold",
-                    letterSpacing: ".1rem",
                     color: "inherit",
+                    letterSpacing: ".1rem",
                     textDecoration: "none",
+                    mr: 1,
+                    pr: 1,
+                    borderRight: "2px solid white",
+                    lineHeight: "15px",
                   }}
                 >
                   Login
                 </Typography>
-              </Grid>
+
+                <Typography
+                  component="a"
+                  href="/sign"
+                  sx={{
+                    fontSize: "13px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontFamily: "monospace",
+                    fontWeight: "bold",
+                    color: "inherit",
+                    letterSpacing: ".1rem",
+                    textDecoration: "none",
+                  }}
+                >
+                  SignUp
+                </Typography>
+              </Box>
             ) : null}
           </Grid>
         </Toolbar>

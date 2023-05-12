@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 export const BottomMenu = ({ roleType, userId }) => {
   const navigate = useNavigate();
 
+  const logOutClick = (e) => {
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("user");
+    window.location.replace("/");
+  };
+
   return (
     <Container
       maxWidth={false}
@@ -108,6 +114,25 @@ export const BottomMenu = ({ roleType, userId }) => {
             나의 IT 기기관리
           </Grid>
         ) : null}
+
+        <Grid
+          item
+          xs={12}
+          sx={{
+            backgroundColor: "#E0E0E0",
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "3px",
+            alignItems: "center",
+            mt: "5%",
+            p: "2%",
+            fontSize: "15px",
+            fontWeight: "bold",
+          }}
+          onClick={logOutClick}
+        >
+          로그아웃
+        </Grid>
       </Grid>
     </Container>
   );
