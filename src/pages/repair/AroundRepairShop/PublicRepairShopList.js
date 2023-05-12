@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../css/RepairShopList.css";
 import { getLocation } from "../hooks/getLocation";
+import { getDistance } from "geolib";
 import { BottomSheet } from "react-spring-bottom-sheet";
-
 import { PublicRepairShopData } from "../data/PublicRepairShopData";
 import PublicRepairListItem from "./PublicRepairListItem";
 const { kakao } = window;
@@ -41,6 +41,7 @@ export const PublicRepairShopList = () => {
   useEffect(() => {
     async function setLocation() {
       await getLocation().then((res) => {
+        var bounds = new kakao.maps.LatLngBounds();
         if (res.latitude) {
           var container = document.getElementById("map");
           var options = {
@@ -50,6 +51,7 @@ export const PublicRepairShopList = () => {
           var map = new kakao.maps.Map(container, options);
 
           displayMarker(options.center, "현재위치", map, true);
+          bounds.extend(options.center);
 
           var geocoder = new kakao.maps.services.Geocoder();
 
@@ -60,12 +62,28 @@ export const PublicRepairShopList = () => {
 
                 displayMarker(coords, shop.shopName, map, false);
 
+                shop.distance =
+                  Math.round(
+                    getDistance(
+                      {
+                        latitude: options.center.La,
+                        longitude: options.center.Ma,
+                      },
+                      { latitude: coords.La, longitude: coords.Ma }
+                    ) / 100
+                  ) / 10;
+
+                if (shop.distance < 5) {
+                  bounds.extend(coords);
+                }
+
                 const moveLatLon = new kakao.maps.LatLng(
                   res.latitude,
                   res.longitude
                 );
 
                 map.setCenter(moveLatLon);
+                map.setBounds(bounds);
               }
             });
           });
@@ -115,10 +133,14 @@ export const PublicRepairShopList = () => {
         >
           <div className="repair_list">
             {searchRepairShop
-              ? filterName.map((shop, index) => (
-                  <PublicRepairListItem key={index} shop={shop} />
-                ))
-              : PublicRepairShopData.map((shop, index) => (
+              ? filterName
+                  .sort((a, b) => a.distance - b.distance)
+                  .map((shop, index) => (
+                    <PublicRepairListItem key={index} shop={shop} />
+                  ))
+              : PublicRepairShopData.sort(
+                  (a, b) => a.distance - b.distance
+                ).map((shop, index) => (
                   <PublicRepairListItem key={index} shop={shop} />
                 ))}
           </div>
