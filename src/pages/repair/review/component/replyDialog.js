@@ -1,4 +1,11 @@
-import { AppBar, Button, Grid, TextField } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Grid,
+  Rating,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
   const handleReplySubmit = () => {
@@ -30,8 +37,8 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
   };
 
   const appBarStyle = {
-    bgcolor: "#B9BDC1",
-    height: "20vh",
+    bgcolor: "#DCDCDC",
+    height: replyInfo.isComment ? "27vh" : "21vh",
     top: "auto",
     bottom: "56px",
     borderRadius: "10px 10px 0px 0px",
@@ -42,14 +49,38 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
     <AppBar sx={appBarStyle}>
       <Grid
         container
-        justifyContent="space-between"
         alignItems="center"
         sx={{ height: "100%", padding: "1%" }}>
+        {replyInfo.isComment && (
+          <Grid item xs={12}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="flex-start"
+              alignItems="center">
+              <Grid item>
+                <Typography color="black">별점</Typography>
+              </Grid>
+              <Grid item>
+                <Rating
+                  name="rating"
+                  value={replyInfo.rating}
+                  onChange={(e) => {
+                    setReplyInfo({
+                      ...replyInfo,
+                      rating: e.target.value,
+                    });
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+
         <Grid
           item
           xs={10}
           sx={{
-            height: "100%",
             display: "flex",
             alignItems: "center",
             pr: "2%",

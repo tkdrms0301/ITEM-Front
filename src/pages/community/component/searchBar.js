@@ -8,7 +8,9 @@ export const SearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
   const handleSearch = () => {
     console.log("Search:", searchValue);
-    navigate(`/community/search/?search=${searchValue}`);
+    if (searchValue.length >= 2)
+      navigate(`/community/search/?search=${searchValue}`);
+    else alert("검색어는 2글자 이상 입력해주세요.");
   };
 
   const handleChange = (event) => {
@@ -34,6 +36,11 @@ export const SearchBar = () => {
                 <SearchIcon sx={{ fontSize: "30px" }} />
               </IconButton>
             ),
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
           }}
         />
       </Box>
