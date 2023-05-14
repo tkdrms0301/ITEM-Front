@@ -24,7 +24,6 @@ export const LoginForm = () => {
     axios
       .post("http://localhost:8080/api/auth/login", data)
       .then((response) => {
-        console.log(response);
         window.localStorage.setItem(
           "user",
           JSON.stringify({

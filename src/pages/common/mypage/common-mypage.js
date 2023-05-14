@@ -39,8 +39,7 @@ export const CommonMyPage = () => {
       axios
         .get("http://localhost:8080/api/member/info", {
           params: {
-            // id: JSON.parse(window.localStorage.getItem("user")).memberId,
-            id: 2,
+            id: JSON.parse(window.localStorage.getItem("user")).memberId,
           },
           headers: { "X-AUTH-TOKEN": token },
         })
@@ -52,7 +51,7 @@ export const CommonMyPage = () => {
             roleType: response.data.data.roleType,
             point: response.data.data.point,
             account: "하나은행 05-50053-34",
-            isSubscription: true,
+            isSubscription: response.data.data.subscription,
           });
         })
         .catch((error) => {

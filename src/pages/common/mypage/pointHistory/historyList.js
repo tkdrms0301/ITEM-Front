@@ -50,7 +50,7 @@ export const HistoryList = ({ itemList }) => {
                     variant="h7"
                     sx={{ fontWeight: "bold", color: "#9A9A9A" }}
                   >
-                    {data.title}
+                    {data.serviceName}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -61,7 +61,7 @@ export const HistoryList = ({ itemList }) => {
                       color: "#747373",
                     }}
                   >
-                    {data.model}
+                    {data.serviceType}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sx={{ mt: 0.5 }}>
