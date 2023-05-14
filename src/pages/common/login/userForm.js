@@ -28,7 +28,7 @@ export const LoginForm = () => {
         window.localStorage.setItem(
           "user",
           JSON.stringify({
-            memberId: response.data.data.memberId,
+            memberId: response.data.data.id,
             name: response.data.data.nickname,
             roleType: response.data.data.roleType,
           })
