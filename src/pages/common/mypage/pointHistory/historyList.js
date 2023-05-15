@@ -2,6 +2,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
+import axios from "axios";
 export const HistoryList = ({ itemList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
@@ -19,7 +20,21 @@ export const HistoryList = ({ itemList }) => {
     handleClose();
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      console.log(selectedId);
+      let token = JSON.parse(window.localStorage.getItem("token")).accessToken;
+
+      axios
+        .delete("http://localhost:8080/api/point/history", {
+          params: {
+            id: 5,
+          },
+          headers: { "X-AUTH-TOKEN": token },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
