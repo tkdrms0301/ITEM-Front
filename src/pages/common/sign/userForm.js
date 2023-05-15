@@ -24,7 +24,11 @@ export const UserForm = ({ roleType }) => {
     console.log(nickName.current.value);
   };
   const validatePassword = (e) => {
-    console.log(passwordVali.current.value);
+    if (password.current.value === passwordVali.current.value) {
+      console.log("동일");
+    } else {
+      console.log("다름");
+    }
   };
 
   const signUpSubmit = () => {
@@ -35,7 +39,7 @@ export const UserForm = ({ roleType }) => {
     console.log(password.current.value);
     console.log(passwordVali.current.value);
     console.log(phoneNumber.current.value);
-    window.location.replace("/login");
+    // window.location.replace("/login");
   };
 
   const boxList = [
@@ -102,22 +106,9 @@ export const UserForm = ({ roleType }) => {
     >
       <CssBaseline />
       <Box>
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          {boxList.map((data, index) => (
-            <Grid
-              item
-              xs={12}
-              key={index}
-              sx={{ display: "flex", alignItems: "center" }}
-            >
+        {boxList.map((data, index) => (
+          <Grid container key={index}>
+            <Grid item xs={12} sx={{ display: "flex", alignItems: "center" }}>
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -126,18 +117,25 @@ export const UserForm = ({ roleType }) => {
                 inputRef={data.ref}
                 label={data.label}
                 type={data.type}
-                sx={{ width: "60%" }}
+                sx={
+                  ({ width: "60%" },
+                  data.name === "email" || data.name === "nickName"
+                    ? { mb: 0 }
+                    : { mb: 2 })
+                }
+                onBlur={data.name === "password-validate" ? data.vali : null}
               />
-              {data.name === "email" ||
-              data.name === "nickName" ||
-              data.name === "password-validate" ? (
+              {data.name === "email" || data.name === "nickName" ? (
                 <Button variant="outlined" sx={{ ml: 2 }} onClick={data.vali}>
                   중복확인
                 </Button>
               ) : null}
             </Grid>
-          ))}
-        </Grid>
+            {data.name === "email" || data.name === "nickName" ? (
+              <Grid>다릅니다.</Grid>
+            ) : null}
+          </Grid>
+        ))}
         <Button
           type="submit"
           fullWidth
