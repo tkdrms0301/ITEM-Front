@@ -100,15 +100,6 @@ export const PrivateRepairShopList = () => {
   }
 
   useEffect(() => {
-    let token = null;
-    try {
-      token = JSON.parse(localStorage.getItem("token")).accessToken.split(
-        " "
-      )[1];
-    } catch (error) {
-      console.error(error);
-    }
-
     get("http://localhost:8080/api/repair/privateShops").then((response) => {
       drowRepairShopMapMarkAndSort(response.data);
     });
