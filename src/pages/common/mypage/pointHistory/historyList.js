@@ -25,7 +25,7 @@ export const HistoryList = ({ itemList }) => {
       axios
         .delete("http://localhost:8080/api/point/history", {
           params: {
-            id: 5,
+            id: selectedId,
           },
           headers: { "X-AUTH-TOKEN": token },
         })
