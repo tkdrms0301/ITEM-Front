@@ -4,16 +4,12 @@
 }
 .repair_list_item .repair_list_item_info {
   padding: 0 10px;
-}
-.repair_list_item .repair_list_item_info .repair_item_name_area {
   display: flex;
   justify-content: space-between;
 }
-.repair_list_item
-  .repair_list_item_info
-  .repair_item_name_area
-  .form_cur_distance {
+.repair_shop_dis_n_star .form_cur_distance {
   color: red;
+  text-align: right;
 }
 .repair_shop_detail_link {
   text-decoration: none;
