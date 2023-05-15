@@ -3,8 +3,9 @@ import "../css/RepairShopList.css";
 import { getLocation } from "../hooks/getLocation";
 import { getDistance } from "geolib";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import { PublicRepairShopData } from "../data/PublicRepairShopData";
 import PublicRepairListItem from "./PublicRepairListItem";
+import axios from "axios";
+import { get } from "../../../api/index";
 const { kakao } = window;
 
 export const PublicRepairShopList = () => {
@@ -41,7 +42,7 @@ export const PublicRepairShopList = () => {
   }
 
   useEffect(() => {
-    async function setLocation() {
+    async function setLocation(officialRepairShops) {
       await getLocation().then((res) => {
         var bounds = new kakao.maps.LatLngBounds();
         if (res.latitude) {
@@ -57,7 +58,7 @@ export const PublicRepairShopList = () => {
 
           var geocoder = new kakao.maps.services.Geocoder();
 
-          const promises = PublicRepairShopData.map((shop) => {
+          const promises = officialRepairShops.map((shop) => {
             return new Promise((resolve) => {
               geocoder.addressSearch(
                 shop.shopAddress,
@@ -101,7 +102,9 @@ export const PublicRepairShopList = () => {
       });
     }
 
-    setLocation();
+    get("http://localhost:8080/api/repair/publicShops").then((response) => {
+      setLocation(response.data);
+    });
   }, []);
 
   const [searchRepairShop, setSearchRepairShop] = useState("");
