@@ -13,7 +13,6 @@ api.interceptors.request.use((config) => {
   )[1];
   if (token) {
     config.headers["X-AUTH-TOKEN"] = "Bearer " + token;
-    //config.headers.Authorization =
   }
   return config;
 });
