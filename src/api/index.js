@@ -8,9 +8,11 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("token")).accessToken.split(
+    " "
+  )[1];
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers["X-AUTH-TOKEN"] = "Bearer " + token;
   }
   return config;
 });
@@ -18,7 +20,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error(error.response);
+    console.error(error);
     // ACCESS TOKEN이 만료된 경우, 홈 화면으로 이동하도록 처리
     if (error.response.status === 401) {
       window.location.href = "/";

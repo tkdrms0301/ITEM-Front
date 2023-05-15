@@ -4,8 +4,10 @@ import { getLocation } from "../hooks/getLocation";
 import { getDistance } from "geolib";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { PrivateRepairShopData } from "../data/PrivateRepairShopData";
 import PrivateRepairListItem from "./PrivateRepairListItem";
+import axios from "axios";
+import { get } from "../../../api/index";
+
 const { kakao } = window;
 
 export const PrivateRepairShopList = () => {
@@ -42,7 +44,7 @@ export const PrivateRepairShopList = () => {
     infowindow.open(map, marker);
   }
 
-  async function drowRepairShopMapMarkAndSort() {
+  async function drowRepairShopMapMarkAndSort(privateRepairShops) {
     await getLocation().then((res) => {
       var bounds = new kakao.maps.LatLngBounds();
 
@@ -58,7 +60,7 @@ export const PrivateRepairShopList = () => {
         bounds.extend(options.center);
         var geocoder = new kakao.maps.services.Geocoder();
 
-        const promises = PrivateRepairShopData.map((shop) => {
+        const promises = privateRepairShops.map((shop) => {
           return new Promise((resolve) => {
             geocoder.addressSearch(shop.shopAddress, function (result, status) {
               if (status === kakao.maps.services.Status.OK) {
@@ -98,7 +100,9 @@ export const PrivateRepairShopList = () => {
   }
 
   useEffect(() => {
-    drowRepairShopMapMarkAndSort();
+    get("http://localhost:8080/api/repair/privateShops").then((response) => {
+      drowRepairShopMapMarkAndSort(response.data);
+    });
   }, []);
 
   const filterName = sortedRepairShopList?.filter((p) => {
@@ -107,7 +111,7 @@ export const PrivateRepairShopList = () => {
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(searchRepairShop.toLocaleLowerCase().replace(" ", "")) ||
-      p.shopAddress
+      p.address
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(searchRepairShop.toLocaleLowerCase().replace(" ", ""))

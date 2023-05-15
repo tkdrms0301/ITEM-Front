@@ -24,12 +24,11 @@ export const LoginForm = () => {
     axios
       .post("http://localhost:8080/api/auth/login", data)
       .then((response) => {
-        console.log(response);
         window.localStorage.setItem(
           "user",
           JSON.stringify({
-            memberId: response.data.data.memberId,
-            name: response.data.data.name,
+            memberId: response.data.data.id,
+            name: response.data.data.nickname,
             roleType: response.data.data.roleType,
           })
         );

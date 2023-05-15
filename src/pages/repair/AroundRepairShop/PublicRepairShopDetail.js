@@ -85,7 +85,8 @@ export const PublicRepairShopDetail = () => {
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
-                  onClick={() => selectMenuHandler(index)}>
+                  onClick={() => selectMenuHandler(index)}
+                >
                   {el.name}
                 </li>
               ))}
@@ -96,7 +97,8 @@ export const PublicRepairShopDetail = () => {
                   currentTab === 0
                     ? "content_visible"
                     : "content_visible invisible"
-                }>
+                }
+              >
                 <div className="shop_address_and_phonenum">
                   <div className="kakao_map" id="repair_shop_map"></div>
                   <div className="shop_address">
@@ -112,7 +114,8 @@ export const PublicRepairShopDetail = () => {
                   currentTab === 1
                     ? "content_visible"
                     : "content_visible invisible"
-                }>
+                }
+              >
                 <div className="shop_review_area">
                   <Reviews />
                 </div>
