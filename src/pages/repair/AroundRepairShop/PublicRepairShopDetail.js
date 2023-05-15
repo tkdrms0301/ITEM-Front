@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { PublicRepairShopData } from "../data/PublicRepairShopData";
+import { useNavigate } from "react-router-dom";
 import "../css/RepairShopDetail.css";
 import Reviews from "../review/index.js";
 const { kakao } = window;
@@ -67,10 +67,28 @@ export const PublicRepairShopDetail = () => {
     clickTab(index);
   };
 
+  const navigate = useNavigate();
+
+  const onClickBackBtn = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       {selectShop ? (
         <>
+          <div className="top_field">
+            <div className="backButton_title">
+              <img
+                className="backButton"
+                src={process.env.PUBLIC_URL + "/backButton.png"}
+                style={{ width: "10vw", height: "10vw" }}
+                alt="back"
+                onClick={onClickBackBtn}
+              />
+              <div className="title">정비 상세</div>
+            </div>
+          </div>
           <div className="shop_title_area">
             <div className="shop_title">
               <div className="shop_name">{selectShop.shopName}</div>
