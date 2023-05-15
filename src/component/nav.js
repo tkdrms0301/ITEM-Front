@@ -7,10 +7,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import PeopleIcon from "@mui/icons-material/People";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import HomeIcon from "@mui/icons-material/Home";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function SimpleBottomNavigation() {
+export default function SimpleBottomNavigation({ content }) {
+  const currentNav = useLocation();
   const [value, setValue] = useState();
   const navigate = useNavigate();
 
@@ -18,6 +19,10 @@ export default function SimpleBottomNavigation() {
     navigate(`/${newValue}`, { replace: true });
     setValue(newValue);
   };
+
+  useEffect(() => {
+    setValue(new URL(window.location.href).pathname.split("/")[1]);
+  }, [content]);
 
   return (
     <Box
@@ -27,8 +32,9 @@ export default function SimpleBottomNavigation() {
         bottom: 0,
         borderTop: "1px solid black",
         zIndex: 1200,
-      }}>
-      <BottomNavigation showLabels value={value} onChange={handleChange}>
+      }}
+    >
+      <BottomNavigation value={value} onChange={handleChange}>
         <BottomNavigationAction
           label="Market"
           icon={<ShoppingBasketIcon />}

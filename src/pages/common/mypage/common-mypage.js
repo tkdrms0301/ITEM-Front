@@ -14,6 +14,7 @@ import { Account } from "./account";
 import { ButtonMenu } from "./buttonMenu";
 import { Subscription } from "./subscription";
 import { BottomMenu } from "./bottomMenu";
+import axios from "axios";
 
 export const CommonMyPage = () => {
   const [userState, setUserState] = useState({
@@ -29,18 +30,33 @@ export const CommonMyPage = () => {
     userState;
 
   useEffect(() => {
+    console.log();
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
 
-      setUserState({
-        ...userState,
-        userName: JSON.parse(window.localStorage.getItem("user")).name,
-        userId: JSON.parse(window.localStorage.getItem("user")).memberId,
-        roleType: JSON.parse(window.localStorage.getItem("user")).roleType,
-        point: 15000,
-        account: "하나은행 05-50053-34",
-        isSubscription: true,
-      });
+      let token = JSON.parse(window.localStorage.getItem("token")).accessToken;
+
+      axios
+        .get("http://localhost:8080/api/member/info", {
+          params: {
+            id: JSON.parse(window.localStorage.getItem("user")).memberId,
+          },
+          headers: { "X-AUTH-TOKEN": token },
+        })
+        .then((response) => {
+          setUserState({
+            ...userState,
+            userName: response.data.data.name,
+            userId: response.data.data.id,
+            roleType: response.data.data.roleType,
+            point: response.data.data.point,
+            account: "하나은행 05-50053-34",
+            isSubscription: response.data.data.subscription,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       window.location.replace("/login");
     }
