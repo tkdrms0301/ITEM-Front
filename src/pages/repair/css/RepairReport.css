@@ -3,13 +3,13 @@
   flex-direction: column;
   margin-bottom: 10vw;
 }
-.report_page .top_field {
+.top_field {
   position: fixed;
   display: flex;
   width: 100%;
   height: 15vw;
   margin-bottom: 5vw;
-  background-color: rgb(233, 233, 233);
+  background-color: white;
   border-bottom: 1px rgb(184, 184, 184) solid;
   margin-bottom: 20px;
   align-items: center;
@@ -17,11 +17,11 @@
   z-index: 1000;
 }
 
-.report_page .top_field .backButton_title {
+.top_field .backButton_title {
   display: flex;
   align-items: center;
 }
-.report_page .top_field .title {
+.top_field .title {
   margin-left: 8vw;
 }
 .report_page .area {

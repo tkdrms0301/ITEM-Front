@@ -4,11 +4,16 @@ import { getLocation } from "../hooks/getLocation";
 import { getDistance } from "geolib";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { PrivateRepairShopData } from "../data/PrivateRepairShopData";
 import PrivateRepairListItem from "./PrivateRepairListItem";
+import axios from "axios";
+import { get } from "../../../api/index";
+
 const { kakao } = window;
 
 export const PrivateRepairShopList = () => {
+  const [searchRepairShop, setSearchRepairShop] = useState("");
+  const [sortedRepairShopList, setSortedRepairShopList] = useState([]);
+
   function displayMarker(locPosition, message, map, cur) {
     var marker;
     if (cur) {
@@ -39,7 +44,7 @@ export const PrivateRepairShopList = () => {
     infowindow.open(map, marker);
   }
 
-  async function setRepairShopMapMark() {
+  async function drowRepairShopMapMarkAndSort(privateRepairShops) {
     await getLocation().then((res) => {
       var bounds = new kakao.maps.LatLngBounds();
 
@@ -55,36 +60,38 @@ export const PrivateRepairShopList = () => {
         bounds.extend(options.center);
         var geocoder = new kakao.maps.services.Geocoder();
 
-        PrivateRepairShopData.map((shop) => {
-          geocoder.addressSearch(shop.shopAddress, function (result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-              var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        const promises = privateRepairShops.map((shop) => {
+          return new Promise((resolve) => {
+            geocoder.addressSearch(shop.shopAddress, function (result, status) {
+              if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-              displayMarker(coords, shop.shopName, map, false);
+                displayMarker(coords, shop.shopName, map, false);
 
-              shop.distance =
-                Math.round(
-                  getDistance(
-                    {
-                      latitude: options.center.La,
-                      longitude: options.center.Ma,
-                    },
-                    { latitude: coords.La, longitude: coords.Ma }
-                  ) / 100
-                ) / 10;
-
+                shop.distance =
+                  Math.round(
+                    getDistance(
+                      {
+                        latitude: options.center.La,
+                        longitude: options.center.Ma,
+                      },
+                      { latitude: coords.La, longitude: coords.Ma }
+                    ) / 100
+                  ) / 10;
+              }
               if (shop.distance < 5) {
                 bounds.extend(coords);
               }
-              const moveLatLon = new kakao.maps.LatLng(
-                res.latitude,
-                res.longitude
-              );
 
-              map.setCenter(moveLatLon);
-              map.setBounds(bounds);
-            }
+              resolve(shop);
+            });
           });
+        });
+
+        Promise.all(promises).then((sortedRepairShopList) => {
+          sortedRepairShopList.sort((a, b) => a.distance - b.distance);
+          setSortedRepairShopList(sortedRepairShopList);
+          map.setBounds(bounds);
         });
       } else {
         alert("위치 정보를 가져올 수 없습니다.");
@@ -93,25 +100,24 @@ export const PrivateRepairShopList = () => {
   }
 
   useEffect(() => {
-    setRepairShopMapMark();
+    get("http://localhost:8080/api/repair/privateShops").then((response) => {
+      drowRepairShopMapMarkAndSort(response.data);
+    });
   }, []);
 
-  const [searchRepairShop, setSearchRepairShop] = useState("");
-
-  const filterName = PrivateRepairShopData.filter((p) => {
+  const filterName = sortedRepairShopList?.filter((p) => {
     return (
       p.shopName
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(searchRepairShop.toLocaleLowerCase().replace(" ", "")) ||
-      p.shopAddress
+      p.address
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(searchRepairShop.toLocaleLowerCase().replace(" ", ""))
     );
   });
 
-  PrivateRepairShopData.sort((a, b) => a.distance - b.distance);
   return (
     <>
       <div className="repair_map_area">
@@ -133,17 +139,20 @@ export const PrivateRepairShopList = () => {
           blocking={false}
         >
           <div className="repair_list">
-            {searchRepairShop
-              ? filterName
-                  .sort((a, b) => a.distance - b.distance)
-                  .map((shop, index) => (
-                    <PrivateRepairListItem key={index} shop={shop} />
-                  ))
-              : PrivateRepairShopData.sort(
-                  (a, b) => a.distance - b.distance
-                ).map((shop, index) => (
-                  <PrivateRepairListItem key={index} shop={shop} />
-                ))}
+            {sortedRepairShopList
+              ? searchRepairShop
+                ? filterName
+                    .sort((a, b) => a.distance - b.distance)
+                    .map((shop, index) => (
+                      <PrivateRepairListItem key={index} shop={shop} />
+                    ))
+                : sortedRepairShopList.map(
+                    (shop, index) =>
+                      shop.distance && (
+                        <PrivateRepairListItem key={index} shop={shop} />
+                      )
+                  )
+              : null}
           </div>
         </BottomSheet>
       </div>
