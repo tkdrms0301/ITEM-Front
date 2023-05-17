@@ -4,6 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ConstructionIcon from "@mui/icons-material/Construction";
+import { remove } from "../../../../api";
 
 export const ServiceListItem = ({ serviceList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,15 +24,29 @@ export const ServiceListItem = ({ serviceList }) => {
     handleClose();
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      console.log(selectedId);
+      remove("http://localhost:8080/api/repair/serviceList", {
+        params: {
+          serviceId: selectedId,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
   const handleUpdate = (e) => {
-    e.stopPropagation();
     handleClose(e);
-    console.log(selectedId);
-    navigate(`/mypage/serviceList/update`);
+
+    navigate(
+      {
+        pathname: "/mypage/serviceList/update",
+      },
+      { state: { selectedId: selectedId } }
+    );
   };
 
   return (
@@ -71,17 +86,17 @@ export const ServiceListItem = ({ serviceList }) => {
                 {data.serviceName}
               </Typography>
             </Grid>
-            <Grid item xs={2} id={data.id}>
+            <Grid item xs={2} id={data.serviceId}>
               <IconButton
                 aria-label="more"
-                aria-controls={`more-menu-${data.id}`}
+                aria-controls={`more-menu-${data.serviceId}`}
                 aria-haspopup="true"
-                onClick={(e) => handleMenuOpen(e, data.id)}
+                onClick={(e) => handleMenuOpen(e, data.serviceId)}
               >
                 <MoreVertIcon sx={{ fontSize: "30px" }} />
               </IconButton>
               <Menu
-                id={`more-menu-${data.id}`}
+                id={`more-menu-${data.serviceId}`}
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={() => {

@@ -11,36 +11,57 @@ import {
 } from "@mui/material";
 import { ServiceListPanelHeader } from "./serviceListPanelHeader";
 import { useEffect, useRef, useState } from "react";
+import { get, put } from "../../../../api";
+import { useLocation } from "react-router-dom";
 
 export const ServiceListUpdateMain = () => {
+  const location = useLocation();
   const [serviceType, setServivceType] = useState("");
   const [serviceName, setServiceName] = useState("");
   const [servcieDescription, setServcieDescription] = useState("");
-
   const serviceNameRef = useRef();
   const serviceDescriptionRef = useRef();
 
   useEffect(() => {
-    setServivceType("소프트웨어 오류, 설치");
-    setServiceName("애플 스마트폰 배터리 교체");
-    setServcieDescription("애플 스마트폰 배터리 교체 입니다.");
+    get("http://localhost:8080/api/repair/serviceList/info", {
+      params: {
+        serviceId: location.state.selectedId,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        setServivceType(response.data.serviceType);
+        setServiceName(response.data.serviceName);
+        setServcieDescription(response.data.description);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    console.log(location.state);
   }, []);
 
   const handleChange = (event) => {
     setServivceType(event.target.value);
   };
 
-  const onSubmitServiceAdd = (event) => {
-    console.log(serviceType);
-    console.log(serviceNameRef.current.value);
-    console.log(serviceDescriptionRef.current.value);
+  const onSubmitServiceUpdate = (event) => {
+    let data = {
+      serviceId: location.state.selectedId,
+      serviceType: serviceType,
+      serviceName: serviceNameRef.current.value,
+      description: serviceDescriptionRef.current.value,
+    };
+    put("http://localhost:8080/api/repair/serviceList/info", data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const menuItem = [
-    { name: "소프트웨어 오류, 설치" },
-    { name: "수리" },
-    { name: "점검" },
-  ];
+  const menuItem = [{ name: "교환" }, { name: "수리" }, { name: "점검" }];
 
   return (
     <>
@@ -80,10 +101,11 @@ export const ServiceListUpdateMain = () => {
           </Typography>
           <TextField
             fullWidth
+            multiline
             required
             variant="outlined"
             defaultValue={serviceName}
-            maxRows={1}
+            maxRows={0}
             sx={{ mt: 1 }}
             inputRef={serviceNameRef}
           ></TextField>
@@ -103,7 +125,7 @@ export const ServiceListUpdateMain = () => {
           ></TextField>
         </Grid>
         <Grid item xs={12} sx={{ mt: 3, ml: 2, mr: 2, mb: 2 }}>
-          <Button fullWidth variant="contained" onClick={onSubmitServiceAdd}>
+          <Button fullWidth variant="contained" onClick={onSubmitServiceUpdate}>
             등록
           </Button>
         </Grid>
