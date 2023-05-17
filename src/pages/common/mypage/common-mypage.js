@@ -25,15 +25,7 @@ export const CommonMyPage = () => {
     console.log();
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
-
-      let token = JSON.parse(window.localStorage.getItem("token")).accessToken;
-
-      get("http://localhost:8080/api/member/info", {
-        params: {
-          id: JSON.parse(window.localStorage.getItem("user")).memberId,
-        },
-        headers: { "X-AUTH-TOKEN": token },
-      })
+      get("http://localhost:8080/api/member/info")
         .then((response) => {
           setUserState({
             ...userState,
