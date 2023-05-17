@@ -1,42 +1,120 @@
 import {
   Container,
   Grid,
-  Link,
   TextField,
   CssBaseline,
   Button,
   Box,
 } from "@mui/material";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { BaseUrl } from "../../../api/BaseUrl";
+import { post } from "../../../api";
+import axios from "axios";
 
 export const UpdateFormUser = () => {
-  const emailRef = useRef(null);
   const nickName = useRef(null);
   const address = useRef(null);
-  const password = useRef(null);
   const newPassword = useRef(null);
   const passwordVali = useRef(null);
   const phoneNumber = useRef(null);
   const currentPassword = useRef(null);
+  const account = useRef(null);
 
-  const validatecurrentPassword = (e) => {
-    console.log(currentPassword.current.value);
+  const [check, setCheck] = useState({
+    nickName: false,
+    currentPassword: false,
+  });
+
+  const validatecurrentPassword = () => {
+    const data = {
+      password: currentPassword.current.value,
+    };
+
+    post(BaseUrl + "/api/member/password-check", data)
+      .then((response) => {
+        if (response.data.success) {
+          alert("현재 비밀번호 검증 완료");
+          setCheck({
+            ...check,
+            currentPassword: true,
+          });
+        } else {
+          alert("현재 비밀번호 검증 실패");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  const validateNickname = (e) => {
-    console.log(nickName.current.value);
-  };
-  const validatePassword = (e) => {
-    console.log(passwordVali.current.value);
+
+  const validateNickname = () => {
+    const data = {
+      nickname: nickName.current.value,
+    };
+    axios
+      .post(BaseUrl + "/api/auth/nickname-check", data)
+      .then((response) => {
+        if (response.data.success) {
+          if (
+            window.confirm(response.data.msg + "\n닉네임을 사용하시겠습니까?")
+          ) {
+            setCheck({
+              ...check,
+              nickName: true,
+            });
+          } else {
+            setCheck({
+              ...check,
+              nickName: false,
+            });
+          }
+        } else {
+          alert(response.data.msg);
+          nickName.current.value = "";
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const infoUpdateSubmit = () => {
-    console.log(emailRef.current.value);
-    console.log(address.current.value);
-    console.log(nickName.current.value);
-    console.log(password.current.value);
-    console.log(newPassword.current.value);
-    console.log(passwordVali.current.value);
-    console.log(phoneNumber.current.value);
+    if (newPassword.current?.value !== passwordVali.current?.value) {
+      newPassword.current.value = null;
+      passwordVali.current.value = null;
+      alert("동일하지 않은 새 비밀번호 입니다");
+      return;
+    }
+
+    if (!(check.nickName && check.currentPassword)) {
+      alert("검증이 필요한 항목에 대해서 검증이 되지 않았습니다");
+      return;
+    }
+
+    const data = {
+      nickname: nickName.current.value,
+      currentPassword: currentPassword.current.value,
+      newPassword: newPassword.current.value,
+      validPassword: passwordVali.current.value,
+      phoneNumber: phoneNumber.current.value,
+      address: address.current.value,
+      account: account.current.value,
+      sellerInfoDto: null,
+      mechanicInfoDto: null,
+    };
+
+    post(BaseUrl + "/api/member/update", data)
+      .then((res) => {
+        if (res.data.success) {
+          alert(res.data.msg);
+          window.location.href = "/";
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const boxList = [
@@ -47,6 +125,7 @@ export const UpdateFormUser = () => {
       label: "현재 비밀번호 확인",
       type: "password",
       vali: validatecurrentPassword,
+      disable: check.currentPassword,
     },
     {
       name: "nickName",
@@ -55,6 +134,7 @@ export const UpdateFormUser = () => {
       label: "닉네임(중복불가)",
       type: "nickName",
       vali: validateNickname,
+      disable: check.nickName,
     },
     {
       name: "address",
@@ -62,6 +142,7 @@ export const UpdateFormUser = () => {
       id: "address",
       label: "사용자 주소",
       type: "address",
+      disable: false,
     },
     {
       name: "newPassword",
@@ -69,6 +150,7 @@ export const UpdateFormUser = () => {
       id: "newPassword",
       label: "새 비밀번호",
       type: "newPassword",
+      disable: false,
     },
     {
       name: "passwordVali",
@@ -76,15 +158,23 @@ export const UpdateFormUser = () => {
       id: "passwordVali",
       label: "비밀번호 확인",
       type: "passwordVali",
-      vali: validatePassword,
+      disable: false,
     },
-
     {
       name: "phoneNumber",
       ref: phoneNumber,
       id: "phoneNumber",
       label: "개인 휴대전화(-제외)",
       type: "phoneNumber",
+      disable: false,
+    },
+    {
+      name: "account",
+      ref: account,
+      id: "account",
+      label: "계좌 번호(은행/-제외 계좌번호)",
+      type: "account",
+      disable: false,
     },
   ];
 
@@ -99,8 +189,7 @@ export const UpdateFormUser = () => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}
-    >
+      }}>
       <CssBaseline />
       <Box>
         <Grid
@@ -110,15 +199,13 @@ export const UpdateFormUser = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-start",
-          }}
-        >
+          }}>
           {boxList.map((data, index) => (
             <Grid
               item
               xs={12}
               key={index}
-              sx={{ display: "flex", alignItems: "center" }}
-            >
+              sx={{ display: "flex", alignItems: "center" }}>
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -127,13 +214,14 @@ export const UpdateFormUser = () => {
                 inputRef={data.ref}
                 label={data.label}
                 type={data.type}
-                sx={{ width: "60%" }}
+                disabled={data.disable}
+                sx={{
+                  width: "60%",
+                }}
               />
-              {data.name === "currentPassword" ||
-              data.name === "nickName" ||
-              data.name === "passwordVali" ? (
+              {data.name === "currentPassword" || data.name === "nickName" ? (
                 <Button variant="outlined" sx={{ ml: 2 }} onClick={data.vali}>
-                  중복확인
+                  {data.name === "currentPassword" ? "검증" : "중복확인"}
                 </Button>
               ) : null}
             </Grid>
@@ -145,8 +233,7 @@ export const UpdateFormUser = () => {
           variant="contained"
           color="primary"
           onClick={infoUpdateSubmit}
-          sx={{ mt: 2 }}
-        >
+          sx={{ mt: 2 }}>
           정보 수정
         </Button>
       </Box>

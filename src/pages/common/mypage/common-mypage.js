@@ -1,20 +1,12 @@
-import {
-  Container,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Avatar,
-} from "@mui/material";
-import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
+import { useState, useEffect } from "react";
 import { Header } from "./header";
 import { Point } from "./point";
 import { Account } from "./account";
 import { ButtonMenu } from "./buttonMenu";
 import { Subscription } from "./subscription";
 import { BottomMenu } from "./bottomMenu";
-import axios from "axios";
+import { get } from "../../../api";
 
 export const CommonMyPage = () => {
   const [userState, setUserState] = useState({
@@ -33,16 +25,7 @@ export const CommonMyPage = () => {
     console.log();
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
-
-      let token = JSON.parse(window.localStorage.getItem("token")).accessToken;
-
-      axios
-        .get("http://localhost:8080/api/member/info", {
-          params: {
-            id: JSON.parse(window.localStorage.getItem("user")).memberId,
-          },
-          headers: { "X-AUTH-TOKEN": token },
-        })
+      get("http://localhost:8080/api/member/info")
         .then((response) => {
           setUserState({
             ...userState,
@@ -50,7 +33,7 @@ export const CommonMyPage = () => {
             userId: response.data.data.id,
             roleType: response.data.data.roleType,
             point: response.data.data.point,
-            account: "하나은행 05-50053-34",
+            account: response.data.data.account,
             isSubscription: response.data.data.subscription,
           });
         })
