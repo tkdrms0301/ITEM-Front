@@ -32,6 +32,6 @@ api.interceptors.response.use(
   }
 );
 
-const { get, post, put } = api;
+const { get, post, put, delete: remove } = api;
 
-export { get, post, put };
+export { get, post, put, remove };
