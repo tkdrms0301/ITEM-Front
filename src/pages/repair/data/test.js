@@ -280,6 +280,111 @@ const products = [
     ],
   },
 ];
+
+const reservationCurrentStatus = [
+  {
+    myItems: [
+      {
+        itName: "아이폰13",
+        itImg:
+          "https://item0container.blob.core.windows.net/image/computer.webp",
+      },
+      {
+        itName: "아이폰12",
+        itImg:
+          "https://item0container.blob.core.windows.net/image/computer.webp",
+      },
+      {
+        itName: "아이폰10",
+        itImg:
+          "https://item0container.blob.core.windows.net/image/computer.webp",
+      },
+      {
+        itName: "아이폰9",
+        itImg:
+          "https://item0container.blob.core.windows.net/image/computer.webp",
+      },
+    ],
+    services: [
+      {
+        svName: "배터리 교체",
+      },
+      {
+        svName: "스크린 교체",
+      },
+      {
+        svName: "카메라 교체",
+      },
+    ],
+    reservationTimes: [
+      {
+        time: "09:00",
+        isEnable: true,
+      },
+      {
+        time: "09:30",
+        isEnable: true,
+      },
+      {
+        time: "10:00",
+        isEnable: true,
+      },
+      {
+        time: "10:30",
+        isEnable: true,
+      },
+      {
+        time: "11:00",
+        isEnable: true,
+      },
+      {
+        time: "11:30",
+        isEnable: true,
+      },
+      {
+        time: "12:00",
+        isEnable: true,
+      },
+      {
+        time: "12:30",
+        isEnable: true,
+      },
+      {
+        time: "14:00",
+        isEnable: true,
+      },
+      {
+        time: "14:30",
+        isEnable: true,
+      },
+      {
+        time: "15:00",
+        isEnable: true,
+      },
+      {
+        time: "15:30",
+        isEnable: true,
+      },
+      {
+        time: "16:00",
+        isEnable: true,
+      },
+      {
+        time: "16:30",
+        isEnable: true,
+      },
+      {
+        time: "17:00",
+        isEnable: true,
+      },
+      {
+        time: "17:30",
+        isEnable: true,
+      },
+    ],
+  },
+];
+
 export {
   estimateHistoryForRepair,
   estimateHistoryForUser,
@@ -289,4 +394,5 @@ export {
   testServiceTime,
   services,
   products,
+  reservationCurrentStatus,
 };

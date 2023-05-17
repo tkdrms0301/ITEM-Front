@@ -34,7 +34,7 @@ export const Reservation = () => {
   );
 
   const getUpdateData = () => {
-    const getData = reservationHistoryForUser[0];
+    const getData = reservationHistoryForUser[0]; //axios로 받아온 데이터
     return {
       userId: getData.uid,
       repairId: shopId,
@@ -96,6 +96,7 @@ export const Reservation = () => {
 
   const handleServicesButton = (e, value) => {
     setData({ ...data, services: value });
+    console.log(value);
   };
   const handleDateSelect = (e) => {
     setData({ ...data, date: e.target.value });
@@ -147,13 +148,15 @@ export const Reservation = () => {
             <ToggleButtonGroup
               exclusive
               value={data.time}
-              onChange={handleTimeSelect}>
+              onChange={handleTimeSelect}
+            >
               {openedTime.map((time) => {
                 return (
                   <ToggleButton
                     key={time.time}
                     value={time.time}
-                    disabled={!time.isEnable}>
+                    disabled={!time.isEnable}
+                  >
                     {time.time}
                   </ToggleButton>
                 );
@@ -168,7 +171,8 @@ export const Reservation = () => {
           <Button
             variant="outlined"
             disabled={data.date === "" || data.time === ""}
-            onClick={handleClose}>
+            onClick={handleClose}
+          >
             선택
           </Button>
         </DialogActions>
@@ -190,7 +194,8 @@ export const Reservation = () => {
             defaultValue={data.product}
             onChange={handleData}
             label="제품 선택"
-            fullWidth>
+            fullWidth
+          >
             {products.map((product, index) => (
               <MenuItem value={product.id} key={index}>
                 {product.title}
@@ -210,7 +215,8 @@ export const Reservation = () => {
             mt: "3%",
             padding: "3%",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Typography
             sx={{
               position: "absolute",
@@ -219,7 +225,8 @@ export const Reservation = () => {
               bgcolor: "white",
               px: 1,
               fontSize: "0.8rem",
-            }}>
+            }}
+          >
             제품정보
           </Typography>
           {productImg ? (
@@ -242,7 +249,8 @@ export const Reservation = () => {
                 mr: "5%",
                 bgcolor: "#8C92AC",
                 borderRadius: "10px",
-              }}></Box>
+              }}
+            ></Box>
           )}
           <Typography>
             {products.map(
@@ -260,7 +268,8 @@ export const Reservation = () => {
             borderRadius: "4px",
             display: "flex",
             flexDirection: "column",
-          }}>
+          }}
+        >
           {services.map((service) => (
             <ToggleButton
               key={service.id}
@@ -268,7 +277,8 @@ export const Reservation = () => {
               sx={{
                 width: "100%",
                 height: "75px",
-              }}>
+              }}
+            >
               <SettingsIcon sx={{ fontSize: "40px" }} />
               <Typography variant="h5">{service.title}</Typography>
             </ToggleButton>
@@ -283,7 +293,8 @@ export const Reservation = () => {
           fullWidth
           multiline
           rows={2}
-          sx={{ mt: "3%" }}></TextField>
+          sx={{ mt: "3%" }}
+        ></TextField>
         <Box
           sx={{
             display: "flex",
@@ -295,7 +306,8 @@ export const Reservation = () => {
             border: "1px solid #C4C4C4",
             borderRadius: "4px",
             height: "100px",
-          }}>
+          }}
+        >
           <Box>
             <Typography variant="h6" fontWeight="bold">
               방문 시간 선택

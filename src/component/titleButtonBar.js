@@ -1,6 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { BackButton } from "./backButton";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const TitleButtonBar = ({
   title,
@@ -20,6 +21,15 @@ export const TitleButtonBar = ({
     alignItems: "center",
   };
   const navigate = useNavigate();
+  const handleButton = () => {
+    alert()
+    axios.post(query, transmitData).then((res) => {
+      console.log(res);
+      
+    }
+    );
+  }
+
   const alert = () => {
     if (completed.isCompleted) {
       navigate(-1);
@@ -40,7 +50,7 @@ export const TitleButtonBar = ({
       </Grid>
       <Grid item xs={2}>
         {buttonLabel == null ? null : (
-          <Button variant="contained" onClick={alert} sx={{ ml: "-15%" }}>
+          <Button variant="contained" onClick={handleButton} sx={{ ml: "-15%" }}>
             {buttonLabel}
           </Button>
         )}
