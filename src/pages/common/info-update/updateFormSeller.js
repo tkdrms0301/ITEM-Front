@@ -84,7 +84,7 @@ export const UpdateFormSeller = () => {
       });
   };
 
-  const companyNumberPassword = (e) => {
+  const companyNumberPassword = () => {
     const data = {
       companyNumber: companyNumber.current?.value,
     };
