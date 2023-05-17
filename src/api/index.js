@@ -13,6 +13,7 @@ api.interceptors.request.use((config) => {
   )[1];
   if (token) {
     config.headers["X-AUTH-TOKEN"] = "Bearer " + token;
+    config.withCredentials = true;
   }
   return config;
 });
@@ -31,6 +32,6 @@ api.interceptors.response.use(
   }
 );
 
-const { get, post, put } = api;
+const { get, post, put, delete: remove } = api;
 
-export { get, post, put };
+export { get, post, put, remove };
