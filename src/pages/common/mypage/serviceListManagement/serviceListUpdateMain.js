@@ -29,7 +29,6 @@ export const ServiceListUpdateMain = () => {
       },
     })
       .then((response) => {
-        console.log(response.data);
         setServivceType(response.data.serviceType);
         setServiceName(response.data.serviceName);
         setServcieDescription(response.data.description);
@@ -55,6 +54,7 @@ export const ServiceListUpdateMain = () => {
     put("http://localhost:8080/api/repair/serviceList/info", data)
       .then((response) => {
         console.log(response.data);
+        window.location.replace("/mypage/serviceList/panel");
       })
       .catch((error) => {
         console.log(error);

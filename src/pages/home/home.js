@@ -71,7 +71,7 @@ export const Home = () => {
 
   return (
     <>
-      {userName !== "" ? <Header userName={userName}></Header> : null}
+      <Header userName={userName}></Header>
       <Grid
         container
         sx={{
@@ -84,23 +84,33 @@ export const Home = () => {
           item
           xs={11}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
+            borderRadius: "5px",
             pt: 2,
             mt: 2,
-            backgroundColor: "#F0F0F0",
+            backgroundColor: "#64B5F6",
           }}
         >
           <Grid container>
             <Grid item xs={12}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
+              <Typography
+                sx={{
+                  color: "#EFE5D8",
+                  fontWeight: "bold",
+                  fontSize: "21px",
+                  ml: 3,
+                }}
+              >
                 정비소 예약
               </Typography>
             </Grid>
             <Grid
               item
               xs={12}
-              sx={{ display: "flex", justifyContent: "space-around" }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                color: "white",
+              }}
             >
               {reservationMenu.map((data, index) => (
                 <Box
@@ -114,7 +124,13 @@ export const Home = () => {
                 >
                   {data.icon}
                   <Typography
-                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
+                    sx={{
+                      color: "white",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      mt: 1,
+                      mb: 2,
+                    }}
                   >
                     {data.title}
                   </Typography>
@@ -127,11 +143,11 @@ export const Home = () => {
           item
           xs={5}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
+            borderRadius: "5px",
             mt: 2,
-            backgroundColor: "#F0F0F0",
+            backgroundColor: "#81D4FA",
             mr: 4,
+            color: "white",
           }}
         >
           <Grid
@@ -169,9 +185,11 @@ export const Home = () => {
           item
           xs={5}
           sx={{
-            borderRadius: "15px",
+            borderRadius: "5px",
             mt: 2,
-            backgroundColor: "#86C2FD",
+            backgroundColor: "#81D4FA",
+
+            color: "white",
           }}
         >
           <Grid container>
@@ -209,16 +227,24 @@ export const Home = () => {
           item
           xs={11}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
+            borderRadius: "5px",
             pt: 2,
             mt: 2,
-            backgroundColor: "#F0F0F0",
+            backgroundColor: "#64B5F6",
+
+            color: "white",
           }}
         >
           <Grid container>
             <Grid item xs={12}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "21px",
+                  ml: 3,
+                  color: "#EFE5D8",
+                }}
+              >
                 내 주변 장소
               </Typography>
             </Grid>
@@ -236,11 +262,19 @@ export const Home = () => {
                     mt: 2,
                   }}
                   key={index}
-                  onClick={(e) => {navigate(data.route)}}
+                  onClick={(e) => {
+                    navigate(data.route);
+                  }}
                 >
                   {data.icon}
                   <Typography
-                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      mt: 1,
+                      mb: 2,
+                      color: "white",
+                    }}
                   >
                     {data.title}
                   </Typography>
@@ -254,11 +288,10 @@ export const Home = () => {
           item
           xs={11}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "10px",
+            borderRadius: "5px",
             p: 1,
             mt: 2,
-            backgroundColor: "#E8E8E8",
+            backgroundColor: "#81D4FA",
           }}
         >
           <Grid container sx={{}}>
@@ -275,6 +308,7 @@ export const Home = () => {
                 sx={{
                   fontWeight: "bold",
                   fontSize: "19px",
+                  color: "white",
                 }}
                 onClick={(e) => navigate(`/community`)}
               >
