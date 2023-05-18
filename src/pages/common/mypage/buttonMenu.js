@@ -37,7 +37,7 @@ export const ButtonMenu = ({}) => {
             display: "flex",
             justifyContent: "space-around",
             backgroundColor: "#65A8E7",
-            color: "white",
+            color: "#EFE5D8",
             fontWeight: "bold",
           }}
         >

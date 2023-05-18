@@ -53,8 +53,10 @@ export const ServiceListUpdateMain = () => {
     };
     put("http://localhost:8080/api/repair/serviceList/info", data)
       .then((response) => {
-        console.log(response.data);
-        window.location.replace("/mypage/serviceList/panel");
+        if (response.data) window.location.replace("/mypage/serviceList/panel");
+        else {
+          window.alert("공백란이 있습니다.");
+        }
       })
       .catch((error) => {
         console.log(error);

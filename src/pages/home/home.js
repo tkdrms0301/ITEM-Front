@@ -94,7 +94,7 @@ export const Home = () => {
             <Grid item xs={12}>
               <Typography
                 sx={{
-                  color: "#EFE5D8",
+                  color: "#4B4640",
                   fontWeight: "bold",
                   fontSize: "21px",
                   ml: 3,
@@ -109,7 +109,7 @@ export const Home = () => {
               sx={{
                 display: "flex",
                 justifyContent: "space-around",
-                color: "white",
+                color: "#4B4640",
               }}
             >
               {reservationMenu.map((data, index) => (
@@ -125,7 +125,7 @@ export const Home = () => {
                   {data.icon}
                   <Typography
                     sx={{
-                      color: "white",
+                      color: "#4B4640",
                       fontSize: "12px",
                       fontWeight: "bold",
                       mt: 1,
@@ -147,7 +147,7 @@ export const Home = () => {
             mt: 2,
             backgroundColor: "#81D4FA",
             mr: 4,
-            color: "white",
+            color: "#4B4640",
           }}
         >
           <Grid
@@ -189,7 +189,7 @@ export const Home = () => {
             mt: 2,
             backgroundColor: "#81D4FA",
 
-            color: "white",
+            color: "#4B4640",
           }}
         >
           <Grid container>
@@ -214,9 +214,7 @@ export const Home = () => {
                 alignItems: "center",
               }}
             >
-              <Typography
-                sx={{ pb: 3, mt: 1, color: "white", fontWeight: "bold" }}
-              >
+              <Typography sx={{ pb: 3, mt: 1, fontWeight: "bold" }}>
                 첫 예약 혜택
               </Typography>
             </Grid>
@@ -242,7 +240,7 @@ export const Home = () => {
                   fontWeight: "bold",
                   fontSize: "21px",
                   ml: 3,
-                  color: "#EFE5D8",
+                  color: "#4B4640",
                 }}
               >
                 내 주변 장소
@@ -251,7 +249,11 @@ export const Home = () => {
             <Grid
               item
               xs={12}
-              sx={{ display: "flex", justifyContent: "space-around" }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                color: " #4B4640",
+              }}
             >
               {aroundPlaceMenu.map((data, index) => (
                 <Box
@@ -273,7 +275,6 @@ export const Home = () => {
                       fontWeight: "bold",
                       mt: 1,
                       mb: 2,
-                      color: "white",
                     }}
                   >
                     {data.title}
@@ -308,7 +309,7 @@ export const Home = () => {
                 sx={{
                   fontWeight: "bold",
                   fontSize: "19px",
-                  color: "white",
+                  color: "#4B4640",
                 }}
                 onClick={(e) => navigate(`/community`)}
               >

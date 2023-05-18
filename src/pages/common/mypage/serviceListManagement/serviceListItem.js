@@ -30,7 +30,9 @@ export const ServiceListItem = ({ serviceList }) => {
         },
       })
         .then((response) => {
-          console.log(response);
+          if (response.data) {
+            window.location.reload("/mypage/serviceList/panel");
+          }
         })
         .catch((error) => {
           console.log(error);

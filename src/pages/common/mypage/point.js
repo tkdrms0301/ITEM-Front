@@ -31,7 +31,7 @@ export const Point = ({ point }) => {
               fontSize: "20px",
               pl: "3%",
               fontWeight: "bold",
-              color: "#EFE5D8",
+              color: "#4B4640",
             }}
           >
             ITEM 포인트
@@ -44,7 +44,7 @@ export const Point = ({ point }) => {
               pl: "3%",
               textAlign: "right",
               fontWeight: "bold",
-              color: "white",
+              color: "#4B4640",
             }}
           >
             {point} point

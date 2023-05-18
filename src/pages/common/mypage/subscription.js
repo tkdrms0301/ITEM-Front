@@ -24,7 +24,7 @@ export const Subscription = ({ isSubscription }) => {
       <Grid item xs={8}>
         <Typography
           variant="h7"
-          sx={{ pl: "3%", fontWeight: "bold", color: "white" }}
+          sx={{ pl: "3%", fontWeight: "bold", color: "#4B4640" }}
         >
           ITEM 무제한 데이터 구독
         </Typography>

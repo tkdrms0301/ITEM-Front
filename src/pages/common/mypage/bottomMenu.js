@@ -34,7 +34,7 @@ export const BottomMenu = ({ roleType, userId }) => {
             alignItems: "center",
             fontWeight: "bold",
             borderRadius: "5px",
-            color: "white",
+            color: "#4B4640",
             mr: "3%",
           }}
           onClick={(e) => navigate(`/`)}
@@ -51,7 +51,7 @@ export const BottomMenu = ({ roleType, userId }) => {
               backgroundColor: "#64B5F6",
               borderRadius: "5px",
               fontWeight: "bold",
-              color: "white",
+              color: "#4B4640",
               alignItems: "center",
               p: "5%",
             }}
@@ -73,7 +73,7 @@ export const BottomMenu = ({ roleType, userId }) => {
               backgroundColor: "#64B5F6",
               borderRadius: "5px",
               fontWeight: "bold",
-              color: "white",
+              color: "#4B4640",
             }}
             onClick={(e) => navigate(`/community/mypage/${userId}`)}
           >
@@ -94,7 +94,7 @@ export const BottomMenu = ({ roleType, userId }) => {
             backgroundColor: "#81D4FA",
             borderRadius: "5px",
             fontWeight: "bold",
-            color: "white",
+            color: "#4B4640",
           }}
           onClick={(e) => navigate(`/user/infoUpdate`)}
         >
@@ -115,7 +115,7 @@ export const BottomMenu = ({ roleType, userId }) => {
               backgroundColor: "#64B5F6",
               borderRadius: "5px",
               fontWeight: "bold",
-              color: "white",
+              color: "#4B4640",
             }}
             onClick={(e) => navigate(`/mypage/device`)}
           >
@@ -137,7 +137,7 @@ export const BottomMenu = ({ roleType, userId }) => {
             backgroundColor: "#81D4FA",
             borderRadius: "5px",
             fontWeight: "bold",
-            color: "white",
+            color: "#4B4640",
           }}
           onClick={logOutClick}
         >
