@@ -11,6 +11,12 @@ let map, lat, lng;
 export const PrivateRepairShopDetail = () => {
   const [selectShop, setSelectShop] = useState(null);
 
+  const [roleType, setRoleType] = useState(
+    JSON.parse(window.localStorage.getItem("user")) !== null
+      ? JSON.parse(window.localStorage.getItem("user")).roleType
+      : "MEMBER"
+  );
+
   function getPrivateShopLocation() {
     var container = document.getElementById("repair_shop_map");
     var options = {
@@ -132,14 +138,15 @@ export const PrivateRepairShopDetail = () => {
                     ))}
                   </ul>
                 </div>
-                {JSON.parse(window.localStorage.getItem("user")).roleType ===
-                "MEMBER" ? (
+                {roleType === "MEMBER" ? (
                   <div className="reservation_area">
                     <div
                       className="reservation_button"
                       onClick={() => {
-                        window.location.href =
-                          window.location.pathname + "/reservation";
+                        JSON.parse(window.localStorage.getItem("user")) !== null
+                          ? (window.location.href =
+                              window.location.pathname + "/reservation")
+                          : window.location.replace("/login");
                       }}
                     >
                       <p>예약하기</p>
@@ -147,8 +154,10 @@ export const PrivateRepairShopDetail = () => {
                     <div
                       className="reservation_button"
                       onClick={() => {
-                        window.location.href =
-                          window.location.pathname + "/estimate";
+                        JSON.parse(window.localStorage.getItem("user")) !== null
+                          ? (window.location.href =
+                              window.location.pathname + "/estimate")
+                          : window.location.replace("/login");
                       }}
                     >
                       <p>견적받기</p>
