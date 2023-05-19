@@ -102,7 +102,7 @@ export const RepairForm = ({ roleType }) => {
       alert("검증이 필요한 항목에 대해서 검증이 되지 않았습니다");
       return;
     }
-    console.log(roleType);
+
     const mechanicInfoDto = {
       description: shopDescription.current?.value,
       shopName: shopName.current?.value,
@@ -137,7 +137,7 @@ export const RepairForm = ({ roleType }) => {
       .catch((error) => {
         console.log(error);
       });
-    // window.location.replace("/login");
+    window.location.replace("/login");
   };
 
   const boxList = [

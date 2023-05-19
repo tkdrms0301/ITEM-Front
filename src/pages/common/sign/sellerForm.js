@@ -135,7 +135,7 @@ export const SellerForm = ({ roleType }) => {
       alert("검증이 필요한 항목에 대해서 검증이 되지 않았습니다");
       return;
     }
-    console.log(roleType);
+
     const sellerData = {
       companyName: companyName.current?.value,
       companyNumber: companyNumber.current?.value,
@@ -170,7 +170,7 @@ export const SellerForm = ({ roleType }) => {
       .catch((error) => {
         console.log(error);
       });
-    // window.location.replace("/login");
+    window.location.replace("/login");
   };
 
   const boxList = [
