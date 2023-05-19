@@ -306,11 +306,8 @@ export const Home = () => {
               }}
             >
               <Typography
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "19px",
-                  color: "#4B4640",
-                }}
+                variant="h6"
+                sx={{ color: "info.main" }}
                 onClick={(e) => navigate(`/community`)}
               >
                 내 IT 기기 묻고 답하기 {">"}
