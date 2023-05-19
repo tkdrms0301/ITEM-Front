@@ -42,61 +42,6 @@ function ResponsiveAppBar() {
                 ITEM
               </Typography>
             </Grid>
-
-            {!isLogin ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  position: "absolute",
-                  top: 30,
-                  right: 0,
-                  justifyContent: "center",
-
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  noWrap
-                  component="a"
-                  href="/login"
-                  sx={{
-                    fontSize: "13px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontFamily: "monospace",
-                    fontWeight: "bold",
-                    color: "inherit",
-                    letterSpacing: ".1rem",
-                    textDecoration: "none",
-                    mr: 1,
-                    pr: 1,
-                    borderRight: "2px solid white",
-                    lineHeight: "15px",
-                  }}
-                >
-                  Login
-                </Typography>
-
-                <Typography
-                  component="a"
-                  href="/sign"
-                  sx={{
-                    fontSize: "13px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontFamily: "monospace",
-                    fontWeight: "bold",
-                    color: "inherit",
-                    letterSpacing: ".1rem",
-                    textDecoration: "none",
-                  }}
-                >
-                  SignUp
-                </Typography>
-              </Box>
-            ) : null}
           </Grid>
         </Toolbar>
       </Container>

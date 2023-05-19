@@ -17,21 +17,37 @@ export const Point = ({ point }) => {
       maxWidth={false}
       sx={{
         marginTop: "5%",
-        backgroundColor: "#E0E0E0",
+        backgroundColor: "#64B5F6",
+        borderRadius: "5px",
         width: "90%",
         p: "3%",
-        borderBottom: "2px solid gray",
+        borderBottom: "2px solid #C6E9FA",
       }}
     >
       <Grid container>
-        <Grid item xs={12} sx={{ mb: 2 }}>
-          <Typography variant="h7" sx={{ pl: "3%", fontWeight: "bold" }}>
+        <Grid item xs={12} sx={{ mb: 3 }}>
+          <Typography
+            sx={{
+              fontSize: "20px",
+              pl: "3%",
+              fontWeight: "bold",
+              color: "#4B4640",
+            }}
+          >
             ITEM 포인트
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={{ mb: 3 }}>
-          <Typography variant="h5" sx={{ pl: "3%", textAlign: "right" }}>
-            {point} 포인트
+        <Grid item xs={12} sx={{ mb: 2 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              pl: "3%",
+              textAlign: "right",
+              fontWeight: "bold",
+              color: "#4B4640",
+            }}
+          >
+            {point} point
           </Typography>
         </Grid>
       </Grid>

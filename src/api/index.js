@@ -8,12 +8,17 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = JSON.parse(localStorage.getItem("token")).accessToken.split(
-    " "
-  )[1];
-  if (token) {
-    config.headers["X-AUTH-TOKEN"] = "Bearer " + token;
-    config.withCredentials = true;
+  if (JSON.parse(localStorage.getItem("tFoken")) !== null) {
+    const token = JSON.parse(localStorage.getItem("token")).accessToken.split(
+      " "
+    )[1];
+
+    console.log(token);
+
+    if (token) {
+      config.headers["X-AUTH-TOKEN"] = "Bearer " + token;
+      config.withCredentials = true;
+    }
   }
   return config;
 });

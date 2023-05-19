@@ -28,12 +28,13 @@ export const BottomMenu = ({ roleType, userId }) => {
           item
           xs={6}
           sx={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor: "#64B5F6",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "10px",
             fontWeight: "bold",
+            borderRadius: "5px",
+            color: "#4B4640",
             mr: "3%",
           }}
           onClick={(e) => navigate(`/`)}
@@ -45,12 +46,13 @@ export const BottomMenu = ({ roleType, userId }) => {
             item
             xs={12}
             sx={{
-              backgroundColor: "#E0E0E0",
               display: "flex",
               justifyContent: "center",
+              backgroundColor: "#64B5F6",
               borderRadius: "5px",
-              alignItems: "center",
               fontWeight: "bold",
+              color: "#4B4640",
+              alignItems: "center",
               p: "5%",
             }}
             onClick={(e) => navigate(`/mypage/repair`)}
@@ -61,15 +63,17 @@ export const BottomMenu = ({ roleType, userId }) => {
             item
             xs={12}
             sx={{
-              backgroundColor: "#E0E0E0",
               display: "flex",
               justifyContent: "center",
-              borderRadius: "5px",
               alignItems: "center",
               mt: "5%",
               p: "5%",
               fontSize: "15px",
               fontWeight: "bold",
+              backgroundColor: "#64B5F6",
+              borderRadius: "5px",
+              fontWeight: "bold",
+              color: "#4B4640",
             }}
             onClick={(e) => navigate(`/community/mypage/${userId}`)}
           >
@@ -80,15 +84,17 @@ export const BottomMenu = ({ roleType, userId }) => {
           item
           xs={12}
           sx={{
-            backgroundColor: "#E0E0E0",
             display: "flex",
             justifyContent: "center",
-            borderRadius: "3px",
             alignItems: "center",
             mt: "5%",
             p: "2%",
             fontSize: "15px",
             fontWeight: "bold",
+            backgroundColor: "#81D4FA",
+            borderRadius: "5px",
+            fontWeight: "bold",
+            color: "#4B4640",
           }}
           onClick={(e) => navigate(`/user/infoUpdate`)}
         >
@@ -99,15 +105,17 @@ export const BottomMenu = ({ roleType, userId }) => {
             item
             xs={12}
             sx={{
-              backgroundColor: "#E0E0E0",
               display: "flex",
               justifyContent: "center",
-              borderRadius: "3px",
               alignItems: "center",
               mt: "5%",
               p: "2%",
               fontSize: "15px",
               fontWeight: "bold",
+              backgroundColor: "#64B5F6",
+              borderRadius: "5px",
+              fontWeight: "bold",
+              color: "#4B4640",
             }}
             onClick={(e) => navigate(`/mypage/device`)}
           >
@@ -119,15 +127,17 @@ export const BottomMenu = ({ roleType, userId }) => {
           item
           xs={12}
           sx={{
-            backgroundColor: "#E0E0E0",
             display: "flex",
             justifyContent: "center",
-            borderRadius: "3px",
             alignItems: "center",
             mt: "5%",
             p: "2%",
             fontSize: "15px",
             fontWeight: "bold",
+            backgroundColor: "#81D4FA",
+            borderRadius: "5px",
+            fontWeight: "bold",
+            color: "#4B4640",
           }}
           onClick={logOutClick}
         >

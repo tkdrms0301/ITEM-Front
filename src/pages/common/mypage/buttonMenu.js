@@ -36,8 +36,9 @@ export const ButtonMenu = ({}) => {
           sx={{
             display: "flex",
             justifyContent: "space-around",
-            borderRadius: "5px",
-            backgroundColor: "#9E9E9E",
+            backgroundColor: "#65A8E7",
+            color: "#EFE5D8",
+            fontWeight: "bold",
           }}
         >
           {buttonMenu.map((item, index) =>
@@ -53,8 +54,8 @@ export const ButtonMenu = ({}) => {
                   ":hover": {
                     bgcolor: "#929191",
                   },
-                  borderLeft: "2px solid #929191",
-                  borderRight: "2px solid #929191",
+                  borderLeft: "2px solid #C6E9FA",
+                  borderRight: "2px solid #C6E9FA",
                 }}
                 onClick={(e) => navigate(item.link)}
               >
@@ -70,7 +71,7 @@ export const ButtonMenu = ({}) => {
                   p: "3%",
                   fontWeight: "bold",
                   ":hover": {
-                    bgcolor: "#929191",
+                    bgcolor: "#246D87",
                   },
                 }}
                 onClick={(e) => navigate(item.link)}

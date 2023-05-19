@@ -38,7 +38,7 @@ export const CommonMyPage = () => {
           });
         })
         .catch((error) => {
-          console.log(error);
+          window.location.replace("/login");
         });
     } else {
       window.location.replace("/login");
