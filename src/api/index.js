@@ -13,8 +13,6 @@ api.interceptors.request.use((config) => {
       " "
     )[1];
 
-    console.log(token);
-
     if (token) {
       config.headers["X-AUTH-TOKEN"] = "Bearer " + token;
       config.withCredentials = true;
