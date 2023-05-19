@@ -8,7 +8,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  if (JSON.parse(localStorage.getItem("token")) !== null) {
+  if (JSON.parse(localStorage.getItem("tFoken")) !== null) {
     const token = JSON.parse(localStorage.getItem("token")).accessToken.split(
       " "
     )[1];
