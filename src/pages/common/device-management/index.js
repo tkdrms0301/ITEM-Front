@@ -1,18 +1,23 @@
-import * as React from "react";
 import { Grid } from "@mui/material";
 
 import DeviceList from "./list/DeviceList";
 import DeviceRegister from "./register/DeviceRegister";
 import DeviceManagementButton from "./DeviceManagementButton";
 import { listData } from "./constant";
+import { useEffect, useState } from "react";
+import { get } from "../../../api";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 const DeviceManagement = () => {
-  const [data, setData] = React.useState([...listData]);
-  const [registerOpen, setRegisterOpen] = React.useState(false);
+  const [data, setData] = useState([...listData]);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
-  const dataHandle = (newData) => {
-    setData(newData);
-  };
+  useEffect(() => {
+    get(BaseUrl + "/api/device/get-device").then((res) => {
+      console.log(res.data.data);
+      setData([...res.data.data]);
+    });
+  }, []);
 
   const registerOpenHandle = () => {
     setRegisterOpen(true);
