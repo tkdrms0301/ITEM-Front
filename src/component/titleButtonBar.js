@@ -4,13 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { post } from "../api";
 
-export const TitleButtonBar = ({
-  title,
-  buttonLabel,
-  query,
-  transmitData,
-  completed,
-}) => {
+export const TitleButtonBar = ({ title, buttonLabel, completed }) => {
   const titleBarStyle = {
     position: "fixed",
     bgcolor: "white",
@@ -72,7 +66,7 @@ export const TitleButtonBar = ({
       </Grid>
       <Grid item xs={8} sx={{ display: "flex", justifyContent: "center" }}>
         <Typography variant="h6" align="center" sx={{ fontWeight: "bold" }}>
-          {title}
+          {title}asd
         </Typography>
       </Grid>
       <Grid item xs={2}>
