@@ -1,12 +1,9 @@
-import { Grid } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Header } from "./header";
 import { Point } from "./point";
-import { Account } from "./account";
-import { ButtonMenu } from "./buttonMenu";
-import { Subscription } from "./subscription";
-import { BottomMenu } from "./bottomMenu";
 import { get } from "../../../api";
+import { SubscriptionManager } from "./subscriptionManager";
+import { BottomMenus } from "./bottomMenus";
 
 export const CommonMyPage = () => {
   const [userState, setUserState] = useState({
@@ -34,7 +31,7 @@ export const CommonMyPage = () => {
             roleType: response.data.data.roleType,
             point: response.data.data.point,
             account: response.data.data.account,
-            isSubscription: response.data.data.subscription,
+            subscription: null,
           });
         })
         .catch((error) => {
@@ -48,14 +45,20 @@ export const CommonMyPage = () => {
   return (
     <>
       {userName !== "" ? (
-        <Grid container>
-          <Header userName={userName} />
-          <Point point={point} />
-          <Account account={account} />
-          <ButtonMenu />
-          <Subscription isSubscription={isSubscription} />
-          <BottomMenu userId={userId} roleType={roleType} />
-        </Grid>
+        <Container
+          sx={{
+            marginTop: "5%",
+            width: "100%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            반갑습니다, {userState.userName}님
+          </Typography>
+          <Point userState={userState} />
+          <SubscriptionManager userState={userState} />
+          <BottomMenus userState={userState} />
+        </Container>
       ) : null}
     </>
   );

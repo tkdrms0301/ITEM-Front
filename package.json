@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
+    "@iconify/react": "^4.1.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
     "@mui/x-date-pickers": "^6.3.0",
@@ -21,6 +22,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-spring-bottom-sheet": "^3.4.1",
+    "simplebar-react": "^3.2.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
