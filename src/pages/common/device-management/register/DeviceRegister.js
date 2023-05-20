@@ -12,16 +12,16 @@ import DeviceMenuItem from "./DeviceMenuItem";
 import DeviceInput from "./DeviceInput";
 import axios from "axios";
 import { BaseUrl } from "../../../../api/BaseUrl";
-import { post } from "../../../../api";
+import { get, post } from "../../../../api";
+import { useNavigate } from "react-router";
 
-const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
+const DeviceRegister = ({ registerOpen, registerCloseHandle, setData }) => {
   const [deviceInfo, setDeviceInfo] = useState({
     brand: 0,
     category: 0,
     product: 0,
     etc: "",
   });
-
   const [categoryList, setCategoryList] = useState([
     { id: 0, url: null, name: "카테고리명" },
   ]);
@@ -42,7 +42,7 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
   }, [registerOpen]);
 
   useEffect(() => {
-    axios.get(BaseUrl + "/api/device/category").then((res) => {
+    axios.get(BaseUrl + "/api/device/completion-category").then((res) => {
       setCategoryList([
         { id: 0, url: null, name: "카테고리명" },
         ...res.data.data,
@@ -58,7 +58,7 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
 
   useEffect(() => {
     axios
-      .get(BaseUrl + "/api/device/brand", {
+      .get(BaseUrl + "/api/device/completion-brand", {
         params: {
           category: category,
         },
@@ -76,7 +76,7 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
 
   useEffect(() => {
     axios
-      .get(BaseUrl + "/api/device/product", {
+      .get(BaseUrl + "/api/device/completion-product", {
         params: {
           category: category,
           brand: brand,
@@ -118,6 +118,12 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
         [name]: value,
         etc: "",
       });
+    } else if (name === "etc") {
+      setDeviceInfo({
+        ...deviceInfo,
+        [name]: value,
+        product: 0,
+      });
     } else {
       setDeviceInfo({
         ...deviceInfo,
@@ -135,14 +141,18 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle }) => {
     };
 
     if (window.confirm("등록하시겠습니까?")) {
-      post(BaseUrl + "/api/device/create-device", data).then((res) => {
-        if (res.data.success) {
-          alert(res.data.msg);
-          registerCloseHandle();
-        } else {
-          alert(res.data.msg);
-        }
-      });
+      post(BaseUrl + "/api/device/create-device", data)
+        .then((res) => {
+          if (res.data.success) {
+            alert(res.data.msg);
+            registerCloseHandle();
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

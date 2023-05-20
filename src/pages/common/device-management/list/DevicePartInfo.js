@@ -1,13 +1,27 @@
 import { Grid, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { post } from "../../../../api";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
-const DevicePartInfo = ({ partInfo }) => {
+const DevicePartInfo = ({ partInfo, itDeviceId, handlePartList }) => {
   const handlePartDelete = () => {
     if (window.confirm("부품을 삭제하겠습니까?")) {
-      console.log("부품 삭제");
-      console.log(partInfo);
+      const data = {
+        deviceId: itDeviceId,
+      };
+      post(BaseUrl + "/api/device/delete-part", data)
+        .then((res) => {
+          alert(res.data.msg);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          handlePartList(itDeviceId);
+        });
     }
   };
+
   return (
     <Grid item xs={12}>
       <Grid
@@ -16,7 +30,11 @@ const DevicePartInfo = ({ partInfo }) => {
         sx={{ display: "flex", alignItems: "center" }}>
         <Grid item xs={10}>
           <Typography>
-            {partInfo.brand} / {partInfo.product} / {partInfo.productNumber}
+            {partInfo.brandName} / {partInfo.categoryName}
+            <br />
+            {partInfo.directlyRegisterProductName === null
+              ? partInfo.productName
+              : partInfo.directlyRegisterProductName}
           </Typography>
         </Grid>
         <Grid item xs={2}>

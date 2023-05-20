@@ -7,9 +7,21 @@ import DevicePartRegister from "./DevicePartRegister";
 import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 
-const DeviceInfo = ({ infoData }) => {
+const DeviceInfo = ({ infoData, handleDeviceData }) => {
   const [updateOpen, setUpdateOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
+  const [parts, setParts] = useState([...infoData.components]);
+
+  const handlePartList = (id) => {
+    const newParts = parts.filter((part) => {
+      return part.id !== id;
+    });
+    setParts(newParts);
+  };
+
+  const handlePartListAdd = (part) => {
+    setParts([...parts, part]);
+  };
 
   const updateOpenHandle = () => {
     setUpdateOpen(true);
@@ -27,17 +39,6 @@ const DeviceInfo = ({ infoData }) => {
     setRegisterOpen(false);
   };
 
-  const deviceUpdate = () => {
-    // infoData 에서 값 가져오기
-    // id 보내기
-
-    // 필요한 정보
-    // categoryId : 1,
-    // brandId : 1,
-    // productId : 1,
-    alert("device update");
-  };
-
   const deviceDelete = () => {
     if (window.confirm("기기를 삭제하시겠습니까?")) {
       const deviceId = infoData.id;
@@ -50,6 +51,9 @@ const DeviceInfo = ({ infoData }) => {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          handleDeviceData(deviceId);
         });
     }
   };
@@ -60,7 +64,7 @@ const DeviceInfo = ({ infoData }) => {
         <Grid item xs={12}>
           <Typography>브랜드 : {infoData.brandName}</Typography>
         </Grid>
-        {infoData.productType === "FINISHED_PRODUCT" ? (
+        {parts.length !== 0 ? (
           <Grid item xs={12}>
             <Grid
               container
@@ -78,10 +82,14 @@ const DeviceInfo = ({ infoData }) => {
           </Grid>
         ) : null}
 
-        {infoData.productType === "FINISHED_PRODUCT" &&
-        infoData.components.length > 0
-          ? infoData.components.map((partInfo, index) => (
-              <DevicePartInfo partInfo={partInfo} key={index} />
+        {parts.length !== 0
+          ? parts.map((partInfo, index) => (
+              <DevicePartInfo
+                partInfo={partInfo}
+                itDeviceId={partInfo.id}
+                handlePartList={handlePartList}
+                key={index}
+              />
             ))
           : null}
       </Grid>
@@ -95,23 +103,20 @@ const DeviceInfo = ({ infoData }) => {
         }}
         spacing={2}>
         <Grid item>
-          <Button variant="contained" onClick={updateOpenHandle}>
-            수정
-          </Button>
-        </Grid>
-        <Grid item>
           <Button variant="contained" onClick={deviceDelete}>
             삭제
           </Button>
         </Grid>
-        <DeviceUpdate
+        {/* <DeviceUpdate
           updateOpen={updateOpen}
           updateCloseHandle={updateCloseHandle}
           deviceUpdate={deviceUpdate}
-        />
+        /> */}
         <DevicePartRegister
           registerOpen={registerOpen}
           registerCloseHandle={registerCloseHandle}
+          handlePartListAdd={handlePartListAdd}
+          itDeviceId={infoData.id}
         />
       </Grid>
     </>
