@@ -104,7 +104,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
         {list.map((data, index) => (
           <ListItemButton key={index} onClick={(e) => navigate(data.nav)}>
             <Iconify icon={data.icon} width={35} height={10} sx={{ mr: 2 }} />
-            <Typography variant="h4" sx={{ color: palette.text.secondary }}>
+            <Typography variant="h5" sx={{ color: palette.text.secondary }}>
               {data.title}
             </Typography>
           </ListItemButton>
