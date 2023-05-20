@@ -14,35 +14,22 @@ const AccordionList = ({ data, registerOpenHandle, registerCloseHandle }) => {
   return (
     <>
       <Grid container spacing={3}>
-        {datas.map((data, index) =>
-          data.detail.length > 0 ? (
-            <Grid item xs={12} key={index}>
-              <Accordion>
-                <AccordionSummary>
-                  <Typography>{data.summary}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <AccordionDetailList
-                    detailDatas={data.detail}
-                    registerOpenHandle={registerOpenHandle}
-                    registerCloseHandle={registerCloseHandle}
-                  />
-                </AccordionDetails>
-              </Accordion>
-            </Grid>
-          ) : (
-            <Grid item xs={12} key={index}>
-              <Accordion>
-                <AccordionSummary>
-                  <Typography>{data.summary}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>등록된 기기가 없습니다.</Typography>
-                </AccordionDetails>
-              </Accordion>
-            </Grid>
-          )
-        )}
+        {datas.map((data, index) => (
+          <Grid item xs={12} key={index}>
+            <Accordion>
+              <AccordionSummary>
+                <Typography>{data.summary}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <AccordionDetailList
+                  detailDatas={data.detail}
+                  registerOpenHandle={registerOpenHandle}
+                  registerCloseHandle={registerCloseHandle}
+                />
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+        ))}
       </Grid>
     </>
   );
