@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Header } from "../common/mypage/header";
+import { Header } from "../../component/accountPopover";
 import { Grid, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import SystemSecurityUpdateWarningIcon from "@mui/icons-material/SystemSecurityUpdateWarning";
@@ -41,37 +41,8 @@ export const Home = () => {
     },
   ];
 
-  const [userState, setUserState] = useState({
-    userName: "",
-    userId: 0,
-    point: 0,
-    isSubscription: false,
-    account: "",
-    roleType: "",
-  });
-
-  const { userName, userId, point, isSubscription, account, roleType } =
-    userState;
-
-  useEffect(() => {
-    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
-      //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
-
-      setUserState({
-        ...userState,
-        userName: JSON.parse(window.localStorage.getItem("user")).name,
-        userId: JSON.parse(window.localStorage.getItem("user")).memberId,
-        roleType: JSON.parse(window.localStorage.getItem("user")).roleType,
-        point: 15000,
-        account: "하나은행 05-50053-34",
-        isSubscription: true,
-      });
-    }
-  }, []);
-
   return (
     <>
-      {userName !== "" ? <Header userName={userName}></Header> : null}
       <Grid
         container
         sx={{
@@ -84,23 +55,33 @@ export const Home = () => {
           item
           xs={11}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
+            borderRadius: "5px",
             pt: 2,
             mt: 2,
-            backgroundColor: "#F0F0F0",
+            backgroundColor: "#64B5F6",
           }}
         >
           <Grid container>
             <Grid item xs={12}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
+              <Typography
+                sx={{
+                  color: "#4B4640",
+                  fontWeight: "bold",
+                  fontSize: "21px",
+                  ml: 3,
+                }}
+              >
                 정비소 예약
               </Typography>
             </Grid>
             <Grid
               item
               xs={12}
-              sx={{ display: "flex", justifyContent: "space-around" }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                color: "#4B4640",
+              }}
             >
               {reservationMenu.map((data, index) => (
                 <Box
@@ -114,7 +95,13 @@ export const Home = () => {
                 >
                   {data.icon}
                   <Typography
-                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
+                    sx={{
+                      color: "#4B4640",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      mt: 1,
+                      mb: 2,
+                    }}
                   >
                     {data.title}
                   </Typography>
@@ -127,11 +114,11 @@ export const Home = () => {
           item
           xs={5}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
+            borderRadius: "5px",
             mt: 2,
-            backgroundColor: "#F0F0F0",
+            backgroundColor: "#81D4FA",
             mr: 4,
+            color: "#4B4640",
           }}
         >
           <Grid
@@ -169,9 +156,11 @@ export const Home = () => {
           item
           xs={5}
           sx={{
-            borderRadius: "15px",
+            borderRadius: "5px",
             mt: 2,
-            backgroundColor: "#86C2FD",
+            backgroundColor: "#81D4FA",
+
+            color: "#4B4640",
           }}
         >
           <Grid container>
@@ -196,9 +185,7 @@ export const Home = () => {
                 alignItems: "center",
               }}
             >
-              <Typography
-                sx={{ pb: 3, mt: 1, color: "white", fontWeight: "bold" }}
-              >
+              <Typography sx={{ pb: 3, mt: 1, fontWeight: "bold" }}>
                 첫 예약 혜택
               </Typography>
             </Grid>
@@ -209,23 +196,35 @@ export const Home = () => {
           item
           xs={11}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
+            borderRadius: "5px",
             pt: 2,
             mt: 2,
-            backgroundColor: "#F0F0F0",
+            backgroundColor: "#64B5F6",
+
+            color: "white",
           }}
         >
           <Grid container>
             <Grid item xs={12}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "21px",
+                  ml: 3,
+                  color: "#4B4640",
+                }}
+              >
                 내 주변 장소
               </Typography>
             </Grid>
             <Grid
               item
               xs={12}
-              sx={{ display: "flex", justifyContent: "space-around" }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                color: " #4B4640",
+              }}
             >
               {aroundPlaceMenu.map((data, index) => (
                 <Box
@@ -236,11 +235,18 @@ export const Home = () => {
                     mt: 2,
                   }}
                   key={index}
-                  onClick={(e) => {navigate(data.route)}}
+                  onClick={(e) => {
+                    navigate(data.route);
+                  }}
                 >
                   {data.icon}
                   <Typography
-                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      mt: 1,
+                      mb: 2,
+                    }}
                   >
                     {data.title}
                   </Typography>
@@ -254,11 +260,10 @@ export const Home = () => {
           item
           xs={11}
           sx={{
-            border: "1px solid gray",
-            borderRadius: "10px",
+            borderRadius: "5px",
             p: 1,
             mt: 2,
-            backgroundColor: "#E8E8E8",
+            backgroundColor: "#81D4FA",
           }}
         >
           <Grid container sx={{}}>
@@ -272,10 +277,8 @@ export const Home = () => {
               }}
             >
               <Typography
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "19px",
-                }}
+                variant="h6"
+                sx={{ color: "info.main" }}
                 onClick={(e) => navigate(`/community`)}
               >
                 내 IT 기기 묻고 답하기 {">"}

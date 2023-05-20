@@ -18,10 +18,7 @@ export const ReservationHistory = () => {
     setSelectValue(event.target.value);
   };
   const itemList = ["전체", "예약 대기", "예약 완료", "정비 완료"];
-  console.log(
-    "🚀 ~ file: history.js:23 ~ ReservationHistory ~ selectValue:",
-    selectValue
-  );
+  console.log(selectValue);
   //select filter end
 
   //search date
@@ -35,9 +32,11 @@ export const ReservationHistory = () => {
 
   //user & data
   const [data, setData] = useState(
-    JSON.parse(window.localStorage.getItem("user")).roleType === "MEMBER"
-      ? reservationHistoryForUser
-      : reservationHistoryForRepair
+    JSON.parse(window.localStorage.getItem("user")) !== null
+      ? JSON.parse(window.localStorage.getItem("user")).roleType === "MEMBER"
+        ? reservationHistoryForUser
+        : reservationHistoryForRepair
+      : undefined
   );
   console.log(data);
   //user & data end
@@ -70,10 +69,12 @@ export const ReservationHistory = () => {
         <HistoryList
           itemList={data}
           role={
-            JSON.parse(window.localStorage.getItem("user")).roleType ===
-            "MEMBER"
-              ? "user"
-              : "repair"
+            JSON.parse(window.localStorage.getItem("user")) !== null
+              ? JSON.parse(window.localStorage.getItem("user")).roleType ===
+                "MEMBER"
+                ? "user"
+                : "repair"
+              : null
           }
         />
       </Container>
