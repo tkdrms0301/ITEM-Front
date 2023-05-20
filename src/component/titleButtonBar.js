@@ -2,6 +2,7 @@ import { Button, Grid, Typography } from "@mui/material";
 import { BackButton } from "./backButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { post } from "../api";
 
 export const TitleButtonBar = ({
   title,
@@ -22,13 +23,39 @@ export const TitleButtonBar = ({
   };
   const navigate = useNavigate();
   const handleButton = () => {
-    alert()
-    axios.post(query, transmitData).then((res) => {
-      console.log(res);
-      
+    alert();
+
+    console.log(transmitData);
+
+    const formData = new FormData();
+    for (let i = 0; i < transmitData.rvRequestImgs.length; i++) {
+      const file = new File(
+        [transmitData.rvRequestImgs[i]],
+        `image${i + 1}.png`,
+        {
+          type: "image/png",
+        }
+      );
+      formData.append("rvRequestImgs", file);
     }
-    );
-  }
+    formData.append("productName", transmitData.productName);
+    for (let i = 0; i < transmitData.services.length; i++) {
+      formData.append("services", transmitData.services[i]);
+    }
+    formData.append("comment", transmitData.comment);
+    formData.append("date", transmitData.date);
+    formData.append("time", transmitData.time);
+    formData.append("prodImg", transmitData.prodImg);
+    formData.append("repairShopId", transmitData.repairShopId);
+
+    post(query, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((res) => {
+      //console.log(res);
+    });
+  };
 
   const alert = () => {
     if (completed.isCompleted) {
@@ -50,7 +77,11 @@ export const TitleButtonBar = ({
       </Grid>
       <Grid item xs={2}>
         {buttonLabel == null ? null : (
-          <Button variant="contained" onClick={handleButton} sx={{ ml: "-15%" }}>
+          <Button
+            variant="contained"
+            onClick={handleButton}
+            sx={{ ml: "-15%" }}
+          >
             {buttonLabel}
           </Button>
         )}

@@ -3,10 +3,7 @@ import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { SearchDate } from "../../common/mypage/pointHistory/searchDate";
 import { HistoryList } from "./historyList";
 import { useState } from "react";
-import {
-  reservationHistoryForUser,
-  reservationHistoryForRepair,
-} from "../data/test";
+import { reservationHistoryForUser } from "../data/test";
 import { Box, Container } from "@mui/material";
 import { SelectFilter } from "./filter";
 
@@ -35,9 +32,10 @@ export const ReservationHistory = () => {
 
   //user & data
   const [data, setData] = useState(
-    JSON.parse(window.localStorage.getItem("user")).roleType === "MEMBER"
-      ? reservationHistoryForUser
-      : reservationHistoryForRepair
+    // JSON.parse(window.localStorage.getItem("user")).roleType === "MEMBER"
+    //   ? reservationHistoryForUser
+    //   : reservationHistoryForRepair
+    reservationHistoryForUser
   );
   console.log(data);
   //user & data end

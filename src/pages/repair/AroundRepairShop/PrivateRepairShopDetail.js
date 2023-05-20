@@ -138,8 +138,12 @@ export const PrivateRepairShopDetail = () => {
                     <div
                       className="reservation_button"
                       onClick={() => {
-                        window.location.href =
-                          window.location.pathname + "/reservation";
+                        navigate(
+                          {
+                            pathname: window.location.pathname + "/reservation",
+                          },
+                          { state: { repairShopId: selectShop.repairShopId } }
+                        );
                       }}
                     >
                       <p>예약하기</p>

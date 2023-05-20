@@ -183,7 +183,7 @@ export const HistoryList = ({ itemList, role }) => {
                 alignItems: "center",
               }}
             >
-              <img src={data.img} alt="" width={"80%"} height={"80%"}></img>
+              <img src={data.prodImg} alt="" width={"80%"} height={"80%"}></img>
             </Grid>
             <Grid item xs={7}>
               <Grid container sx={{ ml: 1, p: 1 }}>

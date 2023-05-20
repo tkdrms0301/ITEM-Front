@@ -67,128 +67,51 @@ const estimateHistoryForUser = [
     status: "응답 완료",
   },
 ];
-const reservationHistoryForRepair = [
-  {
-    id: 1,
-    uid: 1,
-    shopId: 2,
-    shopName: "서비스센터1",
-    product: 2,
-    productName: "아이폰11",
-    img: "https://i.dummyjson.com/data/products/1/1.jpg",
-    service: ["서비스1", "서비스2"],
-    userComment: "서비스1,서비스2필요",
-    date: "2021-10-10",
-    time: "10:00",
-    status: "예약 대기",
-  },
-  {
-    id: 2,
-    uid: 2,
-    shopId: 2,
-    shopName: "서비스센터1",
-    product: 3,
-    productName: "아이폰12",
-    img: "https://i.dummyjson.com/data/products/2/1.jpg",
-    service: ["서비스1"],
-    userComment: "서비스1필요",
-    date: "2021-10-09",
-    time: "11:00",
-    status: "예약 완료",
-  },
-  {
-    id: 3,
-    uid: 3,
-    shopId: 2,
-    shopName: "서비스센터1",
-    product: 4,
-    productName: "아이폰13",
-    img: "https://i.dummyjson.com/data/products/2/1.jpg",
-    service: ["서비스3"],
-    userComment: "서비스1필요",
-    date: "2021-10-09",
-    time: "11:00",
-    status: "정비 완료",
-  },
-];
+// const reservationHistoryForRepair = [
+//   {
+//     id: 1,
+//     uid: 1,
+//     shopId: 2,
+//     shopName: "서비스센터1",
+//     product: 2,
+//     productName: "아이폰11",
+//     img: "https://i.dummyjson.com/data/products/1/1.jpg",
+//     service: ["서비스1", "서비스2"],
+//     userComment: "서비스1,서비스2필요",
+//     date: "2021-10-10",
+//     time: "10:00",
+//     status: "예약 대기",
+//   },
+//   {
+//     id: 2,
+//     uid: 2,
+//     shopId: 2,
+//     shopName: "서비스센터1",
+//     product: 3,
+//     productName: "아이폰12",
+//     img: "https://i.dummyjson.com/data/products/2/1.jpg",
+//     service: ["서비스1"],
+//     userComment: "서비스1필요",
+//     date: "2021-10-09",
+//     time: "11:00",
+//     status: "예약 완료",
+//   },
+//   {
+//     id: 3,
+//     uid: 3,
+//     shopId: 2,
+//     shopName: "서비스센터1",
+//     product: 4,
+//     productName: "아이폰13",
+//     img: "https://i.dummyjson.com/data/products/2/1.jpg",
+//     service: ["서비스3"],
+//     userComment: "서비스1필요",
+//     date: "2021-10-09",
+//     time: "11:00",
+//     status: "정비 완료",
+//   },
+// ];
 
-const reservationHistoryForUser = [
-  {
-    id: 1,
-    uid: 1,
-    shopId: 1,
-    shopName: "서비스센터1",
-    product: 2,
-    productName: "아이폰11",
-    img: "https://i.dummyjson.com/data/products/1/1.jpg",
-    service: ["서비스1", "서비스2"],
-    userComment: "서비스1,서비스2필요",
-    date: "2021-10-10",
-    time: "10:00",
-    status: "예약 대기",
-  },
-  {
-    id: 2,
-    uid: 1,
-    shopId: 2,
-    shopName: "서비스센터2",
-    product: 3,
-    productName: "아이폰12",
-    img: "https://i.dummyjson.com/data/products/2/1.jpg",
-    service: ["서비스3"],
-    userComment: "서비스1필요",
-    date: "2021-10-09",
-    time: "11:00",
-    status: "예약 완료",
-  },
-  {
-    id: 3,
-    uid: 1,
-    shopId: 3,
-    shopName: "서비스센터2",
-    product: 4,
-    productName: "아이폰13",
-    img: "https://i.dummyjson.com/data/products/2/1.jpg",
-    service: ["서비스1"],
-    userComment: "서비스1필요",
-    date: "2021-10-09",
-    time: "11:00",
-    status: "정비 완료",
-  },
-];
-
-const users = [
-  {
-    id: 1,
-    name: "김철수",
-    role: "MEMBER",
-  },
-  {
-    id: 2,
-    name: "김영희",
-    role: "MECHANIC",
-  },
-];
-
-const testServiceTime = [
-  {
-    time: "10:00",
-    isEnable: true,
-  },
-  {
-    time: "11:00",
-    isEnable: false,
-  },
-  {
-    time: "12:00",
-    isEnable: true,
-  },
-];
-const services = [
-  { id: 1, title: "서비스1" },
-  { id: 2, title: "서비스2" },
-  { id: 3, title: "서비스3" },
-];
 const products = [
   {
     id: 1,
@@ -281,118 +204,164 @@ const products = [
   },
 ];
 
-const reservationCurrentStatus = [
+const reservationCurrentStatus = {
+  myItems: [
+    {
+      itName: "아이폰13",
+      itImg:
+        "https://media.istockphoto.com/id/1309717274/ko/%EB%B2%A1%ED%84%B0/%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EB%B8%94%EB%9E%99-%EB%AA%A8%EB%8D%98-%EC%96%87%EC%9D%80-%ED%94%84%EB%A0%88%EC%9E%84-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%AA%A8%EB%8B%88%ED%84%B0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-png.jpg?s=1024x1024&w=is&k=20&c=-yA7mLbb_P-f2018tjZ8yvKWiPLB_mQ1AvoqayR4vb0=", //"https://item0container.blob.core.windows.net/image/computer.webp",
+    },
+    {
+      itName: "아이폰12",
+      itImg:
+        "https://media.istockphoto.com/id/1309717274/ko/%EB%B2%A1%ED%84%B0/%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EB%B8%94%EB%9E%99-%EB%AA%A8%EB%8D%98-%EC%96%87%EC%9D%80-%ED%94%84%EB%A0%88%EC%9E%84-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%AA%A8%EB%8B%88%ED%84%B0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-png.jpg?s=1024x1024&w=is&k=20&c=-yA7mLbb_P-f2018tjZ8yvKWiPLB_mQ1AvoqayR4vb0=", //"https://item0container.blob.core.windows.net/image/computer.webp",
+    },
+    {
+      itName: "아이폰10",
+      itImg:
+        "https://media.istockphoto.com/id/1309717274/ko/%EB%B2%A1%ED%84%B0/%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EB%B8%94%EB%9E%99-%EB%AA%A8%EB%8D%98-%EC%96%87%EC%9D%80-%ED%94%84%EB%A0%88%EC%9E%84-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%AA%A8%EB%8B%88%ED%84%B0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-png.jpg?s=1024x1024&w=is&k=20&c=-yA7mLbb_P-f2018tjZ8yvKWiPLB_mQ1AvoqayR4vb0=", //"https://item0container.blob.core.windows.net/image/computer.webp",
+    },
+    {
+      itName: "아이폰9",
+      itImg:
+        "https://media.istockphoto.com/id/1309717274/ko/%EB%B2%A1%ED%84%B0/%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EB%B8%94%EB%9E%99-%EB%AA%A8%EB%8D%98-%EC%96%87%EC%9D%80-%ED%94%84%EB%A0%88%EC%9E%84-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%AA%A8%EB%8B%88%ED%84%B0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-png.jpg?s=1024x1024&w=is&k=20&c=-yA7mLbb_P-f2018tjZ8yvKWiPLB_mQ1AvoqayR4vb0=", //"https://item0container.blob.core.windows.net/image/computer.webp",
+    },
+  ],
+  services: ["배터리 교체", "스크린 교체", "카메라 교체"],
+  reservationTimes: [
+    {
+      time: "09:00",
+      isEnable: true,
+    },
+    {
+      time: "09:30",
+      isEnable: true,
+    },
+    {
+      time: "10:00",
+      isEnable: true,
+    },
+    {
+      time: "10:30",
+      isEnable: true,
+    },
+    {
+      time: "11:00",
+      isEnable: true,
+    },
+    {
+      time: "11:30",
+      isEnable: true,
+    },
+    {
+      time: "12:00",
+      isEnable: true,
+    },
+    {
+      time: "12:30",
+      isEnable: true,
+    },
+    {
+      time: "14:00",
+      isEnable: true,
+    },
+    {
+      time: "14:30",
+      isEnable: true,
+    },
+    {
+      time: "15:00",
+      isEnable: true,
+    },
+    {
+      time: "15:30",
+      isEnable: true,
+    },
+    {
+      time: "16:00",
+      isEnable: true,
+    },
+    {
+      time: "16:30",
+      isEnable: true,
+    },
+    {
+      time: "17:00",
+      isEnable: true,
+    },
+    {
+      time: "17:30",
+      isEnable: true,
+    },
+  ],
+};
+
+const reservationHistoryForUser = [
   {
-    myItems: [
-      {
-        itName: "아이폰13",
-        itImg:
-          "https://item0container.blob.core.windows.net/image/computer.webp",
-      },
-      {
-        itName: "아이폰12",
-        itImg:
-          "https://item0container.blob.core.windows.net/image/computer.webp",
-      },
-      {
-        itName: "아이폰10",
-        itImg:
-          "https://item0container.blob.core.windows.net/image/computer.webp",
-      },
-      {
-        itName: "아이폰9",
-        itImg:
-          "https://item0container.blob.core.windows.net/image/computer.webp",
-      },
+    id: 2,
+    uid: 1,
+    shopId: 2,
+    shopName: "서비스센터2",
+    product: 3,
+    productName: "아이폰12",
+    prodImg:
+      "https://media.istockphoto.com/id/1309717274/ko/%EB%B2%A1%ED%84%B0/%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EB%B8%94%EB%9E%99-%EB%AA%A8%EB%8D%98-%EC%96%87%EC%9D%80-%ED%94%84%EB%A0%88%EC%9E%84-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%AA%A8%EB%8B%88%ED%84%B0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-png.jpg?s=1024x1024&w=is&k=20&c=-yA7mLbb_P-f2018tjZ8yvKWiPLB_mQ1AvoqayR4vb0=", //"https://item0container.blob.core.windows.net/image/computer.webp",
+
+    requestServices: ["배터리 교체", "스크린 교체"],
+
+    rvRequestImgs: [
+      "https://i.dummyjson.com/data/products/1/1.jpg",
+      "https://i.dummyjson.com/data/products/1/1.jpg",
+      "https://i.dummyjson.com/data/products/1/1.jpg",
     ],
-    services: [
-      {
-        svName: "배터리 교체",
-      },
-      {
-        svName: "스크린 교체",
-      },
-      {
-        svName: "카메라 교체",
-      },
-    ],
-    reservationTimes: [
-      {
-        time: "09:00",
-        isEnable: true,
-      },
-      {
-        time: "09:30",
-        isEnable: true,
-      },
-      {
-        time: "10:00",
-        isEnable: true,
-      },
-      {
-        time: "10:30",
-        isEnable: true,
-      },
-      {
-        time: "11:00",
-        isEnable: true,
-      },
-      {
-        time: "11:30",
-        isEnable: true,
-      },
-      {
-        time: "12:00",
-        isEnable: true,
-      },
-      {
-        time: "12:30",
-        isEnable: true,
-      },
-      {
-        time: "14:00",
-        isEnable: true,
-      },
-      {
-        time: "14:30",
-        isEnable: true,
-      },
-      {
-        time: "15:00",
-        isEnable: true,
-      },
-      {
-        time: "15:30",
-        isEnable: true,
-      },
-      {
-        time: "16:00",
-        isEnable: true,
-      },
-      {
-        time: "16:30",
-        isEnable: true,
-      },
-      {
-        time: "17:00",
-        isEnable: true,
-      },
-      {
-        time: "17:30",
-        isEnable: true,
-      },
-    ],
+
+    requestComment: "서비스1필요",
+    date: "2021-10-10",
+    time: "10:00",
+    status: "예약 대기",
+    repairShopId: 3,
+  },
+  {
+    id: 2,
+    uid: 1,
+    shopId: 2,
+    shopName: "서비스센터2",
+    product: 3,
+    productName: "아이폰12",
+    prodImg:
+      "https://media.istockphoto.com/id/1309717274/ko/%EB%B2%A1%ED%84%B0/%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EB%B8%94%EB%9E%99-%EB%AA%A8%EB%8D%98-%EC%96%87%EC%9D%80-%ED%94%84%EB%A0%88%EC%9E%84-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%AA%A8%EB%8B%88%ED%84%B0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-png.jpg?s=1024x1024&w=is&k=20&c=-yA7mLbb_P-f2018tjZ8yvKWiPLB_mQ1AvoqayR4vb0=", //"https://item0container.blob.core.windows.net/image/computer.webp",
+
+    service: ["서비스3"],
+    userComment: "서비스1필요",
+    date: "2021-10-09",
+    time: "11:00",
+    status: "예약 완료",
+    repairShopId: 3,
+  },
+  {
+    id: 3,
+    uid: 1,
+    shopId: 3,
+    shopName: "서비스센터2",
+    product: 4,
+    productName: "아이폰13",
+    prodImg:
+      "https://media.istockphoto.com/id/1309717274/ko/%EB%B2%A1%ED%84%B0/%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EB%B8%94%EB%9E%99-%EB%AA%A8%EB%8D%98-%EC%96%87%EC%9D%80-%ED%94%84%EB%A0%88%EC%9E%84-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%AA%A8%EB%8B%88%ED%84%B0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-png.jpg?s=1024x1024&w=is&k=20&c=-yA7mLbb_P-f2018tjZ8yvKWiPLB_mQ1AvoqayR4vb0=", //"https://item0container.blob.core.windows.net/image/computer.webp",
+
+    service: ["서비스1"],
+    userComment: "서비스1필요",
+    date: "2021-10-09",
+    time: "11:00",
+    status: "정비 완료",
+    repairShopId: 3,
   },
 ];
 
 export {
   estimateHistoryForRepair,
   estimateHistoryForUser,
-  reservationHistoryForRepair,
+  //reservationHistoryForRepair,
   reservationHistoryForUser,
-  users,
-  testServiceTime,
-  services,
   products,
   reservationCurrentStatus,
 };
