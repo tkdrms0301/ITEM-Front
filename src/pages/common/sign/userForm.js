@@ -98,7 +98,7 @@ export const UserForm = ({ roleType }) => {
       alert("검증이 필요한 항목에 대해서 검증이 되지 않았습니다");
       return;
     }
-
+    console.log(roleType);
     const data = {
       email: emailRef.current?.value,
       nickname: nickName.current?.value,
@@ -126,7 +126,7 @@ export const UserForm = ({ roleType }) => {
       .catch((error) => {
         console.log(error);
       });
-    window.location.replace("/login");
+    // window.location.replace("/login");
   };
 
   const boxList = [
