@@ -24,8 +24,7 @@ const DeviceManagement = () => {
     get(BaseUrl + "/api/device/get-device").then((res) => {
       setData([...res.data.data]);
     });
-    setTimeout(1000);
-  }, [data]);
+  }, []);
 
   return (
     <>
