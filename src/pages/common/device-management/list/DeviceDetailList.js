@@ -10,7 +10,7 @@ import {
 import DeviceInfo from "./DeviceInfo";
 import { useEffect, useState } from "react";
 
-const AccordionDetailList = ({ detailDatas }) => {
+const AccordionDetailList = ({ detailDatas, isUpdate, setIsUpdate }) => {
   const [deviceDatas, setDeviceDatas] = useState([...detailDatas]);
 
   const handleDeviceData = (id) => {
@@ -61,6 +61,8 @@ const AccordionDetailList = ({ detailDatas }) => {
                 <DeviceInfo
                   infoData={deviceData}
                   handleDeviceData={handleDeviceData}
+                  isUpdate={isUpdate}
+                  setIsUpdate={setIsUpdate}
                 />
               </AccordionDetails>
             </Accordion>

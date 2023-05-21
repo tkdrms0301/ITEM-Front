@@ -8,7 +8,13 @@ import {
 } from "@mui/material";
 import AccordionDetailList from "./DeviceDetailList";
 
-const AccordionList = ({ data, registerOpenHandle, registerCloseHandle }) => {
+const AccordionList = ({
+  data,
+  registerOpenHandle,
+  registerCloseHandle,
+  isUpdate,
+  setIsUpdate,
+}) => {
   const datas = [...data];
 
   return (
@@ -26,6 +32,8 @@ const AccordionList = ({ data, registerOpenHandle, registerCloseHandle }) => {
                     detailDatas={data.detail}
                     registerOpenHandle={registerOpenHandle}
                     registerCloseHandle={registerCloseHandle}
+                    isUpdate={isUpdate}
+                    setIsUpdate={setIsUpdate}
                   />
                 </AccordionDetails>
               </Accordion>
@@ -48,13 +56,21 @@ const AccordionList = ({ data, registerOpenHandle, registerCloseHandle }) => {
   );
 };
 
-const DeviceList = ({ data, registerOpenHandle, registerCloseHandle }) => {
+const DeviceList = ({
+  data,
+  registerOpenHandle,
+  registerCloseHandle,
+  isUpdate,
+  setIsUpdate,
+}) => {
   return (
     <>
       <AccordionList
         data={data}
         registerOpenHandle={registerOpenHandle}
         registerCloseHandle={registerCloseHandle}
+        isUpdate={isUpdate}
+        setIsUpdate={setIsUpdate}
       />
     </>
   );

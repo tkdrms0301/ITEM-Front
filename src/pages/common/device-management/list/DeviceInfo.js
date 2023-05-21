@@ -7,7 +7,7 @@ import DevicePartRegister from "./DevicePartRegister";
 import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 
-const DeviceInfo = ({ infoData, handleDeviceData }) => {
+const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
   const [updateOpen, setUpdateOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [parts, setParts] = useState([...infoData.components]);
@@ -117,6 +117,8 @@ const DeviceInfo = ({ infoData, handleDeviceData }) => {
           registerCloseHandle={registerCloseHandle}
           handlePartListAdd={handlePartListAdd}
           itDeviceId={infoData.id}
+          isUpdate={isUpdate}
+          setIsUpdate={setIsUpdate}
         />
       </Grid>
     </>
