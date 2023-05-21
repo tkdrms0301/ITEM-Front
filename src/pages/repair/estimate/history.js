@@ -3,11 +3,7 @@ import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { SearchDate } from "../../common/mypage/pointHistory/searchDate";
 import { HistoryList } from "./historyList";
 import { useState } from "react";
-import {
-  users,
-  estimateHistoryForUser,
-  estimateHistoryForRepair,
-} from "../data/test";
+import { estimateHistoryForUser, estimateHistoryForRepair } from "../data/test";
 import { Box, Container } from "@mui/material";
 import { SelectFilter } from "../reservation/filter";
 export const EstimateHistory = () => {

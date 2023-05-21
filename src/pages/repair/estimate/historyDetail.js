@@ -209,11 +209,10 @@ export const EstimateHistoryDetail = ({ role }) => {
           >
             제품정보
           </Typography>
-          {data.img ? (
+          {data.prodImg ? (
             <Box
               component="img"
-              src={data.img}
-              alt={data.productName}
+              src={data.prodImg}
               sx={{
                 width: "40%",
                 height: "100%",
@@ -268,7 +267,7 @@ export const EstimateHistoryDetail = ({ role }) => {
               mt: "1%",
             }}
           >
-            {data.userComment}
+            {data.requestComment}
           </Typography>
         </Box>
         {!isUpdating ? (
