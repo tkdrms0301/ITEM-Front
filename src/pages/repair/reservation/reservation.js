@@ -27,7 +27,8 @@ import { post, get } from "../../../api";
 
 export const Reservation = () => {
   //사용자 선택 가능한 목록 및 선택 가능한 서비스 목록
-  const [userDeviceAndServiceList, setUserDeviceAndServiceList] = useState([]);
+  const [userDevice, setUserDevice] = useState([]);
+  const [repairShopServices, setRepairShopServices] = useState([]);
 
   //멤버 제외 이미지 크게 보기 모달
   const [imgViewModalState, setImgViewModalState] = useState(false);
@@ -38,6 +39,13 @@ export const Reservation = () => {
     window.location.href.includes("update")
   );
 
+  const { reservationId } = useParams();
+  const location = useLocation();
+  const { repairShopId } = useParams();
+  const finalRepairShopId = isUpdate
+    ? repairShopId
+    : location.state?.repairShopId;
+
   const shopId = useParams();
 
   //처음예약
@@ -47,39 +55,89 @@ export const Reservation = () => {
   const [deleteImgState, setDeleteImgState] = useState("");
 
   //수정일 경우
-  const getUpdateData = () => {
-    const getData = reservationHistoryForUser[0]; //axios로 받아온 데이터
-    return {
-      productName: getData.productName,
-      services: getData.requestServices,
-      requestComment: getData.requestComment,
-      date: getData.date,
-      time: getData.time,
-      prodImg: getData.prodImg,
-      rvRequestImgs: getData.rvRequestImgs,
-      repairShopId: getData.repairShopId,
-    };
+  // const getUpdateData = () => {
+  //   const getData = reservationHistoryForUser[0]; //axios로 받아온 데이터
+
+  //   return {
+  //     productName: getData.productName,
+  //     services: getData.requestServices,
+  //     requestComment: getData.requestComment,
+  //     date: getData.date,
+  //     time: getData.time,
+  //     prodImg: getData.prodImg,
+  //     rvRequestImgs: getData.rvRequestImgs,
+  //     repairShopId: getData.repairShopId,
+  //   };
+  // };
+
+  // // for update end
+
+  // //transtmit data
+  // const [reservationData, setReservationData] = useState(
+  //   isUpdate
+  //     ? getUpdateData()
+  //     : {
+  //         productName: "",
+  //         services: [],
+  //         comment: "",
+  //         date: "",
+  //         time: "",
+  //         prodImg: "",
+  //         rvRequestImgs: [],
+  //         repairShopId: location.state?.repairShopId,
+  //       }
+  // );
+  const getUpdateData = async () => {
+    try {
+      const res = await get(
+        "http://localhost:8080/api/repair/reservation/history/detail",
+        {
+          params: { reservationId: reservationId },
+        }
+      );
+      const getData = res.data;
+      setRepairShopServices(getData.services);
+      return {
+        productName: getData.productName,
+        services: getData.requestServices,
+        requestComment: getData.requestComment,
+        date: getData.date,
+        time: getData.time,
+        prodImg: getData.prodImg,
+        rvRequestImgs: getData.rvRequestImgs,
+        repairShopId: getData.repairShopId,
+      };
+    } catch (error) {
+      // 에러 처리
+      console.error(error);
+      return null;
+    }
   };
 
-  const location = useLocation();
+  // ...
 
-  // for update end
+  const [reservationData, setReservationData] = useState({
+    productName: "",
+    services: [],
+    comment: "",
+    date: "",
+    time: "",
+    prodImg: "",
+    rvRequestImgs: [],
+    repairShopId: location.state?.repairShopId,
+  });
 
-  //transtmit data
-  const [reservationData, setReservationData] = useState(
-    isUpdate
-      ? getUpdateData()
-      : {
-          productName: "",
-          services: [],
-          comment: "",
-          date: "",
-          time: "",
-          prodImg: "",
-          rvRequestImgs: [],
-          repairShopId: location.state?.repairShopId,
+  useEffect(() => {
+    if (isUpdate) {
+      getUpdateData().then((data) => {
+        if (data) {
+          setReservationData(data);
+        } else {
+          // 데이터를 가져오지 못한 경우에 대한 처리
         }
-  );
+      });
+    }
+  }, [isUpdate]);
 
   //completed
   const [completed, setCompleted] = useState({
@@ -111,7 +169,7 @@ export const Reservation = () => {
     setReservationData((prevData) => {
       const updatedData = { ...prevData, [e.target.name]: e.target.value };
 
-      const matchingItem = userDeviceAndServiceList?.myItems.find(
+      const matchingItem = userDevice?.find(
         (item) => item.itName === e.target.value
       );
       if (matchingItem) {
@@ -121,16 +179,25 @@ export const Reservation = () => {
       return updatedData;
     });
   };
+  const handleCommentData = (e) => {
+    setReservationData((prevData) => {
+      const updatedData = { ...prevData, [e.target.name]: e.target.value };
 
+      updatedData.requestComment = e.target.value;
+
+      return updatedData;
+    });
+  };
   const handleServicesButton = (e, value) => {
     setReservationData({ ...reservationData, services: value });
   };
+
   const handleDateSelect = (e) => {
     setReservationData({ ...reservationData, date: e.target.value });
 
     get("http://localhost:8080/api/repair/reservation/getEnableTime", {
       params: {
-        repairShopId: location.state?.repairShopId,
+        repairShopId: finalRepairShopId,
         date: e.target.value,
       },
     })
@@ -173,7 +240,8 @@ export const Reservation = () => {
       repairShopId: location.state?.repairShopId,
     })
       .then((res) => {
-        setUserDeviceAndServiceList(res.data);
+        setUserDevice(res.data.myItems);
+        setRepairShopServices(res.data.services);
       })
       .catch((error) => {
         console.log(error);
@@ -310,7 +378,7 @@ export const Reservation = () => {
 
   return (
     <>
-      {userDeviceAndServiceList.length !== 0 ? (
+      {repairShopServices.length !== 0 ? (
         <>
           <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
             <DialogTitle>예약 시간 선택</DialogTitle>
@@ -375,11 +443,12 @@ export const Reservation = () => {
             buttonLabel={isUpdate ? "수정" : "신청"}
             query={
               isUpdate
-                ? "query - update"
+                ? "http://localhost:8080/api/repair/reservation/update"
                 : "http://localhost:8080/api/repair/reservation/add"
             }
             transmitData={reservationData}
             completed={completed}
+            reservationId={reservationId ? reservationId : null}
           />
           <Container sx={{ mt: "56px", pt: "1%" }}>
             <FormControl fullWidth sx={{ mt: 1 }}>
@@ -392,7 +461,7 @@ export const Reservation = () => {
                 label="제품 선택"
                 fullWidth
               >
-                {userDeviceAndServiceList.myItems.map((item, index) => (
+                {userDevice.map((item, index) => (
                   <MenuItem value={item.itName} key={index}>
                     {item.itName}
                   </MenuItem>
@@ -436,7 +505,7 @@ export const Reservation = () => {
                 }}
               />
               <Typography>
-                {userDeviceAndServiceList.myItems.map(
+                {userDevice.map(
                   (item) =>
                     item.itName === reservationData.productName && item.itName
                 )}
@@ -454,7 +523,7 @@ export const Reservation = () => {
                 flexDirection: "column",
               }}
             >
-              {userDeviceAndServiceList.services.map((service) => (
+              {repairShopServices.map((service) => (
                 <ToggleButton
                   value={service}
                   sx={{
@@ -463,6 +532,7 @@ export const Reservation = () => {
                   }}
                 >
                   <SettingsIcon sx={{ fontSize: "40px" }} />
+
                   <Typography variant="h5">{service}</Typography>
                 </ToggleButton>
               ))}
@@ -497,7 +567,7 @@ export const Reservation = () => {
               name="comment"
               label="요청사항"
               value={reservationData.requestComment}
-              onChange={handleData}
+              onChange={handleCommentData}
               fullWidth
               multiline
               //rows={2}

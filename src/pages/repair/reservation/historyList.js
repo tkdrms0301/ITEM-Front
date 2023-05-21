@@ -24,7 +24,7 @@ const MoreButtonRepair = ({ data, role }) => {
     e.stopPropagation();
     handleClose(e);
     console.log("수정: " + selectedId);
-    navigate(`/repair/privateShops/${data.shopId}/update/${data.id}`);
+    navigate(`/repair/privateShops/${data.repairShopId}/update/${data.id}`);
   };
 
   const handleDelete = (e) => {
@@ -121,10 +121,9 @@ export const HistoryList = ({ itemList, role }) => {
                 role === "user"
                   ? data.status === "예약 완료" || data.status === "예약 대기"
                     ? () => {
-                        navigate(
-                          { pathname: `/repair/mypage/reservation/${data.id}` },
-                          { state: { role: data.role } }
-                        );
+                        navigate({
+                          pathname: `/repair/mypage/reservation/${data.id}`,
+                        });
                       }
                     : data.status === "정비 완료"
                     ? () => {
@@ -134,7 +133,7 @@ export const HistoryList = ({ itemList, role }) => {
                             pathname: "/repair/readReport",
                           },
                           {
-                            state: { repairId: data.id },
+                            state: { repairId: data.id }, //수정해야함
                           }
                         );
                       }
@@ -155,7 +154,7 @@ export const HistoryList = ({ itemList, role }) => {
                             pathname: "/repair/registReport",
                           },
                           {
-                            state: { repairId: data.id },
+                            state: { repairId: data.id }, //수정해야함
                           }
                         );
                       }
@@ -167,7 +166,7 @@ export const HistoryList = ({ itemList, role }) => {
                             pathname: "/repair/readReport",
                           },
                           {
-                            state: { repairId: data.id },
+                            state: { repairId: data.id }, //수정해야함
                           }
                         );
                       }

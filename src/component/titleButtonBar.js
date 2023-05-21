@@ -3,8 +3,16 @@ import { BackButton } from "./backButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { post } from "../api";
+import { v4 as uuidv4 } from "uuid";
 
-export const TitleButtonBar = ({ title, buttonLabel, completed }) => {
+export const TitleButtonBar = ({
+  title,
+  transmitData,
+  query,
+  buttonLabel,
+  completed,
+  reservationId,
+}) => {
   const titleBarStyle = {
     position: "fixed",
     bgcolor: "white",
@@ -20,27 +28,38 @@ export const TitleButtonBar = ({ title, buttonLabel, completed }) => {
     alert();
 
     console.log(transmitData);
-
     const formData = new FormData();
     for (let i = 0; i < transmitData.rvRequestImgs.length; i++) {
-      const file = new File(
-        [transmitData.rvRequestImgs[i]],
-        `image${i + 1}.png`,
-        {
-          type: "image/png",
-        }
-      );
+      const uniqueId = uuidv4(); // 고유한 UUID 생성
+
+      const fileName = `${uniqueId}-${i + 1}.jpg`;
+
+      const file = new File([transmitData.rvRequestImgs[i]], fileName, {
+        type: "image/jpeg",
+      });
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageElement = document.createElement("img");
+        imageElement.src = e.target.result;
+        document.body.appendChild(imageElement);
+      };
+      reader.readAsDataURL(file);
       formData.append("rvRequestImgs", file);
     }
+    formData.append("comment", transmitData.comment || "");
+    formData.append("prodImg", transmitData.prodImg);
+    formData.append("repairShopId", transmitData.repairShopId);
+
     formData.append("productName", transmitData.productName);
     for (let i = 0; i < transmitData.services.length; i++) {
       formData.append("services", transmitData.services[i]);
     }
-    formData.append("comment", transmitData.comment);
     formData.append("date", transmitData.date);
     formData.append("time", transmitData.time);
-    formData.append("prodImg", transmitData.prodImg);
-    formData.append("repairShopId", transmitData.repairShopId);
+
+    if (reservationId !== null) {
+      formData.append("reservationId", reservationId.toString());
+    }
 
     post(query, formData, {
       headers: {
@@ -66,7 +85,7 @@ export const TitleButtonBar = ({ title, buttonLabel, completed }) => {
       </Grid>
       <Grid item xs={8} sx={{ display: "flex", justifyContent: "center" }}>
         <Typography variant="h6" align="center" sx={{ fontWeight: "bold" }}>
-          {title}asd
+          {title}
         </Typography>
       </Grid>
       <Grid item xs={2}>
