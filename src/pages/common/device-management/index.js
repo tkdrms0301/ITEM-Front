@@ -12,13 +12,6 @@ const DeviceManagement = () => {
   const [data, setData] = useState([...listData]);
   const [registerOpen, setRegisterOpen] = useState(false);
 
-  useEffect(() => {
-    get(BaseUrl + "/api/device/get-device").then((res) => {
-      console.log(res.data.data);
-      setData([...res.data.data]);
-    });
-  }, []);
-
   const registerOpenHandle = () => {
     setRegisterOpen(true);
   };
@@ -26,6 +19,13 @@ const DeviceManagement = () => {
   const registerCloseHandle = () => {
     setRegisterOpen(false);
   };
+
+  useEffect(() => {
+    get(BaseUrl + "/api/device/get-device").then((res) => {
+      setData([...res.data.data]);
+    });
+    setTimeout(1000);
+  }, [data]);
 
   return (
     <>
@@ -41,6 +41,7 @@ const DeviceManagement = () => {
             <DeviceRegister
               registerOpen={registerOpen}
               registerCloseHandle={registerCloseHandle}
+              setData={setData}
             />
           </div>
         </Grid>

@@ -8,7 +8,7 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import DeviceInfo from "./DeviceInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AccordionDetailList = ({ detailDatas }) => {
   const [deviceDatas, setDeviceDatas] = useState([...detailDatas]);
@@ -19,6 +19,10 @@ const AccordionDetailList = ({ detailDatas }) => {
     });
     setDeviceDatas(newDeviceDatas);
   };
+
+  useEffect(() => {
+    setDeviceDatas([...detailDatas]);
+  }, [detailDatas]);
 
   return (
     <>
@@ -44,13 +48,20 @@ const AccordionDetailList = ({ detailDatas }) => {
                   </Grid>
                   <Grid item xs={9}>
                     <ListItemText>
-                      <Typography>{deviceData.productName}</Typography>
+                      <Typography>
+                        {deviceData.directlyRegisterProductName === null
+                          ? deviceData.productName
+                          : deviceData.directlyRegisterProductName}
+                      </Typography>
                     </ListItemText>
                   </Grid>
                 </Grid>
               </AccordionSummary>
               <AccordionDetails>
-                <DeviceInfo infoData={deviceData} />
+                <DeviceInfo
+                  infoData={deviceData}
+                  handleDeviceData={handleDeviceData}
+                />
               </AccordionDetails>
             </Accordion>
           </Grid>
