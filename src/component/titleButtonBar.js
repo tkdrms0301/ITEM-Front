@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { BackButton } from "./backButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,7 +17,6 @@ export const TitleButtonBar = ({
     position: "fixed",
     bgcolor: "white",
     zIndex: 100,
-    maxWidth: "sm",
     width: "100%",
     height: "56px",
     borderBottom: "1px solid black",
@@ -80,14 +79,23 @@ export const TitleButtonBar = ({
 
   return (
     <Grid container sx={titleBarStyle}>
-      <Grid item xs={2}>
+      <Grid
+        item
+        xs={2}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
         <BackButton />
       </Grid>
-      <Grid item xs={8} sx={{ display: "flex", justifyContent: "center" }}>
+      <Grid
+        item
+        xs={8}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
         <Typography variant="h6" align="center" sx={{ fontWeight: "bold" }}>
           {title}
         </Typography>
       </Grid>
+
       <Grid item xs={2}>
         {buttonLabel == null ? null : (
           <Button

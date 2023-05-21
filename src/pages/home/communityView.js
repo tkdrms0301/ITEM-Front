@@ -29,7 +29,15 @@ export default function CommunityView({
   const navigate = useNavigate();
 
   return (
-    <Card {...other}>
+    <Card
+      sx={{
+        mb: 2,
+        boxShadow: 10,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
       <CardHeader title={title} subheader={subheader} />
 
       <Scrollbar>
@@ -48,7 +56,7 @@ export default function CommunityView({
           endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
           onClick={(e) => navigate(`/community`)}
         >
-          View all
+          내 IT기기 묻고 답하기
         </Button>
       </Box>
     </Card>
