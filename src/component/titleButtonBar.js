@@ -29,7 +29,7 @@ export const TitleButtonBar = ({ title, buttonLabel, completed }) => {
       </Grid>
       <Grid item xs={8} sx={{ display: "flex", justifyContent: "center" }}>
         <Typography variant="h6" align="center" sx={{ fontWeight: "bold" }}>
-          {title}asd
+          {title}
         </Typography>
       </Grid>
       <Grid item xs={2}>

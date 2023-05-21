@@ -31,7 +31,7 @@ export const CommonMyPage = () => {
             roleType: response.data.data.roleType,
             point: response.data.data.point,
             account: response.data.data.account,
-            subscription: null,
+            subscription: response.data.data.subscription,
           });
         })
         .catch((error) => {
@@ -50,8 +50,7 @@ export const CommonMyPage = () => {
             marginTop: "5%",
             width: "100%",
             justifyContent: "flex-start",
-          }}
-        >
+          }}>
           <Typography variant="h4" sx={{ mb: 2 }}>
             반갑습니다, {userState.userName}님
           </Typography>

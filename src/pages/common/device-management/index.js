@@ -11,6 +11,7 @@ import { BaseUrl } from "../../../api/BaseUrl";
 const DeviceManagement = () => {
   const [data, setData] = useState([...listData]);
   const [registerOpen, setRegisterOpen] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const registerOpenHandle = () => {
     setRegisterOpen(true);
@@ -24,8 +25,14 @@ const DeviceManagement = () => {
     get(BaseUrl + "/api/device/get-device").then((res) => {
       setData([...res.data.data]);
     });
-    setTimeout(1000);
-  }, [data]);
+  }, []);
+
+  useEffect(() => {
+    get(BaseUrl + "/api/device/get-device").then((res) => {
+      setData([...res.data.data]);
+    });
+    setIsUpdate(false);
+  }, [isUpdate]);
 
   return (
     <>
@@ -36,12 +43,15 @@ const DeviceManagement = () => {
               data={data}
               registerOpenHandle={registerOpenHandle}
               registerCloseHandle={registerCloseHandle}
+              isUpdate={isUpdate}
+              setIsUpdate={setIsUpdate}
             />
             <DeviceManagementButton registerOpenHandle={registerOpenHandle} />
             <DeviceRegister
               registerOpen={registerOpen}
               registerCloseHandle={registerCloseHandle}
-              setData={setData}
+              isUpdate={isUpdate}
+              setIsUpdate={setIsUpdate}
             />
           </div>
         </Grid>

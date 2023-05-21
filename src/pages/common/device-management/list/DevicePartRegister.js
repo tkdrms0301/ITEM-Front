@@ -20,6 +20,8 @@ const DevicePartRegister = ({
   registerOpen,
   registerCloseHandle,
   itDeviceId,
+  isUpdate,
+  setIsUpdate,
 }) => {
   const navigate = useNavigate();
   const [deviceInfo, setDeviceInfo] = useState({
@@ -163,6 +165,7 @@ const DevicePartRegister = ({
           console.log(err);
         });
     }
+    setIsUpdate(true);
   };
 
   return (

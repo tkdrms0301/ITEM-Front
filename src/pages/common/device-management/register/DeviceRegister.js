@@ -15,7 +15,12 @@ import { BaseUrl } from "../../../../api/BaseUrl";
 import { get, post } from "../../../../api";
 import { useNavigate } from "react-router";
 
-const DeviceRegister = ({ registerOpen, registerCloseHandle, setData }) => {
+const DeviceRegister = ({
+  registerOpen,
+  registerCloseHandle,
+  isUpdate,
+  setIsUpdate,
+}) => {
   const [deviceInfo, setDeviceInfo] = useState({
     brand: 0,
     category: 0,
@@ -146,6 +151,7 @@ const DeviceRegister = ({ registerOpen, registerCloseHandle, setData }) => {
           if (res.data.success) {
             alert(res.data.msg);
             registerCloseHandle();
+            setIsUpdate(true);
           } else {
             alert(res.data.msg);
           }
