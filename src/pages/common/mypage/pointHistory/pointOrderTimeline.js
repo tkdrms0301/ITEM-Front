@@ -13,7 +13,7 @@ import {
 import { Container } from "@mui/system";
 
 function fDateTime(date, newFormat) {
-  const fm = newFormat || "dd MMM yyyy p";
+  const fm = newFormat || "yyyy MMM dd p";
 
   return date ? format(new Date(date), fm) : "";
 }
