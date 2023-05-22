@@ -111,6 +111,11 @@ export const UpdateFormMechanic = () => {
       return;
     }
 
+    if (curServiceType === 0) {
+      alert("수리 서비스 타입을 선택해주세요");
+      return;
+    }
+
     const mechanicInfoDto = {
       shopName: shopName.current?.value,
       shopAddress: shopAddress.current?.value,

@@ -120,6 +120,11 @@ export const RepairForm = ({ roleType }) => {
       return;
     }
 
+    if (curServiceType === 0) {
+      alert("수리 서비스 타입을 선택해주세요");
+      return;
+    }
+
     const mechanicInfoDto = {
       description: shopDescription.current?.value,
       shopName: shopName.current?.value,
