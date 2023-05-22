@@ -63,6 +63,7 @@ export const EstimateComment = ({ completed, data, handleData }) => {
             <Button
               fullWidth
               variant="contained"
+              color="inherit"
               onClick={alert}
               sx={{
                 mt: 3,

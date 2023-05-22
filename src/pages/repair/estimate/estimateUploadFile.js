@@ -119,6 +119,7 @@ export const EstimateUploadFile = ({
             <Button
               variant="contained"
               component="label"
+              color="inherit"
               sx={{
                 borderRadius: "20px",
                 bgcolor: "white",
