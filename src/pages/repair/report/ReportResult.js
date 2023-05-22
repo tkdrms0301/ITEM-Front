@@ -27,7 +27,6 @@ export const ReportResult = ({ isRegist }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(navigate);
     if (isRegist) {
       setReportResultId(location.state?.repairResultId);
       setReportResult(RepairReportData);

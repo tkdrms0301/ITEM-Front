@@ -241,6 +241,7 @@ export const Reservation = () => {
       repairShopId: location.state?.repairShopId,
     })
       .then((res) => {
+        console.log(res);
         setUserDevice(res.data.myItems);
         setRepairShopServices(res.data.services);
       })
@@ -505,12 +506,7 @@ export const Reservation = () => {
                   borderRadius: "10px",
                 }}
               />
-              <Typography>
-                {userDevice.map(
-                  (item) =>
-                    item.itName === reservationData.productName && item.itName
-                )}
-              </Typography>
+              <Typography>{reservationData.productName}</Typography>
             </Box>
             <ToggleButtonGroup
               value={reservationData.services}
@@ -524,8 +520,9 @@ export const Reservation = () => {
                 flexDirection: "column",
               }}
             >
-              {repairShopServices.map((service) => (
+              {repairShopServices.map((service, index) => (
                 <ToggleButton
+                  key={index}
                   value={service}
                   sx={{
                     width: "100%",

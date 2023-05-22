@@ -19,7 +19,9 @@ export const ServiceListUpdateMain = () => {
   const [serviceType, setServivceType] = useState("");
   const [serviceName, setServiceName] = useState("");
   const [servcieDescription, setServcieDescription] = useState("");
+  const [servciePrice, setServciePrice] = useState(0);
   const serviceNameRef = useRef();
+  const servicePriceRef = useRef();
   const serviceDescriptionRef = useRef();
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export const ServiceListUpdateMain = () => {
         setServivceType(response.data.serviceType);
         setServiceName(response.data.serviceName);
         setServcieDescription(response.data.description);
+        setServciePrice(response.data.servicePrice);
       })
       .catch((error) => {
         console.log(error);
@@ -50,6 +53,7 @@ export const ServiceListUpdateMain = () => {
       serviceType: serviceType,
       serviceName: serviceNameRef.current.value,
       description: serviceDescriptionRef.current.value,
+      servicePrice: servicePriceRef.current.value,
     };
     put("http://localhost:8080/api/repair/serviceList/info", data)
       .then((response) => {
@@ -98,6 +102,22 @@ export const ServiceListUpdateMain = () => {
         </Grid>
 
         <Grid item xs={12} sx={{ mt: 25, ml: 2, mr: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            서비스 가격
+          </Typography>
+          <TextField
+            fullWidth
+            multiline
+            required
+            variant="outlined"
+            defaultValue={servciePrice}
+            maxRows={0}
+            sx={{ mt: 1 }}
+            inputRef={servicePriceRef}
+          ></TextField>
+        </Grid>
+
+        <Grid item xs={12} sx={{ mt: 2, ml: 2, mr: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             서비스 이름
           </Typography>
