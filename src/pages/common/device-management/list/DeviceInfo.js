@@ -63,22 +63,26 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography>브랜드 : {infoData.brandName}</Typography>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              color: palette.grey[700],
+            }}>
+            브랜드 : {infoData.brandName}
+          </Typography>
         </Grid>
         {parts.length !== 0 ? (
           <Grid item xs={12}>
             <Grid
               container
               sx={{ display: "flex", alignItems: "center" }}
-              spacing={2}
-            >
+              spacing={2}>
               <Grid item xs={10}>
                 <Typography
                   variant="subtitle2"
                   sx={{
                     color: palette.grey[500],
-                  }}
-                >
+                  }}>
                   부품
                 </Typography>
               </Grid>
@@ -110,8 +114,7 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
           justifyContent: "end",
           mt: 1,
         }}
-        spacing={2}
-      >
+        spacing={2}>
         <Grid item>
           <Button
             variant="contained"
@@ -124,8 +127,7 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
                 bgcolor: "action.selected",
                 fontWeight: "fontWeightBold",
               },
-            }}
-          >
+            }}>
             삭제
           </Button>
         </Grid>

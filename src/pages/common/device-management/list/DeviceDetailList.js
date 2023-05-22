@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import DeviceInfo from "./DeviceInfo";
 import { useEffect, useState } from "react";
+import palette from "../../../../theme/palette";
 
 const AccordionDetailList = ({ detailDatas, isUpdate, setIsUpdate }) => {
   const [deviceDatas, setDeviceDatas] = useState([...detailDatas]);
@@ -27,7 +28,7 @@ const AccordionDetailList = ({ detailDatas, isUpdate, setIsUpdate }) => {
 
   return (
     <>
-      <Card sx={{ shadow: 10 }}>
+      <Card sx={{ boxShadow: 10 }}>
         <Grid container spacing={3}>
           {deviceDatas.map((deviceData, index) => (
             <Grid item xs={12} key={index}>
@@ -50,7 +51,11 @@ const AccordionDetailList = ({ detailDatas, isUpdate, setIsUpdate }) => {
                     </Grid>
                     <Grid item xs={9}>
                       <ListItemText>
-                        <Typography variant="h6">
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: palette.grey[700],
+                          }}>
                           {deviceData.directlyRegisterProductName === null
                             ? deviceData.productName
                             : deviceData.directlyRegisterProductName}
