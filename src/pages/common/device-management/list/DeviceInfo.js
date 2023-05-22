@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DevicePartRegister from "./DevicePartRegister";
 import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
+import palette from "../../../../theme/palette";
 
 const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
   const [updateOpen, setUpdateOpen] = useState(false);
@@ -71,7 +72,13 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
               sx={{ display: "flex", alignItems: "center" }}
               spacing={2}>
               <Grid item xs={10}>
-                <Typography>부품</Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    color: palette.grey[500],
+                  }}>
+                  부품
+                </Typography>
               </Grid>
               <Grid item xs={2}>
                 <IconButton onClick={registerOpenHandle}>
@@ -103,15 +110,20 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
         }}
         spacing={2}>
         <Grid item>
-          <Button variant="contained" onClick={deviceDelete}>
+          <Button
+            variant="contained"
+            onClick={deviceDelete}
+            sx={{
+              color: "ButtonText",
+              bgcolor: "ButtonFace",
+              "&.active": {
+                bgcolor: "action.selected",
+                fontWeight: "fontWeightBold",
+              },
+            }}>
             삭제
           </Button>
         </Grid>
-        {/* <DeviceUpdate
-          updateOpen={updateOpen}
-          updateCloseHandle={updateCloseHandle}
-          deviceUpdate={deviceUpdate}
-        /> */}
         <DevicePartRegister
           registerOpen={registerOpen}
           registerCloseHandle={registerCloseHandle}
