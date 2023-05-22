@@ -2,6 +2,7 @@ import { Grid, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
+import palette from "../../../../theme/palette";
 
 const DevicePartInfo = ({ partInfo, itDeviceId, handlePartList }) => {
   const handlePartDelete = () => {
@@ -29,7 +30,11 @@ const DevicePartInfo = ({ partInfo, itDeviceId, handlePartList }) => {
         spacing={2}
         sx={{ display: "flex", alignItems: "center" }}>
         <Grid item xs={10}>
-          <Typography>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              color: palette.grey[500],
+            }}>
             {partInfo.brandName} / {partInfo.categoryName}
             <br />
             {partInfo.directlyRegisterProductName === null
