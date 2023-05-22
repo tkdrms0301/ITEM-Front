@@ -20,7 +20,7 @@ export const Header = () => {
       >
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
           <BackButton />
-          <Typography variant="h6" sx={{ ml: 3 }}>
+          <Typography variant="h4" sx={{ ml: 3 }}>
             포인트 충전
           </Typography>
         </Box>
