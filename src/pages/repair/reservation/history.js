@@ -66,7 +66,6 @@ export const ReservationHistory = () => {
       if (user.roleType === "MEMBER") {
         get("http://localhost:8080/api/repair/reservation/history")
           .then((res) => {
-            console.log(res.data);
             setData(res.data);
             setFilteredData(res.data);
           })
@@ -74,8 +73,14 @@ export const ReservationHistory = () => {
             // 에러 처리
           });
       } else {
-        // 정비사의 경우에 해당하는 동작
-        setData(reservationHistoryForUser);
+        get("http://localhost:8080/api/repair/reservation/history/mechanic")
+          .then((res) => {
+            setData(res.data);
+            setFilteredData(res.data);
+          })
+          .catch((error) => {
+            // 에러 처리
+          });
       }
     }
   }, []);

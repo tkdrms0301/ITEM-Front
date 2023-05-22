@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 import { BackButton } from "./backButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -23,27 +23,55 @@ export const TitleButtonBar = ({
     alignItems: "center",
   };
   const navigate = useNavigate();
+
+  function isBase64Encoded(data) {
+    const base64Regex = /^data:(.*?);base64,/;
+
+    return base64Regex.test(data);
+  }
+
   const handleButton = () => {
     alert();
 
     console.log(transmitData);
     const formData = new FormData();
+    // for (let i = 0; i < transmitData.rvRequestImgs.length; i++) {
+    //   const uniqueId = uuidv4(); // 고유한 UUID 생성
+
+    //   const fileName = `${uniqueId}-${i + 1}.jpg`;
+
+    //   const file = new File([transmitData.rvRequestImgs[i]], fileName, {
+    //     type: "image/jpeg",
+    //   });
+    //   const reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     const imageElement = document.createElement("img");
+    //     imageElement.src = e.target.result;
+    //     document.body.appendChild(imageElement);
+    //   };
+    //   reader.readAsDataURL(file);
+    //   formData.append("rvRequestImgs", file);
+    // }
     for (let i = 0; i < transmitData.rvRequestImgs.length; i++) {
-      const uniqueId = uuidv4(); // 고유한 UUID 생성
+      const imageData = transmitData.rvRequestImgs[i];
+      const uniqueId = uuidv4();
 
-      const fileName = `${uniqueId}-${i + 1}.jpg`;
+      // Base64로 올바르게 인코딩된 문자열인 경우에만 처리
+      if (isBase64Encoded(imageData)) {
+        const base64Data = imageData;
+        const byteCharacters = atob(base64Data.split(",")[1]);
+        const byteArrays = new Uint8Array(byteCharacters.length);
 
-      const file = new File([transmitData.rvRequestImgs[i]], fileName, {
-        type: "image/jpeg",
-      });
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageElement = document.createElement("img");
-        imageElement.src = e.target.result;
-        document.body.appendChild(imageElement);
-      };
-      reader.readAsDataURL(file);
-      formData.append("rvRequestImgs", file);
+        for (let j = 0; j < byteCharacters.length; j++) {
+          byteArrays[j] = byteCharacters.charCodeAt(j);
+        }
+
+        const blob = new Blob([byteArrays], { type: "image/png" });
+        const fileName = `${uniqueId}-${i + 1}.jpg`;
+        formData.append("rvRequestImgs", blob, fileName);
+      } else {
+        formData.append("rvRequestImgs", imageData);
+      }
     }
     formData.append("comment", transmitData.comment || "");
     formData.append("prodImg", transmitData.prodImg);

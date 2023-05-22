@@ -119,7 +119,9 @@ export const HistoryList = ({ itemList, role }) => {
               }}
               onClick={
                 role === "user"
-                  ? data.status === "예약 완료" || data.status === "예약 대기"
+                  ? data.status === "예약 완료" ||
+                    data.status === "예약 대기" ||
+                    data.status === "거절"
                     ? () => {
                         navigate({
                           pathname: `/repair/mypage/reservation/${data.id}`,
@@ -170,6 +172,13 @@ export const HistoryList = ({ itemList, role }) => {
                           }
                         );
                       }
+                    : data.status === "거절"
+                    ? () => {
+                        navigate(
+                          { pathname: `/repair/mypage/reservation/${data.id}` },
+                          { state: { role: role } }
+                        );
+                      }
                     : null
                   : null
               }
@@ -202,6 +211,8 @@ export const HistoryList = ({ itemList, role }) => {
                             ? "#E3DA64"
                             : data.status === "정비 완료"
                             ? "#88CDAB"
+                            : data.status === "거절"
+                            ? "#FF0000"
                             : "#9A9A9A",
                       }}
                     >

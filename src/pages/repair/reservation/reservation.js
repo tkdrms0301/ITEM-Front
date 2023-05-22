@@ -104,7 +104,8 @@ export const Reservation = () => {
         date: getData.date,
         time: getData.time,
         prodImg: getData.prodImg,
-        rvRequestImgs: getData.rvRequestImgs,
+        //rvRequestImgs: getData.rvRequestImgs,
+        rvRequestImgs: [],
         repairShopId: getData.repairShopId,
       };
     } catch (error) {

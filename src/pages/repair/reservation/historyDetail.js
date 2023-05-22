@@ -5,7 +5,7 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
-import { get } from "../../../api";
+import { get, post } from "../../../api";
 
 export const ReservationHistoryDetail = () => {
   const { reservationId } = useParams();
@@ -25,6 +25,38 @@ export const ReservationHistoryDetail = () => {
         // 에러 처리
       });
   }, []);
+
+  const handleAccept = () => {
+    // 예약 수락
+    post("http://localhost:8080/api/repair/reservation/accept", {
+      reservationId: reservationId,
+    })
+      .then((res) => {
+        console.log(res);
+        alert("예약이 수락되었습니다.");
+        //navigate("/repair/reservation/history");
+        navigate(-1);
+      })
+      .catch((error) => {
+        // 에러 처리
+      });
+  };
+
+  const handleReject = () => {
+    // 예약 거절
+    post("http://localhost:8080/api/repair/reservation/reject", {
+      reservationId: reservationId,
+    })
+      .then((res) => {
+        console.log(res);
+        alert("예약이 거절되었습니다.");
+        //navigate("/repair/reservation/history");
+        navigate(-1);
+      })
+      .catch((error) => {
+        // 에러 처리
+      });
+  };
 
   const modalStyles = {
     content: {
@@ -258,8 +290,7 @@ export const ReservationHistoryDetail = () => {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      console.log(data.id + " 번 예약" + " 거절");
-                      navigate(-1);
+                      handleReject();
                     }}
                     sx={{
                       width: "40%",
@@ -271,8 +302,7 @@ export const ReservationHistoryDetail = () => {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      console.log(data.id + " 번 예약" + " 수락");
-                      navigate(-1);
+                      handleAccept();
                     }}
                     sx={{ width: "40%", height: "80%" }}
                   >
