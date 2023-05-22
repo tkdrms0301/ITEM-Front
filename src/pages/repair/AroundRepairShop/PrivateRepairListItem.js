@@ -25,9 +25,20 @@ const PrivateRepairListItem = ({ shop }) => {
               pt: 1,
             }}
           >
-            <Grid item xs={10}>
+            <Grid
+              item
+              xs={10}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h4" sx={{ pl: 2 }}>
                 {shop.shopName}
+              </Typography>
+              <Typography variant="caption" sx={{ ml: 1, fontWeight: "bold" }}>
+                {"(휴대폰 전문 수리점)"}
               </Typography>
             </Grid>
             <Grid item xs={2}>
