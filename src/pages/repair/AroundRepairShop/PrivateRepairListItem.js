@@ -4,6 +4,12 @@ import { Card, Grid, Rating, Typography } from "@mui/material";
 import palette from "../../../theme/palette";
 
 const PrivateRepairListItem = ({ shop }) => {
+  const shopTypes = [
+    "휴대폰, 테블릿 전문 수리점",
+    "컴퓨터, 노트북 전문 수리점",
+  ];
+
+  console.log(shop);
   return (
     <>
       <Link
@@ -38,7 +44,11 @@ const PrivateRepairListItem = ({ shop }) => {
                 {shop.shopName}
               </Typography>
               <Typography variant="caption" sx={{ ml: 1, fontWeight: "bold" }}>
-                {"(휴대폰 전문 수리점)"}
+                (
+                {shop.shopType === "MOBILE" || shop.shopType === "TABLET"
+                  ? shopTypes[0]
+                  : shopTypes[1]}
+                )
               </Typography>
             </Grid>
             <Grid item xs={2}>
