@@ -25,12 +25,12 @@ const list = [
   {
     name: "이용내역",
     icon: <Iconify icon={"ic:baseline-history"} color="#1877F2" width={27} />,
-    link: "/point/history",
+    link: "/mypage/point/history",
   },
   {
     name: "포인트 충전",
     icon: <Iconify icon={"zondicons:add-outline"} color="#DF3E30" width={27} />,
-    link: "/",
+    link: "/mypage/point/RechargeMain",
   },
   {
     name: "교환소",

@@ -29,6 +29,7 @@ import { IncomeMain } from "./pages/common/mypage/incomeMonitor/incomeMain";
 import { ServiceListPanelMain } from "./pages/common/mypage/serviceListManagement/serviceListPanelMain";
 import { ServiceListAddMain } from "./pages/common/mypage/serviceListManagement/serviceListAddMain";
 import { ServiceListUpdateMain } from "./pages/common/mypage/serviceListManagement/serviceListUpdateMain";
+import { RechargeMain } from "./pages/common/recharge/rechargeMain";
 
 export const routes = [
   {
@@ -140,8 +141,12 @@ export const routes = [
     element: <DataMain />,
   },
   {
-    path: "/point/history",
+    path: "/mypage/point/history",
     element: <PointHistory />,
+  },
+  {
+    path: "/mypage/point/RechargeMain",
+    element: <RechargeMain />,
   },
   {
     path: "/user/infoUpdate",
