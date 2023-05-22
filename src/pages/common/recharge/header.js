@@ -7,8 +7,7 @@ import {
   Typography,
   Avatar,
 } from "@mui/material";
-
-import { BackButton } from "../../../../component/backButton";
+import { BackButton } from "../../../component/backButton";
 
 export const Header = () => {
   return (
@@ -21,8 +20,8 @@ export const Header = () => {
       >
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
           <BackButton />
-          <Typography variant="h4" sx={{ fontWeight: "bold", ml: 3 }}>
-            포인트 이용내역
+          <Typography variant="h4" sx={{ ml: 3 }}>
+            포인트 충전
           </Typography>
         </Box>
       </Container>{" "}

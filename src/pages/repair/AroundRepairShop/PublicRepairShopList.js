@@ -31,7 +31,7 @@ export const PublicRepairShopList = () => {
       });
     }
     var iwContent =
-      '<div style="width:150px;text-align:center;padding:6px 0;">' +
+      '<div style="width:200px;text-align:center;padding:6px 0;">' +
       message +
       "</div>";
 

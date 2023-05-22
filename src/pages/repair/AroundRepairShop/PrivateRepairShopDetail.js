@@ -43,6 +43,7 @@ export const PrivateRepairShopDetail = () => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log(location.state?.shop);
     setSelectShop(location.state?.shop);
   }, []);
 
@@ -144,8 +145,17 @@ export const PrivateRepairShopDetail = () => {
                       className="reservation_button"
                       onClick={() => {
                         JSON.parse(window.localStorage.getItem("user")) !== null
-                          ? (window.location.href =
-                              window.location.pathname + "/reservation")
+                          ? navigate(
+                              {
+                                pathname:
+                                  window.location.pathname + "/reservation",
+                              },
+                              {
+                                state: {
+                                  repairShopId: selectShop.repairShopId,
+                                },
+                              }
+                            )
                           : window.location.replace("/login");
                       }}
                     >
