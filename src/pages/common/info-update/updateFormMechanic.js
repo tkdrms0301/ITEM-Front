@@ -5,6 +5,9 @@ import {
   CssBaseline,
   Button,
   Box,
+  Select,
+  MenuItem,
+  Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
 import { post } from "../../../api";
@@ -12,6 +15,13 @@ import { BaseUrl } from "../../../api/BaseUrl";
 import axios from "axios";
 
 export const UpdateFormMechanic = () => {
+  const repairServiceTypes = [
+    { value: 0, label: "수리 서비스 타입" },
+    { value: 1, label: "모바일" },
+    { value: 2, label: "태블릿" },
+    { value: 3, label: "노트북" },
+    { value: 4, label: "컴퓨터" },
+  ];
   const nickName = useRef(null);
   const address = useRef(null);
   const newPassword = useRef(null);
@@ -28,6 +38,12 @@ export const UpdateFormMechanic = () => {
     nickName: false,
     currentPassword: false,
   });
+
+  const [curServiceType, setCurServiceType] = useState(0);
+
+  const onChangeServiceType = (e) => {
+    setCurServiceType(e.target.value);
+  };
 
   const validatecurrentPassword = () => {
     const data = {
@@ -95,11 +111,19 @@ export const UpdateFormMechanic = () => {
       return;
     }
 
+    if (curServiceType === 0) {
+      alert("수리 서비스 타입을 선택해주세요");
+      return;
+    }
+
     const mechanicInfoDto = {
       shopName: shopName.current?.value,
       shopAddress: shopAddress.current?.value,
+      shopPhoneNumber: shopPhoneNumber.current?.value,
       description: shopDescription.current?.value,
+      repairServiceType: curServiceType,
     };
+
     const data = {
       nickname: nickName.current?.value,
       currentPassword: currentPassword.current?.value,
@@ -257,16 +281,32 @@ export const UpdateFormMechanic = () => {
               ) : null}
             </Grid>
           ))}
+          <Grid item xs={12} sx={{ display: "flex" }}>
+            <Select
+              value={curServiceType}
+              onChange={onChangeServiceType}
+              sx={{ width: "60%" }}>
+              {repairServiceTypes.map((repairServiceType, index) => (
+                <MenuItem key={index} value={repairServiceType.value}>
+                  <Typography align="left">
+                    {repairServiceType.label}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
         </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={infoUpdateSubmit}
-          sx={{ mt: 2 }}>
-          정보 수정
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={infoUpdateSubmit}
+            sx={{ mt: 1 }}>
+            정보 수정
+          </Button>
+        </Grid>
       </Box>
     </Container>
   );
