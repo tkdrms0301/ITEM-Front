@@ -4,12 +4,10 @@ import palette from "../../../theme/palette";
 import Iconify from "../../../theme/Iconify";
 
 export const AmountList = ({ amountList }) => {
-
-  
   return (
     <Card sx={{ boxShadow: 10, p: 1, py: 1 }}>
       {amountList.map((data, index) => (
-        <Paper variant="outlined" sx={{ my: 1 }}>
+        <Paper key={index} variant="outlined" sx={{ my: 1 }}>
           <Grid container>
             <Grid
               item

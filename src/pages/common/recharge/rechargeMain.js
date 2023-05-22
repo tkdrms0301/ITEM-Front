@@ -3,10 +3,7 @@ import { Container } from "@mui/system";
 import { AmountList } from "./amountList";
 import { Card } from "@mui/material";
 import { useEffect, useRef } from "react";
-import {
-  loadPaymentWidget,
-  clearPaymentWidget,
-} from "@tosspayments/payment-widget-sdk";
+import { loadPaymentWidget, ANONYMOUS } from "@tosspayments/payment-widget-sdk";
 
 export const RechargeMain = () => {
   const amountList = [
@@ -60,7 +57,7 @@ export const RechargeMain = () => {
     },
   ];
 
-  const paymentWidgetRef = (useRef < clearPaymentWidget) | (null > null);
+  const paymentWidgetRef = useRef(null)
   const price = 50_00;
   const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
   const customerKey = "YbX2HuSlsC9uVJW6NMRMj";
@@ -72,7 +69,6 @@ export const RechargeMain = () => {
       paymentWidget.renderPaymentMethods("#payment-widget", price);
 
       paymentWidgetRef.current = paymentWidget;
-
     })();
   }, []);
 
