@@ -319,15 +319,17 @@ export const RepairForm = ({ roleType }) => {
               ))}
             </Select>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={signUpSubmit}
-            sx={{ mt: 2 }}>
-            Sign Up
-          </Button>
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={signUpSubmit}
+              sx={{ mt: 1 }}>
+              Sign Up
+            </Button>
+          </Grid>
           <Grid container justify="flex-end" sx={{ mt: 2 }}>
             <Grid item>
               <Link href="/login" variant="body2">

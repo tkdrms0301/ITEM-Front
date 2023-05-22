@@ -291,15 +291,17 @@ export const UpdateFormMechanic = () => {
             </Select>
           </Grid>
         </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={infoUpdateSubmit}
-          sx={{ mt: 2 }}>
-          정보 수정
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={infoUpdateSubmit}
+            sx={{ mt: 1 }}>
+            정보 수정
+          </Button>
+        </Grid>
       </Box>
     </Container>
   );
