@@ -24,7 +24,7 @@ const MoreButtonRepair = ({ data, role }) => {
     e.stopPropagation();
     handleClose(e);
     console.log("수정: " + selectedId);
-    navigate(`/repair/privateShops/${data.shopId}/update/${data.id}`);
+    navigate(`/repair/privateShops/${data.repairShopId}/update/${data.id}`);
   };
 
   const handleDelete = (e) => {
@@ -119,12 +119,13 @@ export const HistoryList = ({ itemList, role }) => {
               }}
               onClick={
                 role === "user"
-                  ? data.status === "예약 완료" || data.status === "예약 대기"
+                  ? data.status === "예약 완료" ||
+                    data.status === "예약 대기" ||
+                    data.status === "거절"
                     ? () => {
-                        navigate(
-                          { pathname: `/repair/mypage/reservation/${data.id}` },
-                          { state: { role: data.role } }
-                        );
+                        navigate({
+                          pathname: `/repair/mypage/reservation/${data.id}`,
+                        });
                       }
                     : data.status === "정비 완료"
                     ? () => {
@@ -134,7 +135,7 @@ export const HistoryList = ({ itemList, role }) => {
                             pathname: "/repair/readReport",
                           },
                           {
-                            state: { repairId: data.id },
+                            state: { repairId: data.id }, //수정해야함
                           }
                         );
                       }
@@ -155,7 +156,7 @@ export const HistoryList = ({ itemList, role }) => {
                             pathname: "/repair/registReport",
                           },
                           {
-                            state: { repairId: data.id },
+                            state: { repairId: data.id }, //수정해야함
                           }
                         );
                       }
@@ -167,8 +168,15 @@ export const HistoryList = ({ itemList, role }) => {
                             pathname: "/repair/readReport",
                           },
                           {
-                            state: { repairId: data.id },
+                            state: { repairId: data.id }, //수정해야함
                           }
+                        );
+                      }
+                    : data.status === "거절"
+                    ? () => {
+                        navigate(
+                          { pathname: `/repair/mypage/reservation/${data.id}` },
+                          { state: { role: role } }
                         );
                       }
                     : null
@@ -184,7 +192,12 @@ export const HistoryList = ({ itemList, role }) => {
                   alignItems: "center",
                 }}
               >
-                <img src={data.img} alt="" width={"80%"} height={"80%"}></img>
+                <img
+                  src={data.prodImg}
+                  alt=""
+                  width={"80%"}
+                  height={"80%"}
+                ></img>
               </Grid>
               <Grid item xs={7}>
                 <Grid container sx={{ ml: 1, p: 1 }}>
@@ -198,6 +211,8 @@ export const HistoryList = ({ itemList, role }) => {
                             ? "#E3DA64"
                             : data.status === "정비 완료"
                             ? "#88CDAB"
+                            : data.status === "거절"
+                            ? "#FF0000"
                             : "#9A9A9A",
                       }}
                     >
