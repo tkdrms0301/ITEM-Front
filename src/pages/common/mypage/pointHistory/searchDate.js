@@ -54,12 +54,17 @@ export const SearchDate = ({
         <Grid item xs={2} sx={{ ml: 1 }}>
           <Button
             size="medium"
-            variant="outlined"
+            variant="contained"
+            color="inherit"
             sx={{
               width: "80px",
               borderColor: "ButtonHighlight",
-              backgroundColor: "ButtonFace",
               color: "ButtonText",
+              bgcolor: "ButtonFace",
+              "&.active": {
+                bgcolor: "action.selected",
+                fontWeight: "fontWeightBold",
+              },
             }}
             onClick={buttonSubmit}
           >
