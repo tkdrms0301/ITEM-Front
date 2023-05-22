@@ -70,13 +70,15 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
             <Grid
               container
               sx={{ display: "flex", alignItems: "center" }}
-              spacing={2}>
+              spacing={2}
+            >
               <Grid item xs={10}>
                 <Typography
                   variant="subtitle2"
                   sx={{
                     color: palette.grey[500],
-                  }}>
+                  }}
+                >
                   부품
                 </Typography>
               </Grid>
@@ -108,11 +110,13 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
           justifyContent: "end",
           mt: 1,
         }}
-        spacing={2}>
+        spacing={2}
+      >
         <Grid item>
           <Button
             variant="contained"
             onClick={deviceDelete}
+            color="inherit"
             sx={{
               color: "ButtonText",
               bgcolor: "ButtonFace",
@@ -120,7 +124,8 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
                 bgcolor: "action.selected",
                 fontWeight: "fontWeightBold",
               },
-            }}>
+            }}
+          >
             삭제
           </Button>
         </Grid>
