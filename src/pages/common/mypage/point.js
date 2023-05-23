@@ -30,14 +30,14 @@ const list = [
   {
     name: "포인트 충전",
     icon: <Iconify icon={"zondicons:add-outline"} color="#DF3E30" width={27} />,
-    link: "/mypage/point/RechargeMain",
+    link: "/mypage/point/rechargeMain",
   },
   {
     name: "교환소",
     icon: (
       <Iconify icon={"icon-park-outline:change"} color="#1C9CEA" width={27} />
     ),
-    link: "/",
+    link: "/mypage/point/dex",
   },
 ];
 
@@ -96,7 +96,12 @@ export const Point = ({ userState, color = "primary" }) => {
               key={index}
               variant="outlined"
               sx={{ mx: 1, py: 2, textAlign: "center" }}
-              onClick={(e) => navigate(data.link)}
+              onClick={(e) =>
+                navigate(
+                  { pathname: data.link },
+                  { state: { userState: userState } }
+                )
+              }
             >
               <Box sx={{ mb: 0.5 }}>{data.icon}</Box>
 

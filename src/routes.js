@@ -30,6 +30,7 @@ import { ServiceListPanelMain } from "./pages/common/mypage/serviceListManagemen
 import { ServiceListAddMain } from "./pages/common/mypage/serviceListManagement/serviceListAddMain";
 import { ServiceListUpdateMain } from "./pages/common/mypage/serviceListManagement/serviceListUpdateMain";
 import { RechargeMain } from "./pages/common/recharge/rechargeMain";
+import { DexMain } from "./pages/common/dex/dexMain";
 
 export const routes = [
   {
@@ -145,8 +146,12 @@ export const routes = [
     element: <PointHistory />,
   },
   {
-    path: "/mypage/point/RechargeMain",
+    path: "/mypage/point/rechargeMain",
     element: <RechargeMain />,
+  },
+  {
+    path: "/mypage/point/dex",
+    element: <DexMain />,
   },
   {
     path: "/user/infoUpdate",
