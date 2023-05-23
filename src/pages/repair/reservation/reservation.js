@@ -29,6 +29,7 @@ export const Reservation = () => {
   //사용자 선택 가능한 목록 및 선택 가능한 서비스 목록
   const [userDevice, setUserDevice] = useState([]);
   const [repairShopServices, setRepairShopServices] = useState([]);
+  const [selectedServiceName, setSelectedServiceName] = useState([]);
 
   //멤버 제외 이미지 크게 보기 모달
   const [imgViewModalState, setImgViewModalState] = useState(false);
@@ -96,7 +97,12 @@ export const Reservation = () => {
         }
       );
       const getData = res.data;
+      console.log(getData);
       setRepairShopServices(getData.services);
+
+      getData.requestServices.map((item) => {
+        setSelectedServiceName((prev) => [...prev, item.serviceName]);
+      });
       return {
         productName: getData.productName,
         services: getData.requestServices,
@@ -190,7 +196,13 @@ export const Reservation = () => {
     });
   };
   const handleServicesButton = (e, value) => {
-    setReservationData({ ...reservationData, services: value });
+    setSelectedServiceName(value);
+
+    const selectedServices = repairShopServices.filter((item) =>
+      value.includes(item.serviceName)
+    );
+
+    setReservationData({ ...reservationData, services: selectedServices });
   };
 
   const handleDateSelect = (e) => {
@@ -238,7 +250,7 @@ export const Reservation = () => {
 
   useEffect(() => {
     post("http://localhost:8080/api/repair/reservation/init", {
-      repairShopId: location.state?.repairShopId,
+      repairShopId: finalRepairShopId,
     })
       .then((res) => {
         console.log(res);
@@ -509,7 +521,8 @@ export const Reservation = () => {
               <Typography>{reservationData.productName}</Typography>
             </Box>
             <ToggleButtonGroup
-              value={reservationData.services}
+              //value={reservationData.services}
+              value={selectedServiceName}
               onChange={handleServicesButton}
               sx={{
                 mt: "3%",
@@ -523,7 +536,7 @@ export const Reservation = () => {
               {repairShopServices.map((service, index) => (
                 <ToggleButton
                   key={index}
-                  value={service}
+                  value={service.serviceName}
                   sx={{
                     width: "100%",
                     height: "75px",
@@ -531,7 +544,9 @@ export const Reservation = () => {
                 >
                   <SettingsIcon sx={{ fontSize: "40px" }} />
 
-                  <Typography variant="h5">{service}</Typography>
+                  <Typography variant="h6">{service.serviceName}</Typography>
+                  <Typography variant="h5"> - </Typography>
+                  <Typography variant="h6">{service.price}원</Typography>
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>

@@ -34,24 +34,12 @@ export const TitleButtonBar = ({
     alert();
 
     console.log(transmitData);
+    console.log(transmitData.services);
+    for (let i = 0; i < transmitData.services.length; i++) {
+      console.log(transmitData.services[i].serviceName);
+      console.log(transmitData.services[i].price);
+    }
     const formData = new FormData();
-    // for (let i = 0; i < transmitData.rvRequestImgs.length; i++) {
-    //   const uniqueId = uuidv4(); // 고유한 UUID 생성
-
-    //   const fileName = `${uniqueId}-${i + 1}.jpg`;
-
-    //   const file = new File([transmitData.rvRequestImgs[i]], fileName, {
-    //     type: "image/jpeg",
-    //   });
-    //   const reader = new FileReader();
-    //   reader.onload = (e) => {
-    //     const imageElement = document.createElement("img");
-    //     imageElement.src = e.target.result;
-    //     document.body.appendChild(imageElement);
-    //   };
-    //   reader.readAsDataURL(file);
-    //   formData.append("rvRequestImgs", file);
-    // }
     for (let i = 0; i < transmitData.rvRequestImgs.length; i++) {
       const imageData = transmitData.rvRequestImgs[i];
       const uniqueId = uuidv4();
@@ -79,7 +67,8 @@ export const TitleButtonBar = ({
 
     formData.append("productName", transmitData.productName);
     for (let i = 0; i < transmitData.services.length; i++) {
-      formData.append("services", transmitData.services[i]);
+      formData.append("serviceName", transmitData.services[i].serviceName);
+      formData.append("price", transmitData.services[i].price);
     }
     formData.append("date", transmitData.date);
     formData.append("time", transmitData.time);

@@ -43,8 +43,6 @@ export const ReservationHistory = () => {
       );
     });
 
-    console.log(data);
-    console.log(filteredDataByDate);
     setFilteredData(filteredDataByDate);
   };
   //search date end

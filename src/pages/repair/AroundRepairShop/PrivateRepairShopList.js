@@ -5,7 +5,6 @@ import { getDistance } from "geolib";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import PrivateRepairListItem from "./PrivateRepairListItem";
-import axios from "axios";
 import { get } from "../../../api/index";
 
 const { kakao } = window;
@@ -33,15 +32,31 @@ export const PrivateRepairShopList = () => {
         position: locPosition,
       });
     }
-    var iwContent =
-      '<div style="width:150px;text-align:center;padding:6px 0;">' +
-      message +
-      "</div>";
+    marker.setMap(map);
 
-    var infowindow = new kakao.maps.InfoWindow({
-      content: iwContent,
+    var content =
+      '<div class="customoverlay">' +
+      "  <div>" +
+      '    <span class="title">' +
+      message +
+      "</span>" +
+      "  </div>" +
+      "</div>";
+    var customOverlay = new kakao.maps.CustomOverlay({
+      map: map,
+      position: locPosition,
+      content: content,
+      yAnchor: 1,
     });
-    infowindow.open(map, marker);
+    // var iwContent =
+    //   '<div style="width:150px;text-align:center;padding:6px 0;border-radius: 5px;border: 1px solid red">' +
+    //   message +
+    //   "</div>";
+
+    // var infowindow = new kakao.maps.InfoWindow({
+    //   content: iwContent,
+    // });
+    // infowindow.open(map, marker);
   }
 
   async function drowRepairShopMapMarkAndSort(privateRepairShops) {

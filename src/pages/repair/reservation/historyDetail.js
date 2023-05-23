@@ -33,6 +33,10 @@ export const ReservationHistoryDetail = () => {
     })
       .then((res) => {
         console.log(res);
+        if (res.data === false) {
+          alert("사용자의 포인트가 부족합니다.");
+          return;
+        }
         alert("예약이 수락되었습니다.");
         //navigate("/repair/reservation/history");
         navigate(-1);
@@ -200,8 +204,14 @@ export const ReservationHistoryDetail = () => {
                       }}
                     >
                       <SettingsIcon sx={{ fontSize: "40px" }} />
-                      <Typography variant="h5" fontWeight="bold">
-                        {item}
+                      <Typography variant="h6" fontWeight="bold">
+                        {item.serviceName}
+                      </Typography>
+                      <Typography variant="h6" fontWeight="bold">
+                        -
+                      </Typography>
+                      <Typography variant="h6" fontWeight="bold">
+                        {item.price}원
                       </Typography>
                     </Grid>
                   );
