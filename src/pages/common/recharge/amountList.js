@@ -14,9 +14,24 @@ import Iconify from "../../../theme/Iconify";
 
 export const AmountList = ({ amountList, handleChange }) => {
   return (
-    <Card sx={{ boxShadow: 10 }}>
+    <Card sx={{ boxShadow: 10, py: 3 }}>
+      <Typography variant="h4" sx={{ mx: 3 }}>
+        충전/결제
+      </Typography>
+      <Typography variant="caption" sx={{ mx: 3, fontWeight: 500 }}>
+        아래의 충전금액을 선택하고 결제를 진행해 주세요.
+        <br />
+      </Typography>
+      <Typography variant="caption" sx={{ mx: 3, fontWeight: 500 }}>
+        ※ 충전 포인트는 유효기간 없이 사용 가능합니다.
+      </Typography>
       <FormControl
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: 1,
+        }}
       >
         <RadioGroup
           defaultValue="medium"
