@@ -80,7 +80,7 @@ export const Point = ({ userState, color = "primary" }) => {
       </Typography>
 
       <Typography variant="subtitle2" textAlign={"right"} sx={{ mr: 2, mb: 2 }}>
-        충전계좌 : {userState.account}
+        연동계좌 : {userState.account}
       </Typography>
 
       <Box

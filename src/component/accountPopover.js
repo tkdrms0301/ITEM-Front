@@ -18,7 +18,7 @@ const MENU_OPTIONS = [
   {
     label: "프로필 수정",
     icon: "eva:person-fill",
-    nav: `/user/infoUpdate`,
+    nav: `/mypage/user/infoUpdate`,
   },
   {
     label: "마이페이지",

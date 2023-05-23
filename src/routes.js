@@ -31,6 +31,7 @@ import { ServiceListAddMain } from "./pages/common/mypage/serviceListManagement/
 import { ServiceListUpdateMain } from "./pages/common/mypage/serviceListManagement/serviceListUpdateMain";
 import { RechargeMain } from "./pages/common/recharge/rechargeMain";
 import { DexMain } from "./pages/common/dex/dexMain";
+import { SubscriptionMain } from "./pages/common/subscription/subscriptionMain";
 
 export const routes = [
   {
@@ -154,7 +155,11 @@ export const routes = [
     element: <DexMain />,
   },
   {
-    path: "/user/infoUpdate",
+    path: "/mypage/subscription",
+    element: <SubscriptionMain />,
+  },
+  {
+    path: "/mypage/user/infoUpdate",
     element: <InfoUpdate />,
   },
   {
