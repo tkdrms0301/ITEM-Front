@@ -4,7 +4,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export const BackButton = () => {
   const navigate = useNavigate();
-  
+
   const handleBackClick = () => {
     navigate(-1);
   };
