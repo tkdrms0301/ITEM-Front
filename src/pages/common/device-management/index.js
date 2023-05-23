@@ -7,6 +7,7 @@ import { listData } from "./constant";
 import { useEffect, useState } from "react";
 import { get } from "../../../api";
 import { BaseUrl } from "../../../api/BaseUrl";
+import { Header } from "./header";
 
 const DeviceManagement = () => {
   const [data, setData] = useState([...listData]);
@@ -36,6 +37,7 @@ const DeviceManagement = () => {
 
   return (
     <>
+      <Header></Header>
       <Grid container>
         <Grid item>
           <div style={{ margin: "10%", maxWidth: "90%" }}>
