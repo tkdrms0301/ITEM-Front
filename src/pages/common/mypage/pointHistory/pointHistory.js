@@ -64,6 +64,7 @@ export const PointHistory = () => {
             list={itemList.map((data, index) => ({
               id: data.id,
               title: data.serviceName,
+              point : data.point.toLocaleString(),
               type: `order${index + 1}`,
               time: data.date,
             }))}

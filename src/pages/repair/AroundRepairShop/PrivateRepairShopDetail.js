@@ -46,7 +46,6 @@ export const PrivateRepairShopDetail = () => {
 
   const location = useLocation();
 
-  const tempPrice = 35000;
   useEffect(() => {
     console.log(location.state?.shop);
     setSelectShop(location.state?.shop);
@@ -188,7 +187,7 @@ export const PrivateRepairShopDetail = () => {
                             variant="subtitle1"
                             sx={{ fontWeight: 800 }}
                           >
-                            {tempPrice.toLocaleString()}원
+                            {service.servicePrice.toLocaleString()}원
                           </Typography>
                           <Typography
                             variant="subtitle2"
@@ -198,7 +197,11 @@ export const PrivateRepairShopDetail = () => {
                               textDecoration: "line-through",
                             }}
                           >
-                            {(tempPrice + 10000).toLocaleString()}원
+                            {(
+                              service.servicePrice +
+                              service.servicePrice * 0.1
+                            ).toLocaleString()}
+                            원
                           </Typography>
                         </Box>
                       </Box>

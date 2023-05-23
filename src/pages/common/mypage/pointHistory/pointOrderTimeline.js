@@ -1,6 +1,6 @@
 // @mui
 import PropTypes from "prop-types";
-import { Card, Typography, CardHeader, CardContent } from "@mui/material";
+import { Card, Typography, CardHeader, CardContent, Grid } from "@mui/material";
 import { format } from "date-fns";
 import {
   Timeline,
@@ -10,7 +10,7 @@ import {
   TimelineSeparator,
   TimelineConnector,
 } from "@mui/lab";
-import { Container } from "@mui/system";
+import { Box, Container } from "@mui/system";
 
 function fDateTime(date, newFormat) {
   const fm = newFormat || "yyyy MMM dd p";
@@ -62,12 +62,13 @@ OrderItem.propTypes = {
   item: PropTypes.shape({
     time: PropTypes.string,
     title: PropTypes.string,
+    point: PropTypes.string,
     type: PropTypes.string,
   }),
 };
 
 function OrderItem({ item, isLast }) {
-  const { type, title, time } = item;
+  const { type, title, time, point } = item;
   return (
     <TimelineItem>
       <TimelineSeparator>
@@ -84,7 +85,15 @@ function OrderItem({ item, isLast }) {
       </TimelineSeparator>
 
       <TimelineContent>
-        <Typography variant="subtitle2">{title}</Typography>
+        <Grid container>
+          <Grid item xs={8} sx={{ display: "flex" }}>
+            <Typography variant="subtitle2">{title}</Typography>
+          </Grid>
+
+          <Typography variant="subtitle2" sx={{ color: "text.secondary" }}>
+            {point}p
+          </Typography>
+        </Grid>
 
         <Typography variant="caption" sx={{ color: "text.secondary" }}>
           {fDateTime(time)}
