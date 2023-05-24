@@ -241,7 +241,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                   justifyContent="space-around"
                   alignItems="center"
                 >
-                  <Grid item xs={4}>
+                  <Grid item xs={4} sx={{ paddingLeft: "10px" }}>
                     <TextField
                       label="최소"
                       size="small"

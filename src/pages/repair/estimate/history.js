@@ -14,18 +14,38 @@ export const EstimateHistory = () => {
   const handleChange = (event) => {
     setSelectValue(event.target.value);
   };
-  const itemList = ["전체", "예약 대기", "예약 완료", "정비 완료"];
+  const itemList = ["전체", "응답 대기", "응답 완료"];
   // console.log(
   //   selectValue
   // );
   //select filter end
 
   //search date
-  const [firstDate, setFirstDate] = useState(dayjs("2021-01-01"));
-  const [secondaryDate, setSecondaryDate] = useState(dayjs("2023-05-02"));
+  const [firstDate, setFirstDate] = useState(dayjs("1900-01-01"));
+  const [secondaryDate, setSecondaryDate] = useState(dayjs("2099-12-31"));
+
+  const [filteredData, setFilteredData] = useState();
+
   const buttonSubmit = () => {
-    console.log(dayjs(firstDate).toDate());
-    console.log(dayjs(secondaryDate).toDate());
+    const filteredDataByDate = data.filter((item) => {
+      const itemDate = dayjs(item.date, "YYYY-MM-DD");
+      const itemTime = dayjs(item.date, "HH:mm");
+      const firstDateTime = dayjs(firstDate).startOf("day");
+      const secondaryDateTime = dayjs(secondaryDate).endOf("day");
+
+      return (
+        itemDate.isSame(firstDateTime, "day") ||
+        itemDate.isSame(secondaryDateTime, "day") ||
+        (itemDate.isAfter(firstDateTime, "day") &&
+          itemDate.isBefore(secondaryDateTime, "day")) ||
+        itemTime.isSame(firstDateTime, "minute") ||
+        itemTime.isSame(secondaryDateTime, "minute") ||
+        (itemTime.isAfter(firstDateTime, "minute") &&
+          itemTime.isBefore(secondaryDateTime, "minute"))
+      );
+    });
+
+    setFilteredData(filteredDataByDate);
   };
   //search date end
 
@@ -41,6 +61,7 @@ export const EstimateHistory = () => {
         get("http://localhost:8080/api/repair/estimate/history")
           .then((res) => {
             setData(res.data);
+            setFilteredData(res.data);
           })
           .catch((error) => {
             // 에러 처리
@@ -49,18 +70,11 @@ export const EstimateHistory = () => {
         get("http://localhost:8080/api/repair/estimate/history/mechanic")
           .then((res) => {
             setData(res.data);
+            setFilteredData(res.data);
           })
           .catch((error) => {
             // 에러 처리
           });
-        // get("http://localhost:8080/api/repair/reservation/history/mechanic")
-        //   .then((res) => {
-        //     setData(res.data);
-        //     setFilteredData(res.data);
-        //   })
-        //   .catch((error) => {
-        //     // 에러 처리
-        //   });
       }
     }
   }, []);
@@ -92,7 +106,11 @@ export const EstimateHistory = () => {
 
         {data ? (
           <HistoryList
-            itemList={data}
+            itemList={
+              selectValue === "전체"
+                ? filteredData
+                : filteredData.filter((item) => item.status === selectValue)
+            }
             role={
               JSON.parse(window.localStorage.getItem("user")).roleType ===
               "MEMBER"

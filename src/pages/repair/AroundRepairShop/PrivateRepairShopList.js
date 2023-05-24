@@ -48,15 +48,6 @@ export const PrivateRepairShopList = () => {
       content: content,
       yAnchor: 1,
     });
-    // var iwContent =
-    //   '<div style="width:150px;text-align:center;padding:6px 0;border-radius: 5px;border: 1px solid red">' +
-    //   message +
-    //   "</div>";
-
-    // var infowindow = new kakao.maps.InfoWindow({
-    //   content: iwContent,
-    // });
-    // infowindow.open(map, marker);
   }
 
   async function drowRepairShopMapMarkAndSort(privateRepairShops) {
