@@ -19,6 +19,7 @@ import { EstimateComment } from "./estimateComment";
 import { useLocation, useParams } from "react-router-dom";
 import { post, get } from "../../../api";
 import { set } from "date-fns";
+import { Header } from "./header";
 
 export const EstimateHistoryDetail = ({ role }) => {
   const location = useLocation();
