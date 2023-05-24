@@ -48,7 +48,7 @@ export const routes = [
     element: <CommunityMain />,
   },
   {
-    path: "/community/mypage/:userid",
+    path: "/community/mypage",
     element: <CommunityMyPage />,
   },
   {

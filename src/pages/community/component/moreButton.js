@@ -2,6 +2,8 @@ import { useState } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
+import { testBaseURL } from "../testing-String";
+import { remove } from "../../../api/index";
 
 export const MoreButton = (props) => {
   const navigate = useNavigate();
@@ -29,16 +31,24 @@ export const MoreButton = (props) => {
     handleClose();
     const id = isPost ? props.postId : props.commentId;
     const type = isPost ? "post" : "comment";
-    if (window.confirm("Are you sure you want to delete this post?")) {
+    if (window.confirm(`Are you sure you want to delete this ${type}?`)) {
       console.log(`${type} ${id} deleted successfully!`);
-      // axios
-      //   .delete(`/api/${type}/${id}`)
-      //   .then(() => {
-      //     console.log(`${type} ${id} deleted successfully!`);
-      //   })
-      //   .catch((error) => {
-      //     console.error(`Error deleting ${type} ${id}: ${error}`);
-      //   });
+      let url;
+      if (isPost) {
+        url = testBaseURL + `/community/post/${id}/delete`;
+      } else {
+        url =
+          testBaseURL + `/community/post/${props.postId}/comment/${id}/delete`;
+      }
+      remove(url)
+        .then(() => {
+          console.log(`${type} ${id} deleted successfully!`);
+          if (type === "post") navigate(-1);
+          else window.location.reload();
+        })
+        .catch((error) => {
+          console.error(`Error deleting ${type} ${id}: ${error}`);
+        });
     }
   };
 
@@ -50,7 +60,9 @@ export const MoreButton = (props) => {
     handleClose();
     props.onReport(report);
   };
-
+  if (props.sessionUserId === undefined) {
+    return <></>;
+  }
   return (
     <>
       <IconButton
