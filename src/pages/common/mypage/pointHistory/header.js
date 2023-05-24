@@ -21,7 +21,7 @@ export const Header = () => {
       >
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
           <BackButton />
-          <Typography variant="h6" sx={{ fontWeight: "bold", ml: 3 }}>
+          <Typography variant="h4" sx={{ fontWeight: "bold", ml: 3 }}>
             포인트 이용내역
           </Typography>
         </Box>

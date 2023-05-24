@@ -6,6 +6,9 @@ import {
   CssBaseline,
   Button,
   Box,
+  Select,
+  MenuItem,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useRef, useState } from "react";
@@ -30,6 +33,20 @@ export const RepairForm = ({ roleType }) => {
     nickName: false,
     currentPassword: false,
   });
+
+  const repairServiceTypes = [
+    { value: 0, label: "수리 서비스 타입" },
+    { value: 1, label: "모바일" },
+    { value: 2, label: "태블릿" },
+    { value: 3, label: "노트북" },
+    { value: 4, label: "컴퓨터" },
+  ];
+
+  const [curServiceType, setCurServiceType] = useState(0);
+
+  const onChangeServiceType = (e) => {
+    setCurServiceType(e.target.value);
+  };
 
   // validateEmail
   const validateEmail = () => {
@@ -103,11 +120,17 @@ export const RepairForm = ({ roleType }) => {
       return;
     }
 
+    if (curServiceType === 0) {
+      alert("수리 서비스 타입을 선택해주세요");
+      return;
+    }
+
     const mechanicInfoDto = {
       description: shopDescription.current?.value,
       shopName: shopName.current?.value,
       shopPhoneNumber: shopPhoneNumber.current?.value,
       shopAddress: shopAddress.current?.value,
+      repairServiceType: curServiceType,
     };
 
     const data = {
@@ -287,21 +310,37 @@ export const RepairForm = ({ roleType }) => {
               ) : null}
             </Grid>
           ))}
-        </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={signUpSubmit}
-          sx={{ mt: 2 }}>
-          Sign Up
-        </Button>
-        <Grid container justify="flex-end" sx={{ mt: 2 }}>
-          <Grid item>
-            <Link href="/login" variant="body2">
-              이미 아이디가 있습니까? 로그인
-            </Link>
+          <Grid item xs={12} sx={{ display: "flex", alignItems: "center" }}>
+            <Select
+              value={curServiceType}
+              onChange={onChangeServiceType}
+              sx={{ width: "60%" }}>
+              {repairServiceTypes.map((repairServiceType, index) => (
+                <MenuItem key={index} value={repairServiceType.value}>
+                  <Typography align="left">
+                    {repairServiceType.label}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={signUpSubmit}
+              sx={{ mt: 1 }}>
+              Sign Up
+            </Button>
+          </Grid>
+          <Grid container justify="flex-end" sx={{ mt: 2 }}>
+            <Grid item>
+              <Link href="/login" variant="body2">
+                이미 아이디가 있습니까? 로그인
+              </Link>
+            </Grid>
           </Grid>
         </Grid>
       </Box>

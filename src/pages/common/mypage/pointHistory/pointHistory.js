@@ -4,6 +4,9 @@ import { Header } from "./header";
 import { SearchDate } from "./searchDate";
 import { HistoryList } from "./historyList";
 import { get } from "../../../../api";
+import PointOrderTimeline from "./pointOrderTimeline";
+import { Container } from "@mui/system";
+import { Card } from "@mui/material";
 
 export const PointHistory = () => {
   const [firstDate, setFirstDate] = useState(dayjs("2021-01-01"));
@@ -18,8 +21,8 @@ export const PointHistory = () => {
       },
     })
       .then((response) => {
-        console.log(response);
         setItemList(response.data.data);
+        console.log(itemList[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -30,8 +33,8 @@ export const PointHistory = () => {
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       get("http://localhost:8080/api/point/history")
         .then((response) => {
-          console.log(response);
           setItemList(response.data.data);
+          console.log(itemList);
         })
         .catch((error) => {
           console.log(error);
@@ -42,14 +45,32 @@ export const PointHistory = () => {
   return (
     <>
       <Header />
-      <SearchDate
-        firstDate={firstDate}
-        setFirstDate={setFirstDate}
-        secondaryDate={secondaryDate}
-        setSecondaryDate={setSecondaryDate}
-        buttonSubmit={buttonSubmit}
-      />
-      <HistoryList itemList={itemList} />
+
+      <Container width="100%" sx={{ mt: 2 }}>
+        <Card sx={{ boxShadow: 10, p: 1, py: 2 }}>
+          <SearchDate
+            firstDate={firstDate}
+            setFirstDate={setFirstDate}
+            secondaryDate={secondaryDate}
+            setSecondaryDate={setSecondaryDate}
+            buttonSubmit={buttonSubmit}
+          />
+
+          <PointOrderTimeline
+            title={
+              itemList[0] === undefined ? "포인트 이용내역이 없습니다." : ""
+            }
+            sx={{ mt: 2 }}
+            list={itemList.map((data, index) => ({
+              id: data.id,
+              title: data.serviceName,
+              point : data.point.toLocaleString(),
+              type: `order${index + 1}`,
+              time: data.date,
+            }))}
+          />
+        </Card>
+      </Container>
     </>
   );
 };

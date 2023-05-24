@@ -1,11 +1,19 @@
-import "../css/RepairReport.css";
 import Modal from "react-modal";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { MoreButton } from "./MoreButton";
 import { ReportDialog } from "../../community/component/reportDialog";
 import { RepairReportData } from "../data/RepairReportData";
-import { TextField, FormControl, Button } from "@mui/material";
+import palette from "../../../theme/palette";
+import {
+  TextField,
+  FormControl,
+  Button,
+  Container,
+  Card,
+  Typography,
+  Box,
+} from "@mui/material";
+import { Header } from "./header";
 
 export const ReportResult = ({ isRegist }) => {
   const [modalState, setModalState] = useState(false);
@@ -27,7 +35,6 @@ export const ReportResult = ({ isRegist }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(navigate);
     if (isRegist) {
       setReportResultId(location.state?.repairResultId);
       setReportResult(RepairReportData);
@@ -107,21 +114,18 @@ export const ReportResult = ({ isRegist }) => {
   const topButtonByIsRegist = () => {
     if (isRegist) {
       return (
-        <>
+        <Container>
           <Button
             variant="contained"
-            style={{ marginRight: "20px" }}
+            size="small"
+            fullWidth
+            color="inherit"
+            sx={{ my: 2 }}
             onClick={() => onClickRegist()}
           >
             등록
           </Button>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <MoreButton reportId={1} onReport={handleReportDialogOpen} />
-        </>
+        </Container>
       );
     }
   };
@@ -130,20 +134,49 @@ export const ReportResult = ({ isRegist }) => {
     if (isRegist) {
       return (
         <>
-          <div className="img_common_field">
+          <Box>
             {reportBeforeImgs.map((img, index) => (
-              <div className="img_common_div" key={index}>
-                <img className="img_content" src={img} alt="after" />
-              </div>
+              <Box
+                key={index}
+                sx={{ width: "100px", height: "150px", position: "relative" }}
+              >
+                <Box
+                  component="img"
+                  src={img}
+                  alt="after"
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    top: "0px",
+                    bottom: "0px",
+                  }}
+                />
+              </Box>
             ))}
-            <div className="img_common_div">
-              <img
-                className="img_content"
-                src={process.env.PUBLIC_URL + "/plus.png"}
-                onClick={() => onClickBeforeImgPlus()}
-                alt="add"
+            <Box>
+              <Box
+                component="img"
+                src={"/camera-outline.svg"}
+                alt="손상부위 사진"
+                sx={{ minWidth: "100px" }}
               />
-            </div>
+              <Button
+                variant="contained"
+                component="label"
+                color="inherit"
+                sx={{
+                  borderRadius: "20px",
+                  bgcolor: "white",
+                  color: "ButtonText",
+                  mb: 2,
+                }}
+                onClick={() => onClickBeforeImgPlus()}
+              >
+                <Typography variant="subtitle2">+ 사진추가</Typography>
+              </Button>
+            </Box>
             <input
               type="file"
               accept="image/*"
@@ -151,64 +184,107 @@ export const ReportResult = ({ isRegist }) => {
               ref={beforeImageInput}
               onChange={saveBeforeImgFile}
             />
-          </div>
-          <div className="img_common_field">
+          </Box>
+
+          <Box>
             {reportAfterImgs.map((img, index) => (
-              <div className="img_common_div" key={index}>
-                <img className="img_content" src={img} alt="after" />
-              </div>
+              <Box
+                key={index}
+                sx={{ width: "100px", height: "150px", position: "relative" }}
+              >
+                <Box
+                  component="img"
+                  src={img}
+                  alt="after"
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    top: "0px",
+                    bottom: "0px",
+                  }}
+                />
+              </Box>
             ))}
-            <div className="img_common_div">
-              <img
-                className="img_content"
-                src={process.env.PUBLIC_URL + "/plus.png"}
-                onClick={() => onClickAfterImgPlus()}
-                alt="add"
+            <Box>
+              <Box
+                component="img"
+                src={"/camera-outline.svg"}
+                alt="정비 후 사진"
+                sx={{ minWidth: "100px" }}
               />
-            </div>
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              ref={afterImageInput}
-              onChange={saveAfterImgFile}
-            />
-          </div>
+              <Button
+                variant="contained"
+                component="label"
+                color="inherit"
+                sx={{
+                  borderRadius: "20px",
+                  bgcolor: "white",
+                  color: "ButtonText",
+                }}
+                onClick={() => onClickAfterImgPlus()}
+              >
+                <Typography variant="subtitle2">+ 사진추가</Typography>
+              </Button>
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                ref={afterImageInput}
+                onChange={saveAfterImgFile}
+              />
+            </Box>
+          </Box>
         </>
       );
     } else {
       return (
         <>
-          <div className="img_common_field">
+          <Box>
             {reportResult.reservationImgs.map((img, index) => (
-              <div className="img_common_div" key={index}>
-                <img
-                  className="img_content"
+              <Box key={index} sx={{ width: "100px", height: "130px" }}>
+                <Box
+                  component="img"
                   src={img.reservationImg}
+                  alt="after"
+                  sx={{
+                    border: "1px solid #f1f1f1",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    my: 1,
+                  }}
                   onClick={() => {
                     setModalState(true);
                     setModalImgState(img.reservationImg);
                   }}
-                  alt="before"
                 />
-              </div>
+              </Box>
             ))}
-          </div>
-          <div className="img_common_field">
+          </Box>
+          <Box>
             {reportResult.reservationResultImgs.map((img, index) => (
-              <div className="img_common_div" key={index}>
-                <img
-                  className="img_content"
+              <Box key={index} sx={{ width: "100px", height: "130px" }}>
+                <Box
+                  component="img"
                   src={img.reservationResultImg}
+                  alt="after"
+                  sx={{
+                    border: "1px solid #f1f1f1",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    my: 1,
+                  }}
                   onClick={() => {
                     setModalState(true);
                     setModalImgState(img.reservationResultImg);
                   }}
-                  alt="after"
                 />
-              </div>
+              </Box>
             ))}
-          </div>
+          </Box>
         </>
       );
     }
@@ -218,23 +294,34 @@ export const ReportResult = ({ isRegist }) => {
     if (isRegist) {
       return (
         <>
-          <FormControl fullWidth>
-            <TextField
-              multiline
-              label="정비 결과"
-              value={reportResultComment}
-              onChange={(event) => {
-                setReportResultComment(event.target.value);
-              }}
-            ></TextField>
-          </FormControl>
+          <Container>
+            <FormControl fullWidth>
+              <TextField
+                multiline
+                label="정비 결과"
+                size="small"
+                value={reportResultComment}
+                onChange={(event) => {
+                  setReportResultComment(event.target.value);
+                }}
+              ></TextField>
+            </FormControl>
+          </Container>
         </>
       );
     } else {
       return (
-        <>
-          <div className="report_text">{reportResult.comment}</div>
-        </>
+        <Container>
+          <Card sx={{ mt: 2, boxShadow: 10, py: 2, px: 2 }}>
+            <Typography
+              variant="h4"
+              sx={{ borderBottom: "2px solid", borderColor: palette.grey[400] }}
+            >
+              정비 담당자의 코멘트
+            </Typography>
+            <Typography variant="subtitle1">{reportResult.comment}</Typography>
+          </Card>
+        </Container>
       );
     }
   };
@@ -256,18 +343,10 @@ export const ReportResult = ({ isRegist }) => {
     width: "100%",
   };
 
-  const onClickBackBtn = () => {
-    if (location.state?.prevIsRegist) {
-      navigate(-2);
-    } else {
-      navigate(-1);
-    }
-  };
-
   return (
     <>
       {reportResult ? (
-        <div className="report_page">
+        <Box>
           <Modal isOpen={modalState} style={modalStyles} ariaHideApp={false}>
             <img
               src={modalImgState}
@@ -276,57 +355,113 @@ export const ReportResult = ({ isRegist }) => {
               alt="beforeImg"
             />
           </Modal>
-          <div className="top_field">
-            <div className="backButton_title">
-              <img
-                className="backButton"
-                src={process.env.PUBLIC_URL + "/backButton.png"}
-                style={{ width: "10vw", height: "10vw" }}
-                alt="back"
-                onClick={onClickBackBtn}
-              />
-              {isRegist ? (
-                <div className="title">정비 리포트 등록</div>
-              ) : (
-                <div className="title">정비 리포트</div>
-              )}
-            </div>
-            {topButtonByIsRegist()}
-          </div>
-          <div className="product_info area">
-            <div className="prod_info_title line">제품 정보</div>
-            <div className="prod_info_content content img_common_field">
-              <div className="prod_info__img img_common_div">
-                <img
-                  className="img_content"
+          {isRegist ? (
+            <Header title={"정비 리포트 등록"} />
+          ) : (
+            <Header
+              title={"정비 리포트"}
+              handleReportDialogOpen={handleReportDialogOpen}
+            />
+          )}
+          <Container>
+            <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  px: 2,
+                  pb: 1,
+                  borderBottom: "2px solid",
+                  borderColor: palette.grey[400],
+                }}
+              >
+                제품 정보
+              </Typography>
+              <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
+                <Box
+                  component="img"
                   src="https://via.placeholder.com/150"
-                  alt="product"
+                  sx={{ width: 100, height: 100 }}
                 />
-              </div>
-              <div className="prod_info__name">{reportResult.prodName}</div>
-            </div>
-          </div>
-          <div className="request area">
-            <div className="request_title line">신청 정보</div>
-            <div className="request_content content">
-              {reportResult.reservationRequest}
-            </div>
-          </div>
-          <div className="report area">
-            <div className="report_title line">정비 리포트</div>
-            <div className="report_content content">
-              <div className="report_img">
-                <div className="img_text">
-                  <div className="before_img_text text">수리 전</div>
-                  <div className="after_img_text text">수리 후</div>
-                </div>
-                <div className="repair_img_field">
+                <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                  {reportResult.prodName}
+                </Typography>
+              </Box>
+            </Card>
+            <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  px: 2,
+                  pb: 1,
+                  borderBottom: "2px solid",
+                  borderColor: palette.grey[400],
+                }}
+              >
+                신청 정보
+              </Typography>
+              <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
+                <Typography variant="body2">
+                  {reportResult.reservationRequest}
+                </Typography>
+              </Box>
+            </Card>
+            <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  px: 2,
+                  pb: 1,
+                  borderBottom: "2px solid",
+                  borderColor: palette.grey[400],
+                }}
+              >
+                정비 결과
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    my: 2,
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        px: 1,
+                        py: 1,
+                        backgroundColor: palette.error.light,
+                        borderRadius: "10px",
+                        color: palette.info.contrastText,
+                      }}
+                    >
+                      수리 전
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        px: 1,
+                        py: 1,
+                        backgroundColor: palette.info.light,
+                        borderRadius: "10px",
+                        color: palette.info.contrastText,
+                      }}
+                    >
+                      수리 후
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ display: "flex", justifyContent: "space-around" }}>
                   {reportResultImgContentByIsRegist()}
-                </div>
-              </div>
-              {reportResultTextContentByIsRegist()}
-            </div>
-          </div>
+                </Box>
+                {reportResultTextContentByIsRegist()}
+              </Box>
+            </Card>
+            {topButtonByIsRegist()}
+          </Container>
           {showReportDialog && (
             <ReportDialog
               reportType={reportType}
@@ -337,7 +472,7 @@ export const ReportResult = ({ isRegist }) => {
               onReportSubmit={handleReportSubmit}
             />
           )}
-        </div>
+        </Box>
       ) : null}
     </>
   );

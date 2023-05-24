@@ -83,6 +83,9 @@ export const SubscriptionManager = ({ userState, color = "primary" }) => {
           <Typography
             variant="h5"
             sx={{ opacity: 0.72, mr: 2, color: "MenuText" }}
+            onClick={(e) => {
+              navigate(`/mypage/subscription`);
+            }}
           >
             구매하기{`▶`}
           </Typography>

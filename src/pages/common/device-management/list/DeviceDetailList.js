@@ -6,11 +6,12 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Card,
 } from "@mui/material";
 import DeviceInfo from "./DeviceInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AccordionDetailList = ({ detailDatas }) => {
+const AccordionDetailList = ({ detailDatas, isUpdate, setIsUpdate }) => {
   const [deviceDatas, setDeviceDatas] = useState([...detailDatas]);
 
   const handleDeviceData = (id) => {
@@ -20,42 +21,57 @@ const AccordionDetailList = ({ detailDatas }) => {
     setDeviceDatas(newDeviceDatas);
   };
 
+  useEffect(() => {
+    setDeviceDatas([...detailDatas]);
+  }, [detailDatas]);
+
   return (
     <>
-      <Grid container spacing={3}>
-        {deviceDatas.map((deviceData, index) => (
-          <Grid item xs={12} key={index}>
-            <Accordion>
-              <AccordionSummary>
-                <Grid
-                  container
-                  spacing={3}
-                  sx={{ display: "flex", alignItems: "center" }}>
-                  <Grid item xs={3}>
-                    <Box
-                      component="img"
-                      sx={{
-                        height: "100%",
-                        width: "100%",
-                      }}
-                      alt=""
-                      src={deviceData.url}
-                    />
+      <Card sx={{ shadow: 10 }}>
+        <Grid container spacing={3}>
+          {deviceDatas.map((deviceData, index) => (
+            <Grid item xs={12} key={index}>
+              <Accordion>
+                <AccordionSummary>
+                  <Grid
+                    container
+                    spacing={3}
+                    sx={{ display: "flex", alignItems: "center" }}>
+                    <Grid item xs={3}>
+                      <Box
+                        component="img"
+                        sx={{
+                          height: "100%",
+                          width: "100%",
+                        }}
+                        alt=""
+                        src={deviceData.url}
+                      />
+                    </Grid>
+                    <Grid item xs={9}>
+                      <ListItemText>
+                        <Typography variant="h6">
+                          {deviceData.directlyRegisterProductName === null
+                            ? deviceData.productName
+                            : deviceData.directlyRegisterProductName}
+                        </Typography>
+                      </ListItemText>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={9}>
-                    <ListItemText>
-                      <Typography>{deviceData.productName}</Typography>
-                    </ListItemText>
-                  </Grid>
-                </Grid>
-              </AccordionSummary>
-              <AccordionDetails>
-                <DeviceInfo infoData={deviceData} />
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-        ))}
-      </Grid>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <DeviceInfo
+                    infoData={deviceData}
+                    handleDeviceData={handleDeviceData}
+                    isUpdate={isUpdate}
+                    setIsUpdate={setIsUpdate}
+                  />
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
+          ))}
+        </Grid>
+      </Card>
     </>
   );
 };

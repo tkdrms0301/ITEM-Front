@@ -12,7 +12,7 @@ export const ServiceListPanelHeader = () => {
       >
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
           <BackButton></BackButton>
-          <Typography variant="h6" sx={{ fontWeight: "bold", ml: 3 }}>
+          <Typography variant="h5" sx={{ ml: 3 }}>
             서비스 항목 관리
           </Typography>
         </Box>

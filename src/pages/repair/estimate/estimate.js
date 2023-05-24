@@ -1,23 +1,16 @@
-import {
-  Autocomplete,
-  Box,
-  Container,
-  TextField,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { useEffect, useState } from "react";
+import { EstimateUploadFile } from "./estimateUploadFile";
+import { EstimateComment } from "./estimateComment";
 import { useParams } from "react-router-dom";
-import { products } from "../data/test";
+import { Header } from "./header";
+import { Container, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const Estimate = () => {
   const shopId = useParams();
-  const [productImg, setProductImg] = useState("");
-
+  const [uploadImgFile, setUploadImgFile] = useState("");
+  const navigate = useNavigate();
   //transtmit data
   const [data, setData] = useState({
     userId: 0,
@@ -57,34 +50,53 @@ export const Estimate = () => {
     [data]
   );
 
-  console.log(data);
+  const alert = () => {
+    if (completed.isCompleted) {
+      navigate(-1);
+    } else {
+      window.alert(completed.msg);
+    }
+  };
+
   return (
     <>
-      <TitleButtonBar
-        title={"견적 신청"}
-        buttonLabel={"신청"}
-        query={""}
-        transmitData={data}
-        completed={completed}
+      <Header title={"견적 요청서"} />
+
+      <EstimateUploadFile
+        data={data}
+        uploadImgFile={uploadImgFile}
+        setUploadImgFile={setUploadImgFile}
+        handleData={handleData}
       />
-      <Container sx={{ mt: "56px", pt: "1%" }}>
-        <FormControl fullWidth sx={{ mt: 1 }}>
-          <InputLabel>제품 선택</InputLabel>
-          <Select
-            name="product"
-            value={data.product}
-            defaultValue={data.product}
-            onChange={handleData}
-            label="제품 선택"
-            fullWidth>
-            {products.map((product, index) => (
-              <MenuItem value={product.id} key={index}>
-                {product.title}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <Box
+
+      <EstimateComment
+        completed={completed}
+        data={data}
+        handleData={handleData}
+      ></EstimateComment>
+
+      <Container>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {"신청" == null ? null : (
+            <TitleButtonBar
+              buttonLabel={"수리견적 요청하기"}
+              query={""}
+              onClick={alert}
+              transmitData={data}
+              completed={completed}
+            />
+          )}
+        </Grid>
+      </Container>
+      {/* <Box
           sx={{
             position: "relative",
             display: "flex",
@@ -95,7 +107,8 @@ export const Estimate = () => {
             mt: "3%",
             padding: "3%",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Typography
             sx={{
               position: "absolute",
@@ -104,48 +117,16 @@ export const Estimate = () => {
               bgcolor: "white",
               px: 1,
               fontSize: "0.8rem",
-            }}>
+            }}
+          >
             제품정보
           </Typography>
-          {productImg ? (
-            <Box
-              component="img"
-              src={productImg}
-              alt={data.product}
-              sx={{
-                width: "40%",
-                height: "100%",
-                mr: "5%",
-                borderRadius: "10px",
-              }}
-            />
-          ) : (
-            <Box
-              sx={{
-                width: "40%",
-                height: "100%",
-                mr: "5%",
-                bgcolor: "#8C92AC",
-                borderRadius: "10px",
-              }}></Box>
-          )}
           <Typography>
             {products.map(
               (product) => product.id === data.product && product.title
             )}
           </Typography>
-        </Box>
-
-        <TextField
-          name="comment"
-          label="요청사항"
-          value={data.comment}
-          onChange={handleData}
-          fullWidth
-          multiline
-          rows={2}
-          sx={{ mt: "3%" }}></TextField>
-      </Container>
+        </Box> */}
     </>
   );
 };

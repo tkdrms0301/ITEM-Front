@@ -104,6 +104,21 @@
   max-height: 100px;
   object-fit: cover;
 }
+.reservation_img_field .img_common_field {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.reservation_img_field .img_common_field .img_common_div {
+  padding: 10px 0;
+  width: 50%;
+}
+.reservation_img_field .img_common_field .img_common_div .img_content {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+}
 
 .report_page .top_field .report_regist_btn {
   color: white;
