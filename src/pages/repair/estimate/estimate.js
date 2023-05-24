@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { EstimateUploadFile } from "./estimateUploadFile";
 import { EstimateComment } from "./estimateComment";
 import { useParams } from "react-router-dom";
+import { Header } from "./header";
+import { Container, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const Estimate = () => {
   const shopId = useParams();
   const [uploadImgFile, setUploadImgFile] = useState("");
-
+  const navigate = useNavigate();
   //transtmit data
   const [data, setData] = useState({
     userId: 0,
@@ -47,15 +50,17 @@ export const Estimate = () => {
     [data]
   );
 
-  console.log(data);
+  const alert = () => {
+    if (completed.isCompleted) {
+      navigate(-1);
+    } else {
+      window.alert(completed.msg);
+    }
+  };
+
   return (
     <>
-      <TitleButtonBar
-        title={"견적 요청서"}
-        query={""}
-        transmitData={data}
-        completed={completed}
-      />
+      <Header title={"견적 요청서"} />
 
       <EstimateUploadFile
         data={data}
@@ -70,6 +75,27 @@ export const Estimate = () => {
         handleData={handleData}
       ></EstimateComment>
 
+      <Container>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {"신청" == null ? null : (
+            <TitleButtonBar
+              buttonLabel={"수리견적 요청하기"}
+              query={""}
+              onClick={alert}
+              transmitData={data}
+              completed={completed}
+            />
+          )}
+        </Grid>
+      </Container>
       {/* <Box
           sx={{
             position: "relative",

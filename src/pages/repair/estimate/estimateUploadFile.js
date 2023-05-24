@@ -33,10 +33,9 @@ export const EstimateUploadFile = ({
   };
 
   return (
-    <Container sx={{ mt: "56px", width: "100%" }}>
+    <Container sx={{ mt: 2, width: "100%" }}>
       <Card
         sx={{
-          mt: 9,
           mb: 2,
           boxShadow: 10,
         }}

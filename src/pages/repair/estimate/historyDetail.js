@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 import { useLocation } from "react-router-dom";
+import { Header } from "./header";
 
 export const EstimateHistoryDetail = ({ role }) => {
   const location = useLocation();
@@ -171,16 +172,9 @@ export const EstimateHistoryDetail = ({ role }) => {
 
   return (
     <>
-      <TitleButtonBar
-        title="견적 내역"
-        buttonLabel={isUpdating ? "등록" : null}
-        query={""}
-        transmitData={formData}
-        completed={completed}
-      />
+      <Header title="견적 내역" />
       <Container
         sx={{
-          mt: "56px",
           pt: "1%",
         }}
       >
@@ -517,6 +511,13 @@ export const EstimateHistoryDetail = ({ role }) => {
               </Grid>
             )}
           </Box>
+
+          <TitleButtonBar
+            buttonLabel={isUpdating ? "등록" : null}
+            query={""}
+            transmitData={formData}
+            completed={completed}
+          />
         </>
 
         {location.state?.role === "repair" && data.status === "응답 대기" ? (

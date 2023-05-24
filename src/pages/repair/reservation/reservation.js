@@ -24,6 +24,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import "../css/RepairReport.css";
 import Modal from "react-modal";
 import { post, get } from "../../../api";
+import { Header } from "./header";
 
 export const Reservation = () => {
   //사용자 선택 가능한 목록 및 선택 가능한 서비스 목록
@@ -440,19 +441,9 @@ export const Reservation = () => {
             </DialogActions>
           </Dialog>
 
-          <TitleButtonBar
-            title={isUpdate ? "예약 수정" : "예약 신청"}
-            buttonLabel={isUpdate ? "수정" : "신청"}
-            query={
-              isUpdate
-                ? "http://localhost:8080/api/repair/reservation/update"
-                : "http://localhost:8080/api/repair/reservation/add"
-            }
-            transmitData={reservationData}
-            completed={completed}
-            reservationId={reservationId ? reservationId : null}
-          />
-          <Container sx={{ mt: "56px", pt: "1%" }}>
+          <Header title={isUpdate ? "예약 수정" : "예약 신청"} />
+
+          <Container sx={{ pt: "1%" }}>
             <FormControl fullWidth sx={{ mt: 1 }}>
               <InputLabel>제품 선택</InputLabel>
               <Select
@@ -597,6 +588,18 @@ export const Reservation = () => {
                 날짜/시간 선택
               </Button>
             </Box>
+
+            <TitleButtonBar
+              buttonLabel={isUpdate ? "수정" : "신청"}
+              query={
+                isUpdate
+                  ? "http://localhost:8080/api/repair/reservation/update"
+                  : "http://localhost:8080/api/repair/reservation/add"
+              }
+              transmitData={reservationData}
+              completed={completed}
+              reservationId={reservationId ? reservationId : null}
+            />
           </Container>
         </>
       ) : null}
