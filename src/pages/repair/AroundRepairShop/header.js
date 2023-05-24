@@ -1,7 +1,7 @@
 import { Container, Box, Typography } from "@mui/material";
-import { BackButton } from "../../../../component/backButton";
+import { BackButton } from "../../../component/backButton";
 
-export const ServiceListPanelHeader = () => {
+export const Header = () => {
   return (
     <>
       <Container
@@ -11,9 +11,9 @@ export const ServiceListPanelHeader = () => {
         }}
       >
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
-          <BackButton></BackButton>
-          <Typography variant="h5" sx={{ ml: 3 }}>
-            서비스 항목 관리
+          <BackButton />
+          <Typography variant="h4" sx={{ fontWeight: "bold", ml: 3 }}>
+            정비 상세
           </Typography>
         </Box>
       </Container>{" "}

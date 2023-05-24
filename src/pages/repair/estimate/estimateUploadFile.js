@@ -23,11 +23,13 @@ export const EstimateUploadFile = ({
 
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setUploadImgFile(reader.result);
-    };
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setUploadImgFile(reader.result);
+      };
+    }
   };
 
   return (
