@@ -29,14 +29,14 @@ const MENU_OPTIONS = [
 
 export const AccountPopover = ({ userState }) => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
-    setOpen(null);
+    setOpen(false);
   };
 
   const logOutClick = (e) => {
@@ -86,7 +86,7 @@ export const AccountPopover = ({ userState }) => {
             <Avatar src={userState.imgUrl} alt="photoURL" />
           </IconButton>
           <Popover
-            open={Boolean(open)}
+            open={open}
             anchorEl={open}
             onClose={handleClose}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
