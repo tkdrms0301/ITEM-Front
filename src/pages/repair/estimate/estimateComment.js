@@ -6,11 +6,50 @@ import {
   Button,
   Card,
 } from "@mui/material";
+import { is } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { post } from "../../../api";
 
-export const EstimateComment = ({ completed, data, handleData }) => {
+export const EstimateComment = ({ completed, data, handleData, isHistory }) => {
+  function isBase64Encoded(data) {
+    const base64Regex = /^data:(.*?);base64,/;
+
+    return base64Regex.test(data);
+  }
+
   const alert = () => {
     if (completed.isCompleted) {
+      //견적 요청
+      const formData = new FormData();
+
+      const imageData = data.requestImg;
+      const uniqueId = uuidv4();
+
+      // Base64로 올바르게 인코딩된 문자열인 경우에만 처리
+      if (isBase64Encoded(imageData)) {
+        const base64Data = imageData;
+        const byteCharacters = atob(base64Data.split(",")[1]);
+        const byteArrays = new Uint8Array(byteCharacters.length);
+
+        for (let j = 0; j < byteCharacters.length; j++) {
+          byteArrays[j] = byteCharacters.charCodeAt(j);
+        }
+
+        const blob = new Blob([byteArrays], { type: "image/png" });
+        const fileName = `${uniqueId}.jpg`;
+        formData.append("requestImg", blob, fileName);
+      }
+
+      formData.append("comment", data.comment || "");
+      formData.append("productId", data.product);
+      formData.append("repairShopId", data.repairShopId);
+
+      post("http://localhost:8080/api/repair/estimate/regist", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then((res) => {});
       navigate(-1);
     } else {
       window.alert(completed.msg);
@@ -32,21 +71,41 @@ export const EstimateComment = ({ completed, data, handleData }) => {
           <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
             사진 상세 설명 *
           </Typography>
-          <TextField
-            variant="standard"
-            name="comment"
-            value={data.comment}
-            onChange={handleData}
-            placeholder="예 : 카메라 부분이 파손되었고,
+          {isHistory ? (
+            <TextField
+              variant="standard"
+              name="comment"
+              value={data.description}
+              onChange={handleData}
+              placeholder="예 : 카메라 부분이 파손되었고,
 액정에 금이 가있습니다."
-            fullWidth
-            multiline
-            rows={2}
-            sx={{ m: "3%" }}
-            InputProps={{
-              disableUnderline: true, // <== added this
-            }}
-          ></TextField>
+              fullWidth
+              multiline
+              rows={2}
+              sx={{ m: "3%" }}
+              InputProps={{
+                disableUnderline: true, // <== added this
+              }}
+              disabled={isHistory ? true : false}
+            ></TextField>
+          ) : (
+            <TextField
+              variant="standard"
+              name="comment"
+              value={data.comment}
+              onChange={handleData}
+              placeholder="예 : 카메라 부분이 파손되었고,
+액정에 금이 가있습니다."
+              fullWidth
+              multiline
+              rows={2}
+              sx={{ m: "3%" }}
+              InputProps={{
+                disableUnderline: true, // <== added this
+              }}
+              disabled={isHistory ? true : false}
+            ></TextField>
+          )}
         </Card>
       </Container>
       <Container>
@@ -59,7 +118,7 @@ export const EstimateComment = ({ completed, data, handleData }) => {
             alignItems: "center",
           }}
         >
-          {"신청" == null ? null : (
+          {isHistory ? null : (
             <Button
               fullWidth
               variant="contained"

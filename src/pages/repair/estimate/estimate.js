@@ -2,18 +2,23 @@ import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { useEffect, useState } from "react";
 import { EstimateUploadFile } from "./estimateUploadFile";
 import { EstimateComment } from "./estimateComment";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
+import { post, get } from "../../../api";
 
 export const Estimate = () => {
-  const shopId = useParams();
-  const [uploadImgFile, setUploadImgFile] = useState("");
+  const location = useLocation();
+
+  const repairShopId = location.state?.repairShopId;
+
+  //my it devices
+  const [myItDevices, setMyItDevices] = useState([]);
 
   //transtmit data
   const [data, setData] = useState({
-    userId: 0,
-    repairId: shopId,
+    repairShopId: repairShopId,
     product: "",
     comment: "",
+    requestImg: "",
   });
   //completed
   const [completed, setCompleted] = useState({
@@ -47,7 +52,16 @@ export const Estimate = () => {
     [data]
   );
 
-  console.log(data);
+  useEffect(() => {
+    get("http://localhost:8080/api/repair/estimate/init")
+      .then((res) => {
+        setMyItDevices(res.data.myItems);
+      })
+      .catch((error) => {
+        // 에러 처리
+      });
+  }, []);
+
   return (
     <>
       <TitleButtonBar
@@ -59,9 +73,9 @@ export const Estimate = () => {
 
       <EstimateUploadFile
         data={data}
-        uploadImgFile={uploadImgFile}
-        setUploadImgFile={setUploadImgFile}
         handleData={handleData}
+        setData={setData}
+        myItDevices={myItDevices}
       />
 
       <EstimateComment

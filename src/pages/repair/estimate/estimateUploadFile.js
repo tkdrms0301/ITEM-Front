@@ -15,9 +15,10 @@ import { useRef } from "react";
 
 export const EstimateUploadFile = ({
   data,
-  uploadImgFile,
-  setUploadImgFile,
   handleData,
+  setData,
+  isHistory,
+  myItDevices,
 }) => {
   const imgRef = useRef();
 
@@ -26,7 +27,7 @@ export const EstimateUploadFile = ({
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setUploadImgFile(reader.result);
+      setData({ ...data, requestImg: reader.result });
     };
   };
 
@@ -48,23 +49,45 @@ export const EstimateUploadFile = ({
                 justifyContent: "center",
               }}
             >
-              <FormControl sx={{ width: "90%", mt: 1 }}>
-                <InputLabel>제품 선택</InputLabel>
-                <Select
-                  name="product"
-                  value={data.product}
-                  defaultValue={data.product}
-                  onChange={handleData}
-                  label="제품 선택"
-                  fullWidth
-                >
-                  {products.map((product, index) => (
-                    <MenuItem value={product.id} key={index}>
-                      {product.title}
+              {isHistory ? (
+                <FormControl sx={{ width: "90%", mt: 1 }}>
+                  <InputLabel>제품 선택</InputLabel>
+                  <Select
+                    name="product"
+                    value={myItDevices.itName}
+                    defaultValue={myItDevices.itName}
+                    onChange={handleData}
+                    label="제품 선택"
+                    fullWidth
+                    disabled={isHistory ? true : false}
+                  >
+                    <MenuItem value={myItDevices.itName}>
+                      {myItDevices.itName}
                     </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                  </Select>
+                </FormControl>
+              ) : (
+                <FormControl sx={{ width: "90%", mt: 1 }}>
+                  <InputLabel>제품 선택</InputLabel>
+                  <Select
+                    name="product"
+                    value={data.product}
+                    defaultValue={data.product}
+                    onChange={handleData}
+                    label="제품 선택"
+                    fullWidth
+                    disabled={isHistory ? true : false}
+                  >
+                    {!isHistory
+                      ? myItDevices.map((product, index) => (
+                          <MenuItem value={product.id} key={index}>
+                            {product.itName}
+                          </MenuItem>
+                        ))
+                      : null}
+                  </Select>
+                </FormControl>
+              )}
             </Box>
           </Grid>
           <Grid
@@ -79,10 +102,10 @@ export const EstimateUploadFile = ({
           >
             <Box
               component="img"
-              src={uploadImgFile ? uploadImgFile : "/camera-outline.svg"}
+              src={data.requestImg ? data.requestImg : "/camera-outline.svg"}
               alt="손상부위의 사진 등록"
               sx={
-                uploadImgFile
+                data.requestImg
                   ? { width: "80%", m: 2 }
                   : {
                       mt: 3,
@@ -92,7 +115,7 @@ export const EstimateUploadFile = ({
               }
             />
           </Grid>
-          {!uploadImgFile ? (
+          {!data.requestImg ? (
             <Grid
               item
               xs={12}
@@ -116,25 +139,28 @@ export const EstimateUploadFile = ({
               pb: 2,
             }}
           >
-            <Button
-              variant="contained"
-              component="label"
-              color="inherit"
-              sx={{
-                borderRadius: "20px",
-                bgcolor: "white",
-                color: "ButtonText",
-              }}
-            >
-              + 사진 추가하기
-              <input
-                hidden
-                type="file"
-                accept="image/*"
-                onChange={saveImgFile}
-                ref={imgRef}
-              />
-            </Button>
+            {isHistory ? null : (
+              <Button
+                variant="contained"
+                component="label"
+                color="inherit"
+                sx={{
+                  borderRadius: "20px",
+                  bgcolor: "white",
+                  color: "ButtonText",
+                }}
+              >
+                + 사진 추가하기
+                <input
+                  hidden
+                  name="requestImg"
+                  type="file"
+                  accept="image/*"
+                  onChange={saveImgFile}
+                  ref={imgRef}
+                />
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Card>

@@ -149,6 +149,7 @@ export const HistoryList = ({ itemList, role }) => {
                 : null
             }
           >
+            {console.log(data)}
             <Grid
               item
               xs={3}
@@ -158,7 +159,12 @@ export const HistoryList = ({ itemList, role }) => {
                 alignItems: "center",
               }}
             >
-              <img src={data.img} alt="" width={"80%"} height={"80%"}></img>
+              <img
+                src={data.requestImg}
+                alt=""
+                width={"80%"}
+                height={"80%"}
+              ></img>
             </Grid>
             <Grid item xs={7}>
               <Grid container sx={{ ml: 1, p: 1 }}>
@@ -186,12 +192,12 @@ export const HistoryList = ({ itemList, role }) => {
                       color: "#747373",
                     }}
                   >
-                    {data.productName}
+                    {data.itDevice.itName}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sx={{ mt: 0.5 }}>
                   <Typography sx={{ fontWeight: "bold", fontSize: "17px" }}>
-                    {data.userComment}
+                    {data.description}
                   </Typography>
                 </Grid>
               </Grid>

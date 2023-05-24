@@ -2,10 +2,11 @@ import dayjs from "dayjs";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { SearchDate } from "../../common/mypage/pointHistory/searchDate";
 import { HistoryList } from "./historyList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { estimateHistoryForUser, estimateHistoryForRepair } from "../data/test";
 import { Box, Container } from "@mui/material";
 import { SelectFilter } from "../reservation/filter";
+import { get } from "../../../api";
 export const EstimateHistory = () => {
   //select filter
   const [selectValue, setSelectValue] = useState("전체");
@@ -14,10 +15,9 @@ export const EstimateHistory = () => {
     setSelectValue(event.target.value);
   };
   const itemList = ["전체", "예약 대기", "예약 완료", "정비 완료"];
-  console.log(
-    "🚀 ~ file: history.js:23 ~ ReservationHistory ~ selectValue:",
-    selectValue
-  );
+  // console.log(
+  //   selectValue
+  // );
   //select filter end
 
   //search date
@@ -30,13 +30,40 @@ export const EstimateHistory = () => {
   //search date end
 
   //user & data
-  const [data, setData] = useState(
-    JSON.parse(window.localStorage.getItem("user")).roleType === "MEMBER"
-      ? estimateHistoryForUser
-      : estimateHistoryForRepair
-  );
-  console.log(data);
+  const [data, setData] = useState();
+  //console.log(data);
   //user & data end
+
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    if (user !== null) {
+      if (user.roleType === "MEMBER") {
+        get("http://localhost:8080/api/repair/estimate/history")
+          .then((res) => {
+            setData(res.data);
+          })
+          .catch((error) => {
+            // 에러 처리
+          });
+      } else {
+        get("http://localhost:8080/api/repair/estimate/history/mechanic")
+          .then((res) => {
+            setData(res.data);
+          })
+          .catch((error) => {
+            // 에러 처리
+          });
+        // get("http://localhost:8080/api/repair/reservation/history/mechanic")
+        //   .then((res) => {
+        //     setData(res.data);
+        //     setFilteredData(res.data);
+        //   })
+        //   .catch((error) => {
+        //     // 에러 처리
+        //   });
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -63,15 +90,17 @@ export const EstimateHistory = () => {
           />
         </Box>
 
-        <HistoryList
-          itemList={data}
-          role={
-            JSON.parse(window.localStorage.getItem("user")).roleType ===
-            "MEMBER"
-              ? "user"
-              : "repair"
-          }
-        />
+        {data ? (
+          <HistoryList
+            itemList={data}
+            role={
+              JSON.parse(window.localStorage.getItem("user")).roleType ===
+              "MEMBER"
+                ? "user"
+                : "repair"
+            }
+          />
+        ) : null}
       </Container>
     </>
   );
