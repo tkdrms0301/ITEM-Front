@@ -12,6 +12,7 @@ import {
 import Iconify from "../../theme/Iconify";
 import Scrollbar from "../../component/scrollbar/Scrollbar";
 import { useNavigate } from "react-router";
+import { format } from "date-fns";
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +76,12 @@ PostItem.propTypes = {
   }),
 };
 
+function fDateTime(date, newFormat) {
+  const fm = newFormat || "yyyy.MM.dd/HH:mm";
+
+  return date ? format(new Date(date), fm) : "";
+}
+
 function PostItem({ posts }) {
   const { postId, title, content, image, date } = posts;
 
@@ -85,13 +92,15 @@ function PostItem({ posts }) {
           component="img"
           alt={title}
           src={image}
-          sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
+          sx={{
+            width: 48,
+            height: 48,
+            borderRadius: 1.5,
+            flexShrink: 0,
+          }}
         />
       ) : (
-        <Box
-          src={image}
-          sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
-        />
+        <Box sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
       )}
 
       <Box sx={{ minWidth: 140, flexGrow: 1 }}>
@@ -114,7 +123,7 @@ function PostItem({ posts }) {
         variant="caption"
         sx={{ pr: 3, flexShrink: 0, color: "text.secondary" }}
       >
-        {date}
+        {fDateTime(date)}
       </Typography>
     </Stack>
   );
