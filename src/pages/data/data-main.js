@@ -22,6 +22,8 @@ import { useEffect, useRef, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
+import Iconify from "../../theme/Iconify";
+import { convertArea } from "geolib";
 
 export const DataMain = () => {
   const theme = useTheme();
@@ -157,6 +159,10 @@ export const DataMain = () => {
     console.log(seachKeywordList);
   };
 
+  const convertExcel = () => {
+    console.log("엑셀파일 요청");
+  };
+
   const categorySideBar = () => (
     <Box
       sx={{
@@ -261,8 +267,9 @@ export const DataMain = () => {
         <Grid item xs={10} md={10} lg={10}>
           <Grid container>
             <Grid item xs={12}>
-              <Container>
+              <Container sx={{ display: "flex" }}>
                 <Autocomplete
+                  fullWidth
                   multiple
                   id="tags-standard"
                   value={selectedTags}
@@ -316,27 +323,70 @@ export const DataMain = () => {
                 </Button>
               </Container>
             </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={12} md={12} lg={12}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    my: 2,
-                  }}
-                >
-                  <Typography variant="h4">데이터 분석</Typography>
-                  <Typography variant="subtitle2" sx={{ px: 1 }}>
-                    최근 1년간의 데이터 중 검색한 제품에 대한 연관어 및
-                    긍/부정도 분석 결과
-                  </Typography>
-                </Box>
-                {dataList.map((data, index) => (
-                  <Grid container key={index}>
-                    <Grid item xs={12} md={6} lg={6}>
-                      <Box
+            {dataList ? (
+              <Grid item xs={12}>
+                <Grid item xs={12} md={12} lg={12}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      my: 2,
+                      position: "relative",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="h4">데이터 분석</Typography>
+                      <Typography variant="subtitle2" sx={{ px: 1 }}>
+                        최근 1년간의 데이터 중 검색한 제품에 대한 연관어 및
+                        긍/부정도 분석 결과
+                      </Typography>
+                    </Box>
+                    {windowSize.width > 1200 ? (
+                      <Button
+                        variant="contained"
+                        color="inherit"
+                        onClick={convertExcel}
+                        sx={{ position: "absolute", right: 0, py: 1 }}
+                      >
+                        <Iconify
+                          icon={"vscode-icons:file-type-excel"}
+                          width={30}
+                        />
+                        엑셀로 변환하기
+                      </Button>
+                    ) : null}
+                  </Box>
+                  {dataList.map((data, index) => (
+                    <Grid container key={index}>
+                      <Grid item xs={12} md={6} lg={6}>
+                        <Box
+                          sx={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                            px: 1,
+                            py: 1,
+                          }}
+                        >
+                          <AppConversionRates
+                            title={data.productName}
+                            subheader="선택한 제품에 대한 연관어 언급량 결과"
+                            chartData={data.relatedWord}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        lg={6}
                         sx={{
                           justifyContent: "center",
                           alignItems: "center",
@@ -344,42 +394,24 @@ export const DataMain = () => {
                           py: 1,
                         }}
                       >
-                        <AppConversionRates
+                        <AppCurrentVisits
                           title={data.productName}
-                          subheader="선택한 제품에 대한 연관어 언급량 결과"
-                          chartData={data.relatedWord}
+                          subheader="검색한 제품에 대한 긍/부정도 분석 결과"
+                          chartData={[
+                            { label: "긍정적 반응", value: data.pos_nag.pos },
+                            { label: "부정적 반응", value: data.pos_nag.nag },
+                          ]}
+                          chartColors={[
+                            theme.palette.primary.main,
+                            theme.palette.error.main,
+                          ]}
                         />
-                      </Box>
+                      </Grid>
                     </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={6}
-                      lg={6}
-                      sx={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        px: 1,
-                        py: 1,
-                      }}
-                    >
-                      <AppCurrentVisits
-                        title={data.productName}
-                        subheader="검색한 제품에 대한 긍/부정도 분석 결과"
-                        chartData={[
-                          { label: "긍정적 반응", value: data.pos_nag.pos },
-                          { label: "부정적 반응", value: data.pos_nag.nag },
-                        ]}
-                        chartColors={[
-                          theme.palette.primary.main,
-                          theme.palette.error.main,
-                        ]}
-                      />
-                    </Grid>
-                  </Grid>
-                ))}
+                  ))}
+                </Grid>
               </Grid>
-            </Grid>
+            ) : null}
           </Grid>
         </Grid>
       </Grid>

@@ -40,16 +40,12 @@ export default function CommunityView({
       }}
     >
       <CardHeader title={title} subheader={subheader} />
-
-      <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {communityData.map((posts) => (
-            <PostItem key={posts.postId} posts={posts} />
-          ))}
-        </Stack>
-      </Scrollbar>
+      <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+        {communityData.map((posts) => (
+          <PostItem key={posts.postId} posts={posts} />
+        ))}
+      </Stack>
       <Divider />
-
       <Box sx={{ p: 2, textAlign: "right" }}>
         <Button
           size="small"
@@ -86,7 +82,7 @@ function PostItem({ posts }) {
   const { postId, title, content, image, date } = posts;
 
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
+    <Stack direction="row" alignItems="center" spacing={3}>
       {image !== null ? (
         <Box
           component="img"
@@ -103,7 +99,7 @@ function PostItem({ posts }) {
         <Box sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
       )}
 
-      <Box sx={{ minWidth: 140, flexGrow: 1 }}>
+      <Box sx={{ minWidth: 110, flexGrow: 1 }}>
         <Link
           color="inherit"
           variant="subtitle2"
@@ -121,7 +117,7 @@ function PostItem({ posts }) {
 
       <Typography
         variant="caption"
-        sx={{ pr: 3, flexShrink: 0, color: "text.secondary" }}
+        sx={{ pr: 2, flexShrink: 0, color: "text.secondary" }}
       >
         {fDateTime(date)}
       </Typography>
