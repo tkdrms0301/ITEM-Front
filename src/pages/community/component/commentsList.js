@@ -58,7 +58,7 @@ export const CommentsList = ({
                 >
                   {comment.memberName} ·
                 </Typography>
-                <DateView />
+                <DateView date={comment.date} />
               </Box>
             </Grid>
             <Grid item>
