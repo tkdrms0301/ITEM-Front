@@ -30,9 +30,11 @@ const MENU_OPTIONS = [
 export const AccountPopover = ({ userState }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [currentTarget, setCurrentTarget] = useState(null);
 
   const handleOpen = (event) => {
-    setOpen(event.currentTarget);
+    setOpen(true);
+    setCurrentTarget(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -87,7 +89,7 @@ export const AccountPopover = ({ userState }) => {
           </IconButton>
           <Popover
             open={open}
-            anchorEl={open}
+            anchorEl={currentTarget}
             onClose={handleClose}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "right" }}
