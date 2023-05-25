@@ -1,11 +1,14 @@
 import {
   Autocomplete,
   Box,
+  Button,
+  Chip,
   Container,
   CssBaseline,
   Drawer,
   Grid,
   MenuList,
+  Stack,
   TextField,
   Typography,
   debounce,
@@ -15,7 +18,7 @@ import { useTheme } from "@mui/material/styles";
 import AppConversionRates from "./AppConversionRates";
 import AppCurrentVisits from "./AppCurrentVisits";
 import { Apps, AssignmentInd, ContactMail, Home } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
@@ -38,7 +41,7 @@ export const DataMain = () => {
       height: window.innerHeight,
     });
     setOpen(true);
-  }, 1000);
+  }, 40);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -47,6 +50,7 @@ export const DataMain = () => {
     };
   }, []);
 
+  //검색한 제품의 데이터 정보List
   const dataList = [
     {
       productName: "RTX4090",
@@ -78,31 +82,13 @@ export const DataMain = () => {
     },
   ];
 
-  const listItems = [
-    {
-      listIcon: <Home />,
-      listText: "Home",
-    },
-    {
-      listIcon: <AssignmentInd />,
-      listText: "Resume",
-    },
-    {
-      listIcon: <Apps />,
-      listText: "Portfolio",
-    },
-    {
-      listIcon: <ContactMail />,
-      listText: "Contacts",
-    },
-  ];
-
   const [categoryList, setCategoryList] = useState([
     { id: 1, name: "노트북" },
     { id: 2, name: "태블릿" },
     { id: 3, name: "PC" },
     { id: 4, name: "휴대폰" },
   ]);
+
   const [brandList, setBrandList] = useState([]);
   const [productList, setProductList] = useState([]);
 
@@ -111,15 +97,11 @@ export const DataMain = () => {
   const [selectedProductList, setSelectedProductList] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
-  const handleTagChange = (event, value) => {
-    setSelectedTags(value);
-    console.log(selectedTags);
-  };
-
   const categoryClick = (categoryId) => {
     console.log(categoryId);
     setSelectedCategoryId(categoryId);
 
+    //카테고리 클릭 후 받을 브랜드 리스트
     setBrandList([
       { id: 1, name: "삼성" },
       { id: 2, name: "LG" },
@@ -136,6 +118,7 @@ export const DataMain = () => {
     console.log(brandId);
     setSelectedBrandId(brandId);
 
+    //브랜드 클릭 후 받을 프로덕트 리스트
     setProductList([
       { id: 1, name: "갤럭시A90" },
       { id: 2, name: "갤럭시A80" },
@@ -145,6 +128,33 @@ export const DataMain = () => {
       { id: 6, name: "아이폰11" },
       { id: 7, name: "아이폰SE" },
     ]);
+
+    setOpen(false);
+    textFieldRef.current.click();
+    textFieldRef.current.focus();
+  };
+  const textFieldRef = useRef(null); // Create a ref for the Autocomplete TextField
+  const [seachKeywordList, setSeachKeywordList] = useState([]);
+
+  //검색어 추가 함수
+  const handleSearchKeyword = (event) => {
+    console.log(event.target.value);
+    if (event.target.value == undefined) setSeachKeywordList([]);
+    else setSeachKeywordList([...seachKeywordList, event.target.value]);
+
+    console.log(seachKeywordList);
+  };
+
+  //제품 선택 함수
+  const handleTagChange = (event, value) => {
+    setSelectedTags(value);
+    console.log(selectedTags);
+  };
+
+  const onClickFinalSearch = () => {
+    console.log("최종 선택 키워드");
+    console.log(selectedTags);
+    console.log(seachKeywordList);
   };
 
   const categorySideBar = () => (
@@ -158,6 +168,7 @@ export const DataMain = () => {
         alignItems: "center",
         backgroundColor: "white",
         width: "190px",
+        pb: 3,
       }}
     >
       <Box
@@ -190,7 +201,12 @@ export const DataMain = () => {
         ))}
       </MenuList>
       {brandList.length > 0 ? (
-        <MenuList sx={{ width: "130px", borderBottom: "2px solid #f1f1f1" }}>
+        <MenuList
+          sx={{
+            width: "130px",
+            borderBottom: "2px solid #f1f1f1",
+          }}
+        >
           <Typography variant="h6">중분류</Typography>
           {brandList.map((option) => (
             <MenuItem
@@ -242,25 +258,62 @@ export const DataMain = () => {
             categorySideBar()
           )}
         </Grid>
-        <Grid item xs={11} md={10} lg={10}>
+        <Grid item xs={10} md={10} lg={10}>
           <Grid container>
             <Grid item xs={12}>
               <Container>
                 <Autocomplete
                   multiple
                   id="tags-standard"
-                  onChange={handleTagChange}
                   value={selectedTags}
                   options={productList}
+                  onChange={handleTagChange}
+                  ref={textFieldRef} // Assign the ref to the TextField
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      variant="standard"
-                      placeholder="데이터를 검색하세요"
+                      size="small"
+                      variant="outlined"
+                      placeholder="왼쪽의 카테고리를 누른 뒤 원하시는 제품을 찾아보세요"
                     />
                   )}
                 />
+              </Container>
+              <Container sx={{ mt: 3, display: "flex" }}>
+                <Autocomplete
+                  fullWidth
+                  multiple
+                  id="tags-filled"
+                  options={[]}
+                  freeSolo
+                  onChange={handleSearchKeyword}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip
+                        variant="outlined"
+                        label={option}
+                        {...getTagProps({ index })}
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="filled"
+                      label="검색어를 입력하세요"
+                      placeholder="검색어를 입력하세요"
+                    />
+                  )}
+                  sx={{ mr: 2 }}
+                />
+                <Button
+                  variant="contained"
+                  color="inherit"
+                  onClick={onClickFinalSearch}
+                >
+                  검색
+                </Button>
               </Container>
             </Grid>
             <Grid item xs={12}>
@@ -271,12 +324,12 @@ export const DataMain = () => {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    my: 5,
+                    my: 2,
                   }}
                 >
                   <Typography variant="h4">데이터 분석</Typography>
-                  <Typography variant="subtitle1">
-                    최근 1년간의 데이터 중 검색한 단어에 대한 연관어 및
+                  <Typography variant="subtitle2" sx={{ px: 1 }}>
+                    최근 1년간의 데이터 중 검색한 제품에 대한 연관어 및
                     긍/부정도 분석 결과
                   </Typography>
                 </Box>
