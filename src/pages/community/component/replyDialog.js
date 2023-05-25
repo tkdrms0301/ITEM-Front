@@ -1,25 +1,71 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppBar, Button, Grid, TextField } from "@mui/material";
+import axios from "axios";
+import { testBaseURL } from "../testing-String";
+import { get, post, put } from "../../../api/index";
 
 export const ReplyDialog = ({
   onHandleClose,
   postId,
   commentId,
+  commentContent,
   isUpdate,
-  isNotUpdating,
+  setIsUpdate,
 }) => {
-  // const [isChild, setIsChild] = useState(commentId ? true : false);
-  const replyUpdate = () => {
-    const reply = "updating";
-    return reply;
-  };
-  const [reply, setReply] = useState(isUpdate ? replyUpdate : "");
+  const [reply, setReply] = useState("");
+  const [load, setLoad] = useState(false);
+  if (isUpdate && !load) {
+    get(`${testBaseURL}/community/post/${postId}/comments/${commentId}`)
+      .then((res) => {
+        setReply(res.data.data);
+        setLoad(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log("replyaa", commentContent);
+  }
 
   const handleSubmit = () => {
     onHandleClose();
-    console.log("reply submitted");
-    console.log(reply);
-    window.location.reload();
+    let url = "";
+    if (isUpdate) {
+      put(
+        `${testBaseURL}/community/post/${postId}/comment/${commentId}/update`,
+        {
+          content: reply,
+        }
+      )
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (commentId === null) {
+      post(`${testBaseURL}/community/post/${postId}/comment/create`, {
+        content: reply,
+      })
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      post(
+        `${testBaseURL}/community/post/${postId}/comment/${commentId}/create`,
+        {
+          content: reply,
+        }
+      )
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const appBarStyle = {

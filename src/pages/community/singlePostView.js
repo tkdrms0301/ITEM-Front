@@ -4,11 +4,12 @@ import { useParams } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
 import { BackButton } from "../../component/backButton";
-import { userId } from "./testing-String";
+import { testBaseURL } from "./testing-String";
 import { CommentsList } from "./component/commentsList";
 import { ReportDialog } from "./component/reportDialog";
 import { PostContent } from "./component/postContent";
 import { ReplyDialog } from "./component/replyDialog";
+import { get } from "../../api";
 
 export const SinglePostView = () => {
   //report
@@ -42,7 +43,7 @@ export const SinglePostView = () => {
 
   //reply dialog
   const [open, setOpen] = useState(false);
-  const [targetCommentId, setTargetCommentId] = useState(0);
+  const [targetCommentId, setTargetCommentId] = useState(null);
   const changeTargetCommentId = (commentId) => {
     setTargetCommentId(commentId);
   };
@@ -52,6 +53,8 @@ export const SinglePostView = () => {
   };
 
   const handleClose = () => {
+    setTargetCommentId(null);
+    setTargetCommentContent("");
     isNotUpdating();
     setOpen(false);
   };
@@ -82,29 +85,58 @@ export const SinglePostView = () => {
 
   const [post, setPost] = useState(null);
   useEffect(() => {
-    axios
-      .get(`https://dummyjson.com/posts/${postid}`)
+    get(`${testBaseURL}/community/post/${postid}`)
       .then((response) => {
-        setPost(response.data);
+        setPost(response.data.data);
         setLoaded(true);
       })
+
       .catch((error) => {
         console.log(error);
       });
   }, [postid]);
+  const [sessionId, setSessionId] = useState(null);
+  useEffect(() => {
+    get(`${testBaseURL}/member/info`)
+      .then((response) => {
+        setSessionId(response.data.data.id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   // load moreButton
+
+  // load comments
+
+  const [targetCommentContent, setTargetCommentContent] = useState("");
+  useEffect(() => {
+    if (targetCommentId === null) return;
+    get(`${testBaseURL}/community/post/${postid}/comments`)
+      .then((response) => {
+        const content = response.data.data.comments.find(
+          (comment) => comment.id === targetCommentId
+        );
+        setTargetCommentContent(content.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [targetCommentId]);
+  // load comments end
+
   const [loaded, setLoaded] = useState(false);
-  console.log("loaded:", loaded);
+
   const MoreButtonForPost = () => {
     if (!loaded) {
       return <MoreButton />;
     } else
       return (
         <MoreButton
-          sessionUserId={userId}
-          ownerId={post.userId}
-          postId={post.id}
+          sessionUserId={sessionId}
+          ownerId={post.memberId}
+          postId={postid}
           onReport={handleReportDialogOpen}
         />
       );
@@ -124,7 +156,8 @@ export const SinglePostView = () => {
           backgroundColor: "white",
           maxWidth: "sm",
           zIndex: 100,
-        }}>
+        }}
+      >
         <Grid item sx={{ height: "100%" }}>
           <Box
             sx={{
@@ -132,7 +165,8 @@ export const SinglePostView = () => {
               justifyContent: "space-between",
               alignItems: "center",
               height: "100%",
-            }}>
+            }}
+          >
             <BackButton />
           </Box>
         </Grid>
@@ -145,7 +179,7 @@ export const SinglePostView = () => {
       </Grid>
       <Box onClick={open ? handleClose : null} sx={{ mt: "56px" }}>
         <Box sx={{ padding: "3%" }}>
-          <PostContent postId={postid} />
+          <PostContent postId={postid} post={post} />
         </Box>
         <hr />
         <Box sx={{ padding: "3%" }}>
@@ -153,7 +187,8 @@ export const SinglePostView = () => {
             onClick={handleOpen}
             variant="contained"
             fullWidth={true}
-            sx={{ mb: "3%" }}>
+            sx={{ mb: "3%" }}
+          >
             댓글 작성
           </Button>
           <CommentsList
@@ -179,8 +214,10 @@ export const SinglePostView = () => {
         <ReplyDialog
           postId={postid}
           commentId={targetCommentId}
+          commentContent={targetCommentContent}
           onHandleClose={handleClose}
           isUpdate={isUpdate}
+          setIsUpdate={setIsUpdate}
         />
       )}
     </>
