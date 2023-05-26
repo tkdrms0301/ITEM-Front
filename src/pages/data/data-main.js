@@ -8,7 +8,6 @@ import {
   Drawer,
   Grid,
   MenuList,
-  Stack,
   TextField,
   Typography,
   debounce,
@@ -17,7 +16,6 @@ import {
 import { useTheme } from "@mui/material/styles";
 import AppConversionRates from "./AppConversionRates";
 import AppCurrentVisits from "./AppCurrentVisits";
-import { Apps, AssignmentInd, ContactMail, Home } from "@mui/icons-material";
 import { useEffect, useRef, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
@@ -29,6 +27,21 @@ import { BaseUrl } from "../../api/BaseUrl";
 export const DataMain = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [categoryList, setCategoryList] = useState([
+    { id: 1, name: "컴퓨터" },
+    { id: 2, name: "노트북" },
+    { id: 3, name: "휴대폰" },
+    { id: 4, name: "태블릿" },
+  ]);
+
+  const [brandList, setBrandList] = useState([]);
+  const [productList, setProductList] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [selectedBrandId, setSelectedBrandId] = useState("");
+  const [selectedProductList, setSelectedProductList] = useState([]);
+  const [dataList, setDataList] = useState([]);
+  const textFieldRef = useRef(null); // Create a ref for the Autocomplete TextField
+  const [seachKeywordList, setSeachKeywordList] = useState([]);
 
   const toggleSlider = () => {
     setOpen(!open);
@@ -52,23 +65,6 @@ export const DataMain = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const [categoryList, setCategoryList] = useState([
-    { id: 1, name: "컴퓨터" },
-    { id: 2, name: "노트북" },
-    { id: 3, name: "휴대폰" },
-    { id: 4, name: "태블릿" },
-  ]);
-
-  const [brandList, setBrandList] = useState([]);
-  const [productList, setProductList] = useState([]);
-
-  const [selectedCategoryId, setSelectedCategoryId] = useState("");
-  const [selectedBrandId, setSelectedBrandId] = useState("");
-  const [selectedProductList, setSelectedProductList] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [dataList, setDataList] = useState([]);
-  const [dataMsg, setDataMsg] = useState("");
 
   const categoryClick = (categoryId) => {
     setSelectedCategoryId(categoryId);
@@ -108,8 +104,6 @@ export const DataMain = () => {
     textFieldRef.current.click();
     textFieldRef.current.focus();
   };
-  const textFieldRef = useRef(null); // Create a ref for the Autocomplete TextField
-  const [seachKeywordList, setSeachKeywordList] = useState([]);
 
   //검색어 추가 함수
   const handleSearchKeyword = (event, value) => {
@@ -117,13 +111,13 @@ export const DataMain = () => {
   };
 
   //제품 선택 함수
-  const handleTagChange = (event, value) => {
-    setSelectedTags(value);
+  const handleProductChange = (event, value) => {
+    setSelectedProductList(value);
   };
 
   const onClickFinalSearch = () => {
     console.log("최종 선택 키워드");
-    const selectedTagIds = selectedTags.map((tag) => tag.id);
+    const selectedTagIds = selectedProductList.map((product) => product.id);
     console.log(selectedTagIds);
     console.log(seachKeywordList);
 
@@ -136,7 +130,6 @@ export const DataMain = () => {
       .then((res) => {
         console.log(res);
         setDataList(res.data.data);
-        setDataMsg(res.data.msg);
       })
       .catch((err) => {
         console.log(err);
@@ -220,10 +213,16 @@ export const DataMain = () => {
   return (
     <Container>
       <CssBaseline />
-
-      <Typography variant="h4" sx={{ my: 5 }}>
-        반갑습니다, OOO님
-      </Typography>
+      {windowSize.width < 1200 ? (
+        <Typography variant="h4" sx={{ my: 5 }}>
+          사람들의 생각이 궁금할때, <br />
+          빅데이터로 찾는 IT기기 정보
+        </Typography>
+      ) : (
+        <Typography variant="h4" sx={{ my: 5 }}>
+          사람들의 생각이 궁금할때, 빅데이터로 찾는 IT기기 정보
+        </Typography>
+      )}
       <Grid container spacing={2}>
         <Grid item xs={1} md={2} lg={2}>
           {windowSize.width < 1200 ? (
@@ -257,9 +256,9 @@ export const DataMain = () => {
                   fullWidth
                   multiple
                   id="tags-standard"
-                  value={selectedTags}
+                  value={selectedProductList}
                   options={productList}
-                  onChange={handleTagChange}
+                  onChange={handleProductChange}
                   ref={textFieldRef} // Assign the ref to the TextField
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => (
