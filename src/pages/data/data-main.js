@@ -23,7 +23,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Iconify from "../../theme/Iconify";
-import { convertArea } from "geolib";
+import { get, post } from "../../api";
+import { BaseUrl } from "../../api/BaseUrl";
 
 export const DataMain = () => {
   const theme = useTheme();
@@ -52,43 +53,11 @@ export const DataMain = () => {
     };
   }, []);
 
-  //검색한 제품의 데이터 정보List
-  const dataList = [
-    {
-      productName: "RTX4090",
-      relatedWord: [
-        { label: "그래픽카드", value: 1300 },
-        { label: "가성비", value: 1200 },
-        { label: "게임", value: 1100 },
-        { label: "디자인", value: 690 },
-        { label: "상태", value: 580 },
-        { label: "6g", value: 540 },
-        { label: "가격", value: 485 },
-        { label: "메인보드", value: 460 },
-        { label: "지포스", value: 354 },
-        { label: "성능", value: 300 },
-      ],
-      pos_nag: { pos: 5, nag: 1 },
-    },
-    {
-      productName: "RTX1060",
-      relatedWord: [
-        { label: "그래픽카드", value: 1900 },
-        { label: "가성비", value: 1130 },
-        { label: "게임", value: 1100 },
-        { label: "디자인", value: 690 },
-        { label: "상태", value: 560 },
-        { label: "6g", value: 540 },
-      ],
-      pos_nag: { pos: 3, nag: 1 },
-    },
-  ];
-
   const [categoryList, setCategoryList] = useState([
-    { id: 1, name: "노트북" },
-    { id: 2, name: "태블릿" },
-    { id: 3, name: "PC" },
-    { id: 4, name: "휴대폰" },
+    { id: 1, name: "컴퓨터" },
+    { id: 2, name: "노트북" },
+    { id: 3, name: "휴대폰" },
+    { id: 4, name: "태블릿" },
   ]);
 
   const [brandList, setBrandList] = useState([]);
@@ -98,38 +67,42 @@ export const DataMain = () => {
   const [selectedBrandId, setSelectedBrandId] = useState("");
   const [selectedProductList, setSelectedProductList] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [dataList, setDataList] = useState([]);
+  const [dataMsg, setDataMsg] = useState("");
 
   const categoryClick = (categoryId) => {
-    console.log(categoryId);
     setSelectedCategoryId(categoryId);
 
-    //카테고리 클릭 후 받을 브랜드 리스트
-    setBrandList([
-      { id: 1, name: "삼성" },
-      { id: 2, name: "LG" },
-      { id: 3, name: "샤오미" },
-      { id: 4, name: "애플" },
-      { id: 5, name: "레노버" },
-      { id: 6, name: "HP" },
-      { id: 7, name: "아수스" },
-      { id: 8, name: "MSI" },
-    ]);
+    get(BaseUrl + "/api/device/completion-brand", {
+      params: {
+        category: categoryId,
+      },
+    })
+      .then((res) => {
+        setBrandList(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {});
   };
 
   const brandCiick = (brandId) => {
-    console.log(brandId);
     setSelectedBrandId(brandId);
 
-    //브랜드 클릭 후 받을 프로덕트 리스트
-    setProductList([
-      { id: 1, name: "갤럭시A90" },
-      { id: 2, name: "갤럭시A80" },
-      { id: 3, name: "아이폰12" },
-      { id: 4, name: "아이폰7" },
-      { id: 5, name: "아이폰8" },
-      { id: 6, name: "아이폰11" },
-      { id: 7, name: "아이폰SE" },
-    ]);
+    get(BaseUrl + "/api/device/completion-product", {
+      params: {
+        category: selectedCategoryId,
+        brand: brandId,
+      },
+    })
+      .then((res) => {
+        setProductList(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {});
 
     setOpen(false);
     textFieldRef.current.click();
@@ -139,24 +112,36 @@ export const DataMain = () => {
   const [seachKeywordList, setSeachKeywordList] = useState([]);
 
   //검색어 추가 함수
-  const handleSearchKeyword = (event) => {
-    console.log(event.target.value);
-    if (event.target.value == undefined) setSeachKeywordList([]);
-    else setSeachKeywordList([...seachKeywordList, event.target.value]);
-
-    console.log(seachKeywordList);
+  const handleSearchKeyword = (event, value) => {
+    setSeachKeywordList(value);
   };
 
   //제품 선택 함수
   const handleTagChange = (event, value) => {
     setSelectedTags(value);
-    console.log(selectedTags);
   };
 
   const onClickFinalSearch = () => {
     console.log("최종 선택 키워드");
-    console.log(selectedTags);
+    const selectedTagIds = selectedTags.map((tag) => tag.id);
+    console.log(selectedTagIds);
     console.log(seachKeywordList);
+
+    const data = {
+      words: seachKeywordList,
+      products: selectedTagIds,
+    };
+
+    post(BaseUrl + "/api/data/get", data)
+      .then((res) => {
+        console.log(res);
+        setDataList(res.data.data);
+        setDataMsg(res.data.msg);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {});
   };
 
   const convertExcel = () => {
@@ -323,7 +308,7 @@ export const DataMain = () => {
                 </Button>
               </Container>
             </Grid>
-            {dataList ? (
+            {dataList.length > 0 ? (
               <Grid item xs={12}>
                 <Grid item xs={12} md={12} lg={12}>
                   <Box
@@ -378,7 +363,7 @@ export const DataMain = () => {
                           <AppConversionRates
                             title={data.productName}
                             subheader="선택한 제품에 대한 연관어 언급량 결과"
-                            chartData={data.relatedWord}
+                            chartData={data.relatedWords}
                           />
                         </Box>
                       </Grid>
@@ -398,8 +383,14 @@ export const DataMain = () => {
                           title={data.productName}
                           subheader="검색한 제품에 대한 긍/부정도 분석 결과"
                           chartData={[
-                            { label: "긍정적 반응", value: data.pos_nag.pos },
-                            { label: "부정적 반응", value: data.pos_nag.nag },
+                            {
+                              label: "긍정적 반응",
+                              value: data.posAndNegDto.positive,
+                            },
+                            {
+                              label: "부정적 반응",
+                              value: data.posAndNegDto.negative,
+                            },
                           ]}
                           chartColors={[
                             theme.palette.primary.main,
@@ -411,7 +402,17 @@ export const DataMain = () => {
                   ))}
                 </Grid>
               </Grid>
-            ) : null}
+            ) : (
+              <Grid
+                item
+                xs={12}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Typography variant="h4" sx={{ mt: 10 }}>
+                  찾으시는 제품에 대한 결과가 없습니다.
+                </Typography>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Grid>
