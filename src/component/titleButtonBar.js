@@ -12,6 +12,7 @@ export const TitleButtonBar = ({
   completed,
   reservationId,
   isUpdating,
+  title,
 }) => {
   const navigate = useNavigate();
 
