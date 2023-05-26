@@ -8,9 +8,15 @@ import {
   FormControl,
   MenuItem,
 } from "@mui/material";
+import { post } from "../../../api/index";
+import { testBaseURL } from "../testing-String";
 
 const reportOne = (type, target, reason, comment) => {
   console.log(`report ${type} id ${target} for ${reason} with ${comment}`);
+  post(`${testBaseURL}/community/${type}/${target}/report`, {
+    reportType: reason,
+    reason: comment,
+  });
 };
 
 export const ReportDialog = ({
@@ -36,9 +42,9 @@ export const ReportDialog = ({
               setReason(event.target.value);
             }}
           >
-            <MenuItem value="spam">광고성 게시글</MenuItem>
-            <MenuItem value="inappropriate">부적절한 게시글</MenuItem>
-            <MenuItem value="other">기타</MenuItem>
+            <MenuItem value={0}>광고성 게시글</MenuItem>
+            <MenuItem value={1}>부적절한 게시글</MenuItem>
+            <MenuItem value={2}>기타</MenuItem>
           </TextField>
         </FormControl>
         <TextField

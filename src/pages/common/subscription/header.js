@@ -1,4 +1,3 @@
-
 import {
   Container,
   Grid,
@@ -8,10 +7,9 @@ import {
   Typography,
   Avatar,
 } from "@mui/material";
-
 import { BackButton } from "../../../component/backButton";
 
-export const Header = ({ title }) => {
+export const Header = () => {
   return (
     <>
       <Container
@@ -22,8 +20,8 @@ export const Header = ({ title }) => {
       >
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
           <BackButton />
-          <Typography variant="h4" sx={{ fontWeight: "bold", ml: 3 }}>
-            {title}
+          <Typography variant="h4" sx={{ ml: 3 }}>
+            구독권 구매
           </Typography>
         </Box>
       </Container>{" "}

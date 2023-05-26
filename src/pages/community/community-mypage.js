@@ -1,29 +1,18 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { Box, Tabs, Tab } from "@mui/material";
 import { BackButton } from "../../component/backButton";
 import { PostsList } from "./component/postsList";
-
-import {
-  tempNumberForCommentedPostingList,
-  testBaseURL,
-} from "./testing-String";
+import { testBaseURL } from "./testing-String";
+import { get } from "../../api/index";
 
 export const CommunityMyPage = () => {
-  const { userid } = useParams();
-
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
-  // const postQuery = `https://dummyjson.com/posts/user/${userid}`;
-  // const commentQuery = `https://dummyjson.com/posts/user/${tempNumberForCommentedPostingList}`;
-  const postQuery = `${testBaseURL}/posts/user/${userid}`;
-  const commentQuery = `${testBaseURL}/posts/user/${tempNumberForCommentedPostingList}`;
-
-  console.log("userid : " + userid);
+  const postQuery = `${testBaseURL}/community/user/posts`;
+  const commentQuery = `${testBaseURL}/community/user/comments`;
   return (
     <>
       <Box

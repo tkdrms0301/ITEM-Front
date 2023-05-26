@@ -1,9 +1,10 @@
 import { Header } from "./header";
 import { Container } from "@mui/system";
 import { AmountList } from "./amountList";
-import { Card } from "@mui/material";
+import { Button, Card } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { loadPaymentWidget, ANONYMOUS } from "@tosspayments/payment-widget-sdk";
+import { nanoid } from "nanoid";
 
 export const RechargeMain = () => {
   const amountList = [
@@ -57,7 +58,7 @@ export const RechargeMain = () => {
     },
   ];
 
-  const paymentWidgetRef = useRef(null)
+  const paymentWidgetRef = useRef(null);
   const price = 50_00;
   const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
   const customerKey = "YbX2HuSlsC9uVJW6NMRMj";
@@ -72,14 +73,47 @@ export const RechargeMain = () => {
     })();
   }, []);
 
+  const onButtonCharge = (event) => {
+    const paymentWidget = paymentWidgetRef.current;
+
+    try {
+      paymentWidget?.requestPayment({
+        orderId: nanoid(),
+        orderName: "토스 티셔츠 외 2건",
+        customerName: "김토스",
+        customerEmail: "customer123@gmail.com",
+        successUrl: `${window.location.origin}/success`,
+        failUrl: `${window.location.origin}/fail`,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+  };
+
   return (
     <>
       <Header />
       <Container sx={{ mt: 2 }}>
-        <AmountList amountList={amountList} />
+        <AmountList amountList={amountList} handleChange={handleChange} />
         <Card sx={{ mt: 2 }}>
           <div id="payment-widget" />
         </Card>
+      </Container>
+      <Container sx={{ my: 2 }}>
+        <Button
+          variant="contained"
+          color="inherit"
+          fullWidth
+          onClick={(e) => {
+            onButtonCharge();
+          }}
+        >
+          결제하기
+        </Button>
       </Container>
     </>
   );

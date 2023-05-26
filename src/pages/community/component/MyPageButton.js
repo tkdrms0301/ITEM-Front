@@ -4,7 +4,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 export const MyPageButton = (props) => {
   return (
-    <Link to={`/community/mypage/${props.userId}`}>
+    <Link to={`/community/mypage`}>
       <Box>
         <IconButton
           sx={{

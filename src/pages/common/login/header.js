@@ -1,4 +1,4 @@
-import { Container, Grid } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 
 export const Header = () => {
   return (
@@ -7,12 +7,19 @@ export const Header = () => {
         disableGutters
         maxWidth={false}
         sx={{
-          marginTop: "20%",
-          marginBottom: "10%",
+          marginTop: 10,
+          marginBottom: 10,
           textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <img src="/ItemLogo.png" width={"90%"}></img>
+        <Box
+          component="img"
+          src="/ItemLogo.png"
+          sx={{ width: 400, cursor: "pointer" }}
+        />
       </Container>
     </Grid>
   );

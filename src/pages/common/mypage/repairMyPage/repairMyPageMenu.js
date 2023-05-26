@@ -1,4 +1,4 @@
-import { Container, Grid } from "@mui/material";
+import { Card, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,6 @@ export const RepairMyPageMenu = () => {
       });
     }
   }, []);
-
 
   const navigate = useNavigate();
 
@@ -68,39 +67,33 @@ export const RepairMyPageMenu = () => {
 
   return (
     <Container
-      maxWidth={false}
+      width={"90%"}
       sx={{
-        marginTop: "3%",
-        width: "90%",
-        display: "flex",
         justifyContent: "center",
-        pl: "0",
-        pr: "0",
+        mt: 3,
       }}
     >
-      <Grid container sx={{ display: "flex" }}>
-        {menuList.map((data, index) => (
-          <Grid
-            key={index}
-            item
-            xs={12}
-            sx={{
-              backgroundColor: "#E0E0E0",
-              display: "flex",
-              justifyContent: "center",
-              borderRadius: "3px",
-              alignItems: "center",
-              mt: "5%",
-              p: "2%",
-              fontSize: "15px",
-              fontWeight: "bold",
-            }}
-            onClick={(e) => navigate(data.navigate)}
-          >
-            {data.title}
-          </Grid>
-        ))}
-      </Grid>
+      {menuList.map((data, index) => (
+        <Card
+          key={index}
+          sx={{
+            boxShadow: 10,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            p: 1,
+            my: 2,
+            "&:hover": {
+              bgcolor: "action.selected",
+              fontWeight: "fontWeightBold",
+            },
+          }}
+          onClick={(e) => navigate(data.navigate)}
+        >
+          <Typography variant="h5">{data.title}</Typography>
+        </Card>
+      ))}
     </Container>
   );
 };
