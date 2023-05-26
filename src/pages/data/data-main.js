@@ -216,11 +216,11 @@ export const DataMain = () => {
       {windowSize.width < 1200 ? (
         <Typography variant="h4" sx={{ my: 5 }}>
           사람들의 생각이 궁금할때, <br />
-          빅데이터로 찾는 IT기기 정보
+          빅데이터로 찾는 IT기기정보
         </Typography>
       ) : (
         <Typography variant="h4" sx={{ my: 5 }}>
-          사람들의 생각이 궁금할때, 빅데이터로 찾는 IT기기 정보
+          사람들의 생각이 궁금할때, 빅데이터로 찾는 IT기기정보
         </Typography>
       )}
       <Grid container spacing={2}>
