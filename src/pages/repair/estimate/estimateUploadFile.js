@@ -10,7 +10,6 @@ import {
   Card,
   Button,
 } from "@mui/material";
-import { products } from "../data/test";
 import { useRef } from "react";
 
 export const EstimateUploadFile = ({
@@ -32,10 +31,10 @@ export const EstimateUploadFile = ({
   };
 
   return (
-    <Container sx={{ mt: "56px", width: "100%" }}>
+    <Container sx={{ width: "100%" }}>
       <Card
         sx={{
-          mt: 9,
+          mt: 2,
           mb: 2,
           boxShadow: 10,
         }}
@@ -59,7 +58,7 @@ export const EstimateUploadFile = ({
                     onChange={handleData}
                     label="제품 선택"
                     fullWidth
-                    disabled={isHistory ? true : false}
+                    readOnly={isHistory ? true : false}
                   >
                     <MenuItem value={myItDevices.itName}>
                       {myItDevices.itName}
@@ -76,7 +75,7 @@ export const EstimateUploadFile = ({
                     onChange={handleData}
                     label="제품 선택"
                     fullWidth
-                    disabled={isHistory ? true : false}
+                    readOnly={isHistory ? true : false}
                   >
                     {!isHistory
                       ? myItDevices.map((product, index) => (

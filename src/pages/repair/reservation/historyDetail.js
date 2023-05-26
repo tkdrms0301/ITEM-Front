@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { reservationHistoryForUser } from "../data/test";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, Card } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import { get, post } from "../../../api";
+import palette from "../../../theme/palette";
 
 export const ReservationHistoryDetail = () => {
   const { reservationId } = useParams();
@@ -97,86 +98,66 @@ export const ReservationHistoryDetail = () => {
           <TitleButtonBar title="예약 내역" />
           <Container
             sx={{
-              mt: "56px",
               pt: "1%",
+              mt: "56px",
             }}
           >
-            <Box
+            <Card
               sx={{
-                position: "relative",
-                display: "flex",
-                width: "100%",
-                height: "100px",
-                border: "1px solid #C4C4C4",
-                borderRadius: "4px",
-                mt: "3%",
-                padding: "3%",
-                alignItems: "center",
+                mt: 2,
+                mb: 2,
+                boxShadow: 10,
               }}
             >
-              <Typography
-                sx={{
-                  position: "absolute",
-                  top: -10,
-                  left: 10,
-                  bgcolor: "white",
-                  px: 1,
-                  fontSize: "0.8rem",
-                }}
-              >
+              <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                 제품정보
               </Typography>
-              {data.prodImg ? (
-                <Box
-                  component="img"
-                  src={data.prodImg}
-                  alt={data.productName}
-                  sx={{
-                    width: "40%",
-                    height: "100%",
-                    mr: "5%",
-                    borderRadius: "10px",
-                  }}
-                />
-              ) : (
-                <Box
-                  sx={{
-                    width: "40%",
-                    height: "100%",
-                    mr: "5%",
-                    bgcolor: "#8C92AC",
-                    borderRadius: "10px",
-                  }}
-                ></Box>
-              )}
-              <Typography>{data.productName}</Typography>
-            </Box>
-            <Box
-              sx={{
-                position: "relative",
-                display: "flex",
-                flexWrap: "wrap",
-                width: "100%",
-                minHeight: "100px",
-                border: "1px solid #C4C4C4",
-                borderRadius: "4px",
-                mt: "3%",
-                padding: "3%",
-                alignItems: "center",
-              }}
-            >
-              <Typography
+              <Box
                 sx={{
-                  position: "absolute",
-                  top: -10,
-                  left: 10,
-                  bgcolor: "white",
-                  px: 1,
-                  fontSize: "0.8rem",
+                  position: "relative",
+                  display: "flex",
+                  width: "100%",
+                  height: "100px",
+                  borderRadius: "4px",
+                  mt: "3%",
+                  padding: "3%",
+                  alignItems: "center",
                 }}
               >
-                신청정보
-              </Typography>
+                {data.prodImg ? (
+                  <Box
+                    component="img"
+                    src={data.prodImg}
+                    alt={data.productName}
+                    sx={{
+                      width: "40%",
+                      height: "100%",
+                      mr: "5%",
+                      borderRadius: "10px",
+                    }}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      width: "40%",
+                      height: "100%",
+                      mr: "5%",
+                      bgcolor: "#8C92AC",
+                      borderRadius: "10px",
+                    }}
+                  ></Box>
+                )}
+                <Typography>{data.productName}</Typography>
+              </Box>
+            </Card>
+
+            <Card
+              sx={{
+                mt: 2,
+                mb: 2,
+                boxShadow: 10,
+              }}
+            >
               <Grid
                 container
                 direction="column"
@@ -187,138 +168,266 @@ export const ReservationHistoryDetail = () => {
                   pb: "3%",
                 }}
               >
-                {data.requestServices.map((item, index) => {
-                  return (
-                    <Grid
-                      item
-                      key={index}
-                      sx={{
-                        backgroundColor: "#D3D3D3",
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "1%",
-                        borderRadius: "10px",
-                        mb: "2%",
-                      }}
-                    >
-                      <SettingsIcon sx={{ fontSize: "40px" }} />
-                      <Typography variant="h6" fontWeight="bold">
-                        {item.serviceName}
-                      </Typography>
-                      <Typography variant="h6" fontWeight="bold">
-                        -
-                      </Typography>
-                      <Typography variant="h6" fontWeight="bold">
-                        {item.price}원
-                      </Typography>
-                    </Grid>
-                  );
-                })}
+                {" "}
+                <Typography
+                  variant="h6"
+                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
+                >
+                  신청정보
+                </Typography>
               </Grid>
 
-              <Typography
-                variant="body1"
+              <Box
                 sx={{
+                  position: "relative",
+                  display: "flex",
+                  flexWrap: "wrap",
                   width: "100%",
-                  flex: "1 0 auto",
-                  mt: "1%",
-                  borderBottom: "1px dashed #A4A4A4",
-                  mb: "3%",
-                  pb: "3%",
+                  minHeight: "100px",
+                  alignItems: "center",
                 }}
               >
-                <div className="reservation_img_field">
-                  <div className="img_common_field">
-                    {data.rvRequestImgs.map((img, index) => (
-                      <div className="img_common_div" key={index}>
-                        <img
-                          className="img_content"
-                          src={img}
-                          alt="rvImgs"
-                          onClick={() => {
-                            setImgViewModalState(true);
-                            setImgViewModalImgState(img);
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Typography>
-
-              <Typography
-                variant="body1"
-                sx={{
-                  width: "100%",
-                  flex: "1 0 auto",
-                  mt: "1%",
-                  borderBottom: "1px dashed #A4A4A4",
-                  mb: "3%",
-                  pb: "3%",
-                }}
-              >
-                {data.requestComment}
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{ width: "100%", flex: "1 0 auto", mt: "1%" }}
-              >
-                예약 시간 : {data.date} {data.time}
-              </Typography>
-            </Box>
-            {JSON.parse(window.localStorage.getItem("user")) !== null ? (
-              JSON.parse(window.localStorage.getItem("user")).roleType ===
-              "MECHANIC" ? (
-                <Box
+                <Grid
+                  container
+                  direction="column"
+                  alignContent={"flex-start"}
                   sx={{
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: "space-around",
-                    width: "100%",
-                    height: "100px",
-                    border: "1px solid #C4C4C4",
-                    borderRadius: "4px",
-                    mt: "3%",
-                    padding: "3%",
-                    alignItems: "center",
+                    borderBottom: "1px dashed #C4C4C4",
+                    mb: "3%",
+                    pb: "3%",
                   }}
                 >
                   <Typography
+                    variant="subtitle1"
+                    sx={{ color: "GrayText", ml: 2, mb: 1 }}
+                  >
+                    신청 서비스
+                  </Typography>
+                  {data.requestServices.map((item, index) => {
+                    return (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: "100%",
+                          border: "1px solid #f1f1f1",
+                          display: "flex",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          pt: 1,
+                          pb: 1,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "flex-start",
+                            flexDirection: "column",
+                            borderBottom: "2px solid #f1f1f1",
+                            pb: 2,
+                            textAlign: "center",
+                          }}
+                        >
+                          <Typography variant="h5">
+                            {item.serviceName}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "flex-start",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ color: palette.error.main, mt: 0.5 }}
+                          >
+                            ITEM 특가
+                          </Typography>
+                          <Box sx={{ display: "flex" }}>
+                            <Typography
+                              variant="subtitle1"
+                              sx={{ fontWeight: 800 }}
+                            >
+                              {item.price.toLocaleString()}원
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    );
+                  })}
+                </Grid>
+
+                <Box
+                  variant="body1"
+                  sx={{
+                    width: "100%",
+                    flex: "1 0 auto",
+                    mt: "1%",
+                    borderBottom: "1px dashed #A4A4A4",
+                    mb: "3%",
+                    pb: "3%",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: "GrayText", ml: 2 }}
+                  >
+                    이미지
+                  </Typography>
+                  <div className="reservation_img_field">
+                    <div className="img_common_field">
+                      {data.rvRequestImgs.map((img, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            width: "200px",
+                            margin: "0 auto",
+                            display: "table-cell",
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          <Box
+                            component="img"
+                            src={img}
+                            alt="rvImgs"
+                            sx={{
+                              border: "1px solid #f1f1f1",
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              top: "0px",
+                              bottom: "0px",
+                              maxWidth: "180px",
+                              maxHeight: "180px",
+                              my: 1,
+                            }}
+                            onClick={() => {
+                              setImgViewModalState(true);
+                              setImgViewModalImgState(img);
+                            }}
+                          />
+                        </Box>
+                      ))}
+                    </div>
+                  </div>
+                </Box>
+
+                <Box
+                  variant="body1"
+                  sx={{
+                    width: "100%",
+                    flex: "1 0 auto",
+                    borderBottom: "1px dashed #A4A4A4",
+                    mt: "1%",
+                    mb: "3%",
+                    pb: "3%",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: "GrayText", ml: 2 }}
+                  >
+                    요청 사항
+                  </Typography>
+                  <Typography
+                    variant="body1"
                     sx={{
-                      position: "absolute",
-                      top: -10,
-                      left: 10,
-                      bgcolor: "white",
-                      px: 1,
-                      fontSize: "0.8rem",
+                      width: "100%",
+                      flex: "1 0 auto",
+                      mt: "1%",
+                      mb: "3%",
+                      pb: "3%",
+                      ml: 2,
                     }}
                   >
+                    {data.requestComment}
+                  </Typography>
+                </Box>
+                <Box
+                  variant="body1"
+                  sx={{
+                    width: "100%",
+                    flex: "1 0 auto",
+                    mt: "1%",
+                    mb: "3%",
+                    pb: "3%",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: "GrayText", ml: 2 }}
+                  >
+                    예약 시간
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      width: "100%",
+                      flex: "1 0 auto",
+                      mt: "1%",
+                      color: "GrayText",
+                      textAlign: "center",
+                    }}
+                  >
+                    {data.date} {data.time}
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+
+            {JSON.parse(window.localStorage.getItem("user")) !== null ? (
+              JSON.parse(window.localStorage.getItem("user")).roleType ===
+              "MECHANIC" ? (
+                <Card
+                  sx={{
+                    mt: 2,
+                    mb: 2,
+                    boxShadow: 10,
+                    pt: 2,
+                  }}
+                >
+                  <Typography variant="h6" sx={{ color: "GrayText", ml: 2 }}>
                     예약 처리
                   </Typography>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      handleReject();
-                    }}
+                  <Box
                     sx={{
-                      width: "40%",
-                      height: "80%",
+                      position: "relative",
+                      display: "flex",
+                      justifyContent: "space-around",
+                      width: "100%",
+                      height: "100px",
+                      mt: "3%",
+                      padding: "3%",
+                      alignItems: "center",
                     }}
                   >
-                    거절
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      handleAccept();
-                    }}
-                    sx={{ width: "40%", height: "80%" }}
-                  >
-                    수락
-                  </Button>
-                </Box>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        handleReject();
+                      }}
+                      sx={{
+                        width: "40%",
+                        height: "80%",
+                      }}
+                    >
+                      거절
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        handleAccept();
+                      }}
+                      sx={{ width: "40%", height: "80%" }}
+                    >
+                      수락
+                    </Button>
+                  </Box>
+                </Card>
               ) : null
             ) : null}
           </Container>

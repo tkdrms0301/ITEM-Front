@@ -86,7 +86,7 @@ export const EstimateComment = ({ completed, data, handleData, isHistory }) => {
               InputProps={{
                 disableUnderline: true, // <== added this
               }}
-              disabled={isHistory ? true : false}
+              readOnly={isHistory ? true : false}
             ></TextField>
           ) : (
             <TextField
@@ -103,7 +103,7 @@ export const EstimateComment = ({ completed, data, handleData, isHistory }) => {
               InputProps={{
                 disableUnderline: true, // <== added this
               }}
-              disabled={isHistory ? true : false}
+              readOnly={isHistory ? true : false}
             ></TextField>
           )}
         </Card>

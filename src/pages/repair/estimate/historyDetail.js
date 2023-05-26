@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { estimateHistoryForRepair, estimateHistoryForUser } from "../data/test";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
+import { useNavigate } from "react-router-dom";
+import { Header } from "./header";
 import {
   Box,
   Button,
@@ -19,10 +21,10 @@ import { EstimateComment } from "./estimateComment";
 import { useLocation, useParams } from "react-router-dom";
 import { post, get } from "../../../api";
 import { set } from "date-fns";
-import { Header } from "./header";
 
 export const EstimateHistoryDetail = ({ role }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [data, setData] = useState();
 
@@ -37,7 +39,7 @@ export const EstimateHistoryDetail = ({ role }) => {
     minPrice: 0,
     maxPrice: 0,
     minTime: 0,
-    maxTime: 1,
+    maxTime: 0,
   });
 
   const [completed, setCompleted] = useState({
@@ -47,7 +49,7 @@ export const EstimateHistoryDetail = ({ role }) => {
 
   const handleCompleted = () => {
     if (formData.comment !== "" && formData.maxPrice !== 0) {
-      if (formData.maxPrice < formData.minPrice) {
+      if (parseInt(formData.maxPrice) < parseInt(formData.minPrice)) {
         setCompleted({
           isCompleted: false,
           msg: "최소 금액이 최대 금액보다 큽니다.",
@@ -56,6 +58,11 @@ export const EstimateHistoryDetail = ({ role }) => {
         setCompleted({
           isCompleted: false,
           msg: "최소 시간이 최대 시간보다 큽니다.",
+        });
+      } else if (formData.minTime === 0 && formData.maxTime === 0) {
+        setCompleted({
+          isCompleted: false,
+          msg: "시간을 입력하세요.",
         });
       } else {
         setCompleted({
@@ -101,7 +108,7 @@ export const EstimateHistoryDetail = ({ role }) => {
         minPrice: res.data.minPrice && res.data.minPrice,
         maxPrice: res.data.maxPrice && res.data.maxPrice,
         minTime: res.data.minTime && res.data.minTime,
-        maxTime: res.data.maxTime && res.data.maxTim,
+        maxTime: res.data.maxTime && res.data.maxTime,
       });
     });
   }, []);
@@ -161,25 +168,30 @@ export const EstimateHistoryDetail = ({ role }) => {
     },
   ];
 
+  const onClickResponseRegist = () => {
+    if (completed.isCompleted === false) {
+      window.alert(completed.msg);
+      return;
+    }
+    if (isUpdating) {
+      //응답
+      post(
+        "http://localhost:8080/api/repair/estimate/responseRegist",
+        formData
+      ).then((res) => {
+        //console.log(res);
+      });
+      navigate(-1);
+    } else {
+      window.alert(completed.msg);
+    }
+  };
+
   return (
     <>
       {data ? (
         <>
-          <TitleButtonBar
-            title="견적 내역"
-            buttonLabel={isUpdating ? "등록" : null}
-            query={"http://localhost:8080/api/repair/estimate/responseRegist"}
-            transmitData={formData}
-            completed={completed}
-            isUpdating={isUpdating}
-          />
-          {/* <TitleButtonBar
-        title={"견적 요청서"}
-        query={""}
-        transmitData={data}
-        completed={completed}
-      /> */}
-
+          <Header />
           <EstimateUploadFile
             data={data}
             myItDevices={data.itDevice}
@@ -217,7 +229,13 @@ export const EstimateHistoryDetail = ({ role }) => {
                 InputProps={{
                   disableUnderline: true, // <== added this
                 }}
-                disabled={isUpdating ? false : true}
+                inputProps={{
+                  readOnly:
+                    JSON.parse(window.localStorage.getItem("user")).roleType !==
+                      "MECHANIC" || !isUpdating
+                      ? true
+                      : false,
+                }}
               ></TextField>
             </Card>
           </Container>
@@ -241,8 +259,9 @@ export const EstimateHistoryDetail = ({ role }) => {
                   container
                   justifyContent="space-around"
                   alignItems="center"
+                  marginTop={2}
                 >
-                  <Grid item xs={4} sx={{ paddingLeft: "10px" }}>
+                  <Grid item xs={4}>
                     <TextField
                       label="최소"
                       size="small"
@@ -250,13 +269,19 @@ export const EstimateHistoryDetail = ({ role }) => {
                       name="minPrice"
                       value={formData.minPrice}
                       onChange={handleChange}
-                      disabled={isUpdating ? false : true}
+                      inputProps={{
+                        readOnly:
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false,
+                      }}
                     />
                     <Typography sx={{ ml: "10%" }}>ITEM 포인트</Typography>
                   </Grid>
                   <Grid
                     item
-                    xs={4}
+                    xs={1}
                     sx={{
                       textAlign: "center",
                       display: "flex",
@@ -275,7 +300,13 @@ export const EstimateHistoryDetail = ({ role }) => {
                       name="maxPrice"
                       value={formData.maxPrice}
                       onChange={handleChange}
-                      disabled={isUpdating ? false : true}
+                      inputProps={{
+                        readOnly:
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false,
+                      }}
                     />
                     <Typography sx={{ ml: "10%" }}>ITEM 포인트</Typography>
                   </Grid>
@@ -301,6 +332,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                   container
                   justifyContent="space-around"
                   alignItems="center"
+                  marginTop={2}
                 >
                   <Grid item xs={4}>
                     <FormControl fullWidth required>
@@ -309,7 +341,12 @@ export const EstimateHistoryDetail = ({ role }) => {
                         name="minTime"
                         value={formData.minTime}
                         onChange={handleChange}
-                        disabled={isUpdating ? false : true}
+                        readOnly={
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false
+                        }
                       >
                         {timeList.map((time) => (
                           <MenuItem key={time.label} value={time.value}>
@@ -321,7 +358,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                   </Grid>
                   <Grid
                     item
-                    xs={4}
+                    xs={1}
                     sx={{
                       textAlign: "center",
                       display: "flex",
@@ -338,7 +375,12 @@ export const EstimateHistoryDetail = ({ role }) => {
                         name="maxTime"
                         value={formData.maxTime}
                         onChange={handleChange}
-                        disabled={isUpdating ? false : true}
+                        readOnly={
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false
+                        }
                       >
                         {timeList.map((time) =>
                           time.value === 0 ? null : (
@@ -369,6 +411,23 @@ export const EstimateHistoryDetail = ({ role }) => {
                 </Button>
               )}
             </>
+          ) : null}
+
+          {isUpdating ? (
+            <Button
+              fullWidth
+              variant="contained"
+              color="inherit"
+              onClick={onClickResponseRegist}
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: "ButtonFace",
+                color: "ButtonText",
+              }}
+            >
+              견적 응답 등록
+            </Button>
           ) : null}
         </>
       ) : null}

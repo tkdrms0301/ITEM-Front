@@ -4,6 +4,7 @@ import { EstimateUploadFile } from "./estimateUploadFile";
 import { EstimateComment } from "./estimateComment";
 import { useParams, useLocation } from "react-router-dom";
 import { post, get } from "../../../api";
+import { Header } from "./header";
 
 export const Estimate = () => {
   const location = useLocation();
@@ -64,12 +65,7 @@ export const Estimate = () => {
 
   return (
     <>
-      <TitleButtonBar
-        title={"견적 요청서"}
-        query={""}
-        transmitData={data}
-        completed={completed}
-      />
+      <Header />
 
       <EstimateUploadFile
         data={data}
