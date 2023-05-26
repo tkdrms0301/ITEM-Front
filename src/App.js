@@ -6,9 +6,9 @@ import SimpleBottomNavigation from "./component/nav";
 import { Box } from "@mui/material";
 
 const App = () => {
+  const content = useRoutes(routes);
   const [isBottomNavigationVisible, setIsBottomNavigationVisible] =
     useState(true);
-  const content = useRoutes(routes);
 
   useEffect(() => {
     const handleResize = () => {

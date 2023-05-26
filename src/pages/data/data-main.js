@@ -290,9 +290,9 @@ export const DataMain = () => {
                   }
                   renderInput={(params) => (
                     <TextField
+                      size="small"
                       {...params}
-                      variant="filled"
-                      label="검색어를 입력하세요"
+                      variant="standard"
                       placeholder="검색어를 입력하세요"
                     />
                   )}

@@ -44,7 +44,11 @@ export const AccountPopover = ({ userState }) => {
   const logOutClick = (e) => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("user");
-    window.location.replace("/");
+    if (window.innerWidth < 1200) {
+      window.location.replace("/");
+    } else {
+      window.location.replace("/data");
+    }
   };
 
   return (
