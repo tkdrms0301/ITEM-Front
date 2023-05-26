@@ -5,6 +5,7 @@ import { EstimateComment } from "./estimateComment";
 import { useParams, useLocation } from "react-router-dom";
 import { post, get } from "../../../api";
 import { Header } from "./header";
+import { Container, Grid } from "@mui/material";
 
 export const Estimate = () => {
   const location = useLocation();
@@ -80,27 +81,6 @@ export const Estimate = () => {
         handleData={handleData}
       ></EstimateComment>
 
-      <Container>
-        <Grid
-          item
-          xs={12}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {"신청" == null ? null : (
-            <TitleButtonBar
-              buttonLabel={"수리견적 요청하기"}
-              query={""}
-              onClick={alert}
-              transmitData={data}
-              completed={completed}
-            />
-          )}
-        </Grid>
-      </Container>
       {/* <Box
           sx={{
             position: "relative",
