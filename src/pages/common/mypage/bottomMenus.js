@@ -1,33 +1,11 @@
-import {
-  Typography,
-  Card,
-  Box,
-  CardContent,
-  CardHeader,
-  Paper,
-  List,
-  ListSubheader,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
+import { Typography, Card, List, ListItemButton } from "@mui/material";
+import { alpha, useTheme } from "@mui/material/styles";
 import Iconify from "../../../theme/Iconify";
 import { useNavigate } from "react-router-dom";
-import palette from "../../../theme/palette";
-
-const StyledIcon = styled("div")(({ theme }) => ({
-  margin: theme.spacing(2),
-  display: "flex",
-  borderRadius: "50%",
-  alignItems: "center",
-  width: theme.spacing(6),
-  height: theme.spacing(6),
-  justifyContent: "center",
-  marginBottom: theme.spacing(1.5),
-}));
 
 export const BottomMenus = ({ userState, color = "primary" }) => {
+  const theme = useTheme();
+
   const list =
     userState.roleType === "MEMBER"
       ? [
@@ -75,10 +53,11 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
   return (
     <Card
       sx={{
-        pb: 1,
         boxShadow: 10,
         textAlign: "left",
         mb: 3,
+        bgcolor: (theme) => theme.palette["secondary"].lighter,
+        color: (theme) => theme.palette["secondary"].darker,
       }}
     >
       <Typography
@@ -88,9 +67,9 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
           py: 2,
           backgroundImage: (theme) =>
             `linear-gradient(135deg, ${alpha(
-              theme.palette[color].dark,
+              theme.palette[color].darker,
               0
-            )} 0%, ${alpha(theme.palette[color].dark, 0.24)} 100%)`,
+            )} 0%, ${alpha(theme.palette[color].darker, 0.24)} 100%)`,
         }}
       >
         마이페이지 바로가기
@@ -99,14 +78,23 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
         sx={{
           width: "100%",
           maxWidth: 360,
+          bgcolor: (theme) => theme.palette["primary"].lighter,
+          color: (theme) => theme.palette["primary"].darker,
         }}
       >
         {list.map((data, index) => (
-          <ListItemButton key={index} onClick={(e) => navigate(data.nav)}>
+          <ListItemButton
+            key={index}
+            onClick={(e) => navigate(data.nav)}
+            sx={{
+              borderBottom:
+                index !== list.length - 1
+                  ? `2px solid ${theme.palette.success.lighter}`
+                  : "none",
+            }}
+          >
             <Iconify icon={data.icon} width={35} height={10} sx={{ mr: 2 }} />
-            <Typography variant="h5" sx={{ color: palette.text.secondary }}>
-              {data.title}
-            </Typography>
+            <Typography variant="h5">{data.title}</Typography>
           </ListItemButton>
         ))}
       </List>

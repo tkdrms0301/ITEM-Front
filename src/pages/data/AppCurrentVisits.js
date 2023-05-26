@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import ReactApexChart from "react-apexcharts";
 // @mui
 import { useTheme, styled } from "@mui/material/styles";
-import { Card, CardHeader } from "@mui/material";
+import { Box, Card, CardHeader, Typography } from "@mui/material";
 // utils
 import { fNumber } from "./utils/formatNumber";
 // components
@@ -10,12 +10,11 @@ import { useChart } from "./chart";
 
 // ----------------------------------------------------------------------
 
-const CHART_HEIGHT = 300;
+const CHART_HEIGHT = 315;
 const LEGEND_HEIGHT = 50;
 
 const StyledChartWrapper = styled("div")(({ theme }) => ({
   height: CHART_HEIGHT,
-  marginTop: theme.spacing(1),
   "& .apexcharts-canvas svg": { height: CHART_HEIGHT },
   "& .apexcharts-canvas svg,.apexcharts-canvas foreignObject": {
     overflow: "visible",
@@ -23,7 +22,6 @@ const StyledChartWrapper = styled("div")(({ theme }) => ({
   "& .apexcharts-legend": {
     height: LEGEND_HEIGHT,
     alignContent: "center",
-    position: "relative !important",
     borderTop: `solid 1px ${theme.palette.divider}`,
     top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
   },
@@ -75,14 +73,28 @@ export default function AppCurrentVisits({
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <StyledChartWrapper dir="ltr">
-        <ReactApexChart
-          type="pie"
-          series={chartSeries}
-          options={chartOptions}
-          height={250}
-        />
-      </StyledChartWrapper>
+      {chartData.length !== 0 ? (
+        <StyledChartWrapper dir="ltr">
+          <ReactApexChart
+            type="pie"
+            series={chartSeries}
+            options={chartOptions}
+            height={250}
+          />
+        </StyledChartWrapper>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            pb: 2,
+            height: 300,
+          }}
+        >
+          <Typography variant="h5">데이터가 존재하지 않습니다.</Typography>
+        </Box>
+      )}
     </Card>
   );
 }

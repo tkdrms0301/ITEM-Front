@@ -37,6 +37,8 @@ export default function CommunityView({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        bgcolor: (theme) => theme.palette["info"].lighter,
+        color: (theme) => theme.palette["primary"].darker,
       }}
     >
       <CardHeader title={title} subheader={subheader} />
@@ -99,13 +101,21 @@ function PostItem({ posts }) {
         <Box sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
       )}
 
-      <Box sx={{ minWidth: 110, flexGrow: 1 }}>
+      <Box
+        sx={{
+          minWidth: 50,
+          flexGrow: 1,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
         <Link
           color="inherit"
           variant="subtitle2"
           underline="hover"
-          noWrap
           href={`/community/post/${postId}`}
+          sx={{}}
         >
           {title}
         </Link>

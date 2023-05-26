@@ -11,12 +11,10 @@ import {
 import { Header } from "./header";
 import { Container } from "@mui/system";
 import palette from "../../../theme/palette";
-import PeopleIcon from "@mui/icons-material/People";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import Handyman from "@mui/icons-material/Handyman";
 import { useNavigate } from "react-router";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { PlanList } from "./planList";
+import { post } from "../../../api";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const SubscriptionMain = () => {
   const navigate = useNavigate();
@@ -27,6 +25,18 @@ export const SubscriptionMain = () => {
   };
 
   const basicStartButton = () => {
+    post(BaseUrl + "/api/member/subscribe")
+      .then((res) => {
+        if (res.data.success) {
+          alert("구독 성공");
+        } else {
+          alert("포인트가 부족합니다.");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     console.log("데이터 구독권 구매");
   };
 
