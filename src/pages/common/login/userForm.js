@@ -8,9 +8,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router";
-import { post } from "../../../api/index";
+import { useRef } from "react";
 import { BaseUrl } from "../../../api/BaseUrl";
 
 export const LoginForm = () => {
@@ -41,7 +39,11 @@ export const LoginForm = () => {
           JSON.stringify({ accessToken: response.headers["access-token"] })
         );
 
-        window.location.replace("/");
+        if (window.innerWidth < 1200) {
+          window.location.replace("/");
+        } else {
+          window.location.replace("/data");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -75,7 +77,8 @@ export const LoginForm = () => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}>
+      }}
+    >
       <CssBaseline />
       <Box>
         <Grid
@@ -85,7 +88,8 @@ export const LoginForm = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}>
+          }}
+        >
           {boxList.map((data, index) => (
             <Grid
               item
@@ -95,7 +99,8 @@ export const LoginForm = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -115,7 +120,8 @@ export const LoginForm = () => {
             variant="contained"
             color="primary"
             onClick={signInSubmit}
-            sx={{ width: "80%", mt: 2 }}>
+            sx={{ width: "80%", mt: 2 }}
+          >
             로그인
           </Button>
         </Grid>

@@ -10,21 +10,25 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
+import { get } from "../../../api/index";
 
-export const PostsList = ({ query }) => {
+export const PostsList = ({ query, keyword }) => {
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState(0);
   const [loaded, setLoaded] = useState(false);
 
   const fetchMorePosts = () => {
-    axios
-      .get(`${query}?page=${page}`)
+    let url = "";
+    if (keyword) {
+      url = `${query + "/search"}?page=${page}&keyword=${keyword}`;
+    } else {
+      url = `${query}?page=${page}`;
+    }
+    get(url)
       .then((response) => {
-        const newPosts = response.data.posts;
-        const hasMorePosts = response.data.hasMore;
-
+        const newPosts = response.data.data.posts;
+        const hasMorePosts = response.data.data.hasMore;
         setPosts((prevPosts) => [...prevPosts, ...newPosts]);
         setHasMore(hasMorePosts);
         setPage((prevPage) => prevPage + 1);
@@ -37,63 +41,32 @@ export const PostsList = ({ query }) => {
   const PostListWithPage = () => {
     return (
       <List>
-        {posts.map((post) => {
-          if (post.image) {
-            return (
-              <Box key={post.id}>
-                <ListItem
-                  key={"i" + post.id}
-                  button
-                  component={Link}
-                  to={`/community/post/${post.id}`}
-                >
-                  <Grid container>
-                    <Grid item xs={8}>
-                      <ListItemText
-                        primary={post.title}
-                        // secondary={post.body}
-                      />
-                    </Grid>
-                    <Grid
-                      container
-                      item
-                      xs={4}
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <Box
-                        component="img"
-                        src={
-                          "https://cdn.pixabay.com/photo/2023/04/17/15/45/comma-7932755_960_720.jpg"
-                        }
-                        alt={"ImageNotFound"}
-                        sx={{ width: "60%", height: "60%" }}
-                      />
-                    </Grid>
-                  </Grid>
-                </ListItem>
+        {posts.map((post, index) => {
+          const isDuplicate = posts
+            .slice(0, index)
+            .some((prevPost) => prevPost.id === post.id);
 
-                <Divider key={"d" + post.id} sx={{ borderBottomWidth: 3 }} />
-              </Box>
-            );
-          } else {
-            return (
-              <Box key={post.id}>
-                <ListItem
-                  key={"i" + post.id}
-                  button
-                  component={Link}
-                  to={`/community/post/${post.id}`}
-                >
-                  <ListItemText
-                    primary={post.title}
-                    // secondary={post.body}
-                  />
-                </ListItem>
-                <Divider key={"d" + post.id} sx={{ borderBottomWidth: 3 }} />
-              </Box>
-            );
+          if (isDuplicate) {
+            return null;
           }
+          console.log(post);
+
+          return (
+            <Box key={post.id}>
+              <ListItem
+                key={"i" + post.id}
+                button
+                component={Link}
+                to={`/community/post/${post.id}`}
+              >
+                <ListItemText
+                  primary={post.title}
+                  // secondary={post.body}
+                />
+              </ListItem>
+              <Divider key={"d" + post.id} sx={{ borderBottomWidth: 3 }} />
+            </Box>
+          );
         })}
       </List>
     );

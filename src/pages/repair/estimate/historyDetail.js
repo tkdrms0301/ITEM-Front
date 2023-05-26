@@ -189,6 +189,7 @@ export const EstimateHistoryDetail = ({ role }) => {
 
   return (
     <>
+
       {data ? (
         <>
           <Header />

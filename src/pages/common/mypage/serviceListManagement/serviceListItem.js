@@ -1,10 +1,12 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Card, Container, Grid, Typography } from "@mui/material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import { remove } from "../../../../api";
+import { Box } from "@mui/system";
+import palette from "../../../../theme/palette";
 
 export const ServiceListItem = ({ serviceList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -53,64 +55,81 @@ export const ServiceListItem = ({ serviceList }) => {
 
   return (
     <>
-      <Container>
-        {serviceList.map((data, index) => (
-          <Grid
-            container
+      <Container sx={{ mt: 3, pb: 20 }}>
+        {serviceList.map((service, index) => (
+          <Card
             key={index}
             sx={{
-              mt: 2,
-              backgroundColor: "#F9F9F9",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              boxShadow: 10,
+              my: 1,
+              borderRadius: "5px",
+              py: 1,
+              pl: 1,
             }}
           >
-            <Grid
-              item
-              xs={2}
+            <Box
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
+                alignItems: "flex-start",
+                flexDirection: "column",
+                borderBottom: "2px solid #f1f1f1",
+                pb: 2,
               }}
             >
-              <ConstructionIcon sx={{ fontSize: "40px" }} />
-            </Grid>
-            <Grid item xs={8}>
+              <Grid container>
+                <Grid item xs={10}>
+                  <Typography variant="h5">{service.serviceName}</Typography>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
+                    {service.description}
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <IconButton
+                    aria-label="more"
+                    aria-controls={`more-menu-${service.serviceId}`}
+                    aria-haspopup="true"
+                    onClick={(e) => handleMenuOpen(e, service.serviceId)}
+                  >
+                    <MoreVertIcon sx={{ fontSize: "20px" }} />
+                  </IconButton>
+                  <Menu
+                    id={`more-menu-${service.serviceId}`}
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={() => {
+                      handleClose();
+                      setSelectedId(null);
+                    }}
+                  >
+                    <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
+                    <MenuItem onClick={(e) => handleUpdate(e)}>수정</MenuItem>
+                  </Menu>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                flexDirection: "column",
+              }}
+            >
               <Typography
-                sx={{
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  color: "#9A9A9A",
-                }}
+                variant="subtitle2"
+                sx={{ color: palette.error.main, mt: 0.5 }}
               >
-                {data.serviceName}
+                설정 가격
               </Typography>
-            </Grid>
-            <Grid item xs={2} id={data.serviceId}>
-              <IconButton
-                aria-label="more"
-                aria-controls={`more-menu-${data.serviceId}`}
-                aria-haspopup="true"
-                onClick={(e) => handleMenuOpen(e, data.serviceId)}
-              >
-                <MoreVertIcon sx={{ fontSize: "30px" }} />
-              </IconButton>
-              <Menu
-                id={`more-menu-${data.serviceId}`}
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => {
-                  handleClose();
-                  setSelectedId(null);
-                }}
-              >
-                <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
-                <MenuItem onClick={(e) => handleUpdate(e)}>수정</MenuItem>
-              </Menu>
-            </Grid>
-          </Grid>
+              <Box sx={{ display: "flex" }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>
+                  {service.servicePrice.toLocaleString()}원
+                </Typography>
+              </Box>
+            </Box>
+          </Card>
         ))}
       </Container>
     </>

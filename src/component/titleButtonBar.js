@@ -1,4 +1,4 @@
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid, Typography, Button, Container } from "@mui/material";
 import { BackButton } from "./backButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,6 @@ import { post } from "../api";
 import { v4 as uuidv4 } from "uuid";
 
 export const TitleButtonBar = ({
-  title,
   transmitData,
   query,
   buttonLabel,
@@ -14,15 +13,6 @@ export const TitleButtonBar = ({
   reservationId,
   isUpdating,
 }) => {
-  const titleBarStyle = {
-    position: "fixed",
-    bgcolor: "white",
-    zIndex: 100,
-    width: "100%",
-    height: "56px",
-    borderBottom: "1px solid black",
-    alignItems: "center",
-  };
   const navigate = useNavigate();
 
   function isBase64Encoded(data) {
@@ -100,35 +90,17 @@ export const TitleButtonBar = ({
   };
 
   return (
-    <Grid container sx={titleBarStyle}>
-      <Grid
-        item
-        xs={2}
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-      >
-        <BackButton />
-      </Grid>
-      <Grid
-        item
-        xs={8}
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-      >
-        <Typography variant="h6" align="center" sx={{ fontWeight: "bold" }}>
-          {title}
-        </Typography>
-      </Grid>
-
-      <Grid item xs={2}>
-        {buttonLabel == null ? null : (
-          <Button
-            variant="contained"
-            onClick={handleButton}
-            sx={{ ml: "-15%" }}
-          >
-            {buttonLabel}
-          </Button>
-        )}
-      </Grid>
-    </Grid>
+    <Container sx={{ my: 2 }}>
+      {buttonLabel == null ? null : (
+        <Button
+          fullWidth
+          color="inherit"
+          variant="contained"
+          onClick={handleButton}
+        >
+          {buttonLabel}
+        </Button>
+      )}
+    </Container>
   );
 };

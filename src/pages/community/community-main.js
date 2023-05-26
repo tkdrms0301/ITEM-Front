@@ -6,9 +6,7 @@ import { testBaseURL, userId } from "./testing-String";
 import { SearchBar } from "./component/searchBar";
 
 export const CommunityMain = () => {
-  // const query = "https://dummyjson.com/posts";
-  const query = testBaseURL + "/posts";
-
+  const query = testBaseURL + "/community/posts";
   return (
     <>
       <FloatingWriteButton />
