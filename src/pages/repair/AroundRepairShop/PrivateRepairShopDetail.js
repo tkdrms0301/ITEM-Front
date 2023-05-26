@@ -248,8 +248,17 @@ export const PrivateRepairShopDetail = () => {
                       sx={{ py: 2, px: 4, bgcolor: palette.error.lighter }}
                       onClick={() => {
                         JSON.parse(window.localStorage.getItem("user")) !== null
-                          ? (window.location.href =
-                              window.location.pathname + "/estimate")
+                          ? navigate(
+                              {
+                                pathname:
+                                  window.location.pathname + "/estimate",
+                              },
+                              {
+                                state: {
+                                  repairShopId: selectShop.repairShopId,
+                                },
+                              }
+                            )
                           : window.location.replace("/login");
                       }}
                     >

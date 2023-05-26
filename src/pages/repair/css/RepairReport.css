@@ -108,7 +108,8 @@
   text-align: center;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: 200px;
+  margin: 0 auto;
 }
 .reservation_img_field .img_common_field .img_common_div {
   padding: 10px 0;

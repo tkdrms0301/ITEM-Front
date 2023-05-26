@@ -2,21 +2,25 @@ import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { useEffect, useState } from "react";
 import { EstimateUploadFile } from "./estimateUploadFile";
 import { EstimateComment } from "./estimateComment";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
+import { post, get } from "../../../api";
 import { Header } from "./header";
 import { Container, Grid } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 export const Estimate = () => {
-  const shopId = useParams();
-  const [uploadImgFile, setUploadImgFile] = useState("");
-  const navigate = useNavigate();
+  const location = useLocation();
+
+  const repairShopId = location.state?.repairShopId;
+
+  //my it devices
+  const [myItDevices, setMyItDevices] = useState([]);
+
   //transtmit data
   const [data, setData] = useState({
-    userId: 0,
-    repairId: shopId,
+    repairShopId: repairShopId,
     product: "",
     comment: "",
+    requestImg: "",
   });
   //completed
   const [completed, setCompleted] = useState({
@@ -50,23 +54,25 @@ export const Estimate = () => {
     [data]
   );
 
-  const alert = () => {
-    if (completed.isCompleted) {
-      navigate(-1);
-    } else {
-      window.alert(completed.msg);
-    }
-  };
+  useEffect(() => {
+    get("http://localhost:8080/api/repair/estimate/init")
+      .then((res) => {
+        setMyItDevices(res.data.myItems);
+      })
+      .catch((error) => {
+        // 에러 처리
+      });
+  }, []);
 
   return (
     <>
-      <Header title={"견적 요청서"} />
+      <Header />
 
       <EstimateUploadFile
         data={data}
-        uploadImgFile={uploadImgFile}
-        setUploadImgFile={setUploadImgFile}
         handleData={handleData}
+        setData={setData}
+        myItDevices={myItDevices}
       />
 
       <EstimateComment
@@ -75,27 +81,6 @@ export const Estimate = () => {
         handleData={handleData}
       ></EstimateComment>
 
-      <Container>
-        <Grid
-          item
-          xs={12}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {"신청" == null ? null : (
-            <TitleButtonBar
-              buttonLabel={"수리견적 요청하기"}
-              query={""}
-              onClick={alert}
-              transmitData={data}
-              completed={completed}
-            />
-          )}
-        </Grid>
-      </Container>
       {/* <Box
           sx={{
             position: "relative",
