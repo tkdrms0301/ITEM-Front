@@ -2,16 +2,17 @@ import PropTypes from "prop-types";
 import {
   Box,
   Stack,
-  Link,
   Card,
   Button,
   Divider,
   Typography,
   CardHeader,
+  Link,
 } from "@mui/material";
 import Iconify from "../../theme/Iconify";
 import Scrollbar from "../../component/scrollbar/Scrollbar";
 import { useNavigate } from "react-router";
+import { format } from "date-fns";
 
 // ----------------------------------------------------------------------
 
@@ -39,16 +40,12 @@ export default function CommunityView({
       }}
     >
       <CardHeader title={title} subheader={subheader} />
-
-      <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {communityData.map((posts) => (
-            <PostItem key={posts.postId} posts={posts} />
-          ))}
-        </Stack>
-      </Scrollbar>
+      <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+        {communityData.map((posts) => (
+          <PostItem key={posts.postId} posts={posts} />
+        ))}
+      </Stack>
       <Divider />
-
       <Box sx={{ p: 2, textAlign: "right" }}>
         <Button
           size="small"
@@ -75,20 +72,41 @@ PostItem.propTypes = {
   }),
 };
 
+function fDateTime(date, newFormat) {
+  const fm = newFormat || "yyyy.MM.dd/HH:mm";
+
+  return date ? format(new Date(date), fm) : "";
+}
+
 function PostItem({ posts }) {
   const { postId, title, content, image, date } = posts;
 
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
-      <Box
-        component="img"
-        alt={title}
-        src={image}
-        sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
-      />
+    <Stack direction="row" alignItems="center" spacing={3}>
+      {image !== null ? (
+        <Box
+          component="img"
+          alt={title}
+          src={image}
+          sx={{
+            width: 48,
+            height: 48,
+            borderRadius: 1.5,
+            flexShrink: 0,
+          }}
+        />
+      ) : (
+        <Box sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
+      )}
 
-      <Box sx={{ minWidth: 140, flexGrow: 1 }}>
-        <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
+      <Box sx={{ minWidth: 110, flexGrow: 1 }}>
+        <Link
+          color="inherit"
+          variant="subtitle2"
+          underline="hover"
+          noWrap
+          href={`/community/post/${postId}`}
+        >
           {title}
         </Link>
 
@@ -99,9 +117,9 @@ function PostItem({ posts }) {
 
       <Typography
         variant="caption"
-        sx={{ pr: 3, flexShrink: 0, color: "text.secondary" }}
+        sx={{ pr: 2, flexShrink: 0, color: "text.secondary" }}
       >
-        {date}
+        {fDateTime(date)}
       </Typography>
     </Stack>
   );
