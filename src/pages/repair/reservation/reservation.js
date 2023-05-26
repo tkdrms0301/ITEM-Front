@@ -15,6 +15,8 @@ import {
   ToggleButtonGroup,
   Typography,
   InputLabel,
+  Card,
+  Grid,
 } from "@mui/material";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { useEffect, useState, useRef } from "react";
@@ -25,11 +27,16 @@ import "../css/RepairReport.css";
 import Modal from "react-modal";
 import { post, get } from "../../../api";
 import { Header } from "./header";
+import palette from "../../../theme/palette";
+import { v4 as uuidv4 } from "uuid";
 
 export const Reservation = () => {
+  const navigate = useNavigate();
+
   //사용자 선택 가능한 목록 및 선택 가능한 서비스 목록
   const [userDevice, setUserDevice] = useState([]);
   const [repairShopServices, setRepairShopServices] = useState([]);
+  const [selectedServiceName, setSelectedServiceName] = useState([]);
 
   //멤버 제외 이미지 크게 보기 모달
   const [imgViewModalState, setImgViewModalState] = useState(false);
@@ -55,39 +62,6 @@ export const Reservation = () => {
   const [deleteModalState, setDeleteModalState] = useState(false);
   const [deleteImgState, setDeleteImgState] = useState("");
 
-  //수정일 경우
-  // const getUpdateData = () => {
-  //   const getData = reservationHistoryForUser[0]; //axios로 받아온 데이터
-
-  //   return {
-  //     productName: getData.productName,
-  //     services: getData.requestServices,
-  //     requestComment: getData.requestComment,
-  //     date: getData.date,
-  //     time: getData.time,
-  //     prodImg: getData.prodImg,
-  //     rvRequestImgs: getData.rvRequestImgs,
-  //     repairShopId: getData.repairShopId,
-  //   };
-  // };
-
-  // // for update end
-
-  // //transtmit data
-  // const [reservationData, setReservationData] = useState(
-  //   isUpdate
-  //     ? getUpdateData()
-  //     : {
-  //         productName: "",
-  //         services: [],
-  //         comment: "",
-  //         date: "",
-  //         time: "",
-  //         prodImg: "",
-  //         rvRequestImgs: [],
-  //         repairShopId: location.state?.repairShopId,
-  //       }
-  // );
   const getUpdateData = async () => {
     try {
       const res = await get(
@@ -97,7 +71,12 @@ export const Reservation = () => {
         }
       );
       const getData = res.data;
+      console.log(getData);
       setRepairShopServices(getData.services);
+
+      getData.requestServices.map((item) => {
+        setSelectedServiceName((prev) => [...prev, item.serviceName]);
+      });
       return {
         productName: getData.productName,
         services: getData.requestServices,
@@ -121,7 +100,7 @@ export const Reservation = () => {
   const [reservationData, setReservationData] = useState({
     productName: "",
     services: [],
-    comment: "",
+    requestComment: "",
     date: "",
     time: "",
     prodImg: "",
@@ -191,7 +170,13 @@ export const Reservation = () => {
     });
   };
   const handleServicesButton = (e, value) => {
-    setReservationData({ ...reservationData, services: value });
+    setSelectedServiceName(value);
+
+    const selectedServices = repairShopServices.filter((item) =>
+      value.includes(item.serviceName)
+    );
+
+    setReservationData({ ...reservationData, services: selectedServices });
   };
 
   const handleDateSelect = (e) => {
@@ -239,10 +224,9 @@ export const Reservation = () => {
 
   useEffect(() => {
     post("http://localhost:8080/api/repair/reservation/init", {
-      repairShopId: location.state?.repairShopId,
+      repairShopId: finalRepairShopId,
     })
       .then((res) => {
-        console.log(res);
         setUserDevice(res.data.myItems);
         setRepairShopServices(res.data.services);
       })
@@ -334,11 +318,20 @@ export const Reservation = () => {
         </Modal>
         <div className="img_common_field">
           {reservationData.rvRequestImgs.map((img, index) => (
-            <div className="img_common_div" key={index}>
-              <img
-                className="img_content"
+            <Box key={index} sx={{ width: "200px", margin: "0 auto" }}>
+              <Box
+                component="img"
                 src={img}
                 alt="rvImgs"
+                sx={{
+                  border: "1px solid #f1f1f1",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  top: "0px",
+                  bottom: "0px",
+                  my: 1,
+                }}
                 onClick={() => {
                   if (
                     JSON.parse(window.localStorage.getItem("user")).roleType ===
@@ -352,19 +345,39 @@ export const Reservation = () => {
                   }
                 }}
               />
-            </div>
+            </Box>
           ))}
           {JSON.parse(window.localStorage.getItem("user")).roleType ===
           "MEMBER" ? (
             <>
-              <div className="img_common_div">
-                <img
-                  className="img_content"
-                  src={process.env.PUBLIC_URL + "/plus.png"}
-                  onClick={() => onClickRvRequestImgPlus()}
-                  alt="add"
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  component="img"
+                  src={"/camera-outline.svg"}
+                  alt="손상부위 사진"
+                  sx={{ minWidth: "100px", margin: "0 auto" }}
                 />
-              </div>
+                <Button
+                  variant="contained"
+                  component="label"
+                  color="inherit"
+                  sx={{
+                    borderRadius: "20px",
+                    bgcolor: "white",
+                    color: "ButtonText",
+                    mb: 2,
+                  }}
+                  onClick={() => onClickRvRequestImgPlus()}
+                >
+                  <Typography variant="subtitle2">+ 사진추가</Typography>
+                </Button>
+              </Box>
               <input
                 type="file"
                 accept="image/*"
@@ -379,8 +392,71 @@ export const Reservation = () => {
     );
   };
 
+  function isBase64Encoded(data) {
+    const base64Regex = /^data:(.*?);base64,/;
+
+    return base64Regex.test(data);
+  }
+  const onClickReservationRegister = () => {
+    if (completed.isCompleted) {
+      const query = isUpdate
+        ? "http://localhost:8080/api/repair/reservation/update"
+        : "http://localhost:8080/api/repair/reservation/add";
+
+      const formData = new FormData();
+      for (let i = 0; i < reservationData.rvRequestImgs.length; i++) {
+        const imageData = reservationData.rvRequestImgs[i];
+        const uniqueId = uuidv4();
+
+        // Base64로 올바르게 인코딩된 문자열인 경우에만 처리
+        if (isBase64Encoded(imageData)) {
+          const base64Data = imageData;
+          const byteCharacters = atob(base64Data.split(",")[1]);
+          const byteArrays = new Uint8Array(byteCharacters.length);
+
+          for (let j = 0; j < byteCharacters.length; j++) {
+            byteArrays[j] = byteCharacters.charCodeAt(j);
+          }
+
+          const blob = new Blob([byteArrays], { type: "image/png" });
+          const fileName = `${uniqueId}-${i + 1}.jpg`;
+          formData.append("rvRequestImgs", blob, fileName);
+        } else {
+          formData.append("rvRequestImgs", imageData);
+        }
+      }
+      formData.append("requestComment", reservationData.requestComment || "");
+      formData.append("prodImg", reservationData.prodImg);
+      formData.append("repairShopId", reservationData.repairShopId);
+
+      formData.append("productName", reservationData.productName);
+      for (let i = 0; i < reservationData.services.length; i++) {
+        formData.append("serviceName", reservationData.services[i].serviceName);
+        formData.append("price", reservationData.services[i].price);
+      }
+      formData.append("date", reservationData.date);
+      formData.append("time", reservationData.time);
+
+      if (reservationId !== null && reservationId !== undefined) {
+        console.log(reservationId);
+        formData.append("reservationId", reservationId.toString());
+      }
+
+      post(query, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then((res) => {
+        //console.log(res);
+      });
+      navigate(-1);
+    } else {
+      window.alert(completed.msg);
+    }
+  };
   return (
     <>
+      <Header title={isUpdate ? "예약 수정" : "예약 신청"} />
       {repairShopServices.length !== 0 ? (
         <>
           <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
@@ -431,7 +507,7 @@ export const Reservation = () => {
               </Button>
               <Button
                 variant="outlined"
-                disabled={
+                readOnly={
                   reservationData.date === "" || reservationData.time === ""
                 }
                 onClick={handleClose}
@@ -441,66 +517,98 @@ export const Reservation = () => {
             </DialogActions>
           </Dialog>
 
-          <Header title={isUpdate ? "예약 수정" : "예약 신청"} />
-
-          <Container sx={{ pt: "1%" }}>
-            <FormControl fullWidth sx={{ mt: 1 }}>
-              <InputLabel>제품 선택</InputLabel>
-              <Select
-                name="productName"
-                value={reservationData.productName}
-                defaultValue={""}
-                onChange={handleData}
-                label="제품 선택"
-                fullWidth
-              >
-                {userDevice.map((item, index) => (
-                  <MenuItem value={item.itName} key={index}>
-                    {item.itName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <Box
+          <Container sx={{ width: "100%" }}>
+            <Card
               sx={{
-                position: "relative",
-                display: "flex",
-                width: "100%",
-                height: "100px",
-                border: "1px solid #C4C4C4",
-                borderRadius: "4px",
-                mt: "3%",
-                padding: "3%",
-                alignItems: "center",
+                mt: 2,
+                mb: 2,
+                boxShadow: 10,
               }}
             >
-              <Typography
-                sx={{
-                  position: "absolute",
-                  top: -10,
-                  left: 10,
-                  bgcolor: "white",
-                  px: 1,
-                  fontSize: "0.8rem",
-                }}
-              >
-                제품 정보
-              </Typography>
-              <Box
-                component="img"
-                src={reservationData.prodImg ? reservationData.prodImg : null}
-                sx={{
-                  width: "40%",
-                  height: "100%",
-                  mr: "5%",
-                  borderRadius: "10px",
-                }}
-              />
-              <Typography>{reservationData.productName}</Typography>
-            </Box>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FormControl fullWidth sx={{ mt: 1 }}>
+                      <InputLabel>제품 선택</InputLabel>
+                      <Select
+                        name="productName"
+                        value={reservationData.productName}
+                        defaultValue={""}
+                        onChange={handleData}
+                        label="제품 선택"
+                        fullWidth
+                      >
+                        {userDevice.map((item, index) => (
+                          <MenuItem value={item.itName} key={index}>
+                            {item.itName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    mt: 2,
+                    backgroundColor: "ButtonHighlight",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                ></Grid>
+                <Box
+                  sx={{
+                    position: "relative",
+                    display: "flex",
+                    width: "100%",
+                    height: "100px",
+                    border: "1px solid #C4C4C4",
+                    borderRadius: "4px",
+                    mt: "3%",
+                    padding: "3%",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      position: "absolute",
+                      top: -10,
+                      left: 10,
+                      bgcolor: "white",
+                      px: 1,
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    제품 정보
+                  </Typography>
+                  <Box
+                    component="img"
+                    src={
+                      reservationData.prodImg ? reservationData.prodImg : null
+                    }
+                    sx={{
+                      width: "40%",
+                      height: "100%",
+                      mr: "5%",
+                      borderRadius: "10px",
+                    }}
+                  />
+                  <Typography>{reservationData.productName}</Typography>
+                </Box>
+              </Grid>
+            </Card>
+          </Container>
+
+          <Container sx={{ pt: "1%" }}>
             <ToggleButtonGroup
-              value={reservationData.services}
+              value={selectedServiceName}
               onChange={handleServicesButton}
               sx={{
                 mt: "3%",
@@ -514,19 +622,64 @@ export const Reservation = () => {
               {repairShopServices.map((service, index) => (
                 <ToggleButton
                   key={index}
-                  value={service}
+                  value={service.serviceName}
                   sx={{
-                    width: "100%",
-                    height: "75px",
+                    boxShadow: 10,
+                    my: 1,
+                    borderRadius: "5px",
+                    py: 1,
+                    pl: 1,
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
-                  <SettingsIcon sx={{ fontSize: "40px" }} />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      flexDirection: "column",
+                      borderBottom: "2px solid #f1f1f1",
+                      pb: 2,
+                    }}
+                  >
+                    <Typography variant="h5">{service.serviceName}</Typography>
+                  </Box>
 
-                  <Typography variant="h5">{service}</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ color: palette.error.main, mt: 0.5 }}
+                    >
+                      ITEM 특가
+                    </Typography>
+                    <Box sx={{ display: "flex" }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>
+                        {service.price.toLocaleString()}원
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{
+                          fontWeight: 600,
+                          ml: 0.5,
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {(service.price + 10000).toLocaleString()}원
+                      </Typography>
+                    </Box>
+                  </Box>
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>
-            <Box
+            {/* <Box
               sx={{
                 position: "relative",
                 width: "100%",
@@ -537,72 +690,91 @@ export const Reservation = () => {
                 alignItems: "center",
               }}
               className="reservation_img_field"
-            >
-              <Typography
-                sx={{
-                  position: "absolute",
-                  top: -10,
-                  left: 10,
-                  bgcolor: "white",
-                  px: 1,
-                  fontSize: "0.8rem",
-                }}
-              >
+            > */}
+            <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
+              <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                 예약 제품 상태 이미지 등록
               </Typography>
+
               {reservationImgContentByIsUpdate()}
-            </Box>
-            <TextField
-              name="comment"
-              label="요청사항"
-              value={reservationData.requestComment}
-              onChange={handleCommentData}
-              fullWidth
-              multiline
-              //rows={2}
-              sx={{ mt: "3%" }}
-            ></TextField>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                mt: "3%",
-                padding: "3%",
-                width: "100%",
-                border: "1px solid #C4C4C4",
-                borderRadius: "4px",
-                height: "100px",
-              }}
-            >
-              <Box>
-                <Typography variant="h6" fontWeight="bold">
-                  방문 시간 선택
+            </Card>
+            <Container sx={{ width: "100%", marginTop: "20px" }}>
+              <Card
+                variant="outlined"
+                sx={{
+                  pb: 1,
+                  boxShadow: 10,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
+                >
+                  요청 사항
                 </Typography>
-                <Typography variant="body1">
-                  {reservationData.date} {reservationData.time}
-                </Typography>
-              </Box>
+                <TextField
+                  variant="standard"
+                  name="requestComment"
+                  value={reservationData.requestComment}
+                  onChange={handleCommentData}
+                  placeholder="요청 사항을 입력해주세요."
+                  fullWidth
+                  multiline
+                  rows={2}
+                  sx={{ m: "3%" }}
+                  InputProps={{
+                    disableUnderline: true, // <== added this
+                  }}
+                ></TextField>
+              </Card>
+            </Container>
 
-              <Button variant="contained" sx={{}} onClick={handleOpen}>
-                날짜/시간 선택
-              </Button>
-            </Box>
+            <Container sx={{ width: "100%", marginTop: "20px" }}>
+              <Card
+                variant="outlined"
+                sx={{
+                  pb: 1,
+                  boxShadow: 10,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  mt: "3%",
+                  padding: "3%",
+                  width: "100%",
+                  height: "100px",
+                }}
+              >
+                <Box>
+                  <Typography variant="h6" fontWeight="bold">
+                    방문 시간 선택
+                  </Typography>
+                  <Typography variant="body1">
+                    {reservationData.date} {reservationData.time}
+                  </Typography>
+                </Box>
 
-            <TitleButtonBar
-              buttonLabel={isUpdate ? "수정" : "신청"}
-              query={
-                isUpdate
-                  ? "http://localhost:8080/api/repair/reservation/update"
-                  : "http://localhost:8080/api/repair/reservation/add"
-              }
-              transmitData={reservationData}
-              completed={completed}
-              reservationId={reservationId ? reservationId : null}
-            />
+                <Button variant="contained" sx={{}} onClick={handleOpen}>
+                  날짜/시간 선택
+                </Button>
+              </Card>
+            </Container>
           </Container>
         </>
       ) : null}
+      <Button
+        fullWidth
+        variant="contained"
+        color="inherit"
+        onClick={onClickReservationRegister}
+        sx={{
+          mt: 3,
+          mb: 2,
+          backgroundColor: "ButtonFace",
+          color: "ButtonText",
+        }}
+      >
+        {isUpdate ? "예약 수정" : " 예약 신청"}
+      </Button>
     </>
   );
 };

@@ -23,7 +23,6 @@ const MoreButtonRepair = ({ data, role }) => {
   const handleUpdate = (e) => {
     e.stopPropagation();
     handleClose(e);
-    console.log("수정: " + selectedId);
     navigate(`/repair/privateShops/${data.repairShopId}/update/${data.id}`);
   };
 
@@ -32,7 +31,6 @@ const MoreButtonRepair = ({ data, role }) => {
     handleClose(e);
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      console.log(selectedId);
       window.location.reload();
     }
   };
@@ -129,7 +127,6 @@ export const HistoryList = ({ itemList, role }) => {
                       }
                     : data.status === "정비 완료"
                     ? () => {
-                        console.log(data.id);
                         navigate(
                           {
                             pathname: "/repair/readReport",
@@ -150,7 +147,6 @@ export const HistoryList = ({ itemList, role }) => {
                       }
                     : data.status === "예약 완료"
                     ? () => {
-                        console.log(data.id);
                         navigate(
                           {
                             pathname: "/repair/registReport",
@@ -162,7 +158,6 @@ export const HistoryList = ({ itemList, role }) => {
                       }
                     : data.status === "정비 완료"
                     ? () => {
-                        console.log(data.id);
                         navigate(
                           {
                             pathname: "/repair/readReport",
