@@ -1,20 +1,9 @@
-import {
-  Container,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Avatar,
-} from "@mui/material";
-import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Header } from "./header";
+import { Container, Grid, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
 import { Point } from "./point";
-import { Account } from "./account";
-import { ButtonMenu } from "./buttonMenu";
-import { Subscription } from "./subscription";
-import { BottomMenu } from "./bottomMenu";
-import axios from "axios";
+import { get } from "../../../api";
+import { SubscriptionManager } from "./subscriptionManager";
+import { BottomMenus } from "./bottomMenus";
 
 export const CommonMyPage = () => {
   const [userState, setUserState] = useState({
@@ -33,16 +22,7 @@ export const CommonMyPage = () => {
     console.log();
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
-
-      let token = JSON.parse(window.localStorage.getItem("token")).accessToken;
-
-      axios
-        .get("http://localhost:8080/api/member/info", {
-          params: {
-            id: JSON.parse(window.localStorage.getItem("user")).memberId,
-          },
-          headers: { "X-AUTH-TOKEN": token },
-        })
+      get("http://localhost:8080/api/member/info")
         .then((response) => {
           setUserState({
             ...userState,
@@ -50,12 +30,12 @@ export const CommonMyPage = () => {
             userId: response.data.data.id,
             roleType: response.data.data.roleType,
             point: response.data.data.point,
-            account: "하나은행 05-50053-34",
-            isSubscription: response.data.data.subscription,
+            account: response.data.data.account,
+            subscription: response.data.data.subscription,
           });
         })
         .catch((error) => {
-          console.log(error);
+          window.location.replace("/login");
         });
     } else {
       window.location.replace("/login");
@@ -65,14 +45,19 @@ export const CommonMyPage = () => {
   return (
     <>
       {userName !== "" ? (
-        <Grid container>
-          <Header userName={userName} />
-          <Point point={point} />
-          <Account account={account} />
-          <ButtonMenu />
-          <Subscription isSubscription={isSubscription} />
-          <BottomMenu userId={userId} roleType={roleType} />
-        </Grid>
+        <Container
+          sx={{
+            marginTop: "5%",
+            width: "100%",
+            justifyContent: "flex-start",
+          }}>
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            반갑습니다, {userState.userName}님
+          </Typography>
+          <Point userState={userState} />
+          <SubscriptionManager userState={userState} />
+          <BottomMenus userState={userState} />
+        </Container>
       ) : null}
     </>
   );

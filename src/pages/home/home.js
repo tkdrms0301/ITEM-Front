@@ -1,289 +1,75 @@
-import { useEffect, useState } from "react";
-import { Header } from "../common/mypage/header";
-import { Grid, Typography } from "@mui/material";
-import ArticleIcon from "@mui/icons-material/Article";
-import SystemSecurityUpdateWarningIcon from "@mui/icons-material/SystemSecurityUpdateWarning";
-import BuildIcon from "@mui/icons-material/Build";
-import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
-import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
-import AppleIcon from "@mui/icons-material/Apple";
-import { Box } from "@mui/system";
-import { useNavigate } from "react-router";
+import { Card, CardHeader, Grid, Paper, Typography } from "@mui/material";
+
+import { Container } from "@mui/system";
+import { MainBanner } from "./mainBanner";
+import { RepairServiceMenu } from "./repairServiceMenu";
+import CommunityView from "./communityView";
 
 export const Home = () => {
-  const navigate = useNavigate();
-
-  const reservationMenu = [
+  const communityData = [
     {
-      title: "S/W 오류",
-      icon: <SystemSecurityUpdateWarningIcon sx={{ fontSize: "35px" }} />,
+      postId: 1,
+      title: "GTX3060 한달 사용 후기1",
+      content:
+        "이 가격에 신품사느니 벤치성능 비슷하고 몇년 안써서 as기간도 남아있는 2060super 중고 현시세 18~20에 사는게 개이득, 고사양게임 안돌릴거면 13정도에 1660super 중고 사는게 개이득이고 ㅋㅋ (이것도 현존게임 80% 이상은 무리없이 돌림) 현재 신품 사기엔 뭐같지만 중고 사기엔 여지없이 좋은 시기임 ㅋㅋ",
+      image: `https://img.danawa.com/prod_img/500000/144/463/img/13463144_1.jpg?shrink=130:130&_v=20220711095454`,
+      date: "2023.05.20",
     },
     {
-      title: "수리",
-      icon: <BuildIcon sx={{ fontSize: "35px" }} />,
+      postId: 2,
+      title: "GTX3060 한달 사용 후기2",
+      content:
+        "이 가격에 신품사느니 벤치성능 비슷하고 몇년 안써서 as기간도 남아있는 2060super 중고 현시세 18~20에 사는게 개이득, 고사양게임 안돌릴거면 13정도에 1660super 중고 사는게 개이득이고 ㅋㅋ (이것도 현존게임 80% 이상은 무리없이 돌림) 현재 신품 사기엔 뭐같지만 중고 사기엔 여지없이 좋은 시기임 ㅋㅋ",
+      image: `https://img.danawa.com/prod_img/500000/714/453/img/14453714_1.jpg?shrink=130:130&_v=20220527160129`,
+      date: "2023.05.20",
     },
     {
-      title: "점검",
-      icon: <AssignmentTurnedInOutlinedIcon sx={{ fontSize: "35px" }} />,
+      postId: 3,
+      title: "GTX3060 한달 사용 후기3",
+      content:
+        "이 가격에 신품사느니 벤치성능 비슷하고 몇년 안써서 as기간도 남아있는 2060super 중고 현시세 18~20에 사는게 개이득, 고사양게임 안돌릴거면 13정도에 1660super 중고 사는게 개이득이고 ㅋㅋ (이것도 현존게임 80% 이상은 무리없이 돌림) 현재 신품 사기엔 뭐같지만 중고 사기엔 여지없이 좋은 시기임 ㅋㅋ",
+      image: `https://img.danawa.com/prod_img/500000/714/453/img/14453714_1.jpg?shrink=130:130&_v=20220527160129`,
+      date: "2023.05.20",
+    },
+    {
+      postId: 4,
+      title: "GTX3060 한달 사용 후기4",
+      content:
+        "이 가격에 신품사느니 벤치성능 비슷하고 몇년 안써서 as기간도 남아있는 2060super 중고 현시세 18~20에 사는게 개이득, 고사양게임 안돌릴거면 13정도에 1660super 중고 사는게 개이득이고 ㅋㅋ (이것도 현존게임 80% 이상은 무리없이 돌림) 현재 신품 사기엔 뭐같지만 중고 사기엔 여지없이 좋은 시기임 ㅋㅋ",
+      image: `https://img.danawa.com/prod_img/500000/714/453/img/14453714_1.jpg?shrink=130:130&_v=20220527160129`,
+      date: "2023.05.20",
+    },
+    {
+      postId: 5,
+      title: "GTX3060 한달 사용 후기5",
+      content:
+        "이 가격에 신품사느니 벤치성능 비슷하고 몇년 안써서 as기간도 남아있는 2060super 중고 현시세 18~20에 사는게 개이득, 고사양게임 안돌릴거면 13정도에 1660super 중고 사는게 개이득이고 ㅋㅋ (이것도 현존게임 80% 이상은 무리없이 돌림) 현재 신품 사기엔 뭐같지만 중고 사기엔 여지없이 좋은 시기임 ㅋㅋ",
+      image: `https://img.danawa.com/prod_img/500000/714/453/img/14453714_1.jpg?shrink=130:130&_v=20220527160129`,
+      date: "2023.05.20",
     },
   ];
-
-  const aroundPlaceMenu = [
-    {
-      title: "공식서비스",
-      icon: <AppleIcon sx={{ fontSize: "35px" }} />,
-      route: "/repair/publicShops",
-    },
-    {
-      title: "사설서비스",
-      icon: <BuildIcon sx={{ fontSize: "35px" }} />,
-      route: "/repair/privateShops",
-    },
-  ];
-
-  const [userState, setUserState] = useState({
-    userName: "",
-    userId: 0,
-    point: 0,
-    isSubscription: false,
-    account: "",
-    roleType: "",
-  });
-
-  const { userName, userId, point, isSubscription, account, roleType } =
-    userState;
-
-  useEffect(() => {
-    if (JSON.parse(window.localStorage.getItem("user")) !== null) {
-      //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
-
-      setUserState({
-        ...userState,
-        userName: JSON.parse(window.localStorage.getItem("user")).name,
-        userId: JSON.parse(window.localStorage.getItem("user")).memberId,
-        roleType: JSON.parse(window.localStorage.getItem("user")).roleType,
-        point: 15000,
-        account: "하나은행 05-50053-34",
-        isSubscription: true,
-      });
-    }
-  }, []);
 
   return (
     <>
-      {userName !== "" ? <Header userName={userName}></Header> : null}
-      <Grid
-        container
+      <Container
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          marginTop: "5%",
+          width: "100%",
         }}
       >
-        <Grid
-          item
-          xs={11}
-          sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
-            pt: 2,
-            mt: 2,
-            backgroundColor: "#F0F0F0",
-          }}
-        >
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
-                정비소 예약
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-around" }}
-            >
-              {reservationMenu.map((data, index) => (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    mt: 2,
-                  }}
-                  key={index}
-                >
-                  {data.icon}
-                  <Typography
-                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
-                  >
-                    {data.title}
-                  </Typography>
-                </Box>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={5}
-          sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
-            mt: 2,
-            backgroundColor: "#F0F0F0",
-            mr: 4,
-          }}
-        >
-          <Grid
-            container
-            onClick={(e) => navigate(`/repair/mypage/reservation`)}
-          >
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                pt: 3,
-              }}
-            >
-              <ArticleIcon sx={{ fontSize: "35px" }} />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography sx={{ pb: 3, mt: 1, fontWeight: "bold" }}>
-                정비리포트
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={5}
-          sx={{
-            borderRadius: "15px",
-            mt: 2,
-            backgroundColor: "#86C2FD",
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                pt: 3,
-              }}
-            >
-              <LocalActivityOutlinedIcon sx={{ fontSize: "35px" }} />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{ pb: 3, mt: 1, color: "white", fontWeight: "bold" }}
-              >
-                첫 예약 혜택
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={11}
-          sx={{
-            border: "1px solid gray",
-            borderRadius: "15px",
-            pt: 2,
-            mt: 2,
-            backgroundColor: "#F0F0F0",
-          }}
-        >
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "19px", ml: 3 }}>
-                내 주변 장소
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-around" }}
-            >
-              {aroundPlaceMenu.map((data, index) => (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    mt: 2,
-                  }}
-                  key={index}
-                  onClick={(e) => {navigate(data.route)}}
-                >
-                  {data.icon}
-                  <Typography
-                    sx={{ fontSize: "12px", fontWeight: "bold", mt: 1, mb: 2 }}
-                  >
-                    {data.title}
-                  </Typography>
-                </Box>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={11}
-          sx={{
-            border: "1px solid gray",
-            borderRadius: "10px",
-            p: 1,
-            mt: 2,
-            backgroundColor: "#E8E8E8",
-          }}
-        >
-          <Grid container sx={{}}>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "19px",
-                }}
-                onClick={(e) => navigate(`/community`)}
-              >
-                내 IT 기기 묻고 답하기 {">"}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+        <MainBanner />
+        <RepairServiceMenu />
+        <CommunityView
+          title="IT 기기에 대한 정보가 필요하신가요?"
+          communityData={communityData.map((data, index) => ({
+            postId: data.postId,
+            title: data.title,
+            content: data.content,
+            image: data.image,
+            date: data.date,
+          }))}
+        />
+      </Container>
     </>
   );
 };

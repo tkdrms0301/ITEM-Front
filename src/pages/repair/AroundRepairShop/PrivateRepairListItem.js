@@ -1,8 +1,15 @@
 import "../css/RepairListItem.css";
 import { Link } from "react-router-dom";
-import { Rating } from "@mui/material";
+import { Card, Grid, Rating, Typography } from "@mui/material";
+import palette from "../../../theme/palette";
 
 const PrivateRepairListItem = ({ shop }) => {
+  const shopTypes = [
+    "휴대폰, 테블릿 전문 수리점",
+    "컴퓨터, 노트북 전문 수리점",
+  ];
+
+  console.log(shop);
   return (
     <>
       <Link
@@ -10,31 +17,81 @@ const PrivateRepairListItem = ({ shop }) => {
         className="repair_shop_detail_link"
         state={{ shop: shop }}
       >
-        <div className="repair_list_item">
-          <div className="repair_list_item_info">
-            <div className="repair_item_name_n_addr">
-              <div className="repair_list_item_info_name">{shop.shopName}</div>
+        <Card
+          sx={{
+            borderRadius: "0px",
+            borderTop: "1px solid",
+            borderColor: "#F1F1F1",
+          }}
+        >
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              pt: 1,
+            }}
+          >
+            <Grid
+              item
+              xs={10}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h4" sx={{ pl: 2 }}>
+                {shop.shopName}
+              </Typography>
+              <Typography variant="caption" sx={{ ml: 1, fontWeight: "bold" }}>
+                (
+                {shop.shopType === "MOBILE" || shop.shopType === "TABLET"
+                  ? shopTypes[0]
+                  : shopTypes[1]}
+                )
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  textAlign: "right",
+                  color: palette.error.main,
+                  pr: 2,
+                }}
+              >
+                {shop.distance}Km
+              </Typography>
+            </Grid>
+          </Grid>
 
-              <div className="repair_list_item_info_address">
+          <Grid
+            container
+            sx={{
+              display: "flex",
+            }}
+          >
+            <Grid item xs={9}>
+              <Typography variant="subtitle2" sx={{ pl: 2, mb: 1 }}>
                 {shop.shopAddress}
-              </div>
-            </div>
-            <div className="repair_shop_dis_n_star">
-              <div className="form_cur_distance">{shop.distance}Km</div>
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
               <Rating
                 sx={{
                   width: "100px",
                   height: "20px",
                   fontSize: "15px",
                   justifyContent: "flex-end",
+                  pr: 1,
                 }}
                 readOnly
                 name="simple-controlled"
                 value={4}
               />
-            </div>
-          </div>
-        </div>
+            </Grid>
+          </Grid>
+        </Card>
       </Link>
     </>
   );

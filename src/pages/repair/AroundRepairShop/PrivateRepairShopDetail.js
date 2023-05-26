@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/RepairShopDetail.css";
 import Reviews from "../review/index.js";
+import { Header } from "./header";
+import { Card, Container, Typography } from "@mui/material";
+import palette from "../../../theme/palette";
+import { Box } from "@mui/system";
 
 const { kakao } = window;
 
@@ -10,6 +14,12 @@ let map, lat, lng;
 
 export const PrivateRepairShopDetail = () => {
   const [selectShop, setSelectShop] = useState(null);
+
+  const [roleType, setRoleType] = useState(
+    JSON.parse(window.localStorage.getItem("user")) !== null
+      ? JSON.parse(window.localStorage.getItem("user")).roleType
+      : "MEMBER"
+  );
 
   function getPrivateShopLocation() {
     var container = document.getElementById("repair_shop_map");
@@ -36,7 +46,9 @@ export const PrivateRepairShopDetail = () => {
 
   const location = useLocation();
 
+  const tempPrice = 35000;
   useEffect(() => {
+    console.log(location.state?.shop);
     setSelectShop(location.state?.shop);
   }, []);
 
@@ -75,32 +87,33 @@ export const PrivateRepairShopDetail = () => {
 
   const navigate = useNavigate();
 
-  const onClickBackBtn = () => {
-    navigate(-1);
-  };
-
   return (
     <>
       {selectShop ? (
         <>
-          <div className="top_field">
-            <div className="backButton_title">
-              <img
-                className="backButton"
-                src={process.env.PUBLIC_URL + "/backButton.png"}
-                style={{ width: "10vw", height: "10vw" }}
-                alt="back"
-                onClick={onClickBackBtn}
-              />
-              <div className="title">정비 상세</div>
-            </div>
-          </div>
-          <div className="shop_title_area">
-            <div className="shop_title">
-              <div className="shop_name">{selectShop.shopName}</div>
-            </div>
-          </div>
-
+          <Header></Header>
+          <Container>
+            <Card
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                boxShadow: 10,
+                bgcolor: palette.info.lighter,
+                flexDirection: "column",
+                borderRadius: "5px",
+                my: 2,
+                py: 2,
+              }}
+            >
+              <Typography variant="h2" sx={{ mb: 1 }}>
+                {selectShop.shopName}
+              </Typography>
+              <Typography variant="subtitle2">
+                {selectShop.description}
+              </Typography>
+            </Card>
+          </Container>
           <div>
             <ul className="tab_menu">
               {menuArr.map((el, index) => (
@@ -123,37 +136,132 @@ export const PrivateRepairShopDetail = () => {
                     : "content_visible invisible"
                 }
               >
-                <div className="shop_service_area">
-                  <ul className="shop_service_list">
-                    {selectShop.services.map((service, index) => (
-                      <li key={index} className="each_service">
-                        {service.serviceName}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {JSON.parse(window.localStorage.getItem("user")).roleType ===
-                "MEMBER" ? (
-                  <div className="reservation_area">
-                    <div
-                      className="reservation_button"
-                      onClick={() => {
-                        window.location.href =
-                          window.location.pathname + "/reservation";
+                <Container sx={{ mt: 3, pb: 20 }}>
+                  {selectShop.services.map((service, index) => (
+                    <Card
+                      key={index}
+                      sx={{
+                        boxShadow: 10,
+                        my: 1,
+                        borderRadius: "5px",
+                        py: 1,
+                        pl: 1,
                       }}
                     >
-                      <p>예약하기</p>
-                    </div>
-                    <div
-                      className="reservation_button"
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "flex-start",
+                          flexDirection: "column",
+                          borderBottom: "2px solid #f1f1f1",
+                          pb: 2,
+                        }}
+                      >
+                        <Typography variant="h5">
+                          {service.serviceName}
+                        </Typography>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontWeight: 500 }}
+                        >
+                          {service.description}
+                        </Typography>
+                      </Box>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "flex-start",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ color: palette.error.main, mt: 0.5 }}
+                        >
+                          ITEM 특가
+                        </Typography>
+                        <Box sx={{ display: "flex" }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 800 }}
+                          >
+                            {tempPrice.toLocaleString()}원
+                          </Typography>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{
+                              fontWeight: 600,
+                              ml: 0.5,
+                              textDecoration: "line-through",
+                            }}
+                          >
+                            {(tempPrice + 10000).toLocaleString()}원
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Card>
+                  ))}
+                </Container>
+                {roleType === "MEMBER" ? (
+                  <Box
+                    sx={{
+                      position: "fixed",
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      bottom: "15vw",
+                      margin: "0 auto",
+                      left: 0,
+                      right: 0,
+                      py: 1,
+                      backgroundColor: palette.background.default,
+                      borderTop: "solid 3px #f1f1f1",
+                    }}
+                  >
+                    <Card
+                      sx={{ py: 2, px: 4, bgcolor: "Highlight" }}
                       onClick={() => {
-                        window.location.href =
-                          window.location.pathname + "/estimate";
+                        JSON.parse(window.localStorage.getItem("user")) !== null
+                          ? navigate(
+                              {
+                                pathname:
+                                  window.location.pathname + "/reservation",
+                              },
+                              {
+                                state: {
+                                  repairShopId: selectShop.repairShopId,
+                                },
+                              }
+                            )
+                          : window.location.replace("/login");
                       }}
                     >
-                      <p>견적받기</p>
-                    </div>
-                  </div>
+                      <Typography variant="h5">예약하기</Typography>
+                    </Card>
+
+                    <Card
+                      sx={{ py: 2, px: 4, bgcolor: palette.error.lighter }}
+                      onClick={() => {
+                        JSON.parse(window.localStorage.getItem("user")) !== null
+                          ? navigate(
+                              {
+                                pathname:
+                                  window.location.pathname + "/estimate",
+                              },
+                              {
+                                state: {
+                                  repairShopId: selectShop.repairShopId,
+                                },
+                              }
+                            )
+                          : window.location.replace("/login");
+                      }}
+                    >
+                      <Typography variant="h5">견적받기</Typography>
+                    </Card>
+                  </Box>
                 ) : null}
               </div>
               <div

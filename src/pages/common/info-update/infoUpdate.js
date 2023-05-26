@@ -3,6 +3,7 @@ import { TitleButtonBar } from "../../../component/titleButtonBar";
 import { UpdateFormUser } from "./updateFormUser";
 import { UpdateFormMechanic } from "./updateFormMechanic";
 import { UpdateFormSeller } from "./updateFormSeller";
+import { Box } from "@mui/material";
 
 export const InfoUpdate = () => {
   const [userState, setUserState] = useState({
@@ -29,13 +30,15 @@ export const InfoUpdate = () => {
   return (
     <>
       <TitleButtonBar title={"개인정보 수정"} />
-      {roleType === "MEMBER" ? (
-        <UpdateFormUser />
-      ) : roleType === "MECHANIC" ? (
-        <UpdateFormMechanic />
-      ) : roleType === "SELLER" ? (
-        <UpdateFormSeller />
-      ) : null}
+      <Box sx={{ mb: 3 }}>
+        {roleType === "MEMBER" ? (
+          <UpdateFormUser />
+        ) : roleType === "MECHANIC" ? (
+          <UpdateFormMechanic />
+        ) : roleType === "SELLER" ? (
+          <UpdateFormSeller />
+        ) : null}
+      </Box>
     </>
   );
 };

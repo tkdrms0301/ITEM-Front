@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { estimateHistoryForRepair, estimateHistoryForUser } from "../data/test";
 import { TitleButtonBar } from "../../../component/titleButtonBar";
+import { useNavigate } from "react-router-dom";
+import { Header } from "./header";
 import {
   Box,
   Button,
@@ -12,73 +14,42 @@ import {
   Select,
   TextField,
   Typography,
+  Card,
 } from "@mui/material";
-
-import { useLocation } from "react-router-dom";
+import { EstimateUploadFile } from "./estimateUploadFile";
+import { EstimateComment } from "./estimateComment";
+import { useLocation, useParams } from "react-router-dom";
+import { post, get } from "../../../api";
+import { set } from "date-fns";
 
 export const EstimateHistoryDetail = ({ role }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const [data, setData] = useState(
-    location.state?.role === "user"
-      ? estimateHistoryForUser[0] // user, waiting
-      : // estimateHistoryForUser[1] // user, complete
-        estimateHistoryForRepair[0] // repair, waiting
-    // estimateHistoryForRepair[1] // repair, complete
-  );
+  const [data, setData] = useState();
+
+  const { estimateId } = useParams();
 
   const [isUpdating, setIsUpdating] = useState(false);
   const handleUpdate = () => {
     setIsUpdating(true);
   };
   const [formData, setFormData] = useState({
-    repairComment: "",
+    comment: "",
     minPrice: 0,
     maxPrice: 0,
     minTime: 0,
-    maxTime: 1,
+    maxTime: 0,
   });
 
   const [completed, setCompleted] = useState({
     isCompleted: false,
     msg: "필수 정보를 모두 입력해주세요.",
   });
-  // const handleCompleted = () => {
-  //   if (
-  //     formData.repairComment !== "" &&
-  //     formData.maxPrice !== 0 &&
-  //     formData.minTime <= formData.maxTime
-  //   ) {
-  //     if (formData.maxPrice < formData.minPrice) {
-  //       setCompleted({
-  //         isCompleted: false,
-  //         msg: "최소 금액이 최대 금액보다 큽니다.",
-  //       });
-  //     } else if (formData.minTime > formData.maxTime) {
-  //       setCompleted({
-  //         isCompleted: false,
-  //         msg: "최소 시간이 최대 시간보다 큽니다.",
-  //       });
-  //     } else {
-  //       setCompleted({
-  //         isCompleted: true,
-  //         msg: "",
-  //       });
-  //     }
-  //   } else {
-  //     setCompleted({
-  //       isCompleted: false,
-  //       msg: "필수 정보를 모두 입력해주세요.",
-  //     });
-  //   }
-
-  //   console.log(formData);
-  //   console.log(completed);
-  // };
 
   const handleCompleted = () => {
-    if (formData.repairComment !== "" && formData.maxPrice !== 0) {
-      if (formData.maxPrice < formData.minPrice) {
+    if (formData.comment !== "" && formData.maxPrice !== 0) {
+      if (parseInt(formData.maxPrice) < parseInt(formData.minPrice)) {
         setCompleted({
           isCompleted: false,
           msg: "최소 금액이 최대 금액보다 큽니다.",
@@ -87,6 +58,11 @@ export const EstimateHistoryDetail = ({ role }) => {
         setCompleted({
           isCompleted: false,
           msg: "최소 시간이 최대 시간보다 큽니다.",
+        });
+      } else if (formData.minTime === 0 && formData.maxTime === 0) {
+        setCompleted({
+          isCompleted: false,
+          msg: "시간을 입력하세요.",
         });
       } else {
         setCompleted({
@@ -100,12 +76,11 @@ export const EstimateHistoryDetail = ({ role }) => {
         msg: "필수 정보를 모두 입력해주세요.",
       });
     }
-    console.log(formData);
-    console.log(completed);
   };
 
   const handleFormData = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(formData);
   };
   const handleChange = (e) => {
     handleFormData(e);
@@ -113,6 +88,30 @@ export const EstimateHistoryDetail = ({ role }) => {
   useEffect(() => {
     handleCompleted();
   }, [formData]);
+
+  useEffect(() => {
+    get("http://localhost:8080/api/repair/estimate/history/detail", {
+      params: {
+        estimateId: estimateId,
+      },
+    }).then((res) => {
+      setData({
+        id: res.data.id,
+        description: res.data.description,
+        itDevice: res.data.itDevice,
+        status: res.data.status,
+        requestImg: res.data.requestImg && res.data.requestImg,
+      });
+      setFormData({
+        estimateId: res.data.id,
+        comment: res.data.comment && res.data.comment,
+        minPrice: res.data.minPrice && res.data.minPrice,
+        maxPrice: res.data.maxPrice && res.data.maxPrice,
+        minTime: res.data.minTime && res.data.minTime,
+        maxTime: res.data.maxTime && res.data.maxTime,
+      });
+    });
+  }, []);
 
   const timeList = [
     {
@@ -169,372 +168,269 @@ export const EstimateHistoryDetail = ({ role }) => {
     },
   ];
 
+  const onClickResponseRegist = () => {
+    if (completed.isCompleted === false) {
+      window.alert(completed.msg);
+      return;
+    }
+    if (isUpdating) {
+      //응답
+      post(
+        "http://localhost:8080/api/repair/estimate/responseRegist",
+        formData
+      ).then((res) => {
+        //console.log(res);
+      });
+      navigate(-1);
+    } else {
+      window.alert(completed.msg);
+    }
+  };
+
   return (
     <>
-      <TitleButtonBar
-        title="견적 내역"
-        buttonLabel={isUpdating ? "등록" : null}
-        query={""}
-        transmitData={formData}
-        completed={completed}
-      />
-      <Container
-        sx={{
-          mt: "56px",
-          pt: "1%",
-        }}
-      >
-        <Box
-          sx={{
-            position: "relative",
-            display: "flex",
-            width: "100%",
-            height: "100px",
-            border: "1px solid #C4C4C4",
-            borderRadius: "4px",
-            mt: "3%",
-            padding: "3%",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              position: "absolute",
-              top: -10,
-              left: 10,
-              bgcolor: "white",
-              px: 1,
-              fontSize: "0.8rem",
-            }}
-          >
-            제품정보
-          </Typography>
-          {data.img ? (
-            <Box
-              component="img"
-              src={data.img}
-              alt={data.productName}
-              sx={{
-                width: "40%",
-                height: "100%",
-                mr: "5%",
-                borderRadius: "10px",
-              }}
-            />
-          ) : (
-            <Box
-              sx={{
-                width: "40%",
-                height: "100%",
-                mr: "5%",
-                bgcolor: "#8C92AC",
-                borderRadius: "10px",
-              }}
-            ></Box>
-          )}
-          <Typography>{data.productName}</Typography>
-        </Box>
-        <Box
-          sx={{
-            position: "relative",
-            display: "flex",
-            flexWrap: "wrap",
-            width: "100%",
-            minHeight: "100px",
-            border: "1px solid #C4C4C4",
-            borderRadius: "4px",
-            mt: "3%",
-            padding: "3%",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              position: "absolute",
-              top: -10,
-              left: 10,
-              bgcolor: "white",
-              px: 1,
-              fontSize: "0.8rem",
-            }}
-          >
-            신청정보
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              width: "100%",
-              flex: "1 0 auto",
-              mt: "1%",
-            }}
-          >
-            {data.userComment}
-          </Typography>
-        </Box>
-        {!isUpdating ? (
-          <Box
-            sx={{
-              position: "relative",
-              display: "flex",
-              flexWrap: "wrap",
-              width: "100%",
-              minHeight: "100px",
-              border: "1px solid #C4C4C4",
-              borderRadius: "4px",
-              mt: "3%",
-              padding: "3%",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                position: "absolute",
-                top: -10,
-                left: 10,
-                bgcolor: "white",
-                px: 1,
-                fontSize: "0.8rem",
-              }}
-            >
-              응답 정보
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                width: "100%",
-                flex: "1 0 auto",
-                mt: "1%",
-                color: data.repairComment ? "#000000" : "#8C92AC",
-              }}
-            >
-              {data.status === "응답 완료" ? data.repairComment : "응답 대기중"}
-            </Typography>
-          </Box>
-        ) : (
-          <TextField
-            label="응답 정보 입력"
-            required
-            autoFocus
-            multiline
-            rows={3}
-            sx={{
-              width: "100%",
-              minHeight: "100px",
-              mt: "3%",
-            }}
-            name="repairComment"
-            value={formData.repairComment}
-            onChange={handleChange}
-          />
-        )}
-
+      {data ? (
         <>
-          <Box
-            sx={{
-              position: "relative",
-              display: "flex",
-              flexWrap: "wrap",
-              width: "100%",
-              minHeight: "100px",
-              border: "1px solid #C4C4C4",
-              borderRadius: "4px",
-              mt: "3%",
-              padding: "3%",
-              alignItems: "center",
-            }}
-          >
-            <Typography
+          <Header />
+          <EstimateUploadFile
+            data={data}
+            myItDevices={data.itDevice}
+            setData={setData}
+            isHistory={true}
+          />
+
+          <EstimateComment
+            completed={completed}
+            data={data}
+            isHistory={true}
+          ></EstimateComment>
+
+          <Container sx={{ width: "100%", marginTop: "20px" }}>
+            <Card
+              variant="outlined"
               sx={{
-                position: "absolute",
-                top: -10,
-                left: 10,
-                bgcolor: "white",
-                px: 1,
-                fontSize: "0.8rem",
+                pb: 1,
+                boxShadow: 10,
               }}
             >
-              예상 금액
-            </Typography>
-            {data.status === "응답 완료" ? (
-              <Typography
-                variant="body1"
+              <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
+                응답 정보
+              </Typography>
+              <TextField
+                variant="standard"
+                name="comment"
+                value={formData.comment}
+                onChange={handleFormData}
+                placeholder="응답 대기 중"
+                fullWidth
+                multiline
+                rows={2}
+                sx={{ m: "3%" }}
+                InputProps={{
+                  disableUnderline: true, // <== added this
+                }}
+                inputProps={{
+                  readOnly:
+                    JSON.parse(window.localStorage.getItem("user")).roleType !==
+                      "MECHANIC" || !isUpdating
+                      ? true
+                      : false,
+                }}
+              ></TextField>
+            </Card>
+          </Container>
+
+          <>
+            <Container sx={{ width: "100%", marginTop: "20px" }}>
+              <Card
+                variant="outlined"
                 sx={{
-                  width: "100%",
-                  flex: "1 0 auto",
-                  mt: "1%",
+                  pb: 1,
+                  boxShadow: 10,
                 }}
               >
-                {data.minPrice} ITEM 포인트 ~ {data.maxPrice} ITEM 포인트
-              </Typography>
-            ) : !isUpdating ? (
-              <Typography
-                variant="body1"
-                sx={{
-                  width: "100%",
-                  flex: "1 0 auto",
-                  mt: "1%",
-                  color: data.repairComment ? "#000000" : "#8C92AC",
-                }}
-              >
-                {data.repairComment ? data.repairComment : "응답 대기중"}
-              </Typography>
-            ) : (
-              <Grid container justifyContent="space-around" alignItems="center">
-                <Grid item xs={4}>
-                  <TextField
-                    label="최소"
-                    size="small"
-                    type="number"
-                    name="minPrice"
-                    value={formData.minPrice}
-                    onChange={handleChange}
-                  />
-                  <Typography sx={{ ml: "10%" }}>ITEM 포인트</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={4}
-                  sx={{
-                    textAlign: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                <Typography
+                  variant="h6"
+                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
                 >
-                  <p>~</p>
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    label="최대"
-                    size="small"
-                    type="number"
-                    required
-                    name="maxPrice"
-                    value={formData.maxPrice}
-                    onChange={handleChange}
-                  />
-                  <Typography sx={{ ml: "10%" }}>ITEM 포인트</Typography>
-                </Grid>
-              </Grid>
-            )}
-          </Box>
-          <Box
-            sx={{
-              position: "relative",
-              display: "flex",
-              flexWrap: "wrap",
-              width: "100%",
-              minHeight: "100px",
-              border: "1px solid #C4C4C4",
-              borderRadius: "4px",
-              mt: "3%",
-              padding: "3%",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                position: "absolute",
-                top: -10,
-                left: 10,
-                bgcolor: "white",
-                px: 1,
-                fontSize: "0.8rem",
-              }}
-            >
-              예상 소요 시간
-            </Typography>
-            {data.status === "응답 완료" ? (
-              <Typography
-                variant="body1"
-                sx={{
-                  width: "100%",
-                  flex: "1 0 auto",
-                  mt: "1%",
-                }}
-              >
-                {data.minTime} ~ {data.maxTime}
-              </Typography>
-            ) : !isUpdating ? (
-              <Typography
-                variant="body1"
-                sx={{
-                  width: "100%",
-                  flex: "1 0 auto",
-                  mt: "1%",
-                  color: data.repairComment ? "#000000" : "#8C92AC",
-                }}
-              >
-                {data.repairComment ? data.repairComment : "응답 대기중"}
-              </Typography>
-            ) : (
-              <Grid container justifyContent="space-around" alignItems="center">
-                <Grid item xs={4}>
-                  <FormControl fullWidth required>
-                    <InputLabel>최소</InputLabel>
-                    <Select
-                      name="minTime"
-                      value={formData.minTime}
-                      onChange={handleChange}
-                    >
-                      {timeList.map((time) => (
-                        <MenuItem key={time.label} value={time.value}>
-                          {time.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
+                  예상 금액
+                </Typography>
                 <Grid
-                  item
-                  xs={4}
-                  sx={{
-                    textAlign: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                  container
+                  justifyContent="space-around"
+                  alignItems="center"
+                  marginTop={2}
                 >
-                  <p>~</p>
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl fullWidth required>
-                    <InputLabel>최대</InputLabel>
-                    <Select
-                      name="maxTime"
-                      value={formData.maxTime}
+                  <Grid item xs={4}>
+                    <TextField
+                      label="최소"
+                      size="small"
+                      type="number"
+                      name="minPrice"
+                      value={formData.minPrice}
                       onChange={handleChange}
-                    >
-                      {timeList.map((time) =>
-                        time.value === 0 ? null : (
+                      inputProps={{
+                        readOnly:
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false,
+                      }}
+                    />
+                    <Typography sx={{ ml: "10%" }}>ITEM 포인트</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={1}
+                    sx={{
+                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p>~</p>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="최대"
+                      size="small"
+                      type="number"
+                      required
+                      name="maxPrice"
+                      value={formData.maxPrice}
+                      onChange={handleChange}
+                      inputProps={{
+                        readOnly:
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false,
+                      }}
+                    />
+                    <Typography sx={{ ml: "10%" }}>ITEM 포인트</Typography>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Container>
+
+            <Container sx={{ width: "100%", marginTop: "20px" }}>
+              <Card
+                variant="outlined"
+                sx={{
+                  pb: 1,
+                  boxShadow: 10,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
+                >
+                  예상 소요 시간
+                </Typography>
+                <Grid
+                  container
+                  justifyContent="space-around"
+                  alignItems="center"
+                  marginTop={2}
+                >
+                  <Grid item xs={4}>
+                    <FormControl fullWidth required>
+                      <InputLabel>최소</InputLabel>
+                      <Select
+                        name="minTime"
+                        value={formData.minTime}
+                        onChange={handleChange}
+                        readOnly={
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false
+                        }
+                      >
+                        {timeList.map((time) => (
                           <MenuItem key={time.label} value={time.value}>
                             {time.label}
                           </MenuItem>
-                        )
-                      )}
-                    </Select>
-                  </FormControl>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={1}
+                    sx={{
+                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p>~</p>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <FormControl fullWidth required>
+                      <InputLabel>최대</InputLabel>
+                      <Select
+                        name="maxTime"
+                        value={formData.maxTime}
+                        onChange={handleChange}
+                        readOnly={
+                          JSON.parse(window.localStorage.getItem("user"))
+                            .roleType !== "MECHANIC" || !isUpdating
+                            ? true
+                            : false
+                        }
+                      >
+                        {timeList.map((time) =>
+                          time.value === 0 ? null : (
+                            <MenuItem key={time.label} value={time.value}>
+                              {time.label}
+                            </MenuItem>
+                          )
+                        )}
+                      </Select>
+                    </FormControl>
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
-          </Box>
-        </>
-
-        {location.state?.role === "repair" && data.status === "응답 대기" ? (
-          <>
-            {!isUpdating && (
-              <Button
-                onClick={handleUpdate}
-                variant="contained"
-                fullWidth
-                sx={{ mt: "3%" }}
-              >
-                견적 응답 작성
-              </Button>
-            )}
+              </Card>
+            </Container>
           </>
-        ) : null}
-      </Container>
+
+          {JSON.parse(window.localStorage.getItem("user")).roleType ===
+            "MECHANIC" && data.status === "응답 대기" ? (
+            <>
+              {!isUpdating && (
+                <Button
+                  onClick={handleUpdate}
+                  variant="contained"
+                  fullWidth
+                  sx={{ mt: "3%" }}
+                >
+                  견적 응답 작성
+                </Button>
+              )}
+            </>
+          ) : null}
+
+          {isUpdating ? (
+            <Button
+              fullWidth
+              variant="contained"
+              color="inherit"
+              onClick={onClickResponseRegist}
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: "ButtonFace",
+                color: "ButtonText",
+              }}
+            >
+              견적 응답 등록
+            </Button>
+          ) : null}
+        </>
+      ) : null}
     </>
   );
 };

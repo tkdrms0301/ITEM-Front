@@ -1,5 +1,7 @@
+import { Card, Grid, Typography } from "@mui/material";
 import "../css/RepairListItem.css";
 import { Link } from "react-router-dom";
+import palette from "../../../theme/palette";
 
 const PublicRepairListItem = ({ shop }) => {
   return (
@@ -9,20 +11,53 @@ const PublicRepairListItem = ({ shop }) => {
         className="repair_shop_detail_link"
         state={{ shop: shop }}
       >
-        <div className="repair_list_item">
-          <div className="repair_list_item_info">
-            <div className="repair_item_name_n_addr">
-              <div className="repair_list_item_info_name">{shop.shopName}</div>
+        <Card
+          sx={{
+            borderRadius: "0px",
+            borderTop: "1px solid",
+            borderColor: "#F1F1F1",
+          }}
+        >
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              pt: 1,
+            }}
+          >
+            <Grid item xs={10}>
+              <Typography variant="h4" sx={{ pl: 2 }}>
+                {shop.shopName}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  textAlign: "right",
+                  color: palette.error.main,
+                  pr: 2,
+                }}
+              >
+                {shop.distance}Km
+              </Typography>
+            </Grid>
+          </Grid>
 
-              <div className="repair_list_item_info_address">
+          <Grid
+            container
+            sx={{
+              display: "flex",
+            }}
+          >
+            <Grid item xs={9}>
+              <Typography variant="subtitle2" sx={{ pl: 2, mb: 1 }}>
                 {shop.shopAddress}
-              </div>
-            </div>
-            <div className="repair_shop_dis_n_star">
-              <div className="form_cur_distance">{shop.distance}Km</div>
-            </div>
-          </div>
-        </div>
+              </Typography>
+            </Grid>
+            <Grid item xs={3}></Grid>
+          </Grid>
+        </Card>
       </Link>
     </>
   );

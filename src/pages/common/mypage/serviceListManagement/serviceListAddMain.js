@@ -11,27 +11,37 @@ import {
 } from "@mui/material";
 import { ServiceListPanelHeader } from "./serviceListPanelHeader";
 import { useRef, useState } from "react";
+import { post } from "../../../../api";
 
 export const ServiceListAddMain = () => {
   const [serviceType, setServivceType] = useState("");
   const serviceNameRef = useRef();
   const serviceDescriptionRef = useRef();
+  const servicePriceRef = useRef();
 
   const handleChange = (event) => {
     setServivceType(event.target.value);
   };
 
   const onSubmitServiceAdd = (event) => {
-    console.log(serviceType);
-    console.log(serviceNameRef.current.value);
-    console.log(serviceDescriptionRef.current.value);
+    let data = {
+      serviceType: serviceType,
+      serviceName: serviceNameRef.current.value,
+      description: serviceDescriptionRef.current.value,
+      servicePrice: servicePriceRef.current.value,
+    };
+
+    post("http://localhost:8080/api/repair/serviceList", data)
+      .then((response) => {
+        if (response.data == true)
+          window.location.replace("/mypage/serviceList/panel");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const menuItem = [
-    { name: "소프트웨어 오류, 설치" },
-    { name: "수리" },
-    { name: "점검" },
-  ];
+  const menuItem = [{ name: "교환" }, { name: "수리" }, { name: "점검" }];
 
   return (
     <>
@@ -66,6 +76,20 @@ export const ServiceListAddMain = () => {
         </Grid>
 
         <Grid item xs={12} sx={{ mt: 25, ml: 2, mr: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            서비스 가격
+          </Typography>
+          <TextField
+            fullWidth
+            required
+            variant="outlined"
+            label="가격을 입력해주세요"
+            sx={{ mt: 1 }}
+            inputRef={servicePriceRef}
+          ></TextField>
+        </Grid>
+
+        <Grid item xs={12} sx={{ mt: 2, ml: 2, mr: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             서비스 이름
           </Typography>

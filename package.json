@@ -5,13 +5,18 @@
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
+    "@iconify/react": "^4.1.0",
     "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.130",
     "@mui/material": "^5.12.2",
     "@mui/x-date-pickers": "^6.3.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@tosspayments/payment-widget__types": "^0.0.13",
+    "@tosspayments/payment-widget-sdk": "^0.7.3",
     "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "geolib": "^3.3.3",
     "react": "^18.2.0",
@@ -21,6 +26,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-spring-bottom-sheet": "^3.4.1",
+    "simplebar-react": "^3.2.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

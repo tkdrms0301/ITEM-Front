@@ -23,8 +23,7 @@ const MoreButtonRepair = ({ data, role }) => {
   const handleUpdate = (e) => {
     e.stopPropagation();
     handleClose(e);
-    console.log("수정: " + selectedId);
-    navigate(`/repair/privateShops/${data.shopId}/update/${data.id}`);
+    navigate(`/repair/privateShops/${data.repairShopId}/update/${data.id}`);
   };
 
   const handleDelete = (e) => {
@@ -32,7 +31,6 @@ const MoreButtonRepair = ({ data, role }) => {
     handleClose(e);
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      console.log(selectedId);
       window.location.reload();
     }
   };
@@ -104,129 +102,143 @@ export const HistoryList = ({ itemList, role }) => {
   const navigate = useNavigate();
   return (
     <>
-      <Container>
-        {itemList.map((data) => (
-          <Grid
-            container
-            key={data.id}
-            sx={{
-              mt: 2,
-              backgroundColor: "#F9F9F9",
-              height: "100px",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-            onClick={
-              role === "user"
-                ? data.status === "예약 완료" || data.status === "예약 대기"
-                  ? () => {
-                      navigate(
-                        { pathname: `/repair/mypage/reservation/${data.id}` },
-                        { state: { role: data.role } }
-                      );
-                    }
-                  : data.status === "정비 완료"
-                  ? () => {
-                      console.log(data.id);
-                      navigate(
-                        {
-                          pathname: "/repair/readReport",
-                        },
-                        {
-                          state: { repairId: data.id },
-                        }
-                      );
-                    }
-                  : null
-                : role === "repair"
-                ? data.status === "예약 대기"
-                  ? () => {
-                      navigate(
-                        { pathname: `/repair/mypage/reservation/${data.id}` },
-                        { state: { role: role } }
-                      );
-                    }
-                  : data.status === "예약 완료"
-                  ? () => {
-                      console.log(data.id);
-                      navigate(
-                        {
-                          pathname: "/repair/registReport",
-                        },
-                        {
-                          state: { repairId: data.id },
-                        }
-                      );
-                    }
-                  : data.status === "정비 완료"
-                  ? () => {
-                      console.log(data.id);
-                      navigate(
-                        {
-                          pathname: "/repair/readReport",
-                        },
-                        {
-                          state: { repairId: data.id },
-                        }
-                      );
-                    }
-                  : null
-                : null
-            }
-          >
+      {itemList !== undefined ? (
+        <Container>
+          {itemList.map((data) => (
             <Grid
-              item
-              xs={3}
+              container
+              key={data.id}
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                mt: 2,
+                backgroundColor: "#F9F9F9",
+                height: "100px",
+                color: "inherit",
+                textDecoration: "none",
               }}
+              onClick={
+                role === "user"
+                  ? data.status === "예약 완료" ||
+                    data.status === "예약 대기" ||
+                    data.status === "거절"
+                    ? () => {
+                        navigate({
+                          pathname: `/repair/mypage/reservation/${data.id}`,
+                        });
+                      }
+                    : data.status === "정비 완료"
+                    ? () => {
+                        navigate(
+                          {
+                            pathname: "/repair/readReport",
+                          },
+                          {
+                            state: { repairId: data.id }, //수정해야함
+                          }
+                        );
+                      }
+                    : null
+                  : role === "repair"
+                  ? data.status === "예약 대기"
+                    ? () => {
+                        navigate(
+                          { pathname: `/repair/mypage/reservation/${data.id}` },
+                          { state: { role: role } }
+                        );
+                      }
+                    : data.status === "예약 완료"
+                    ? () => {
+                        navigate(
+                          {
+                            pathname: "/repair/registReport",
+                          },
+                          {
+                            state: { repairId: data.id }, //수정해야함
+                          }
+                        );
+                      }
+                    : data.status === "정비 완료"
+                    ? () => {
+                        navigate(
+                          {
+                            pathname: "/repair/readReport",
+                          },
+                          {
+                            state: { repairId: data.id }, //수정해야함
+                          }
+                        );
+                      }
+                    : data.status === "거절"
+                    ? () => {
+                        navigate(
+                          { pathname: `/repair/mypage/reservation/${data.id}` },
+                          { state: { role: role } }
+                        );
+                      }
+                    : null
+                  : null
+              }
             >
-              <img src={data.img} alt="" width={"80%"} height={"80%"}></img>
-            </Grid>
-            <Grid item xs={7}>
-              <Grid container sx={{ ml: 1, p: 1 }}>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      fontWeight: "bold",
-                      color:
-                        data.status === "예약 완료"
-                          ? "#E3DA64"
-                          : data.status === "정비 완료"
-                          ? "#88CDAB"
-                          : "#9A9A9A",
-                    }}
-                  >
-                    {data.status}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                      color: "#747373",
-                    }}
-                  >
-                    {data.productName}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sx={{ mt: 0.5 }}>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "17px" }}>
-                    {data.service}
-                  </Typography>
+              <Grid
+                item
+                xs={3}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={data.prodImg}
+                  alt=""
+                  width={"80%"}
+                  height={"80%"}
+                ></img>
+              </Grid>
+              <Grid item xs={7}>
+                <Grid container sx={{ ml: 1, p: 1 }}>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontWeight: "bold",
+                        color:
+                          data.status === "예약 완료"
+                            ? "#E3DA64"
+                            : data.status === "정비 완료"
+                            ? "#88CDAB"
+                            : data.status === "거절"
+                            ? "#FF0000"
+                            : "#9A9A9A",
+                      }}
+                    >
+                      {data.status}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      sx={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        color: "#747373",
+                      }}
+                    >
+                      {data.productName}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sx={{ mt: 0.5 }}>
+                    <Typography sx={{ fontWeight: "bold", fontSize: "17px" }}>
+                      {data.service}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
+              <Grid item xs={2} id={data.id}>
+                <MoreButtonRepair data={data} role={role} />
+              </Grid>
             </Grid>
-            <Grid item xs={2} id={data.id}>
-              <MoreButtonRepair data={data} role={role} />
-            </Grid>
-          </Grid>
-        ))}
-      </Container>
+          ))}
+        </Container>
+      ) : null}
     </>
   );
 };

@@ -1,50 +1,153 @@
 import {
   Container,
   Grid,
-  Link,
   TextField,
   CssBaseline,
   Button,
   Box,
+  Select,
+  MenuItem,
+  Typography,
 } from "@mui/material";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { post } from "../../../api";
+import { BaseUrl } from "../../../api/BaseUrl";
+import axios from "axios";
 
 export const UpdateFormMechanic = () => {
-  const emailRef = useRef(null);
+  const repairServiceTypes = [
+    { value: 0, label: "수리 서비스 타입" },
+    { value: 1, label: "모바일" },
+    { value: 2, label: "태블릿" },
+    { value: 3, label: "노트북" },
+    { value: 4, label: "컴퓨터" },
+  ];
   const nickName = useRef(null);
   const address = useRef(null);
-  const password = useRef(null);
   const newPassword = useRef(null);
   const passwordVali = useRef(null);
   const phoneNumber = useRef(null);
+  const account = useRef(null);
   const currentPassword = useRef(null);
   const shopName = useRef(null);
   const shopAddress = useRef(null);
   const shopPhoneNumber = useRef(null);
   const shopDescription = useRef(null);
 
-  const validatecurrentPassword = (e) => {
-    console.log(currentPassword.current.value);
+  const [check, setCheck] = useState({
+    nickName: false,
+    currentPassword: false,
+  });
+
+  const [curServiceType, setCurServiceType] = useState(0);
+
+  const onChangeServiceType = (e) => {
+    setCurServiceType(e.target.value);
   };
-  const validateNickname = (e) => {
-    console.log(nickName.current.value);
+
+  const validatecurrentPassword = () => {
+    const data = {
+      password: currentPassword.current.value,
+    };
+
+    post(BaseUrl + "/api/member/password-check", data)
+      .then((response) => {
+        if (response.data.success) {
+          alert("현재 비밀번호 검증 완료");
+          setCheck({
+            ...check,
+            currentPassword: true,
+          });
+        } else {
+          alert("현재 비밀번호 검증 실패");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  const validatePassword = (e) => {
-    console.log(passwordVali.current.value);
+
+  const validateNickname = () => {
+    const data = {
+      nickname: nickName.current.value,
+    };
+    axios
+      .post(BaseUrl + "/api/auth/nickname-check", data)
+      .then((response) => {
+        if (response.data.success) {
+          if (
+            window.confirm(response.data.msg + "\n닉네임을 사용하시겠습니까?")
+          ) {
+            setCheck({
+              ...check,
+              nickName: true,
+            });
+          } else {
+            setCheck({
+              ...check,
+              nickName: false,
+            });
+          }
+        } else {
+          alert(response.data.msg);
+          nickName.current.value = "";
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const infoUpdateSubmit = () => {
-    console.log(emailRef.current.value);
-    console.log(address.current.value);
-    console.log(nickName.current.value);
-    console.log(password.current.value);
-    console.log(newPassword.current.value);
-    console.log(passwordVali.current.value);
-    console.log(phoneNumber.current.value);
-    console.log(shopName.current.value);
-    console.log(shopAddress.current.value);
-    console.log(shopPhoneNumber.current.value);
-    console.log(shopDescription.current.value);
+    if (newPassword.current?.value !== passwordVali.current?.value) {
+      newPassword.current.value = null;
+      passwordVali.current.value = null;
+      alert("동일하지 않은 새 비밀번호 입니다");
+      return;
+    }
+
+    if (!(check.nickName && check.currentPassword)) {
+      alert("검증이 필요한 항목에 대해서 검증이 되지 않았습니다");
+      return;
+    }
+
+    if (curServiceType === 0) {
+      alert("수리 서비스 타입을 선택해주세요");
+      return;
+    }
+
+    const mechanicInfoDto = {
+      shopName: shopName.current?.value,
+      shopAddress: shopAddress.current?.value,
+      shopPhoneNumber: shopPhoneNumber.current?.value,
+      description: shopDescription.current?.value,
+      repairServiceType: curServiceType,
+    };
+
+    const data = {
+      nickname: nickName.current?.value,
+      currentPassword: currentPassword.current?.value,
+      newPassword: newPassword.current?.value,
+      validPassword: passwordVali.current?.value,
+      phoneNumber: phoneNumber.current?.value,
+      address: address.current?.value,
+      account: account.current?.value,
+      sellerInfoDto: null,
+      mechanicInfoDto: mechanicInfoDto,
+    };
+
+    post(BaseUrl + "/api/member/update", data)
+      .then((res) => {
+        if (res.data.success) {
+          alert(res.data.msg);
+          window.location.href = "/";
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const boxList = [
@@ -55,6 +158,7 @@ export const UpdateFormMechanic = () => {
       label: "현재 비밀번호 확인",
       type: "password",
       vali: validatecurrentPassword,
+      disable: check.currentPassword,
     },
     {
       name: "nickName",
@@ -63,6 +167,7 @@ export const UpdateFormMechanic = () => {
       label: "닉네임(중복불가)",
       type: "nickName",
       vali: validateNickname,
+      disable: check.nickName,
     },
     {
       name: "address",
@@ -70,6 +175,7 @@ export const UpdateFormMechanic = () => {
       id: "address",
       label: "사용자 주소",
       type: "address",
+      disable: false,
     },
     {
       name: "newPassword",
@@ -77,6 +183,7 @@ export const UpdateFormMechanic = () => {
       id: "newPassword",
       label: "새 비밀번호",
       type: "newPassword",
+      disable: false,
     },
     {
       name: "passwordVali",
@@ -84,7 +191,7 @@ export const UpdateFormMechanic = () => {
       id: "passwordVali",
       label: "비밀번호 확인",
       type: "passwordVali",
-      vali: validatePassword,
+      disable: false,
     },
     {
       name: "phoneNumber",
@@ -92,6 +199,7 @@ export const UpdateFormMechanic = () => {
       id: "phoneNumber",
       label: "개인 휴대전화(-제외)",
       type: "phoneNumber",
+      disable: false,
     },
     {
       name: "shopName",
@@ -99,6 +207,7 @@ export const UpdateFormMechanic = () => {
       id: "shopName",
       label: "가게명",
       type: "shopName",
+      disable: false,
     },
     {
       name: "shopAddress",
@@ -106,6 +215,7 @@ export const UpdateFormMechanic = () => {
       id: "shopAddress",
       label: "가게 주소",
       type: "shopAddress",
+      disable: false,
     },
     {
       name: "shopPhoneNumber",
@@ -113,6 +223,7 @@ export const UpdateFormMechanic = () => {
       id: "shopPhoneNumber",
       label: "가게 전화번호",
       type: "shopPhoneNumber",
+      disable: false,
     },
     {
       name: "shopDescription",
@@ -120,6 +231,7 @@ export const UpdateFormMechanic = () => {
       id: "shopDescription",
       label: "가게 설명",
       type: "shopDescription",
+      disable: false,
     },
   ];
 
@@ -134,8 +246,7 @@ export const UpdateFormMechanic = () => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}
-    >
+      }}>
       <CssBaseline />
       <Box>
         <Grid
@@ -145,15 +256,13 @@ export const UpdateFormMechanic = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-start",
-          }}
-        >
+          }}>
           {boxList.map((data, index) => (
             <Grid
               item
               xs={12}
               key={index}
-              sx={{ display: "flex", alignItems: "center" }}
-            >
+              sx={{ display: "flex", alignItems: "center" }}>
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -162,28 +271,42 @@ export const UpdateFormMechanic = () => {
                 inputRef={data.ref}
                 label={data.label}
                 type={data.type}
+                disabled={data.disable}
                 sx={{ width: "60%" }}
               />
-              {data.name === "currentPassword" ||
-              data.name === "nickName" ||
-              data.name === "passwordVali" ? (
+              {data.name === "currentPassword" || data.name === "nickName" ? (
                 <Button variant="outlined" sx={{ ml: 2 }} onClick={data.vali}>
-                  중복확인
+                  {data.name === "currentPassword" ? "검증" : "중복확인"}
                 </Button>
               ) : null}
             </Grid>
           ))}
+          <Grid item xs={12} sx={{ display: "flex" }}>
+            <Select
+              value={curServiceType}
+              onChange={onChangeServiceType}
+              sx={{ width: "60%" }}>
+              {repairServiceTypes.map((repairServiceType, index) => (
+                <MenuItem key={index} value={repairServiceType.value}>
+                  <Typography align="left">
+                    {repairServiceType.label}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
         </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={infoUpdateSubmit}
-          sx={{ mt: 2 }}
-        >
-          정보 수정
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={infoUpdateSubmit}
+            sx={{ mt: 1 }}>
+            정보 수정
+          </Button>
+        </Grid>
       </Box>
     </Container>
   );
