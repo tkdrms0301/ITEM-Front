@@ -23,6 +23,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Iconify from "../../theme/Iconify";
 import { get, post } from "../../api";
 import { BaseUrl } from "../../api/BaseUrl";
+import { utils, writeFile } from "xlsx";
 
 export const DataMain = () => {
   const theme = useTheme();
@@ -121,30 +122,104 @@ export const DataMain = () => {
     setSelectedProductList(value);
   };
 
-  const onClickFinalSearch = () => {
-    console.log("최종 선택 키워드");
-    const selectedTagIds = selectedProductList.map((product) => product.id);
-    console.log(selectedTagIds);
-    console.log(seachKeywordList);
+  const onClickFinalSearch = async () => {
+    try {
+      console.log("최종 선택 키워드");
+      const selectedTagIds = selectedProductList.map((product) => product.id);
+      console.log(selectedTagIds);
+      console.log(seachKeywordList);
 
-    const data = {
-      words: seachKeywordList,
-      products: selectedTagIds,
-    };
+      const data = {
+        words: seachKeywordList,
+        products: selectedTagIds,
+      };
 
-    post(BaseUrl + "/api/data/get", data)
-      .then((res) => {
-        console.log(res);
-        setDataList(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {});
+      const response = await post(BaseUrl + "/api/data/get", data);
+      console.log(response);
+      setDataList(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const convertExcel = () => {
-    console.log("엑셀파일 요청");
+  const parseCSV = (csvString) => {
+    const lines = csvString.split("\n");
+    const headers = lines[0].split(",");
+
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(",");
+      const obj = {};
+
+      for (let j = 0; j < headers.length; j++) {
+        obj[headers[j]] = values[j];
+      }
+
+      data.push(obj);
+    }
+
+    return data;
+  };
+
+  const convertExcel = async () => {
+    try {
+      const selectedTagIds = selectedProductList.map((product) => product.id);
+      const data = {
+        words: seachKeywordList,
+        products: selectedTagIds,
+      };
+
+      const [responseRelated, responsePosAndNeg] = await Promise.all([
+        post(BaseUrl + "/api/data/download-related-word-data", data),
+        post(BaseUrl + "/api/data/download-pos-and-neg-data", data),
+      ]);
+
+      const relatedData = parseCSV(responseRelated.data);
+
+      const posNegData = parseCSV(responsePosAndNeg.data);
+
+      const workbook = utils.book_new();
+
+      const relatedSheetOptions = {
+        header: ["검색어", "제품명", "단어", "빈도수"],
+      };
+      const posNegSheetOptions = {
+        header: ["검색어", "제품명", "긍정", "부정"],
+      };
+
+      const relatedWorksheet = utils.json_to_sheet(
+        relatedData,
+        relatedSheetOptions
+      );
+      const posNegWorksheet = utils.json_to_sheet(
+        posNegData,
+        posNegSheetOptions
+      );
+
+      utils.book_append_sheet(workbook, relatedWorksheet, "Related Data");
+      utils.book_append_sheet(workbook, posNegWorksheet, "Pos and Neg Data");
+
+      const currentDate = new Date();
+      const formattedDate = currentDate
+        .toLocaleString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+          timeZone: "Asia/Seoul",
+        })
+        .replace(/[-. ]/g, "")
+        .replace(/:/g, "");
+
+      const fileName = `ITEM_Data_${formattedDate}.xlsx`;
+
+      writeFile(workbook, fileName);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const categorySideBar = () => (
