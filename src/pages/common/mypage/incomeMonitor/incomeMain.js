@@ -1,48 +1,71 @@
 import { IncomeHeader } from "./incomeHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { SearchDate } from "./searchDate";
 import { Container } from "@mui/system";
 import { Typography, Grid } from "@mui/material";
 import { IncomeTotal } from "./incomeTotal";
 import HandymanIcon from "@mui/icons-material/Handyman";
+import { BaseUrl } from "../../../../api/BaseUrl";
+import { get, post } from "../../../../api";
 
 export const IncomeMain = () => {
-  const [firstDate, setFirstDate] = useState(dayjs("2021-01-01"));
-  const [secondaryDate, setSecondaryDate] = useState(dayjs("2023-05-02"));
-  const [serviceName, setServiceName] = useState(["전체 서비스"]);
-  const [point, setPoint] = useState(1500000);
+  const currentDate = dayjs().startOf("month").format("YYYY-MM-DD");
+  const [firstDate, setFirstDate] = useState(dayjs(currentDate));
+  const [secondaryDate, setSecondaryDate] = useState(dayjs());
+  const [serviceName, setServiceName] = useState([]);
+  const [point, setPoint] = useState(0);
+  const [serviceList, setServiceList] = useState([]);
+  const [incomeServiceList, setIncomeServiceList] = useState([]);
 
   const buttonSubmit = () => {
     console.log(dayjs(firstDate).toDate());
     console.log(dayjs(secondaryDate).toDate());
     console.log(serviceName);
+
+    post(BaseUrl + "/api/point/income-history/dateAndServiceName", {
+      startDate: dayjs(firstDate).toDate(),
+      endDate: dayjs(secondaryDate).toDate(),
+      serviceName: serviceName,
+    })
+      .then((response) => {
+        console.log(response);
+        setIncomeServiceList(response.data.data);
+
+        setPoint(0);
+        response.data.data.map((data) => {
+          setPoint((prev) => prev + data.point);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const serviceList = [
-    "전체 서비스",
-    "액정 수리",
-    "배터리 교체",
-    "침수 세척",
-    "전체 점검",
-    "전면 카메라 수리",
-    "후면 카메라 수리",
-    "지문 인식 수리",
-    "부품 교환",
-  ];
+  useEffect(() => {
+    get(BaseUrl + "/api/repair/serviceList")
+      .then((response) => {
+        console.log(response);
+        setServiceList(response.data);
+        setServiceName(response.data.map((data) => data.serviceName));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-  const IncomeServiceList = [
-    { title: "액정 수리", date: "2021-05-02", point: 10000 },
-    { title: "액정 수리", date: "2021-05-02", point: 10000 },
-    { title: "배터리 교체", date: "2021-05-04", point: 30000 },
-    { title: "배터리 교체", date: "2021-05-04", point: 30000 },
-    { title: "전면 카메라 수리", date: "2021-05-05", point: 50000 },
-    { title: "전면 카메라 수리", date: "2021-05-05", point: 50000 },
-    { title: "전면 카메라 수리", date: "2021-05-06", point: 50000 },
-    { title: "전면 카메라 수리", date: "2021-05-06", point: 50000 },
-    { title: "전면 카메라 수리", date: "2021-05-06", point: 50000 },
-    { title: "전면 카메라 수리", date: "2021-05-06", point: 50000 },
-  ];
+    get(BaseUrl + "/api/point/income-history")
+      .then((response) => {
+        console.log(response);
+        setIncomeServiceList(response.data.data);
+
+        response.data.data.map((data) => {
+          setPoint((prev) => prev + data.point);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -77,7 +100,7 @@ export const IncomeMain = () => {
             border: "2px solid gray",
           }}
         >
-          {IncomeServiceList.map((data, index) => (
+          {incomeServiceList.map((data, index) => (
             <Grid
               item
               key={index}
@@ -126,7 +149,7 @@ export const IncomeMain = () => {
                           fontSize: "16px",
                         }}
                       >
-                        {data.title}
+                        {data.serviceName}
                       </Typography>
                       <Typography
                         sx={{
@@ -135,7 +158,7 @@ export const IncomeMain = () => {
                           fontSize: "13px",
                         }}
                       >
-                        {data.date}
+                        {dayjs(data.date).format("YYYY-MM-DD / HH:mm")}
                       </Typography>
                     </Grid>
                     <Grid

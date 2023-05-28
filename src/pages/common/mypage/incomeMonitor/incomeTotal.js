@@ -27,28 +27,18 @@ export const IncomeTotal = ({ point, firstDate, secondaryDate }) => {
               alignItems: "center",
             }}
           >
-            <Typography
-              sx={{
-                ml: 1,
-                mr: 1,
-                color: "gray",
-                fontSize: "17px",
-                fontWeight: "bold",
-              }}
-            >
-              Income This
-            </Typography>
-            <Typography sx={{ fontWeight: "bold", color: "gray" }}>
+            <Typography variant="h6">
               {dayjs(firstDate).toDate().getFullYear()}/
               {dayjs(firstDate).toDate().getMonth() + 1}/
               {dayjs(firstDate).toDate().getDate()}
             </Typography>
             <Typography
+              variant="h6"
               sx={{ ml: 0.5, mr: 0.5, color: "gray", fontWeight: "bold" }}
             >
               ~
             </Typography>
-            <Typography sx={{ fontWeight: "bold", color: "gray" }}>
+            <Typography variant="h6">
               {dayjs(secondaryDate).toDate().getFullYear()}/
               {dayjs(secondaryDate).toDate().getMonth() + 1}/
               {dayjs(secondaryDate).toDate().getDate()}
@@ -63,9 +53,10 @@ export const IncomeTotal = ({ point, firstDate, secondaryDate }) => {
               alignItems: "center",
             }}
           >
+            <Typography variant="h6"> 총 수익금액 : </Typography>
             <Typography
               variant="h4"
-              sx={{ fontWeight: "bold", color: "gray", mr: 1 }}
+              sx={{ fontWeight: "bold", color: "gray", mx: 1 }}
             >
               {point}
             </Typography>
