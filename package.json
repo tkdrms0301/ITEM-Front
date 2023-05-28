@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@tosspayments/payment-widget__types": "^0.0.13",
     "@tosspayments/payment-widget-sdk": "^0.7.3",
+    "apexcharts": "^3.40.0",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
