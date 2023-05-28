@@ -94,13 +94,13 @@ export const SearchDate = ({
                         sx={{ fontWeight: "bold" }}
                         input={<OutlinedInput label="서비스명" />}
                       >
-                        {serviceList.map((name) => (
+                        {serviceList.map((serviceList) => (
                           <MenuItem
-                            key={name}
-                            value={name}
+                            key={serviceList.serviceId}
+                            value={serviceList.serviceName}
                             sx={{ fontWeight: "bold" }}
                           >
-                            {name}
+                            {serviceList.serviceName}
                           </MenuItem>
                         ))}
                       </Select>
@@ -114,11 +114,11 @@ export const SearchDate = ({
                   variant="contained"
                   onClick={buttonSubmit}
                   sx={{ ml: 1 }}
+                  color="inherit"
                 >
                   검색
                 </Button>
               </Grid>
-
             </Grid>
           </DemoContainer>
         </LocalizationProvider>

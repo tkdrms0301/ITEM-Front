@@ -23,17 +23,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Iconify from "../../theme/Iconify";
 import { get, post } from "../../api";
 import { BaseUrl } from "../../api/BaseUrl";
+import { utils, writeFile } from "xlsx";
+import { useNavigate } from "react-router";
 
 export const DataMain = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [categoryList, setCategoryList] = useState([
-    { id: 1, name: "컴퓨터" },
-    { id: 2, name: "노트북" },
-    { id: 3, name: "휴대폰" },
-    { id: 4, name: "태블릿" },
-  ]);
-
+  const [categoryList, setCategoryList] = useState([]);
   const [brandList, setBrandList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
@@ -42,6 +39,7 @@ export const DataMain = () => {
   const [dataList, setDataList] = useState([]);
   const textFieldRef = useRef(null); // Create a ref for the Autocomplete TextField
   const [seachKeywordList, setSeachKeywordList] = useState([]);
+  const [subscriptionState, setSubscriptionState] = useState(false);
 
   const toggleSlider = () => {
     setOpen(!open);
@@ -60,6 +58,19 @@ export const DataMain = () => {
   }, 40);
 
   useEffect(() => {
+    get(BaseUrl + "/api/data/category")
+      .then((res) => {
+        console.log(res);
+        setSubscriptionState(res.data.success);
+        setCategoryList(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {});
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -69,7 +80,7 @@ export const DataMain = () => {
   const categoryClick = (categoryId) => {
     setSelectedCategoryId(categoryId);
 
-    get(BaseUrl + "/api/device/completion-brand", {
+    get(BaseUrl + "/api/data/brand", {
       params: {
         category: categoryId,
       },
@@ -86,7 +97,7 @@ export const DataMain = () => {
   const brandCiick = (brandId) => {
     setSelectedBrandId(brandId);
 
-    get(BaseUrl + "/api/device/completion-product", {
+    get(BaseUrl + "/api/data/product", {
       params: {
         category: selectedCategoryId,
         brand: brandId,
@@ -115,30 +126,106 @@ export const DataMain = () => {
     setSelectedProductList(value);
   };
 
-  const onClickFinalSearch = () => {
-    console.log("최종 선택 키워드");
-    const selectedTagIds = selectedProductList.map((product) => product.id);
-    console.log(selectedTagIds);
-    console.log(seachKeywordList);
+  const onClickFinalSearch = async () => {
+    try {
+      console.log("최종 선택 키워드");
+      const selectedTagIds = selectedProductList.map((product) => product.id);
+      console.log(selectedTagIds);
+      console.log(seachKeywordList);
 
-    const data = {
-      words: seachKeywordList,
-      products: selectedTagIds,
-    };
+      const data = {
+        words: seachKeywordList,
+        products: selectedTagIds,
+      };
 
-    post(BaseUrl + "/api/data/get", data)
-      .then((res) => {
-        console.log(res);
-        setDataList(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {});
+      const response = await post(BaseUrl + "/api/data/get", data);
+      console.log(response);
+      setDataList(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const convertExcel = () => {
-    console.log("엑셀파일 요청");
+  const parseCSV = (csvString) => {
+    const lines = csvString.split("\n");
+    const headers = lines[0].split("|");
+
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split("|");
+      const obj = {};
+
+      for (let j = 0; j < headers.length; j++) {
+        obj[headers[j]] = values[j];
+      }
+
+      data.push(obj);
+    }
+
+    return data;
+  };
+
+  const convertExcel = async () => {
+    try {
+      const selectedTagIds = selectedProductList.map((product) => product.id);
+      const data = {
+        words: seachKeywordList,
+        products: selectedTagIds,
+      };
+
+      const [responseRelated, responsePosAndNeg] = await Promise.all([
+        post(BaseUrl + "/api/data/download-related-word-data", data),
+        post(BaseUrl + "/api/data/download-pos-and-neg-data", data),
+      ]);
+
+      console.log(responseRelated.data);
+      console.log(responsePosAndNeg.data);
+
+      const relatedData = parseCSV(responseRelated.data);
+      const posNegData = parseCSV(responsePosAndNeg.data);
+
+      const workbook = utils.book_new();
+
+      const relatedSheetOptions = {
+        header: ["검색어", "제품명", "단어", "빈도수"],
+      };
+      const posNegSheetOptions = {
+        header: ["검색어", "제품명", "긍정", "부정"],
+      };
+
+      const relatedWorksheet = utils.json_to_sheet(
+        relatedData,
+        relatedSheetOptions
+      );
+      const posNegWorksheet = utils.json_to_sheet(
+        posNegData,
+        posNegSheetOptions
+      );
+
+      utils.book_append_sheet(workbook, relatedWorksheet, "Related Data");
+      utils.book_append_sheet(workbook, posNegWorksheet, "Pos and Neg Data");
+
+      const currentDate = new Date();
+      const formattedDate = currentDate
+        .toLocaleString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+          timeZone: "Asia/Seoul",
+        })
+        .replace(/[-. ]/g, "")
+        .replace(/:/g, "");
+
+      const fileName = `ITEM_Data_${formattedDate}.xlsx`;
+
+      writeFile(workbook, fileName);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const categorySideBar = () => (
@@ -362,7 +449,9 @@ export const DataMain = () => {
                           <AppConversionRates
                             title={data.productName}
                             subheader="선택한 제품에 대한 연관어 언급량 결과"
-                            chartData={data.relatedWords}
+                            chartData={
+                              data.relatedWords ? data.relatedWords : []
+                            }
                           />
                         </Box>
                       </Grid>
@@ -381,16 +470,20 @@ export const DataMain = () => {
                         <AppCurrentVisits
                           title={data.productName}
                           subheader="검색한 제품에 대한 긍/부정도 분석 결과"
-                          chartData={[
-                            {
-                              label: "긍정적 반응",
-                              value: data.posAndNegDto.positive,
-                            },
-                            {
-                              label: "부정적 반응",
-                              value: data.posAndNegDto.negative,
-                            },
-                          ]}
+                          chartData={
+                            data.posAndNegDto.positive
+                              ? [
+                                  {
+                                    label: "긍정적 반응",
+                                    value: data.posAndNegDto.positive,
+                                  },
+                                  {
+                                    label: "부정적 반응",
+                                    value: data.posAndNegDto.negative,
+                                  },
+                                ]
+                              : []
+                          }
                           chartColors={[
                             theme.palette.primary.main,
                             theme.palette.error.main,
@@ -401,7 +494,7 @@ export const DataMain = () => {
                   ))}
                 </Grid>
               </Grid>
-            ) : (
+            ) : subscriptionState ? (
               <Grid
                 item
                 xs={12}
@@ -410,6 +503,38 @@ export const DataMain = () => {
                 <Typography variant="h4" sx={{ mt: 10 }}>
                   찾으시는 제품에 대한 결과가 없습니다.
                 </Typography>
+              </Grid>
+            ) : (
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="h4" sx={{ mt: 10 }}>
+                  구독 정보가 없습니다
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ opacity: 0.72, mb: 1, mr: 2, color: "MenuText" }}
+                >
+                  첫 결제 시 3개월간 월 5,000원부터!
+                </Typography>
+                <Button variant="contained" color="inherit">
+                  <Typography
+                    variant="h5"
+                    sx={{ opacity: 0.72, color: "MenuText" }}
+                    onClick={(e) => {
+                      navigate(`/mypage/subscription`);
+                    }}
+                  >
+                    구매 하러 가기{`▶`}
+                  </Typography>
+                </Button>
               </Grid>
             )}
           </Grid>

@@ -1,4 +1,3 @@
-
 import {
   Container,
   Grid,
@@ -23,7 +22,7 @@ export const Header = ({ title }) => {
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
           <BackButton />
           <Typography variant="h4" sx={{ fontWeight: "bold", ml: 3 }}>
-            {title}
+            예약 내역
           </Typography>
         </Box>
       </Container>{" "}

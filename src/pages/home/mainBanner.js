@@ -1,4 +1,4 @@
-import { Card, Paper, Typography } from "@mui/material";
+import { Card, Paper, Typography, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router";
 
@@ -41,10 +41,10 @@ export const MainBanner = ({ color = "primary" }) => {
         }}
       >
         <Typography variant="h5" sx={{}}>
-          ITEM에서 수리하고
+          요즘 IT 기기 뭐가 좋을까?
         </Typography>
         <Typography variant="h5" sx={{}}>
-          포인트 환급도 받으세요
+          IT 기기의 모든 것을 알려드립니다.
         </Typography>
       </Box>
 
@@ -58,32 +58,41 @@ export const MainBanner = ({ color = "primary" }) => {
           display: "grid",
         }}
       >
-        <Paper
-          variant="outlined"
-          sx={{ mx: 1, py: 2, textAlign: "left", display: "flex" }}
-          onClick={(e) => navigate(`/`)}
+        {" "}
+        <Link
+          href="/data"
+          color="inherit"
+          variant="subtitle2"
+          underline="hover"
         >
-          <Box sx={{ mb: 0.5, ml: 2 }}>
-            <Typography variant="h4" sx={{ color: "text.primary" }}>
-              최저가 견적받기
-            </Typography>
-            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-              많은 이용자가 최저가를 찾았어요!
-            </Typography>
-          </Box>
-          <StyledIcon
-            sx={{
-              color: (theme) => theme.palette[color].secondary,
-              backgroundImage: (theme) =>
-                `linear-gradient(135deg, ${alpha(
-                  theme.palette[color].dark,
-                  0
-                )} 0%, ${alpha(theme.palette[color].dark, 0.24)} 100%)`,
-            }}
+          <Paper
+            variant="outlined"
+            sx={{ mx: 1, py: 2, textAlign: "left", display: "flex" }}
+            onClick={(e) => navigate(`/`)}
           >
-            <Iconify icon={"maki:arrow"} width={20} height={10} />
-          </StyledIcon>
-        </Paper>
+            <Box sx={{ mb: 0.5, ml: 2 }}>
+              <Typography variant="h4" sx={{ color: "text.primary" }}>
+                ITEM 데이터센터 바로가기
+              </Typography>
+              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+                많은 이용자가 ITEM 데이터센터에 방문했어요
+              </Typography>
+            </Box>
+
+            <StyledIcon
+              sx={{
+                color: (theme) => theme.palette[color].secondary,
+                backgroundImage: (theme) =>
+                  `linear-gradient(135deg, ${alpha(
+                    theme.palette[color].dark,
+                    0
+                  )} 0%, ${alpha(theme.palette[color].dark, 0.24)} 100%)`,
+              }}
+            >
+              <Iconify icon={"maki:arrow"} width={20} height={10} />
+            </StyledIcon>
+          </Paper>
+        </Link>
       </Box>
     </Card>
   );

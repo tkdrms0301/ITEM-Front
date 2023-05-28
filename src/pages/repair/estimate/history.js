@@ -7,6 +7,7 @@ import { estimateHistoryForUser, estimateHistoryForRepair } from "../data/test";
 import { Box, Container } from "@mui/material";
 import { SelectFilter } from "../reservation/filter";
 import { get } from "../../../api";
+import { Header } from "./header";
 export const EstimateHistory = () => {
   //select filter
   const [selectValue, setSelectValue] = useState("전체");
@@ -81,9 +82,8 @@ export const EstimateHistory = () => {
 
   return (
     <>
-      <TitleButtonBar title={"견적 내역"} />
-
-      <Container sx={{ mt: "56px", p: 0, pt: "1%" }}>
+      <Header />
+      <Container sx={{ mt: 2, p: 0, pt: "1%" }}>
         <SearchDate
           firstDate={firstDate}
           setFirstDate={setFirstDate}

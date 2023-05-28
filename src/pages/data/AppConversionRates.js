@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import ReactApexChart from "react-apexcharts";
 // @mui
-import { Box, Card, CardHeader } from "@mui/material";
+import { Box, Card, CardHeader, Typography } from "@mui/material";
 // utils
 import { useChart } from "./chart";
 import { fNumber } from "./utils/formatNumber";
@@ -46,14 +46,28 @@ export default function AppConversionRates({
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Box sx={{ px: 3 }} dir="ltr">
-        <ReactApexChart
-          type="bar"
-          series={[{ data: chartSeries }]}
-          options={chartOptions}
-          height={300}
-        />
-      </Box>
+      {chartData.length !== 0 ? (
+        <Box sx={{ px: 3 }} dir="ltr">
+          <ReactApexChart
+            type="bar"
+            series={[{ data: chartSeries }]}
+            options={chartOptions}
+            height={300}
+          />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            pb: 3,
+            height: 300,
+          }}
+        >
+          <Typography variant="h5">데이터가 존재하지 않습니다.</Typography>
+        </Box>
+      )}
     </Card>
   );
 }

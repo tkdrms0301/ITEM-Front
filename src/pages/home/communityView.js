@@ -8,6 +8,8 @@ import {
   Typography,
   CardHeader,
   Link,
+  alpha,
+  useTheme,
 } from "@mui/material";
 import Iconify from "../../theme/Iconify";
 import Scrollbar from "../../component/scrollbar/Scrollbar";
@@ -25,9 +27,11 @@ export default function CommunityView({
   title,
   subheader,
   communityData,
+  color = "success",
   ...other
 }) {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   return (
     <Card
@@ -37,16 +41,37 @@ export default function CommunityView({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        bgcolor: theme.palette["success"].lighter,
       }}
     >
-      <CardHeader title={title} subheader={subheader} />
+      <CardHeader
+        title={title}
+        sx={{
+          py: 2,
+          backgroundImage: (theme) =>
+            `linear-gradient(135deg, ${alpha(
+              theme.palette["success"].darker,
+              0
+            )} 0%, ${alpha(theme.palette[color].darker, 0.07)} 100%)`,
+
+          bgcolor: (theme) => theme.palette["success"].lighter,
+          color: (theme) => theme.palette["success"].contrastText,
+        }}
+      />
       <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
         {communityData.map((posts) => (
           <PostItem key={posts.postId} posts={posts} />
         ))}
       </Stack>
       <Divider />
-      <Box sx={{ p: 2, textAlign: "right" }}>
+      <Box
+        sx={{
+          p: 2,
+          textAlign: "right",
+          bgcolor: (theme) => theme.palette["background"].default,
+          color: (theme) => theme.palette["success"].contrastText,
+        }}
+      >
         <Button
           size="small"
           color="inherit"
@@ -99,13 +124,21 @@ function PostItem({ posts }) {
         <Box sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
       )}
 
-      <Box sx={{ minWidth: 110, flexGrow: 1 }}>
+      <Box
+        sx={{
+          minWidth: 50,
+          flexGrow: 1,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
         <Link
           color="inherit"
           variant="subtitle2"
           underline="hover"
-          noWrap
           href={`/community/post/${postId}`}
+          sx={{}}
         >
           {title}
         </Link>
