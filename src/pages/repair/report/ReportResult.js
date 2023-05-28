@@ -103,6 +103,10 @@ export const ReportResult = ({ isRegist }) => {
   const onClickRegist = () => {
     //console.log("onClickRegist");
 
+    console.log(reportResultComment);
+    console.log(reportBeforeImgs[0]);
+    console.log(reportAfterImgs);
+
     navigate(
       {
         pathname: "/repair/readReport",

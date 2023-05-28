@@ -21,7 +21,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
           },
           {
             title: "커뮤니티 마이페이지",
-            nav: `/community/mypage/${userState.userId}`,
+            nav: `/community/mypage`,
             icon: "material-symbols:chat",
           },
 
@@ -39,7 +39,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
           },
           {
             title: "커뮤니티 마이페이지",
-            nav: `/community/mypage/${userState.userId}`,
+            nav: `/community/mypage/`,
             icon: "material-symbols:chat",
           },
           {
