@@ -24,12 +24,13 @@ import Iconify from "../../theme/Iconify";
 import { get, post } from "../../api";
 import { BaseUrl } from "../../api/BaseUrl";
 import { utils, writeFile } from "xlsx";
+import { useNavigate } from "react-router";
 
 export const DataMain = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
-
   const [brandList, setBrandList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
@@ -38,6 +39,7 @@ export const DataMain = () => {
   const [dataList, setDataList] = useState([]);
   const textFieldRef = useRef(null); // Create a ref for the Autocomplete TextField
   const [seachKeywordList, setSeachKeywordList] = useState([]);
+  const [subscriptionState, setSubscriptionState] = useState(false);
 
   const toggleSlider = () => {
     setOpen(!open);
@@ -58,6 +60,8 @@ export const DataMain = () => {
   useEffect(() => {
     get(BaseUrl + "/api/data/category")
       .then((res) => {
+        console.log(res);
+        setSubscriptionState(res.data.success);
         setCategoryList(res.data.data);
       })
       .catch((err) => {
@@ -490,7 +494,7 @@ export const DataMain = () => {
                   ))}
                 </Grid>
               </Grid>
-            ) : (
+            ) : subscriptionState ? (
               <Grid
                 item
                 xs={12}
@@ -499,6 +503,38 @@ export const DataMain = () => {
                 <Typography variant="h4" sx={{ mt: 10 }}>
                   찾으시는 제품에 대한 결과가 없습니다.
                 </Typography>
+              </Grid>
+            ) : (
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="h4" sx={{ mt: 10 }}>
+                  구독 정보가 없습니다
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ opacity: 0.72, mb: 1, mr: 2, color: "MenuText" }}
+                >
+                  첫 결제 시 3개월간 월 5,000원부터!
+                </Typography>
+                <Button variant="contained" color="inherit">
+                  <Typography
+                    variant="h5"
+                    sx={{ opacity: 0.72, color: "MenuText" }}
+                    onClick={(e) => {
+                      navigate(`/mypage/subscription`);
+                    }}
+                  >
+                    구매 하러 가기{`▶`}
+                  </Typography>
+                </Button>
               </Grid>
             )}
           </Grid>
