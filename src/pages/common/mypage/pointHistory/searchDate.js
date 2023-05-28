@@ -29,6 +29,7 @@ export const SearchDate = ({
         sx={{
           display: "flex",
           alignItems: "center",
+          padding: "0 1rem",
         }}
       >
         <Grid item xs={4}>

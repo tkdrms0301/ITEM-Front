@@ -7,6 +7,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import { get, post } from "../../../api";
 import palette from "../../../theme/palette";
+import { Header } from "./header";
 
 export const ReservationHistoryDetail = () => {
   const { reservationId } = useParams();
@@ -95,11 +96,11 @@ export const ReservationHistoryDetail = () => {
               alt="requsetImg"
             />
           </Modal>
-          <TitleButtonBar title="예약 내역" />
+          <Header />
           <Container
             sx={{
               pt: "1%",
-              mt: "56px",
+              mt: 2,
             }}
           >
             <Card
