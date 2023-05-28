@@ -15,9 +15,24 @@ import { useNavigate } from "react-router";
 import { PlanList } from "./planList";
 import { post } from "../../../api";
 import { BaseUrl } from "../../../api/BaseUrl";
+import { useEffect, useState } from "react";
 
 export const SubscriptionMain = () => {
   const navigate = useNavigate();
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const trialStartButton = () => {
     // navigate("/sign");
@@ -72,7 +87,7 @@ export const SubscriptionMain = () => {
 
   return (
     <>
-      <Header />
+      {windowWidth <= 1200 && <Header />}
       <Container>
         <Box
           sx={{
