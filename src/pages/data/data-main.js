@@ -144,11 +144,11 @@ export const DataMain = () => {
 
   const parseCSV = (csvString) => {
     const lines = csvString.split("\n");
-    const headers = lines[0].split(",");
+    const headers = lines[0].split("|");
 
     const data = [];
     for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(",");
+      const values = lines[i].split("|");
       const obj = {};
 
       for (let j = 0; j < headers.length; j++) {
@@ -174,8 +174,10 @@ export const DataMain = () => {
         post(BaseUrl + "/api/data/download-pos-and-neg-data", data),
       ]);
 
-      const relatedData = parseCSV(responseRelated.data);
+      console.log(responseRelated.data);
+      console.log(responsePosAndNeg.data);
 
+      const relatedData = parseCSV(responseRelated.data);
       const posNegData = parseCSV(responsePosAndNeg.data);
 
       const workbook = utils.book_new();
