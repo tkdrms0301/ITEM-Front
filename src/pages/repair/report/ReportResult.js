@@ -14,6 +14,8 @@ import {
   Box,
 } from "@mui/material";
 import { Header } from "./header";
+import { get, post } from "../../../api";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const ReportResult = ({ isRegist }) => {
   const [modalState, setModalState] = useState(false);
@@ -37,12 +39,18 @@ export const ReportResult = ({ isRegist }) => {
   useEffect(() => {
     if (isRegist) {
       setReportResultId(location.state?.repairResultId);
-      setReportResult(RepairReportData);
+      setReservationId(location.state?.repairId);
+      get(BaseUrl + "/api/repair/report/info", {
+        params: { reservationId: location.state?.repairId },
+      }).then((res) => {
+        console.log(res.data.data);
+        setReportResult(res.data.data);
+      });
     } else {
       setReservationId(location.state?.repairId);
       setReportResult(RepairReportData);
     }
-  }, [isRegist]);
+  }, []);
 
   //report
   const [showReportDialog, setShowReportDialog] = useState(false);
@@ -100,19 +108,42 @@ export const ReportResult = ({ isRegist }) => {
       };
     }
   };
-  const onClickRegist = () => {
-    //console.log("onClickRegist");
+  const onClickRegist = async () => {
+    const formData = new FormData();
+    formData.append("reservationId", reservationId);
+    formData.append("reportResultComment", reportResultComment);
 
-    console.log(reportResultComment);
-    console.log(reportBeforeImgs[0]);
-    console.log(reportAfterImgs);
+    // reportBeforeImgs 추가
+    for (let i = 0; i < reportBeforeImgs.length; i++) {
+      formData.append("reportBeforeImgs", reportBeforeImgs[i]);
+    }
 
-    navigate(
-      {
-        pathname: "/repair/readReport",
-      },
-      { state: { repairId: 1, prevIsRegist: true } }
-    );
+    // reportAfterImgs 추가
+    for (let i = 0; i < reportAfterImgs.length; i++) {
+      formData.append("reportAfterImgs", reportAfterImgs[i]);
+    }
+
+    try {
+      const response = await post(
+        BaseUrl + "/api/repair/report/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // navigate(
+    //   {
+    //     pathname: "/repair/readReport",
+    //   },
+    //   { state: { repairId: reservationId, prevIsRegist: true } }
+    // );
   };
 
   const topButtonByIsRegist = () => {
@@ -383,11 +414,11 @@ export const ReportResult = ({ isRegist }) => {
               <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
                 <Box
                   component="img"
-                  src="https://via.placeholder.com/150"
+                  src={reportResult.productImageUrl}
                   sx={{ width: 100, height: 100 }}
                 />
                 <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                  {reportResult.prodName}
+                  {reportResult.productName}
                 </Typography>
               </Box>
             </Card>
@@ -404,9 +435,7 @@ export const ReportResult = ({ isRegist }) => {
                 신청 정보
               </Typography>
               <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
-                <Typography variant="body2">
-                  {reportResult.reservationRequest}
-                </Typography>
+                <Typography variant="body2">{reportResult.comment}</Typography>
               </Box>
             </Card>
             <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
