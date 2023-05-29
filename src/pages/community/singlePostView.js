@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
 import { BackButton } from "../../component/backButton";
@@ -10,8 +9,16 @@ import { ReportDialog } from "./component/reportDialog";
 import { PostContent } from "./component/postContent";
 import { ReplyDialog } from "./component/replyDialog";
 import { get } from "../../api";
+import { set } from "date-fns";
 
 export const SinglePostView = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [state] = useState(location.state || {});
+  useEffect(() => {
+    navigate(".", { replace: true });
+  }, [navigate]);
+
   //report
   const [showReportDialog, setShowReportDialog] = useState(false);
   const [reportType, setReportType] = useState("");
@@ -54,7 +61,6 @@ export const SinglePostView = () => {
 
   const handleClose = () => {
     setTargetCommentId(null);
-    setTargetCommentContent("");
     isNotUpdating();
     setOpen(false);
   };
@@ -108,24 +114,6 @@ export const SinglePostView = () => {
 
   // load moreButton
 
-  // load comments
-
-  const [targetCommentContent, setTargetCommentContent] = useState("");
-  useEffect(() => {
-    if (targetCommentId === null) return;
-    get(`${testBaseURL}/community/post/${postid}/comments`)
-      .then((response) => {
-        const content = response.data.data.comments.find(
-          (comment) => comment.id === targetCommentId
-        );
-        setTargetCommentContent(content.content);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [targetCommentId]);
-  // load comments end
-
   const [loaded, setLoaded] = useState(false);
 
   const MoreButtonForPost = () => {
@@ -143,6 +131,25 @@ export const SinglePostView = () => {
   };
   // load moreButton end
 
+  const [focusOnComment, setFocusOnComment] = useState(
+    state.focusOnComment !== undefined ? false : true
+  );
+  const commentsSectionRef = useRef();
+
+  useEffect(() => {
+    if (focusOnComment === true) {
+      setTimeout(() => {
+        scrollToComment();
+      }, 300);
+      setFocusOnComment(false);
+    }
+  }, []);
+
+  const scrollToComment = () => {
+    //alignToTop
+    commentsSectionRef.current.scrollIntoView();
+  };
+
   return (
     <>
       <Grid
@@ -154,7 +161,6 @@ export const SinglePostView = () => {
           height: "56px",
           position: "fixed",
           backgroundColor: "white",
-          maxWidth: "sm",
           zIndex: 100,
         }}
       >
@@ -182,12 +188,15 @@ export const SinglePostView = () => {
           <PostContent postId={postid} post={post} />
         </Box>
         <hr />
-        <Box sx={{ padding: "3%" }}>
+        <Box ref={commentsSectionRef} sx={{ padding: "3%" }}>
           <Button
             onClick={handleOpen}
             variant="contained"
+            color="inherit"
             fullWidth={true}
-            sx={{ mb: "3%" }}
+            sx={{
+              mb: "3%",
+            }}
           >
             댓글 작성
           </Button>
@@ -214,7 +223,6 @@ export const SinglePostView = () => {
         <ReplyDialog
           postId={postid}
           commentId={targetCommentId}
-          commentContent={targetCommentContent}
           onHandleClose={handleClose}
           isUpdate={isUpdate}
           setIsUpdate={setIsUpdate}

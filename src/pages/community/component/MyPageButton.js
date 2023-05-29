@@ -10,6 +10,8 @@ export const MyPageButton = (props) => {
           sx={{
             width: "100%",
             height: "100%",
+            borderRadius: 0,
+            backgroundColor: "white",
           }}
         >
           <PersonIcon sx={{ fontSize: "40px" }} />

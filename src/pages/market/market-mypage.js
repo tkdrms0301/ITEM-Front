@@ -1,9 +1,13 @@
-export const UserMarketMyPage = () => {
+import { UserMarketMypage } from "./user/market-mypage";
+
+export const MarketMyPage = () => {
   return (
     <>
-      <div>
-        <h1>MarketMyPage</h1>
-      </div>
+      {localStorage.getItem("user").roleType === "SELLER" ? (
+        <UserMarketMypage />
+      ) : (
+        <UserMarketMypage />
+      )}
     </>
   );
 };

@@ -14,14 +14,14 @@ export const CommunityMain = () => {
         container
         sx={{
           position: "fixed",
-          bgcolor: "white",
-          height: "56px",
-          maxWidth: "sm",
+          backgroundColor: "black",
+          height: 3,
+          width: "100%",
           zIndex: 100,
         }}
       >
         <Grid item xs={8} sx={{ height: "100%" }}>
-          <SearchBar />
+          <SearchBar url={"/community/search"} />
         </Grid>
         <Grid item xs={4}>
           <MyPageButton userId={userId} />
@@ -30,7 +30,7 @@ export const CommunityMain = () => {
           <hr />
         </Grid>
       </Grid>
-      <Box sx={{ mt: "56px" }}>
+      <Box sx={{ mt: 7 }}>
         <PostsList query={query} />
       </Box>
     </>

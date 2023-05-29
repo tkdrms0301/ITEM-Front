@@ -2,7 +2,7 @@ export const SellerMarketMain = () => {
   return (
     <>
       <div>
-        <h1>MarketMain</h1>
+        <h1>SellerMarketMain</h1>
       </div>
     </>
   );

@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppBar, Button, Grid, TextField } from "@mui/material";
-import axios from "axios";
 import { testBaseURL } from "../testing-String";
 import { get, post, put } from "../../../api/index";
+import { useNavigate } from "react-router-dom";
 
 export const ReplyDialog = ({
   onHandleClose,
   postId,
   commentId,
-  commentContent,
+
   isUpdate,
   setIsUpdate,
 }) => {
+  const navigate = useNavigate();
+
   const [reply, setReply] = useState("");
   const [load, setLoad] = useState(false);
   if (isUpdate && !load) {
@@ -23,10 +25,14 @@ export const ReplyDialog = ({
       .catch((err) => {
         console.log(err);
       });
-    console.log("replyaa", commentContent);
   }
 
   const handleSubmit = () => {
+    if (reply.trim() === "") {
+      alert("답글을 입력해주세요.");
+      document.getElementById("reply").focus();
+      return;
+    }
     onHandleClose();
     let url = "";
     if (isUpdate) {
@@ -37,7 +43,7 @@ export const ReplyDialog = ({
         }
       )
         .then((res) => {
-          window.location.reload();
+          navigate(0, { state: { focusOnComment: true } });
         })
         .catch((err) => {
           console.log(err);
@@ -47,7 +53,7 @@ export const ReplyDialog = ({
         content: reply,
       })
         .then((res) => {
-          window.location.reload();
+          navigate(0, { state: { focusOnComment: true } });
         })
         .catch((err) => {
           console.log(err);
@@ -69,7 +75,7 @@ export const ReplyDialog = ({
   };
 
   const appBarStyle = {
-    bgcolor: "#B9BDC1",
+    backgroundColor: (theme) => theme.palette.grey[400],
     height: "20vh",
     top: "auto",
     bottom: "56px",
@@ -124,10 +130,10 @@ export const ReplyDialog = ({
             type="submit"
             onClick={handleSubmit}
             variant="contained"
+            color="primary"
             sx={{
               height: "7vh",
               width: "100%",
-              backgroundColor: "#1f497d",
             }}
           >
             작성

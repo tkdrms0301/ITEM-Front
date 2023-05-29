@@ -1,9 +1,14 @@
+import { SellerMarketMain } from "./seller/market-main";
+import { UserMarketMain } from "./user/market-main";
+
 export const MarketMain = () => {
   return (
     <>
-      <div>
-        <h1>Market Main</h1>
-      </div>
+      {localStorage.getItem("user").roleType === "SELLER" ? (
+        <SellerMarketMain />
+      ) : (
+        <UserMarketMain />
+      )}
     </>
   );
 };

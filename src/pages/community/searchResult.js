@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
 import { BackButton } from "../../component/backButton";
@@ -19,7 +18,6 @@ export const SearchResult = () => {
           position: "fixed",
           bgcolor: "white",
           zIndex: 100,
-          maxWidth: "sm",
           width: "100%",
         }}
       >
