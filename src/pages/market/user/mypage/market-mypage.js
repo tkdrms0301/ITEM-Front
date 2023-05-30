@@ -2,8 +2,7 @@ import { Card, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { TitleButtonBar } from "../../../component/titleButtonBar";
-import { Header } from "./component/header";
+import { Header } from "../component/header";
 
 export const UserMarketMypage = () => {
   const [userState, setUserState] = useState({
