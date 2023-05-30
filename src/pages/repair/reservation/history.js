@@ -7,6 +7,7 @@ import { reservationHistoryForUser } from "../data/test";
 import { Box, Container } from "@mui/material";
 import { SelectFilter } from "./filter";
 import { get } from "../../../api";
+import { Header } from "./header";
 
 export const ReservationHistory = () => {
   //select filter
@@ -43,8 +44,6 @@ export const ReservationHistory = () => {
       );
     });
 
-    console.log(data);
-    console.log(filteredDataByDate);
     setFilteredData(filteredDataByDate);
   };
   //search date end
@@ -87,9 +86,9 @@ export const ReservationHistory = () => {
 
   return (
     <>
-      <TitleButtonBar title={"예약 내역"} />
+      <Header />
 
-      <Container sx={{ mt: "56px", p: 0, pt: "1%" }}>
+      <Container sx={{ mt: 2, p: 0, pt: "1%" }}>
         <SearchDate
           firstDate={firstDate}
           setFirstDate={setFirstDate}

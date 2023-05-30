@@ -30,15 +30,22 @@ export const PublicRepairShopList = () => {
         position: locPosition,
       });
     }
-    var iwContent =
-      '<div style="width:200px;text-align:center;padding:6px 0;">' +
-      message +
-      "</div>";
+    marker.setMap(map);
 
-    var infowindow = new kakao.maps.InfoWindow({
-      content: iwContent,
+    var content =
+      '<div class="customoverlay">' +
+      "  <div>" +
+      '    <span class="title">' +
+      message +
+      "</span>" +
+      "  </div>" +
+      "</div>";
+    var customOverlay = new kakao.maps.CustomOverlay({
+      map: map,
+      position: locPosition,
+      content: content,
+      yAnchor: 1,
     });
-    infowindow.open(map, marker);
   }
 
   useEffect(() => {

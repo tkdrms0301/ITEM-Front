@@ -24,20 +24,37 @@ const StyledIcon = styled("div")(({ theme }) => ({
 const list = [
   {
     name: "이용내역",
-    icon: <Iconify icon={"ic:baseline-history"} color="#1877F2" width={27} />,
+    icon: (
+      <Iconify
+        sx={{
+          color: (theme) => theme.palette["success"].darker,
+        }}
+        icon={"ic:baseline-history"}
+        width={27}
+      />
+    ),
     link: "/mypage/point/history",
+    color: "success",
   },
   {
     name: "포인트 충전",
     icon: <Iconify icon={"zondicons:add-outline"} color="#DF3E30" width={27} />,
     link: "/mypage/point/rechargeMain",
+    color: "error",
   },
   {
     name: "교환소",
     icon: (
-      <Iconify icon={"icon-park-outline:change"} color="#1C9CEA" width={27} />
+      <Iconify
+        icon={"icon-park-outline:change"}
+        sx={{
+          color: (theme) => theme.palette["warning"].darker,
+        }}
+        width={27}
+      />
     ),
     link: "/mypage/point/dex",
+    color: "warning",
   },
 ];
 
@@ -50,6 +67,8 @@ export const Point = ({ userState, color = "primary" }) => {
         pb: 1,
         boxShadow: 10,
         textAlign: "right",
+        bgcolor: (theme) => theme.palette["primary"].lighter,
+        color: (theme) => theme.palette["primary"].darker,
       }}
     >
       <Box
@@ -95,7 +114,13 @@ export const Point = ({ userState, color = "primary" }) => {
             <Paper
               key={index}
               variant="outlined"
-              sx={{ mx: 1, py: 2, textAlign: "center" }}
+              sx={{
+                mx: 1,
+                py: 2,
+                textAlign: "center",
+                bgcolor: (theme) => theme.palette[data.color].lighter,
+                color: (theme) => theme.palette[data.color].darker,
+              }}
               onClick={(e) =>
                 navigate(
                   { pathname: data.link },
@@ -103,9 +128,15 @@ export const Point = ({ userState, color = "primary" }) => {
                 )
               }
             >
-              <Box sx={{ mb: 0.5 }}>{data.icon}</Box>
+              <Box
+                sx={{
+                  mb: 0.5,
+                }}
+              >
+                {data.icon}
+              </Box>
 
-              <Typography variant="body2" sx={{ color: "text.primary" }}>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                 {data.name}
               </Typography>
             </Paper>

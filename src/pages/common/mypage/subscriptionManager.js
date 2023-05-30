@@ -32,6 +32,8 @@ export const SubscriptionManager = ({ userState, color = "primary" }) => {
         pb: 1,
         boxShadow: 10,
         textAlign: "right",
+        bgcolor: (theme) => theme.palette["secondary"].lighter,
+        color: (theme) => theme.palette["secondary"].darker,
         backgroundImage: (theme) =>
           `linear-gradient(135deg, ${alpha(
             theme.palette[color].dark,

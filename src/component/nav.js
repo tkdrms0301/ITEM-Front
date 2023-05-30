@@ -30,7 +30,7 @@ export default function SimpleBottomNavigation({ content }) {
         width: "100%",
         position: "fixed",
         bottom: 0,
-        borderTop: `1px solid black`,
+        borderTop: `1px solid #DFE3E8`,
         zIndex: 1200,
       }}
     >
