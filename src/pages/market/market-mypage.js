@@ -1,4 +1,4 @@
-import { UserMarketMypage } from "./user/market-mypage";
+import { UserMarketMypage } from "./user/mypage/market-mypage";
 
 export const MarketMyPage = () => {
   return (

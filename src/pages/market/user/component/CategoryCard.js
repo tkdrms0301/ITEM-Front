@@ -10,15 +10,22 @@ export const CategoryCard = ({ category, title, image }) => {
       }}
       sx={{
         width: "100%",
-        aspectRatio: "1 / 1",
         p: 3,
         boxShadow: 10,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        "&:hover": {
+          bgcolor: "action.selected",
+          fontWeight: "fontWeightBold",
+        },
       }}
     >
       <Box
         component={"img"}
         src={image}
-        sx={{ width: "100%", height: "100%" }}
+        sx={{ width: "50%", height: "auto" }}
       ></Box>
       <Box display={"flex"} justifyContent={"center"}>
         <Typography variant="h6">{title}</Typography>

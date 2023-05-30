@@ -140,12 +140,9 @@ export const ReportResult = ({ isRegist }) => {
       );
 
       if (response.data.data) {
-        navigate(
-          {
-            pathname: "/repair/readReport",
-          },
-          { state: { repairId: reservationId } }
-        );
+        navigate({
+          pathname: "/repair/mypage/reservation",
+        });
         alert("등록이 완료되었습니다.");
         window.location.reload();
       }
@@ -296,7 +293,7 @@ export const ReportResult = ({ isRegist }) => {
     } else {
       return (
         <>
-          {reportResult.beforeRepairResultImages !== undefined ? (
+          {reportResult.beforeRepairResultImages !== null ? (
             <Box>
               {reportResult.beforeRepairResultImages.map((img, index) => (
                 <Box key={index} sx={{ width: "100px", height: "130px" }}>
@@ -320,7 +317,7 @@ export const ReportResult = ({ isRegist }) => {
               ))}
             </Box>
           ) : null}
-          {reportResult.afterRepairResultImages !== undefined ? (
+          {reportResult.afterRepairResultImages !== null ? (
             <Box>
               {reportResult.afterRepairResultImages.map((img, index) => (
                 <Box key={index} sx={{ width: "100px", height: "130px" }}>

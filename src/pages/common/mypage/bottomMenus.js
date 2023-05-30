@@ -27,7 +27,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
 
           {
             title: "마켓 페이지",
-            nav: `/`,
+            nav: `/market/mypage`,
             icon: "healthicons:market-stall-outline",
           },
         ]
@@ -44,7 +44,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
           },
           {
             title: "마켓 페이지",
-            nav: `/`,
+            nav: `/market/mypage`,
             icon: "healthicons:market-stall-outline",
           },
         ];
@@ -77,7 +77,6 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
       <List
         sx={{
           width: "100%",
-          maxWidth: 360,
           bgcolor: (theme) => theme.palette["background"].default,
         }}
       >

@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Typography } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import CircleIcon from "@mui/icons-material/Circle";
+import ShopProductCard from "./ProductCard";
+
+// ----------------------------------------------------------------------
 
 export const ProductCarousel = ({ data }) => {
   const navigate = useNavigate();
   const [index, setIndex] = useState(1);
   const [transition, setTransition] = useState(true);
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
       <SwipeableViews
         enableMouseEvents
         index={index}
@@ -33,12 +43,27 @@ export const ProductCarousel = ({ data }) => {
         }}
       >
         <Box></Box>
+        {data.map((data) => (
+          <Box
+            key={data.id}
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <ShopProductCard product={data} />
+          </Box>
+        ))}
+        {/* 
         {data.map((product) => (
           <Box
             key={product.id}
             sx={{
               display: "flex",
               justifyContent: "center",
+              alignItems: "center",
               flexWrap: "wrap",
             }}
           >
@@ -49,7 +74,7 @@ export const ProductCarousel = ({ data }) => {
                 navigate(`/market/product/${product.id}`);
               }}
               sx={{
-                width: "40%",
+                width: "30%",
                 height: "auto",
                 boxShadow: 10,
               }}
@@ -66,13 +91,14 @@ export const ProductCarousel = ({ data }) => {
               </Typography>
             </Box>
           </Box>
-        ))}
+        ))} */}
         <Box></Box>
       </SwipeableViews>
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
         }}
       >
         {data.map((product, i) => (
