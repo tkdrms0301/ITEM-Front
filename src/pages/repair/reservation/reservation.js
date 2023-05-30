@@ -454,6 +454,26 @@ export const Reservation = () => {
       window.alert(completed.msg);
     }
   };
+
+  //현재시간 이전 시간들 disabled
+  var currentTime = new Date();
+  var currentHour = currentTime.getHours();
+  var currentMinute = currentTime.getMinutes();
+
+  var filteredTimes = openedTime.filter((time) => {
+    if (reservationData.date === new Date().toISOString().split("T")[0]) {
+      // 오늘 날짜인 경우 현재 시간 이전의 시간들을 필터링
+      var [hour, minute] = time.time.split(":");
+      return (
+        parseInt(hour) > currentHour ||
+        (parseInt(hour) === currentHour && parseInt(minute) >= currentMinute)
+      );
+    } else {
+      // 오늘 이후의 날짜인 경우 모든 시간을 허용
+      return true;
+    }
+  });
+
   return (
     <>
       <Header title={isUpdate ? "예약 수정" : "예약 신청"} />
@@ -483,7 +503,7 @@ export const Reservation = () => {
                     justifyContent: "center",
                   }}
                 >
-                  {openedTime.map((time) => {
+                  {filteredTimes.map((time) => {
                     return (
                       <ToggleButton
                         key={time.time}
