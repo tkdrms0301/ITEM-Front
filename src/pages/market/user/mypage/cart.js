@@ -23,12 +23,9 @@ import {
   Dialog,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Header } from "../component/header";
 
 import { cartData } from "../testdata";
-import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 export const CartPage = () => {

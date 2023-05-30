@@ -20,7 +20,7 @@ ProductCard.propTypes = {
 };
 
 export default function ProductCard({ product }) {
-  const { name, thumbnailUrl, comment, cost } = product;
+  const { name, thumbnailUrl, comment, price } = product;
 
   return (
     <Grid container>
@@ -55,7 +55,7 @@ export default function ProductCard({ product }) {
 
             <Typography variant="subtitle1" sx={{ mt: 1 }}>
               &nbsp;
-              {fCurrency(cost) + " P"}
+              {fCurrency(price) + " P"}
             </Typography>
           </Box>
         </Card>

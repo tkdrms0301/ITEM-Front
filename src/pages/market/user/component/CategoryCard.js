@@ -1,7 +1,7 @@
 import { Box, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export const CategoryCard = ({ categoryId, title, image }) => {
+export const CategoryCard = ({ categoryId, name, url }) => {
   const navigate = useNavigate();
   return (
     <Card
@@ -9,7 +9,7 @@ export const CategoryCard = ({ categoryId, title, image }) => {
         navigate(`/market/products`, {
           state: {
             categoryId: categoryId,
-            title: title,
+            name: name,
           },
         });
       }}
@@ -29,12 +29,12 @@ export const CategoryCard = ({ categoryId, title, image }) => {
     >
       <Box
         component={"img"}
-        src={image}
+        src={url}
         sx={{ width: "60%", height: "auto" }}
       ></Box>
       <Box display={"flex"} justifyContent={"center"}>
         <Typography variant="body2" sx={{ fontSize: "10px" }}>
-          {title}
+          {name}
         </Typography>
       </Box>
     </Card>
