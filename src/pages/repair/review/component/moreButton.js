@@ -24,12 +24,24 @@ export const MoreButton = (props) => {
     handleClose();
   };
 
+  const handleUpdateCommentOpen = () => {
+    props.handleReplyOpen();
+    props.setReplyInfo({
+      ...props.replyInfo,
+      reviewId: props.comment.id,
+      rating: props.comment.rating,
+      content: props.comment.reviewContent,
+      isComment: true,
+      isUpdate: true,
+    });
+  };
+
   const handleUpdate = () => {
     props.handleReplyOpen();
     props.setReplyInfo({
       ...props.replyInfo,
       reply: props.commentContent,
-      rating: props.rating,
+
       commentId: props.commentId,
       shopId: props.shopId,
       ownerId: props.ownerId,
@@ -60,7 +72,7 @@ export const MoreButton = (props) => {
       </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {props.sessionId === props.ownerId && (
-          <MenuItem onClick={handleUpdate}>수정</MenuItem>
+          <MenuItem onClick={handleUpdateCommentOpen}>수정</MenuItem>
         )}
         {props.sessionId === props.ownerId && (
           <MenuItem onClick={handleDelete}>삭제</MenuItem>

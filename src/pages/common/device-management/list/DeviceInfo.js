@@ -71,7 +71,8 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
             브랜드 : {infoData.brandName}
           </Typography>
         </Grid>
-        {parts.length !== 0 ? (
+        {console.log(infoData)}
+        {infoData.brandId === 1 ? (
           <Grid item xs={12}>
             <Grid
               container

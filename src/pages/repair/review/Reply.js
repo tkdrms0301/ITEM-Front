@@ -2,7 +2,7 @@ import { Box, Button, Grid, Typography, Rating, Card } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
 import { useState } from "react";
 
-const Review = ({
+const Reply = ({
   sessionId,
   handleReplyOpen,
   handleReportOpen,
@@ -11,7 +11,7 @@ const Review = ({
   setReportInfo,
   replyInfo,
   setReplyInfo,
-  setOpenReply,
+  shopId,
 }) => {
   const handleReply = () => {
     handleReplyOpen();
@@ -22,7 +22,11 @@ const Review = ({
   };
 
   return (
-    <Card sx={{ borderRadius: "4px", padding: 3 }}>
+    <Card
+      sx={{
+        borderRadius: "4px",
+        padding: 3,
+      }}>
       <Grid container>
         <Grid item xs={12}>
           <Grid
@@ -32,28 +36,19 @@ const Review = ({
             spacing={1}>
             <Grid item xs={isReply ? 10 : 5}>
               <Typography variant="subtitle1" fontWeight="bold" align="left">
-                {comment.userNickname}
+                {comment.repairShopNickname}
               </Typography>
             </Grid>
-            {isReply ? null : (
-              <Grid item xs={5}>
-                <Rating
-                  readOnly
-                  name="simple-controlled"
-                  value={comment.rating}
-                />
-              </Grid>
-            )}
 
             <Grid item xs={2}>
               <MoreButton
-                ownerId={comment.userNickname}
-                shopId={comment.shopId}
+                ownerId={comment.repairShopNickname}
+                commentId={comment.id}
+                shopId={shopId}
                 handleReplyOpen={handleReplyOpen}
                 handleReportOpen={handleReportOpen}
                 setReportInfo={setReportInfo}
-                setOpenReply={setOpenReply}
-                comment={comment}
+                commentContent={comment.replyInfo}
                 sessionId={sessionId}
                 isReply={isReply}
                 replyInfo={replyInfo}
@@ -69,7 +64,7 @@ const Review = ({
             justifyContent="center"
             spacing={1}>
             <Grid item xs={!isReply ? 10 : 12}>
-              <Typography align="left">{comment.reviewContent}</Typography>
+              <Typography align="left">{comment.replyContent}</Typography>
             </Grid>
             <Grid item xs={2}>
               {!isReply &&
@@ -86,4 +81,4 @@ const Review = ({
     </Card>
   );
 };
-export default Review;
+export default Reply;
