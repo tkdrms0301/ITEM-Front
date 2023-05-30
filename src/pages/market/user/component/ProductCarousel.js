@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Box, Grid, Typography } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import CircleIcon from "@mui/icons-material/Circle";
-import ShopProductCard from "./ProductCard";
+import ProductCard from "./ProductCard";
 
 // ----------------------------------------------------------------------
 
@@ -50,48 +50,13 @@ export const ProductCarousel = ({ data }) => {
               width: "100%",
               display: "flex",
               justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <ShopProductCard product={data} />
-          </Box>
-        ))}
-        {/* 
-        {data.map((product) => (
-          <Box
-            key={product.id}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
               alignItems: "center",
               flexWrap: "wrap",
             }}
           >
-            <Avatar
-              src={product.imageUrl}
-              alt=""
-              onClick={() => {
-                navigate(`/market/product/${product.id}`);
-              }}
-              sx={{
-                width: "30%",
-                height: "auto",
-                boxShadow: 10,
-              }}
-            ></Avatar>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="h4" sx={{ mt: 1 }}>
-                {product.name}
-              </Typography>
-            </Box>
+            <ProductCard product={data} />
           </Box>
-        ))} */}
+        ))}
         <Box></Box>
       </SwipeableViews>
       <Box

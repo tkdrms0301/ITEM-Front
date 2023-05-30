@@ -1,16 +1,21 @@
 import { Box, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export const CategoryCard = ({ category, title, image }) => {
+export const CategoryCard = ({ categoryId, title, image }) => {
   const navigate = useNavigate();
   return (
     <Card
       onClick={() => {
-        navigate(`/market/products/?category=${category}`);
+        navigate(`/market/products`, {
+          state: {
+            categoryId: categoryId,
+            title: title,
+          },
+        });
       }}
       sx={{
         width: "100%",
-        p: 3,
+        p: 1,
         boxShadow: 10,
         display: "flex",
         flexDirection: "column",
@@ -25,10 +30,12 @@ export const CategoryCard = ({ category, title, image }) => {
       <Box
         component={"img"}
         src={image}
-        sx={{ width: "50%", height: "auto" }}
+        sx={{ width: "60%", height: "auto" }}
       ></Box>
       <Box display={"flex"} justifyContent={"center"}>
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="body2" sx={{ fontSize: "10px" }}>
+          {title}
+        </Typography>
       </Box>
     </Card>
   );

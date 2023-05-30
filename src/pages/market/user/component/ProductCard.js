@@ -1,71 +1,65 @@
 import PropTypes from "prop-types";
 // @mui
-import { Box, Card, Link, Typography, Stack } from "@mui/material";
+import { Box, Card, Link, Typography, Stack, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 // components
-
 import { fCurrency } from "../../../data/utils/formatNumber";
-import Label from "../../../../component/label/Label";
 
 // ----------------------------------------------------------------------
 
 const StyledProductImg = styled("img")({
-  top: 0,
-  width: "100%",
-  height: "100%",
-  objectFit: "cover",
-  position: "absolute",
+  width: 150,
+  maxHeight: 150,
 });
 
 // ----------------------------------------------------------------------
 
-ShopProductCard.propTypes = {
+ProductCard.propTypes = {
   product: PropTypes.object,
 };
 
-export default function ShopProductCard({ product }) {
-  const { name, cover, price, status } = product;
+export default function ProductCard({ product }) {
+  const { name, thumbnailUrl, comment, cost } = product;
 
   return (
-    <Card>
-      <Box sx={{ pt: "90%", position: "relative" }}>
-        {status && (
-          <Label
-            variant="filled"
-            color={(status === "sale" && "error") || "info"}
+    <Grid container>
+      <Grid item xs={12}>
+        <Card sx={{ boxShadow: 10 }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <StyledProductImg alt={name} src={thumbnailUrl} />
+          </Box>
+
+          <Box
             sx={{
-              zIndex: 9,
-              top: 16,
-              right: 16,
-              position: "absolute",
-              textTransform: "uppercase",
+              height: 150,
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+              width: "100%",
             }}
           >
-            {status}
-          </Label>
-        )}
-        <StyledProductImg alt={name} src={cover} />
-      </Box>
+            <Link color="inherit" underline="hover">
+              <Typography variant="subtitle2" noWrap sx={{ width: 130 }}>
+                {name}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                noWrap
+                sx={{ width: 130, mt: 0.5, mb: 1 }}
+              >
+                {comment}
+              </Typography>
+            </Link>
 
-      <Stack spacing={1} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover">
-          <Typography variant="subtitle2" noWrap>
-            {name}
-          </Typography>
-        </Link>
-
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography variant="subtitle1">
-            &nbsp;
-            {fCurrency(price) + " P"}
-          </Typography>
-        </Stack>
-      </Stack>
-    </Card>
+            <Typography variant="subtitle1" sx={{ mt: 1 }}>
+              &nbsp;
+              {fCurrency(cost) + " P"}
+            </Typography>
+          </Box>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
