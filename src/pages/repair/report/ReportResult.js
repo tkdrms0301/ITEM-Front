@@ -147,7 +147,7 @@ export const ReportResult = ({ isRegist }) => {
           { state: { repairId: reservationId } }
         );
         alert("등록이 완료되었습니다.");
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       console.error(error);
@@ -296,7 +296,7 @@ export const ReportResult = ({ isRegist }) => {
     } else {
       return (
         <>
-          {reportResult ? (
+          {reportResult.beforeRepairResultImages ? (
             <Box>
               {reportResult.beforeRepairResultImages.map((img, index) => (
                 <Box key={index} sx={{ width: "100px", height: "130px" }}>
@@ -320,7 +320,7 @@ export const ReportResult = ({ isRegist }) => {
               ))}
             </Box>
           ) : null}
-          {reportResult ? (
+          {reportResult.afterRepairResultImages ? (
             <Box>
               {reportResult.afterRepairResultImages.map((img, index) => (
                 <Box key={index} sx={{ width: "100px", height: "130px" }}>
@@ -429,8 +429,8 @@ export const ReportResult = ({ isRegist }) => {
           />
         )}
         {reportInfo ? (
-          <Container>
-            <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
+          <Container sx={{ my: 2 }}>
+            <Card sx={{ boxShadow: 10, my: 2, py: 1 }}>
               <Typography
                 variant="h5"
                 sx={{
