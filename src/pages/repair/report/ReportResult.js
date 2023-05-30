@@ -31,25 +31,27 @@ export const ReportResult = ({ isRegist }) => {
   const location = useLocation();
 
   const [reservationId, setReservationId] = useState(0);
-  const [reportResultId, setReportResultId] = useState(0);
   const [reportResult, setReportResult] = useState();
+  const [reportInfo, setReportInfo] = useState();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isRegist) {
-      setReportResultId(location.state?.repairResultId);
-      setReservationId(location.state?.repairId);
-      get(BaseUrl + "/api/repair/report/info", {
-        params: { reservationId: location.state?.repairId },
-      }).then((res) => {
-        console.log(res.data.data);
-        setReportResult(res.data.data);
-      });
-    } else {
-      setReservationId(location.state?.repairId);
-      setReportResult(RepairReportData);
-    }
+    setReservationId(location.state?.repairId);
+
+    get(BaseUrl + "/api/repair/report/info", {
+      params: { reservationId: location.state?.repairId },
+    }).then((res) => {
+      console.log(res.data.data);
+      setReportInfo(res.data.data);
+    });
+
+    get(BaseUrl + "/api/repair/report", {
+      params: { reservationId: location.state?.repairId },
+    }).then((res) => {
+      console.log(res.data.data);
+      setReportResult(res.data.data);
+    });
   }, []);
 
   //report
@@ -109,21 +111,30 @@ export const ReportResult = ({ isRegist }) => {
     }
   };
   const onClickRegist = async () => {
+    console.log(reservationId);
+    console.log(reportResultComment);
     const formData = new FormData();
     formData.append("reservationId", reservationId);
     formData.append("reportResultComment", reportResultComment);
 
     // reportBeforeImgs 추가
     for (let i = 0; i < reportBeforeImgs.length; i++) {
-      formData.append("reportBeforeImgs", reportBeforeImgs[i]);
+      const file = reportBeforeImgs[i];
+      const blob = new Blob([file], { type: file.type }); // File 객체를 Blob으로 변환
+      formData.append("reportBeforeImgs", blob, file.name); // Blob 형식으로 추가
     }
 
     // reportAfterImgs 추가
     for (let i = 0; i < reportAfterImgs.length; i++) {
-      formData.append("reportAfterImgs", reportAfterImgs[i]);
+      const file = reportAfterImgs[i];
+      const blob = new Blob([file], { type: file.type }); // File 객체를 Blob으로 변환
+      formData.append("reportAfterImgs", blob, file.name); // Blob 형식으로 추가
     }
 
     try {
+      for (const entry of formData.entries()) {
+        console.log(entry);
+      }
       const response = await post(
         BaseUrl + "/api/repair/report/create",
         formData,
@@ -277,11 +288,11 @@ export const ReportResult = ({ isRegist }) => {
       return (
         <>
           <Box>
-            {reportResult.reservationImgs.map((img, index) => (
+            {reportResult.afterRepairResultImages.map((img, index) => (
               <Box key={index} sx={{ width: "100px", height: "130px" }}>
                 <Box
                   component="img"
-                  src={img.reservationImg}
+                  src={img}
                   alt="after"
                   sx={{
                     border: "1px solid #f1f1f1",
@@ -292,18 +303,18 @@ export const ReportResult = ({ isRegist }) => {
                   }}
                   onClick={() => {
                     setModalState(true);
-                    setModalImgState(img.reservationImg);
+                    setModalImgState(img);
                   }}
                 />
               </Box>
             ))}
           </Box>
           <Box>
-            {reportResult.reservationResultImgs.map((img, index) => (
+            {reportResult.beforeRepairResultImages.map((img, index) => (
               <Box key={index} sx={{ width: "100px", height: "130px" }}>
                 <Box
                   component="img"
-                  src={img.reservationResultImg}
+                  src={img}
                   alt="after"
                   sx={{
                     border: "1px solid #f1f1f1",
@@ -314,7 +325,7 @@ export const ReportResult = ({ isRegist }) => {
                   }}
                   onClick={() => {
                     setModalState(true);
-                    setModalImgState(img.reservationResultImg);
+                    setModalImgState(img);
                   }}
                 />
               </Box>
@@ -380,7 +391,7 @@ export const ReportResult = ({ isRegist }) => {
 
   return (
     <>
-      {reportResult ? (
+      {reportInfo ? (
         <Box>
           <Modal isOpen={modalState} style={modalStyles} ariaHideApp={false}>
             <img
@@ -414,11 +425,11 @@ export const ReportResult = ({ isRegist }) => {
               <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
                 <Box
                   component="img"
-                  src={reportResult.productImageUrl}
+                  src={reportInfo.productImageUrl}
                   sx={{ width: 100, height: 100 }}
                 />
                 <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                  {reportResult.productName}
+                  {reportInfo.productName}
                 </Typography>
               </Box>
             </Card>
@@ -435,7 +446,7 @@ export const ReportResult = ({ isRegist }) => {
                 신청 정보
               </Typography>
               <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
-                <Typography variant="body2">{reportResult.comment}</Typography>
+                <Typography variant="body2">{reportInfo.comment}</Typography>
               </Box>
             </Card>
             <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
