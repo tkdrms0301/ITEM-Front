@@ -17,6 +17,7 @@ import { get, put } from "../../../../api";
 import { useLocation } from "react-router-dom";
 import palette from "../../../../theme/palette";
 import typography from "../../../../theme/typography";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const ServiceListUpdateMain = () => {
   const location = useLocation();
@@ -29,7 +30,7 @@ export const ServiceListUpdateMain = () => {
   const serviceDescriptionRef = useRef();
 
   useEffect(() => {
-    get("http://localhost:8080/api/repair/serviceList/info", {
+    get( BaseUrl + "/api/repair/serviceList/info", {
       params: {
         serviceId: location.state.selectedId,
       },
@@ -60,7 +61,7 @@ export const ServiceListUpdateMain = () => {
       description: serviceDescriptionRef.current.value,
       servicePrice: servicePriceRef.current.value,
     };
-    put("http://localhost:8080/api/repair/serviceList/info", data)
+    put(BaseUrl + "/api/repair/serviceList/info", data)
       .then((response) => {
         if (response.data) window.location.replace("/mypage/serviceList/panel");
         else {

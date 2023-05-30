@@ -29,20 +29,26 @@ const MENU_OPTIONS = [
 
 export const AccountPopover = ({ userState }) => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [currentTarget, setCurrentTarget] = useState(null);
 
   const handleOpen = (event) => {
-    setOpen(event.currentTarget);
+    setOpen(true);
+    setCurrentTarget(event.currentTarget);
   };
 
   const handleClose = () => {
-    setOpen(null);
+    setOpen(false);
   };
 
   const logOutClick = (e) => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("user");
-    window.location.replace("/");
+    if (window.innerWidth < 1200) {
+      window.location.replace("/");
+    } else {
+      window.location.replace("/data");
+    }
   };
 
   return (
@@ -86,8 +92,8 @@ export const AccountPopover = ({ userState }) => {
             <Avatar src={userState.imgUrl} alt="photoURL" />
           </IconButton>
           <Popover
-            open={Boolean(open)}
-            anchorEl={open}
+            open={open}
+            anchorEl={currentTarget}
             onClose={handleClose}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "right" }}

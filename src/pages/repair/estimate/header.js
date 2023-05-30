@@ -1,7 +1,17 @@
-import { Container, Grid, Typography } from "@mui/material";
+
+import {
+  Container,
+  Grid,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Avatar,
+} from "@mui/material";
+
 import { BackButton } from "../../../component/backButton";
 
-export const Header = ({ title, handleReportDialogOpen }) => {
+export const Header = () => {
   return (
     <>
       <Container
@@ -10,19 +20,12 @@ export const Header = ({ title, handleReportDialogOpen }) => {
           borderBottom: "2px solid gray",
         }}
       >
-        <Grid
-          container
-          sx={{ height: "56px", display: "flex", alignItems: "center" }}
-        >
-          <Grid item xs={1.5}>
-            <BackButton />
-          </Grid>
-          <Grid item xs={10.5}>
-            <Typography variant="h4" sx={{ ml: 3 }}>
-              {title}
-            </Typography>
-          </Grid>
-        </Grid>
+        <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>
+          <BackButton />
+          <Typography variant="h4" sx={{ fontWeight: "bold", ml: 3 }}>
+            견적 내역
+          </Typography>
+        </Box>
       </Container>{" "}
     </>
   );

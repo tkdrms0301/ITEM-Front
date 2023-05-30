@@ -213,10 +213,32 @@ const DevicePartRegister = ({
           </Grid>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 2 }}>
-          <Button variant="contained" onClick={registerCloseHandle}>
+          <Button
+            variant="contained"
+            onClick={registerCloseHandle}
+            color="inherit"
+            sx={{
+              color: "ButtonText",
+              bgcolor: "ButtonFace",
+              "&.active": {
+                bgcolor: "action.selected",
+                fontWeight: "fontWeightBold",
+              },
+            }}>
             취소
           </Button>
-          <Button variant="contained" onClick={partRegister}>
+          <Button
+            variant="contained"
+            onClick={partRegister}
+            color="inherit"
+            sx={{
+              color: "ButtonText",
+              bgcolor: "ButtonFace",
+              "&.active": {
+                bgcolor: "action.selected",
+                fontWeight: "fontWeightBold",
+              },
+            }}>
             등록
           </Button>
         </DialogActions>

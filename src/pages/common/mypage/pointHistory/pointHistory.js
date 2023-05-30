@@ -9,8 +9,9 @@ import { Container } from "@mui/system";
 import { Card } from "@mui/material";
 
 export const PointHistory = () => {
-  const [firstDate, setFirstDate] = useState(dayjs("2021-01-01"));
-  const [secondaryDate, setSecondaryDate] = useState(dayjs("2023-05-02"));
+  const currentDate = dayjs().startOf("month").format("YYYY-MM-DD");
+  const [firstDate, setFirstDate] = useState(dayjs(currentDate));
+  const [secondaryDate, setSecondaryDate] = useState(dayjs());
   const [itemList, setItemList] = useState([]);
 
   const buttonSubmit = () => {
@@ -64,7 +65,7 @@ export const PointHistory = () => {
             list={itemList.map((data, index) => ({
               id: data.id,
               title: data.serviceName,
-              point : data.point.toLocaleString(),
+              point: data.point.toLocaleString(),
               type: `order${index + 1}`,
               time: data.date,
             }))}

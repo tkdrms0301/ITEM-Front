@@ -59,7 +59,11 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-            <Link to="/" component={RouterLink} sx={{ display: "contents" }}>
+            <Link
+              to={window.innerWidth < 1200 ? "/" : "/data"}
+              component={RouterLink}
+              sx={{ display: "contents" }}
+            >
               {logo}
             </Link>
           </Grid>
