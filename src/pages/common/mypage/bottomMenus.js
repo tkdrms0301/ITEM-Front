@@ -21,7 +21,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
           },
           {
             title: "커뮤니티 마이페이지",
-            nav: `/community/mypage/${userState.userId}`,
+            nav: `/community/mypage`,
             icon: "material-symbols:chat",
           },
 
@@ -39,7 +39,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
           },
           {
             title: "커뮤니티 마이페이지",
-            nav: `/community/mypage/${userState.userId}`,
+            nav: `/community/mypage/`,
             icon: "material-symbols:chat",
           },
           {
@@ -78,8 +78,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
         sx={{
           width: "100%",
           maxWidth: 360,
-          bgcolor: (theme) => theme.palette["primary"].lighter,
-          color: (theme) => theme.palette["primary"].darker,
+          bgcolor: (theme) => theme.palette["background"].default,
         }}
       >
         {list.map((data, index) => (
@@ -89,7 +88,7 @@ export const BottomMenus = ({ userState, color = "primary" }) => {
             sx={{
               borderBottom:
                 index !== list.length - 1
-                  ? `2px solid ${theme.palette.success.lighter}`
+                  ? `2px solid ${theme.palette.grey[400]}`
                   : "none",
             }}
           >

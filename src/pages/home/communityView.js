@@ -15,6 +15,7 @@ import Iconify from "../../theme/Iconify";
 import Scrollbar from "../../component/scrollbar/Scrollbar";
 import { useNavigate } from "react-router";
 import { format } from "date-fns";
+import palette from "../../theme/palette";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +42,6 @@ export default function CommunityView({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        bgcolor: theme.palette["success"].lighter,
       }}
     >
       <CardHeader
@@ -53,12 +53,11 @@ export default function CommunityView({
               theme.palette["success"].darker,
               0
             )} 0%, ${alpha(theme.palette[color].darker, 0.07)} 100%)`,
-
           bgcolor: (theme) => theme.palette["success"].lighter,
           color: (theme) => theme.palette["success"].contrastText,
         }}
       />
-      <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+      <Stack>
         {communityData.map((posts) => (
           <PostItem key={posts.postId} posts={posts} />
         ))}
@@ -68,7 +67,7 @@ export default function CommunityView({
         sx={{
           p: 2,
           textAlign: "right",
-          bgcolor: (theme) => theme.palette["background"].default,
+          bgcolor: (theme) => theme.palette["success"].lighter,
           color: (theme) => theme.palette["success"].contrastText,
         }}
       >
@@ -77,6 +76,7 @@ export default function CommunityView({
           color="inherit"
           endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
           onClick={(e) => navigate(`/community`)}
+          sx={{}}
         >
           내 IT기기 묻고 답하기
         </Button>
@@ -107,21 +107,27 @@ function PostItem({ posts }) {
   const { postId, title, content, image, date } = posts;
 
   return (
-    <Stack direction="row" alignItems="center" spacing={3}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      sx={{ borderBottom: `1px solid ${palette.grey[500]}`, py: 1 }}
+    >
       {image !== null ? (
         <Box
           component="img"
           alt={title}
           src={image}
           sx={{
-            width: 48,
-            height: 48,
+            width: 80,
+            height: "auto",
             borderRadius: 1.5,
             flexShrink: 0,
+            maxWidth: "100%",
+            maxHeight: "100%",
           }}
         />
       ) : (
-        <Box sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
+        <Box sx={{ width: 15, borderRadius: 1.5, flexShrink: 0 }} />
       )}
 
       <Box
