@@ -52,7 +52,7 @@ export const ReportResult = ({ isRegist }) => {
       console.log(res.data.data);
       setReportResult(res.data.data);
     });
-  }, []);
+  }, [isRegist]);
 
   //report
   const [showReportDialog, setShowReportDialog] = useState(false);
@@ -87,6 +87,9 @@ export const ReportResult = ({ isRegist }) => {
   const onClickBeforeImgPlus = () => {
     beforeImageInput.current.click();
   };
+  const onClickAfterImgPlus = () => {
+    afterImageInput.current.click();
+  };
   const saveBeforeImgFile = () => {
     if (beforeImageInput.current && beforeImageInput.current.files.length > 0) {
       const file = beforeImageInput.current.files[0];
@@ -97,9 +100,7 @@ export const ReportResult = ({ isRegist }) => {
       };
     }
   };
-  const onClickAfterImgPlus = () => {
-    afterImageInput.current.click();
-  };
+
   const saveAfterImgFile = () => {
     if (afterImageInput.current && afterImageInput.current.files.length > 0) {
       const file = afterImageInput.current.files[0];
@@ -111,30 +112,23 @@ export const ReportResult = ({ isRegist }) => {
     }
   };
   const onClickRegist = async () => {
-    console.log(reservationId);
-    console.log(reportResultComment);
     const formData = new FormData();
     formData.append("reservationId", reservationId);
     formData.append("reportResultComment", reportResultComment);
 
     // reportBeforeImgs 추가
     for (let i = 0; i < reportBeforeImgs.length; i++) {
-      const file = reportBeforeImgs[i];
-      const blob = new Blob([file], { type: file.type }); // File 객체를 Blob으로 변환
-      formData.append("reportBeforeImgs", blob, file.name); // Blob 형식으로 추가
+      const fileData = dataURItoBlob(reportBeforeImgs[i]);
+      formData.append("reportBeforeImgs", fileData, `reportBeforeImg_${i}`);
     }
 
     // reportAfterImgs 추가
     for (let i = 0; i < reportAfterImgs.length; i++) {
-      const file = reportAfterImgs[i];
-      const blob = new Blob([file], { type: file.type }); // File 객체를 Blob으로 변환
-      formData.append("reportAfterImgs", blob, file.name); // Blob 형식으로 추가
+      const fileData = dataURItoBlob(reportAfterImgs[i]);
+      formData.append("reportAfterImgs", fileData, `reportAfterImg_${i}`);
     }
 
     try {
-      for (const entry of formData.entries()) {
-        console.log(entry);
-      }
       const response = await post(
         BaseUrl + "/api/repair/report/create",
         formData,
@@ -144,17 +138,32 @@ export const ReportResult = ({ isRegist }) => {
           },
         }
       );
-      console.log(response.data.data);
+
+      if (response.data.data) {
+        navigate(
+          {
+            pathname: "/repair/readReport",
+          },
+          { state: { repairId: reservationId } }
+        );
+        alert("등록이 완료되었습니다.");
+        window.location.reload();
+      }
     } catch (error) {
       console.error(error);
     }
+  };
 
-    // navigate(
-    //   {
-    //     pathname: "/repair/readReport",
-    //   },
-    //   { state: { repairId: reservationId, prevIsRegist: true } }
-    // );
+  // Data URI를 Blob 객체로 변환하는 함수
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(",")[1]);
+    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
   };
 
   const topButtonByIsRegist = () => {
@@ -287,50 +296,54 @@ export const ReportResult = ({ isRegist }) => {
     } else {
       return (
         <>
-          <Box>
-            {reportResult.afterRepairResultImages.map((img, index) => (
-              <Box key={index} sx={{ width: "100px", height: "130px" }}>
-                <Box
-                  component="img"
-                  src={img}
-                  alt="after"
-                  sx={{
-                    border: "1px solid #f1f1f1",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    my: 1,
-                  }}
-                  onClick={() => {
-                    setModalState(true);
-                    setModalImgState(img);
-                  }}
-                />
-              </Box>
-            ))}
-          </Box>
-          <Box>
-            {reportResult.beforeRepairResultImages.map((img, index) => (
-              <Box key={index} sx={{ width: "100px", height: "130px" }}>
-                <Box
-                  component="img"
-                  src={img}
-                  alt="after"
-                  sx={{
-                    border: "1px solid #f1f1f1",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    my: 1,
-                  }}
-                  onClick={() => {
-                    setModalState(true);
-                    setModalImgState(img);
-                  }}
-                />
-              </Box>
-            ))}
-          </Box>
+          {reportResult ? (
+            <Box>
+              {reportResult.beforeRepairResultImages.map((img, index) => (
+                <Box key={index} sx={{ width: "100px", height: "130px" }}>
+                  <Box
+                    component="img"
+                    src={img}
+                    alt="after"
+                    sx={{
+                      border: "1px solid #f1f1f1",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      my: 1,
+                    }}
+                    onClick={() => {
+                      setModalState(true);
+                      setModalImgState(img);
+                    }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          ) : null}
+          {reportResult ? (
+            <Box>
+              {reportResult.afterRepairResultImages.map((img, index) => (
+                <Box key={index} sx={{ width: "100px", height: "130px" }}>
+                  <Box
+                    component="img"
+                    src={img}
+                    alt="after"
+                    sx={{
+                      border: "1px solid #f1f1f1",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      my: 1,
+                    }}
+                    onClick={() => {
+                      setModalState(true);
+                      setModalImgState(img);
+                    }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          ) : null}
         </>
       );
     }
@@ -358,15 +371,22 @@ export const ReportResult = ({ isRegist }) => {
     } else {
       return (
         <Container>
-          <Card sx={{ mt: 2, boxShadow: 10, py: 2, px: 2 }}>
-            <Typography
-              variant="h4"
-              sx={{ borderBottom: "2px solid", borderColor: palette.grey[400] }}
-            >
-              정비 담당자의 코멘트
-            </Typography>
-            <Typography variant="subtitle1">{reportResult.comment}</Typography>
-          </Card>
+          {reportResult ? (
+            <Card sx={{ mt: 2, boxShadow: 10, py: 2, px: 2 }}>
+              <Typography
+                variant="h4"
+                sx={{
+                  borderBottom: "2px solid",
+                  borderColor: palette.grey[400],
+                }}
+              >
+                정비 담당자의 코멘트
+              </Typography>
+              <Typography variant="subtitle1">
+                {reportResult.comment}
+              </Typography>
+            </Card>
+          ) : null}
         </Container>
       );
     }
@@ -391,24 +411,24 @@ export const ReportResult = ({ isRegist }) => {
 
   return (
     <>
-      {reportInfo ? (
-        <Box>
-          <Modal isOpen={modalState} style={modalStyles} ariaHideApp={false}>
-            <img
-              src={modalImgState}
-              onClick={() => setModalState(false)}
-              style={modalImgStyles}
-              alt="beforeImg"
-            />
-          </Modal>
-          {isRegist ? (
-            <Header title={"정비 리포트 등록"} />
-          ) : (
-            <Header
-              title={"정비 리포트"}
-              handleReportDialogOpen={handleReportDialogOpen}
-            />
-          )}
+      <Box>
+        <Modal isOpen={modalState} style={modalStyles} ariaHideApp={false}>
+          <img
+            src={modalImgState}
+            onClick={() => setModalState(false)}
+            style={modalImgStyles}
+            alt="beforeImg"
+          />
+        </Modal>
+        {isRegist ? (
+          <Header title={"정비 리포트 등록"} />
+        ) : (
+          <Header
+            title={"정비 리포트"}
+            handleReportDialogOpen={handleReportDialogOpen}
+          />
+        )}
+        {reportInfo ? (
           <Container>
             <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
               <Typography
@@ -445,6 +465,7 @@ export const ReportResult = ({ isRegist }) => {
               >
                 신청 정보
               </Typography>
+
               <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
                 <Typography variant="body2">{reportInfo.comment}</Typography>
               </Box>
@@ -506,18 +527,18 @@ export const ReportResult = ({ isRegist }) => {
             </Card>
             {topButtonByIsRegist()}
           </Container>
-          {showReportDialog && (
-            <ReportDialog
-              reportType={reportType}
-              reportReason={reportReason}
-              reportTarget={reportTarget}
-              reportComment={reportComment}
-              onReportCancel={handleReportCancel}
-              onReportSubmit={handleReportSubmit}
-            />
-          )}
-        </Box>
-      ) : null}
+        ) : null}
+        {showReportDialog && (
+          <ReportDialog
+            reportType={reportType}
+            reportReason={reportReason}
+            reportTarget={reportTarget}
+            reportComment={reportComment}
+            onReportCancel={handleReportCancel}
+            onReportSubmit={handleReportSubmit}
+          />
+        )}
+      </Box>
     </>
   );
 };
