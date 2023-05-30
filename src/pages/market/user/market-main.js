@@ -204,7 +204,7 @@ export const UserMarketMain = ({ color = "primary" }) => {
                   justifyContent="center"
                 >
                   <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
-                    이번주 가장 많이 팔린 상품은?
+                    이번 주 가장 많이 팔린 상품은?
                   </Typography>
                 </Grid>
                 <Grid
