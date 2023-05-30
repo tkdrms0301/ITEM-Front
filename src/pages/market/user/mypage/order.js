@@ -1,12 +1,9 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Header } from "../component/header";
 import { useEffect, useState } from "react";
-
 import { AddressSearch } from "./order/addressSearch";
-
 import { orderData } from "../testdata";
 import { CustomCard } from "./order/customCard";
-import { BorderBottom } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 export const OrderPage = () => {
@@ -150,16 +147,16 @@ export const OrderPage = () => {
                 content={
                   <Grid container justifyContent={"flex-end"} sx={{ pr: 2 }}>
                     <Typography
-                      variant={"h5"}
+                      variant={"h6"}
                       sx={{
                         color:
                           data.balance < data.totalPrice ? "orangered" : "blue",
                       }}
                     >
-                      잔액 : {data.balance}Point
+                      잔액 : {data.balance} ITEM 포인트
                     </Typography>
-                    <Typography variant={"h5"}>
-                      최종 결제 포인트 : {data.totalPrice}Point
+                    <Typography variant={"h6"}>
+                      최종 결제 포인트 : {data.totalPrice} ITEM 포인트
                     </Typography>
                     {data.balance < data.totalPrice ? (
                       <Box

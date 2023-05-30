@@ -38,6 +38,7 @@ import { CartPage } from "./pages/market/user/mypage/cart";
 import { OrderPage } from "./pages/market/user/mypage/order";
 import { MarketProductsListPage } from "./pages/market/user/productList";
 import { MarketProductPage } from "./pages/market/user/product";
+import { HistoryDetailPage } from "./pages/market/user/mypage/hitoryDetail";
 
 export const routes = [
   {
@@ -151,6 +152,10 @@ export const routes = [
   {
     path: "/market/mypage/history",
     element: <OrderHistoryPage />,
+  },
+  {
+    path: "/market/mypage/history/detail",
+    element: <HistoryDetailPage />,
   },
   {
     path: "/market/mypage/cart",
