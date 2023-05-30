@@ -3,6 +3,7 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { post } from "../../../api";
 
 const MoreButtonRepair = ({ data, role }) => {
   const navigate = useNavigate();
@@ -24,6 +25,22 @@ const MoreButtonRepair = ({ data, role }) => {
     e.stopPropagation();
     handleClose(e);
     navigate(`/repair/privateShops/${data.repairShopId}/update/${data.id}`);
+  };
+
+  const handleCancel = (e) => {
+    e.stopPropagation();
+    handleClose(e);
+
+    post("http://localhost:8080/api/repair/reservation/cancel", {
+      reservationId: data.id,
+    })
+      .then((res) => {
+        alert("예약이 취소되었습니다.");
+        window.location.reload();
+      })
+      .catch((error) => {
+        // 에러 처리
+      });
   };
 
   const handleDelete = (e) => {
@@ -58,7 +75,10 @@ const MoreButtonRepair = ({ data, role }) => {
           }}
         >
           {data.status === "예약 대기" && (
-            <MenuItem onClick={(e) => handleUpdate(e)}>수정</MenuItem>
+            <>
+              {/* <MenuItem onClick={(e) => handleUpdate(e)}>수정</MenuItem> */}
+              <MenuItem onClick={(e) => handleCancel(e)}>취소</MenuItem>
+            </>
           )}
           {data.status === "정비 완료" && (
             <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
