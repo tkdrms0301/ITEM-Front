@@ -114,18 +114,25 @@ function PostItem({ posts }) {
     >
       {image !== null ? (
         <Box
-          component="img"
-          alt={title}
-          src={image}
           sx={{
             width: 80,
-            height: "auto",
-            borderRadius: 1.5,
-            flexShrink: 0,
-            maxWidth: "100%",
-            maxHeight: "100%",
+            height: 50,
+            display: "flex",
+            justifyContent: "center",
           }}
-        />
+        >
+          <Box
+            component="img"
+            alt={title}
+            src={image}
+            sx={{
+              borderRadius: 1.5,
+              flexShrink: 0,
+              maxWidth: "100%",
+              maxHeight: "100%",
+            }}
+          />
+        </Box>
       ) : (
         <Box sx={{ width: 15, borderRadius: 1.5, flexShrink: 0 }} />
       )}
