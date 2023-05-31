@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { post } from "../../../../api";
+import { post, remove } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const MoreButton = (props) => {
@@ -65,8 +65,10 @@ export const MoreButton = (props) => {
     handleClose();
     console.log(props.comment.reviewId);
     if (window.confirm(`댓글을 삭제하시겠습니까 ?`)) {
-      post(BaseUrl + "/api/repair/review/delete", {
-        reviewId: props.comment.reviewId,
+      remove(BaseUrl + "/api/repair/review/delete", {
+        params: {
+          reviewId: props.comment.reviewId,
+        },
       })
         .then((res) => {
           if (res.data.success) {
@@ -85,7 +87,7 @@ export const MoreButton = (props) => {
     handleClose();
     console.log(props.comment.replyId);
     if (window.confirm(`답글을 삭제하시겠습니까 ?`)) {
-      post(BaseUrl + "/api/repair/reply/delete", {
+      remove(BaseUrl + "/api/repair/reply/delete", {
         params: {
           replyId: props.comment.replyId,
         },
@@ -109,19 +111,22 @@ export const MoreButton = (props) => {
         aria-label="more"
         aria-controls="more-menu"
         aria-haspopup="true"
-        onClick={handleMenuOpen}>
+        onClick={handleMenuOpen}
+      >
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {props.sessionId === props.ownerId && (
           <MenuItem
-            onClick={props.isReply ? handleReplyUpdate : handleCommentUpdate}>
+            onClick={props.isReply ? handleReplyUpdate : handleCommentUpdate}
+          >
             수정
           </MenuItem>
         )}
         {props.sessionId === props.ownerId && (
           <MenuItem
-            onClick={props.isReply ? handleReplyDelete : handleCommentDelete}>
+            onClick={props.isReply ? handleReplyDelete : handleCommentDelete}
+          >
             삭제
           </MenuItem>
         )}
