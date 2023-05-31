@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { post } from "../../../../api";
+import { post, remove } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const MoreButton = (props) => {
@@ -65,7 +65,7 @@ export const MoreButton = (props) => {
     handleClose();
     console.log(props.comment.reviewId);
     if (window.confirm(`댓글을 삭제하시겠습니까 ?`)) {
-      post(BaseUrl + "/api/repair/review/delete", {
+      remove(BaseUrl + "/api/repair/review/delete", {
         reviewId: props.comment.reviewId,
       })
         .then((res) => {
@@ -83,12 +83,12 @@ export const MoreButton = (props) => {
 
   const handleReplyDelete = () => {
     handleClose();
-    console.log(props.comment.replyId);
+    const replyId = {
+      replyId: props.comment.replyId,
+    };
     if (window.confirm(`답글을 삭제하시겠습니까 ?`)) {
-      post(BaseUrl + "/api/repair/reply/delete", {
-        params: {
-          replyId: props.comment.replyId,
-        },
+      remove(BaseUrl + "/api/repair/reply/delete", {
+        params: replyId,
       })
         .then((res) => {
           if (res.data.success) {
