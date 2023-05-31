@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { post, remove } from "../../../../api";
+import { remove } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const MoreButton = (props) => {
@@ -27,14 +27,6 @@ export const MoreButton = (props) => {
   };
 
   useEffect(() => {}, [props.replyInfo]);
-
-  const handleDelete = () => {
-    handleClose();
-    const type = props.isReply ? "답글" : "댓글";
-    if (window.confirm(`${type}을 삭제하시겠습니까 ?`)) {
-      console.log(`${type} ${props.commentId} 삭제 완료!`);
-    }
-  };
 
   const handleCommentUpdate = () => {
     props.handleUpdateCommentOpen();
@@ -66,7 +58,9 @@ export const MoreButton = (props) => {
     console.log(props.comment.reviewId);
     if (window.confirm(`댓글을 삭제하시겠습니까 ?`)) {
       remove(BaseUrl + "/api/repair/review/delete", {
-        reviewId: props.comment.reviewId,
+        params: {
+          reviewId: props.comment.reviewId,
+        },
       })
         .then((res) => {
           if (res.data.success) {
@@ -83,12 +77,11 @@ export const MoreButton = (props) => {
 
   const handleReplyDelete = () => {
     handleClose();
-    const replyId = {
-      replyId: props.comment.replyId,
-    };
     if (window.confirm(`답글을 삭제하시겠습니까 ?`)) {
       remove(BaseUrl + "/api/repair/reply/delete", {
-        params: replyId,
+        params: {
+          replyId: props.comment.replyId,
+        },
       })
         .then((res) => {
           if (res.data.success) {
