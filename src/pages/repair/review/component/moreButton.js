@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { post, remove } from "../../../../api";
+import { remove } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const MoreButton = (props) => {
@@ -27,14 +27,6 @@ export const MoreButton = (props) => {
   };
 
   useEffect(() => {}, [props.replyInfo]);
-
-  const handleDelete = () => {
-    handleClose();
-    const type = props.isReply ? "답글" : "댓글";
-    if (window.confirm(`${type}을 삭제하시겠습니까 ?`)) {
-      console.log(`${type} ${props.commentId} 삭제 완료!`);
-    }
-  };
 
   const handleCommentUpdate = () => {
     props.handleUpdateCommentOpen();
@@ -85,7 +77,6 @@ export const MoreButton = (props) => {
 
   const handleReplyDelete = () => {
     handleClose();
-    console.log(props.comment.replyId);
     if (window.confirm(`답글을 삭제하시겠습니까 ?`)) {
       remove(BaseUrl + "/api/repair/reply/delete", {
         params: {
@@ -111,22 +102,19 @@ export const MoreButton = (props) => {
         aria-label="more"
         aria-controls="more-menu"
         aria-haspopup="true"
-        onClick={handleMenuOpen}
-      >
+        onClick={handleMenuOpen}>
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {props.sessionId === props.ownerId && (
           <MenuItem
-            onClick={props.isReply ? handleReplyUpdate : handleCommentUpdate}
-          >
+            onClick={props.isReply ? handleReplyUpdate : handleCommentUpdate}>
             수정
           </MenuItem>
         )}
         {props.sessionId === props.ownerId && (
           <MenuItem
-            onClick={props.isReply ? handleReplyDelete : handleCommentDelete}
-          >
+            onClick={props.isReply ? handleReplyDelete : handleCommentDelete}>
             삭제
           </MenuItem>
         )}

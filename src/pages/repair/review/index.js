@@ -166,11 +166,18 @@ const Reviews = ({ shopId }) => {
     })
       .then((res) => {
         console.log(res.data.data);
-        setComments(res.data.data.content);
-        setPage({
-          page: page.page + 1,
-          hasMore: !res.data.data.last,
-        });
+        if (res.data.data.length === 0) {
+          setPage({
+            page: 0,
+            hasMore: false,
+          });
+        } else {
+          setComments(res.data.data.content);
+          setPage({
+            page: page.page + 1,
+            hasMore: !res.data.data.last,
+          });
+        }
       })
       .catch((error) => {
         console.log(error);
