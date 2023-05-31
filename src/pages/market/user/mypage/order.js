@@ -122,7 +122,7 @@ export const OrderPage = () => {
                   <Box>
                     {data.orderItems.map((item, index) => {
                       return (
-                        <Box>
+                        <Box key={index}>
                           <Grid
                             container
                             alignItems={"center"}
