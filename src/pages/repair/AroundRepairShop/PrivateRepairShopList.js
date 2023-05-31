@@ -117,10 +117,11 @@ export const PrivateRepairShopList = () => {
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(searchRepairShop.toLocaleLowerCase().replace(" ", "")) ||
-      p.address
-        .replace(" ", "")
-        .toLocaleLowerCase()
-        .includes(searchRepairShop.toLocaleLowerCase().replace(" ", ""))
+      (p.address &&
+        p.address
+          .replace(" ", "")
+          .toLocaleLowerCase()
+          .includes(searchRepairShop.toLocaleLowerCase().replace(" ", "")))
     );
   });
 
@@ -145,7 +146,7 @@ export const PrivateRepairShopList = () => {
           blocking={false}
         >
           <div className="repair_list">
-            {sortedRepairShopList
+            {sortedRepairShopList && filterName // sortedRepairShopList와 filterName이 정의된 경우에만 렌더링
               ? searchRepairShop
                 ? filterName
                     .sort((a, b) => a.distance - b.distance)

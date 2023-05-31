@@ -38,6 +38,7 @@ export const PostContent = ({ postId, post }) => {
   return (
     <>
       <Typography variant="h5">{post.title}</Typography>
+      {console.log(post.title)}
       <Box display="flex" justifyContent="flex-end">
         <Typography
           variant="subtitle1"
