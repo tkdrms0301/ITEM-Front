@@ -22,9 +22,11 @@ const AccordionDetailList = ({ detailDatas, isUpdate, setIsUpdate }) => {
     setDeviceDatas(newDeviceDatas);
   };
 
-  useEffect(() => {
-    setDeviceDatas([...detailDatas]);
-  }, [detailDatas]);
+  const handleDeviceDataAdd = (data) => {
+    setDeviceDatas([...deviceDatas, data]);
+  };
+
+  useEffect(() => {}, [deviceDatas]);
 
   return (
     <>
@@ -68,6 +70,7 @@ const AccordionDetailList = ({ detailDatas, isUpdate, setIsUpdate }) => {
                   <DeviceInfo
                     infoData={deviceData}
                     handleDeviceData={handleDeviceData}
+                    handleDeviceDataAdd={handleDeviceDataAdd}
                     isUpdate={isUpdate}
                     setIsUpdate={setIsUpdate}
                   />

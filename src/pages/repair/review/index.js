@@ -1,16 +1,59 @@
 import { useState, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
-import { commentList, shopId } from "./constant";
-
 import Review from "./Review";
 import ReportDialog from "./component/reportDialog";
 import ReplyDialog from "./component/replyDialog";
+import { BaseUrl } from "../../../api/BaseUrl";
+import { get, post } from "../../../api";
+import Reply from "./Reply";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const Reviews = () => {
-  const sessionId = 73; // 현재 접속중인 사용자 id
+const Reviews = ({ shopId }) => {
+  const [sessionId, setSessionId] = useState(0); // 현재 접속중인 사용자 id
+  const [comments, setComments] = useState([]);
+  const [page, setPage] = useState({
+    hasMore: true,
+    page: 0,
+  });
 
-  const [comments, setComments] = useState([...commentList]);
+  const fetchMoreComments = () => {
+    get(BaseUrl + "/api/repair/review/list", {
+      params: {
+        page: page.page,
+        shopId: shopId,
+      },
+    })
+      .then((res) => {
+        const newComments = res.data.data.content;
+        console.log(newComments);
+        setComments((prevComments) => [...prevComments, ...newComments]);
+        setPage({
+          page: page.page + 1,
+          hasMore: !res.data.data.last,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleCommentAdd = (comment) => {
+    setComments([comment, ...comments]);
+  };
+
+  const handleCommentDelete = (commentId) => {
+    setComments(comments.filter((comment) => comment.id !== commentId));
+  };
+
+  const handleCommentUpdate = (comment) => {
+    const newComments = comments.forEach((c) => {
+      if (c.id === comment.id) {
+        c = comment;
+      }
+    });
+    setComments([newComments]);
+  };
 
   //report
   const [openReport, setOpenReport] = useState(false);
@@ -19,8 +62,8 @@ const Reviews = () => {
     reason: "",
     comment: "",
     commentId: 0,
+    ownerId: "",
     shopId: shopId,
-    ownerId: 0,
     sessionId: sessionId,
   });
 
@@ -44,43 +87,62 @@ const Reviews = () => {
   const [openReply, setOpenReply] = useState(false);
 
   const [replyInfo, setReplyInfo] = useState({
-    reply: "",
-    rating: 0,
-    commentId: 0,
     shopId: shopId,
     sessionId: sessionId,
     isUpdate: false,
     isComment: false,
   });
 
-  const handleReplyOpen = () => {
+  const handleReplyClose = () => {
+    setOpenReply(false);
+    setReplyInfo({
+      shopId: shopId,
+      sessionId: sessionId,
+      isUpdate: false,
+      isComment: false,
+    });
+  };
+
+  const handleCreateCommentOpen = () => {
+    setOpenReply(true);
+    setReplyInfo({
+      ...replyInfo,
+      isComment: true,
+      isUpdate: false,
+      content: "",
+      rating: 0,
+    });
+  };
+
+  const handleUpdateCommentOpen = () => {
+    setOpenReply(true);
+    setReplyInfo({
+      ...replyInfo,
+      isComment: true,
+      isUpdate: false,
+      content: "",
+      rating: 0,
+    });
+  };
+
+  const handleCreateReplyOpen = () => {
     setOpenReply(true);
     setReplyInfo({
       ...replyInfo,
       commentId: 0,
+      content: "",
       rating: 0,
       isUpdate: false,
       isComment: false,
     });
   };
 
-  const handleCommentOpen = () => {
+  const handleUpdateReplyOpen = () => {
     setOpenReply(true);
     setReplyInfo({
       ...replyInfo,
-      reply: "",
-      rating: 0,
-      isUpdate: false,
-      isComment: true,
-    });
-  };
-
-  const handleReplyClose = () => {
-    setOpenReply(false);
-    setReplyInfo({
-      ...replyInfo,
-      reply: "",
       commentId: 0,
+      rating: 0,
       isUpdate: false,
       isComment: false,
     });
@@ -92,6 +154,30 @@ const Reviews = () => {
       textField.focus();
     }
   }, [openReply]);
+
+  useEffect(() => {
+    setSessionId(JSON.parse(window.localStorage.getItem("user")).name);
+
+    get(BaseUrl + "/api/repair/review/list", {
+      params: {
+        page: 0,
+        shopId: shopId,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.data);
+        setComments(res.data.data.content);
+        setPage({
+          page: page.page + 1,
+          hasMore: !res.data.data.last,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {}, [comments]);
 
   return (
     <>
@@ -105,14 +191,27 @@ const Reviews = () => {
           <Button
             variant="contained"
             fullWidth={true}
-            onClick={handleCommentOpen}>
+            onClick={handleCreateCommentOpen}>
             댓글 작성
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={2} justifyContent="center">
-            {comments.map((comment, index) => {
-              if (comment.comments.length > 0) {
+          <InfiniteScroll
+            dataLength={comments.length}
+            next={fetchMoreComments}
+            hasMore={page.hasMore}
+            loader={
+              <p style={{ textAlign: "center" }}>
+                <b>Loading..</b>
+              </p>
+            } // Loader component
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }>
+            <Grid container spacing={2} justifyContent="center">
+              {comments.map((comment, index) => {
                 return (
                   <Grid item key={index} xs={11}>
                     <Review
@@ -121,54 +220,41 @@ const Reviews = () => {
                       handleReportOpen={handleReportOpen}
                       reportInfo={reportInfo}
                       setReportInfo={setReportInfo}
+                      openReply={openReply}
+                      setOpenReply={setOpenReply}
+                      isReply={false}
                       replyInfo={replyInfo}
                       setReplyInfo={setReplyInfo}
-                      openReply={openReply}
-                      handleReplyOpen={handleReplyOpen}
+                      handleCreateCommentOpen={handleCreateCommentOpen}
+                      handleUpdateCommentOpen={handleUpdateCommentOpen}
+                      handleCreateReplyOpen={handleCreateReplyOpen}
                     />
-                    {comment.comments.map((comment, index) => (
-                      <Grid
-                        container
-                        justifyContent="center"
-                        sx={{ mt: 2 }}
-                        key={index}>
+                    {comment.replyId !== null && (
+                      <Grid container justifyContent="center" sx={{ mt: 2 }}>
                         <Grid item xs={1} sx={{ mt: -1 }}>
                           <SubdirectoryArrowRightIcon />
                         </Grid>
                         <Grid item xs={11}>
-                          <Review
+                          <Reply
                             comment={comment}
-                            isReply={true}
                             sessionId={sessionId}
+                            shopId={shopId}
                             handleReportOpen={handleReportOpen}
                             setReportInfo={setReportInfo}
+                            openReply={openReply}
+                            isReply={true}
                             replyInfo={replyInfo}
                             setReplyInfo={setReplyInfo}
-                            openReply={openReply}
-                            handleReplyOpen={handleReplyOpen}
+                            handleUpdateReplyOpen={handleUpdateReplyOpen}
                           />
                         </Grid>
                       </Grid>
-                    ))}
+                    )}
                   </Grid>
                 );
-              } else {
-                return (
-                  <Grid item key={comment.id} xs={11}>
-                    <Review
-                      comment={comment}
-                      handleReportOpen={handleReportOpen}
-                      sessionId={sessionId}
-                      setReportInfo={setReportInfo}
-                      replyInfo={replyInfo}
-                      setReplyInfo={setReplyInfo}
-                      handleReplyOpen={handleReplyOpen}
-                    />
-                  </Grid>
-                );
-              }
-            })}
-          </Grid>
+              })}
+            </Grid>
+          </InfiniteScroll>
         </Grid>
       </Grid>
       <ReportDialog

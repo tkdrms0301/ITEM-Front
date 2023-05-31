@@ -173,8 +173,7 @@ export const ReportResult = ({ isRegist }) => {
             fullWidth
             color="inherit"
             sx={{ my: 2 }}
-            onClick={() => onClickRegist()}
-          >
+            onClick={() => onClickRegist()}>
             등록
           </Button>
         </Container>
@@ -190,8 +189,7 @@ export const ReportResult = ({ isRegist }) => {
             {reportBeforeImgs.map((img, index) => (
               <Box
                 key={index}
-                sx={{ width: "100px", height: "150px", position: "relative" }}
-              >
+                sx={{ width: "100px", height: "150px", position: "relative" }}>
                 <Box
                   component="img"
                   src={img}
@@ -224,8 +222,7 @@ export const ReportResult = ({ isRegist }) => {
                   color: "ButtonText",
                   mb: 2,
                 }}
-                onClick={() => onClickBeforeImgPlus()}
-              >
+                onClick={() => onClickBeforeImgPlus()}>
                 <Typography variant="subtitle2">+ 사진추가</Typography>
               </Button>
             </Box>
@@ -242,8 +239,7 @@ export const ReportResult = ({ isRegist }) => {
             {reportAfterImgs.map((img, index) => (
               <Box
                 key={index}
-                sx={{ width: "100px", height: "150px", position: "relative" }}
-              >
+                sx={{ width: "100px", height: "150px", position: "relative" }}>
                 <Box
                   component="img"
                   src={img}
@@ -275,8 +271,7 @@ export const ReportResult = ({ isRegist }) => {
                   bgcolor: "white",
                   color: "ButtonText",
                 }}
-                onClick={() => onClickAfterImgPlus()}
-              >
+                onClick={() => onClickAfterImgPlus()}>
                 <Typography variant="subtitle2">+ 사진추가</Typography>
               </Button>
               <input
@@ -359,8 +354,7 @@ export const ReportResult = ({ isRegist }) => {
                 value={reportResultComment}
                 onChange={(event) => {
                   setReportResultComment(event.target.value);
-                }}
-              ></TextField>
+                }}></TextField>
             </FormControl>
           </Container>
         </>
@@ -375,8 +369,7 @@ export const ReportResult = ({ isRegist }) => {
                 sx={{
                   borderBottom: "2px solid",
                   borderColor: palette.grey[400],
-                }}
-              >
+                }}>
                 정비 담당자의 코멘트
               </Typography>
               <Typography variant="subtitle1">
@@ -435,8 +428,7 @@ export const ReportResult = ({ isRegist }) => {
                   pb: 1,
                   borderBottom: "2px solid",
                   borderColor: palette.grey[400],
-                }}
-              >
+                }}>
                 제품 정보
               </Typography>
               <Box sx={{ px: 2, py: 1, display: "flex", alignItems: "center" }}>
@@ -458,8 +450,7 @@ export const ReportResult = ({ isRegist }) => {
                   pb: 1,
                   borderBottom: "2px solid",
                   borderColor: palette.grey[400],
-                }}
-              >
+                }}>
                 신청 정보
               </Typography>
 
@@ -475,8 +466,7 @@ export const ReportResult = ({ isRegist }) => {
                   pb: 1,
                   borderBottom: "2px solid",
                   borderColor: palette.grey[400],
-                }}
-              >
+                }}>
                 정비 결과
               </Typography>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -485,8 +475,7 @@ export const ReportResult = ({ isRegist }) => {
                     display: "flex",
                     justifyContent: "space-around",
                     my: 2,
-                  }}
-                >
+                  }}>
                   <Box>
                     <Typography
                       variant="subtitle1"
@@ -496,8 +485,7 @@ export const ReportResult = ({ isRegist }) => {
                         backgroundColor: palette.error.light,
                         borderRadius: "10px",
                         color: palette.info.contrastText,
-                      }}
-                    >
+                      }}>
                       수리 전
                     </Typography>
                   </Box>
@@ -510,8 +498,7 @@ export const ReportResult = ({ isRegist }) => {
                         backgroundColor: palette.info.light,
                         borderRadius: "10px",
                         color: palette.info.contrastText,
-                      }}
-                    >
+                      }}>
                       수리 후
                     </Typography>
                   </Box>

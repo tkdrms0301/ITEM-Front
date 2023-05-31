@@ -37,6 +37,13 @@ const DeviceMenuItem = ({ deviceInfo, dataList, onChangeDeviceInfo }) => {
         <FormControl sx={{ mt: 1 }} disabled={selectState()}>
           <Select
             autoFocus
+            disabled={
+              dataList.selectName === "product" &&
+              deviceInfo.brand === 1 &&
+              deviceInfo.category === 1
+                ? true
+                : false
+            }
             name={dataList.selectName}
             value={dataList.selectValue}
             onChange={onChangeDeviceInfo}

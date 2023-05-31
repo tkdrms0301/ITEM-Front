@@ -14,7 +14,6 @@ import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 import axios from "axios";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
 
 const DevicePartRegister = ({
   registerOpen,
@@ -22,8 +21,8 @@ const DevicePartRegister = ({
   itDeviceId,
   isUpdate,
   setIsUpdate,
+  handlePartListAdd,
 }) => {
-  const navigate = useNavigate();
   const [deviceInfo, setDeviceInfo] = useState({
     brand: 0,
     category: 0,
@@ -156,7 +155,9 @@ const DevicePartRegister = ({
         .then((res) => {
           if (res.data.success) {
             alert(res.data.msg);
+            handlePartListAdd(res.data.data);
             registerCloseHandle();
+            setIsUpdate(true);
           } else {
             alert(res.data.msg);
           }
