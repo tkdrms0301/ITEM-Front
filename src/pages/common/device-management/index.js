@@ -42,7 +42,7 @@ const DeviceManagement = () => {
         <Grid item>
           <div style={{ margin: "10%", maxWidth: "90%" }}>
             <DeviceList
-              data={data}
+              datas={data}
               registerOpenHandle={registerOpenHandle}
               registerCloseHandle={registerCloseHandle}
               isUpdate={isUpdate}

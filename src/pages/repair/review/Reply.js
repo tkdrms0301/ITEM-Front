@@ -1,10 +1,8 @@
-import { Box, Button, Grid, Typography, Rating, Card } from "@mui/material";
+import { Grid, Typography, Card } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
-import { useState } from "react";
 
 const Reply = ({
   sessionId,
-  handleReplyOpen,
   handleReportOpen,
   comment,
   isReply,
@@ -12,15 +10,9 @@ const Reply = ({
   replyInfo,
   setReplyInfo,
   shopId,
+  handleUpdateCommentOpen,
+  handleUpdateReplyOpen,
 }) => {
-  const handleReply = () => {
-    handleReplyOpen();
-    setReplyInfo({
-      ...replyInfo,
-      commentId: comment.id,
-    });
-  };
-
   return (
     <Card
       sx={{
@@ -34,7 +26,7 @@ const Reply = ({
             alignItems="center"
             justifyContent="center"
             spacing={1}>
-            <Grid item xs={isReply ? 10 : 5}>
+            <Grid item xs={10}>
               <Typography variant="subtitle1" fontWeight="bold" align="left">
                 {comment.repairShopNickname}
               </Typography>
@@ -43,16 +35,16 @@ const Reply = ({
             <Grid item xs={2}>
               <MoreButton
                 ownerId={comment.repairShopNickname}
-                commentId={comment.id}
                 shopId={shopId}
-                handleReplyOpen={handleReplyOpen}
                 handleReportOpen={handleReportOpen}
-                setReportInfo={setReportInfo}
-                commentContent={comment.replyInfo}
-                sessionId={sessionId}
-                isReply={isReply}
+                handleUpdateCommentOpen={handleUpdateCommentOpen}
+                handleUpdateReplyOpen={handleUpdateReplyOpen}
                 replyInfo={replyInfo}
                 setReplyInfo={setReplyInfo}
+                setReportInfo={setReportInfo}
+                comment={comment}
+                sessionId={sessionId}
+                isReply={isReply}
               />
             </Grid>
           </Grid>
@@ -63,17 +55,8 @@ const Reply = ({
             alignItems="flex-end"
             justifyContent="center"
             spacing={1}>
-            <Grid item xs={!isReply ? 10 : 12}>
+            <Grid item xs={12}>
               <Typography align="left">{comment.replyContent}</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              {!isReply &&
-                JSON.parse(window.localStorage.getItem("user")).roleType ===
-                  "MECHANIC" && (
-                  <Button sx={{ mb: -1 }} onClick={handleReply}>
-                    답글
-                  </Button>
-                )}
             </Grid>
           </Grid>
         </Grid>

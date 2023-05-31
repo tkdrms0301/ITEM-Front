@@ -19,11 +19,26 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
 
       // 수정
       if (replyInfo.isUpdate) {
+        const data = {
+          content: replyInfo.content,
+          reviewId: replyInfo.commentId,
+        };
+        put(BaseUrl + "/api/repair/reply/update", data)
+          .then((res) => {
+            if (res.data.success) {
+              console.log(res.data.msg);
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       // 작성
       else {
         const data = {
-          content: replyInfo.reply,
+          content: replyInfo.content,
           reviewId: replyInfo.commentId,
         };
 
@@ -47,15 +62,14 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
     const type = replyInfo.isUpdate ? "수정" : "작성";
     if (window.confirm(`댓글을 ${type}하시겠습니까 ?`)) {
       handleReplyClose();
-      console.log(replyInfo);
+      console.log(replyInfo.content);
       // 수정
       if (replyInfo.isUpdate) {
         const data = {
-          content: replyInfo.reply,
+          content: replyInfo.content,
           rating: replyInfo.rating,
           reviewId: replyInfo.commentId,
         };
-
         put(BaseUrl + "/api/repair/review/update", data)
           .then((res) => {
             if (res.data.success) {
@@ -71,11 +85,10 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
       // 작성
       else {
         const data = {
-          content: replyInfo.reply,
+          content: replyInfo.content,
           rating: replyInfo.rating,
           repairShopId: replyInfo.shopId,
         };
-
         post(BaseUrl + "/api/repair/review/create", data)
           .then((res) => {
             if (res.data.success) {
@@ -154,10 +167,10 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
             onChange={(e) =>
               setReplyInfo({
                 ...replyInfo,
-                reply: e.target.value,
+                content: e.target.value,
               })
             }
-            value={replyInfo.reply}
+            value={replyInfo.content}
             InputProps={{ sx: { height: "18vh" } }}
             sx={{
               "& .Mui-focused": {

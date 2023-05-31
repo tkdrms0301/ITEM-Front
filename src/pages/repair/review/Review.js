@@ -1,10 +1,8 @@
 import { Box, Button, Grid, Typography, Rating, Card } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
-import { useState } from "react";
 
 const Review = ({
   sessionId,
-  handleReplyOpen,
   handleReportOpen,
   comment,
   isReply,
@@ -12,15 +10,21 @@ const Review = ({
   replyInfo,
   setReplyInfo,
   setOpenReply,
+  shopId,
+  handleCreateCommentOpen,
+  handleUpdateCommentOpen,
+  handleCreateReplyOpen,
 }) => {
-  const handleReply = () => {
-    handleReplyOpen();
+  const handleReplyOpen = () => {
+    handleCreateReplyOpen();
     setReplyInfo({
       ...replyInfo,
-      commentId: comment.id,
+      isUpdate: false,
+      isComment: false,
+      content: "",
+      commentId: comment.reviewId,
     });
   };
-
   return (
     <Card sx={{ borderRadius: "4px", padding: 3 }}>
       <Grid container>
@@ -48,16 +52,16 @@ const Review = ({
             <Grid item xs={2}>
               <MoreButton
                 ownerId={comment.userNickname}
-                shopId={comment.shopId}
-                handleReplyOpen={handleReplyOpen}
+                shopId={shopId}
                 handleReportOpen={handleReportOpen}
+                handleUpdateCommentOpen={handleUpdateCommentOpen}
+                replyInfo={replyInfo}
+                setReplyInfo={setReplyInfo}
                 setReportInfo={setReportInfo}
                 setOpenReply={setOpenReply}
                 comment={comment}
                 sessionId={sessionId}
                 isReply={isReply}
-                replyInfo={replyInfo}
-                setReplyInfo={setReplyInfo}
               />
             </Grid>
           </Grid>
@@ -75,7 +79,7 @@ const Review = ({
               {!isReply &&
                 JSON.parse(window.localStorage.getItem("user")).roleType ===
                   "MECHANIC" && (
-                  <Button sx={{ mb: -1 }} onClick={handleReply}>
+                  <Button sx={{ mb: -1 }} onClick={handleReplyOpen}>
                     답글
                   </Button>
                 )}
