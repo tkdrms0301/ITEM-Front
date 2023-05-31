@@ -35,20 +35,20 @@ export const PostContent = ({ postId, post }) => {
     );
   };
 
+  
   return (
     <>
       <Typography variant="h5">{post.title}</Typography>
-      {console.log(post.title)}
+
       <Box display="flex" justifyContent="flex-end">
         <Typography
           variant="subtitle1"
           fontWeight="bold"
           sx={{ mr: "1%", color: "inherit", textDecoration: "none" }}
-          // component={Link}
-          // to={`/community/mypage/${post.userId}`}
         >
           {post.memberName} ·
         </Typography>
+
         <DateView date={post.date} />
       </Box>
       <hr />
