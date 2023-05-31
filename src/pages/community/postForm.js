@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { IconButton, Menu, MenuItem, Select } from "@mui/material";
-import {
-  Typography,
-  TextField,
-  Button,
-  Box,
-  Autocomplete,
-  Container,
-} from "@mui/material";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { IconButton, MenuItem, Select, alpha } from "@mui/material";
+import { Typography, TextField, Button, Box, Container } from "@mui/material";
 import { BackButton } from "../../component/backButton";
-import { testBaseURL, userId } from "./testing-String";
+import { testBaseURL } from "./testing-String";
 import { get, post, put } from "../../api/index";
-import { useRef } from "react";
-import { useCallback } from "react";
+import { set } from "date-fns";
 
 export const PostForm = () => {
   const navigate = useNavigate();
@@ -61,7 +51,6 @@ export const PostForm = () => {
           setImgs(response.data.data.images);
           // setImages(response.data.data.images);
           setIsUpdating(true);
-          console.log(response.data.data);
         })
         .catch((error) => {
           console.error(error);
@@ -72,18 +61,35 @@ export const PostForm = () => {
 
   // image upload
   const handleImageChange = (e) => {
+    
     const files = Array.from(e.target.files);
-    setImages(files);
+    if(images.length + imgs.length + files.length > 10){
+      alert("이미지는 최대 10개까지 업로드 가능합니다.");
+      document.getElementById("image").value = "";
+      return;
+    }
+    files.forEach((file) => {
+      if (file.size > 10485760) {
+        alert("10MB 이하의 파일만 업로드 가능합니다.");
+        document.getElementById("image").value = "";
+        return;
+      } else if (file.type === "image/svg+xml") {
+        alert("svg 파일은 업로드 할 수 없습니다.");
+        document.getElementById("image").value = "";
+        return;
+      } else {
+        setImages((prevImages) => [...prevImages, file]);
+      }
+    });
   };
   // image upload end
+
   const uploadImages = async (images) => {
     const urls = [];
     imgs.map((img) => {
       urls.push(img.url);
     });
     for (const image of images) {
-      console.log(image);
-
       const data = {
         file: image,
       };
@@ -100,19 +106,17 @@ export const PostForm = () => {
         );
         urls.push(response.data);
       } catch (error) {
-        // Handle error if needed
         console.error(error);
       }
     }
-    console.log(urls);
     return urls;
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let postData;
     let urls = [];
-    console.log("images:" + images);
     if (images.length > 0 || imgs.length > 0) {
       urls = await uploadImages(images);
       postData = {
@@ -131,13 +135,13 @@ export const PostForm = () => {
     }
     try {
       let url;
-      //title must be more than 2 characters
       if (title.length < 2 || content.length < 2) {
         alert("제목과 내용은 2글자 이상이어야 합니다.");
+      } else if (content.length > 1000) {
+        alert("내용은 1000자 이내로 작성해주세요.");
       } else {
         if (isUpdating) {
           url = `${testBaseURL}/community/post/${postid}/update`;
-          console.log(postData);
           await put(url, postData);
           setTagValue(0);
           setTitle("");
@@ -147,7 +151,6 @@ export const PostForm = () => {
           navigate(-1);
         } else {
           url = `${testBaseURL}/community/post/create`;
-          console.log(postData);
           const response = await post(url, postData);
           if (response.data.data === true) {
             setTagValue(0);
@@ -165,8 +168,7 @@ export const PostForm = () => {
       console.error("Error submitting post:", error);
     }
   };
-  console.log(images);
-  console.log(imgs);
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -175,7 +177,6 @@ export const PostForm = () => {
             position: "fixed",
             height: "56px",
             width: "100%",
-            maxWidth: "sm",
             backgroundColor: "white",
             zIndex: 100,
           }}
@@ -192,7 +193,20 @@ export const PostForm = () => {
             <Button
               type="submit"
               variant="contained"
-              sx={{ width: "15%", height: "70%", mr: "3%" }}
+              sx={{
+                width: "15%",
+                height: "70%",
+                mr: "3%",
+                color: "ButtonText",
+                bgcolor: (theme) => alpha(theme.palette.grey[400], 0.8),
+                "&.active": {
+                  bgcolor: (theme) => alpha(theme.palette.grey[500], 0.8),
+                  fontWeight: "fontWeightBold",
+                },
+                "&:hover": {
+                  bgcolor: (theme) => alpha(theme.palette.grey[500], 0.8),
+                },
+              }}
             >
               {isUpdating ? "수정" : "등록"}
             </Button>
@@ -249,13 +263,16 @@ export const PostForm = () => {
             <Typography variant="h5" fontWeight="bold">
               {"이미지 업로드"}
             </Typography>
-            <input
-              type="file"
-              name="image"
-              onChange={handleImageChange}
-              accept="image/*"
-              multiple
-            />
+            <label>
+              <input
+                id="image"
+                type="file"
+                name="image"
+                onChange={handleImageChange}
+                accept="image/*"
+                multiple
+              />
+            </label>
           </Box>
         </Container>
       </form>
@@ -284,8 +301,10 @@ export const PostForm = () => {
                 setImgs(imgs.filter((x) => x !== url));
               }}
               variant="contained"
+              color="error"
               sx={{
                 width: "90%",
+                borderRadius: "0px 0px 5px 5px",
                 mb: "3%",
               }}
             >
@@ -294,9 +313,9 @@ export const PostForm = () => {
           </Box>
         ))}
       {images.length > 0 &&
-        images.map((image) => (
+        images.map((image, index) => (
           <Box
-            key={image.name}
+            key={image.index}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -318,8 +337,10 @@ export const PostForm = () => {
                 setImages(images.filter((x) => x !== image));
               }}
               variant="contained"
+              color="error"
               sx={{
                 width: "90%",
+                borderRadius: "0px 0px 5px 5px",
                 mb: "3%",
               }}
             >

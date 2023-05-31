@@ -10,6 +10,7 @@ import {
   Link,
   alpha,
   useTheme,
+  Grid,
 } from "@mui/material";
 import Iconify from "../../theme/Iconify";
 import Scrollbar from "../../component/scrollbar/Scrollbar";
@@ -110,56 +111,86 @@ function PostItem({ posts }) {
     <Stack
       direction="row"
       alignItems="center"
-      sx={{ borderBottom: `1px solid ${palette.grey[500]}`, py: 1 }}
+      sx={{ borderBottom: `1px solid ${palette.grey[500]}`, py: 1, px: 2 }}
     >
-      {image !== null ? (
-        <Box
-          component="img"
-          alt={title}
-          src={image}
-          sx={{
-            width: 80,
-            height: "auto",
-            borderRadius: 1.5,
-            flexShrink: 0,
-            maxWidth: "100%",
-            maxHeight: "100%",
-          }}
-        />
-      ) : (
-        <Box sx={{ width: 15, borderRadius: 1.5, flexShrink: 0 }} />
-      )}
+      <Grid container>
+        {image !== null ? (
+          <Grid
+            item
+            xs={2}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                height: 50,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                component="img"
+                alt={title}
+                src={image}
+                sx={{
+                  borderRadius: 1.5,
+                  flexShrink: 0,
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                }}
+              />
+            </Box>
+          </Grid>
+        ) : (
+          <Box
+            sx={{
+              borderRadius: 1.5,
+              flexShrink: 0,
+            }}
+          />
+        )}
 
-      <Box
-        sx={{
-          minWidth: 50,
-          flexGrow: 1,
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        }}
-      >
-        <Link
-          color="inherit"
-          variant="subtitle2"
-          underline="hover"
-          href={`/community/post/${postId}`}
-          sx={{}}
-        >
-          {title}
-        </Link>
+        <Grid item xs={image !== null ? 10 : 12} sx={{ width: "100%", px: 1 }}>
+          <Link
+            color="inherit"
+            variant="subtitle2"
+            underline="hover"
+            href={`/community/post/${postId}`}
+            sx={{}}
+          >
+            <Typography
+              variant="subtitle2"
+              noWrap
+              sx={{ maxWidth: "100%", overflow: "hidden" }}
+            >
+              {title}
+            </Typography>
+          </Link>
 
-        <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-          {content}
-        </Typography>
-      </Box>
-
-      <Typography
-        variant="caption"
-        sx={{ pr: 2, flexShrink: 0, color: "text.secondary" }}
-      >
-        {fDateTime(date)}
-      </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
+              maxWidth: "100%",
+              overflow: "hidden",
+            }}
+            noWrap
+          >
+            {content}
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{ pr: 2, flexShrink: 0, color: "text.secondary" }}
+          >
+            {fDateTime(date)}
+          </Typography>
+        </Grid>
+      </Grid>
     </Stack>
   );
 }

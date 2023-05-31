@@ -382,7 +382,7 @@ export const ReservationHistoryDetail = () => {
 
             {JSON.parse(window.localStorage.getItem("user")) !== null ? (
               JSON.parse(window.localStorage.getItem("user")).roleType ===
-              "MECHANIC" ? (
+                "MECHANIC" && data.status === "예약 대기" ? (
                 <Card
                   sx={{
                     mt: 2,

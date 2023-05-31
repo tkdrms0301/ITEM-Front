@@ -1,5 +1,4 @@
 import { Box, Chip, CircularProgress, Typography } from "@mui/material";
-import { userName } from "../testing-String";
 import { DateView } from "./date";
 
 export const PostContent = ({ postId, post }) => {
@@ -22,9 +21,24 @@ export const PostContent = ({ postId, post }) => {
   if (post === null) {
     return <CircularProgress />;
   }
+
+  const MultiLineTextView = ({ text }) => {
+    return (
+      <>
+        {text.split("\n").map((txt, index) => (
+          <Typography variant="body1" key={index}>
+            {txt}
+            <br key={index} />
+          </Typography>
+        ))}
+      </>
+    );
+  };
+
   return (
     <>
       <Typography variant="h5">{post.title}</Typography>
+      {console.log(post.title)}
       <Box display="flex" justifyContent="flex-end">
         <Typography
           variant="subtitle1"
@@ -38,7 +52,7 @@ export const PostContent = ({ postId, post }) => {
         <DateView date={post.date} />
       </Box>
       <hr />
-      <Typography variant="body1">{post.content}</Typography>
+      <MultiLineTextView text={post.content}></MultiLineTextView>
       {post.images &&
         post.images.map((image, index) => (
           <img

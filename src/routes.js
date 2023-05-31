@@ -32,6 +32,13 @@ import { ServiceListUpdateMain } from "./pages/common/mypage/serviceListManageme
 import { RechargeMain } from "./pages/common/recharge/rechargeMain";
 import { DexMain } from "./pages/common/dex/dexMain";
 import { SubscriptionMain } from "./pages/common/subscription/subscriptionMain";
+import { MarketMyPage } from "./pages/market/market-mypage";
+import { OrderHistoryPage } from "./pages/market/user/mypage/orderHistory";
+import { CartPage } from "./pages/market/user/mypage/cart";
+import { OrderPage } from "./pages/market/user/mypage/order";
+import { MarketProductsListPage } from "./pages/market/user/productList";
+import { MarketProductPage } from "./pages/market/user/product";
+import { HistoryDetailPage } from "./pages/market/user/mypage/hitoryDetail";
 
 export const routes = [
   {
@@ -129,6 +136,34 @@ export const routes = [
   {
     path: "/market",
     element: <MarketMain />,
+  },
+  {
+    path: "/market/products",
+    element: <MarketProductsListPage />,
+  },
+  {
+    path: "/market/product/:productId",
+    element: <MarketProductPage />,
+  },
+  {
+    path: "/market/mypage",
+    element: <MarketMyPage />,
+  },
+  {
+    path: "/market/mypage/history",
+    element: <OrderHistoryPage />,
+  },
+  {
+    path: "/market/mypage/history/detail",
+    element: <HistoryDetailPage />,
+  },
+  {
+    path: "/market/mypage/cart",
+    element: <CartPage />,
+  },
+  {
+    path: "/market/mypage/order",
+    element: <OrderPage />,
   },
   {
     path: "/login",

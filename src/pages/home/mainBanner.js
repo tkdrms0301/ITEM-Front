@@ -51,7 +51,7 @@ export const MainBanner = ({ color = "primary" }) => {
       <Box
         component="img"
         src="/img_mob_reserva.png"
-        sx={{ width: "100%", height: "100%", cursor: "pointer" }}
+        sx={{ width: "100%", height: "100%" }}
       />
       <Box
         sx={{

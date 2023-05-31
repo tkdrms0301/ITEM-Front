@@ -454,6 +454,26 @@ export const Reservation = () => {
       window.alert(completed.msg);
     }
   };
+
+  //현재시간 이전 시간들 disabled
+  var currentTime = new Date();
+  var currentHour = currentTime.getHours();
+  var currentMinute = currentTime.getMinutes();
+
+  var filteredTimes = openedTime.filter((time) => {
+    if (reservationData.date === new Date().toISOString().split("T")[0]) {
+      // 오늘 날짜인 경우 현재 시간 이전의 시간들을 필터링
+      var [hour, minute] = time.time.split(":");
+      return (
+        parseInt(hour) > currentHour ||
+        (parseInt(hour) === currentHour && parseInt(minute) >= currentMinute)
+      );
+    } else {
+      // 오늘 이후의 날짜인 경우 모든 시간을 허용
+      return true;
+    }
+  });
+
   return (
     <>
       <Header title={isUpdate ? "예약 수정" : "예약 신청"} />
@@ -467,6 +487,7 @@ export const Reservation = () => {
                   type="date"
                   value={reservationData.date}
                   onChange={handleDateSelect}
+                  min={new Date().toISOString().split("T")[0]}
                   style={{ width: "80%" }}
                 />
               </Box>
@@ -482,7 +503,7 @@ export const Reservation = () => {
                     justifyContent: "center",
                   }}
                 >
-                  {openedTime.map((time) => {
+                  {filteredTimes.map((time) => {
                     return (
                       <ToggleButton
                         key={time.time}
@@ -607,78 +628,88 @@ export const Reservation = () => {
           </Container>
 
           <Container sx={{ pt: "1%" }}>
-            <ToggleButtonGroup
-              value={selectedServiceName}
-              onChange={handleServicesButton}
-              sx={{
-                mt: "3%",
-                width: "100%",
-                border: "1px solid #C4C4C4",
-                borderRadius: "4px",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              {repairShopServices.map((service, index) => (
-                <ToggleButton
-                  key={index}
-                  value={service.serviceName}
-                  sx={{
-                    boxShadow: 10,
-                    my: 1,
-                    borderRadius: "5px",
-                    py: 1,
-                    pl: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Box
+            <Card sx={{ boxShadow: 10 }}>
+              <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
+                서비스 선택
+              </Typography>
+              <ToggleButtonGroup
+                value={selectedServiceName}
+                onChange={handleServicesButton}
+                sx={{
+                  mt: "3%",
+                  width: "100%",
+                  borderRadius: "4px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {repairShopServices.map((service, index) => (
+                  <ToggleButton
+                    key={index}
+                    value={service.serviceName}
                     sx={{
+                      boxShadow: 10,
+                      my: 1,
+                      borderRadius: "5px",
+                      py: 1,
+                      pl: 1,
                       display: "flex",
-                      justifyContent: "center",
-                      alignItems: "flex-start",
-                      flexDirection: "column",
-                      borderBottom: "2px solid #f1f1f1",
-                      pb: 2,
-                    }}
-                  >
-                    <Typography variant="h5">{service.serviceName}</Typography>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "flex-start",
                       flexDirection: "column",
                     }}
                   >
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ color: palette.error.main, mt: 0.5 }}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        flexDirection: "column",
+                        borderBottom: "2px solid #f1f1f1",
+                        pb: 2,
+                      }}
                     >
-                      ITEM 특가
-                    </Typography>
-                    <Box sx={{ display: "flex" }}>
-                      <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>
-                        {service.price.toLocaleString()}원
-                      </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        sx={{
-                          fontWeight: 600,
-                          ml: 0.5,
-                          textDecoration: "line-through",
-                        }}
-                      >
-                        {(service.price + 10000).toLocaleString()}원
+                      <Typography variant="h5">
+                        {service.serviceName}
                       </Typography>
                     </Box>
-                  </Box>
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: palette.error.main, mt: 0.5 }}
+                      >
+                        ITEM 특가
+                      </Typography>
+                      <Box sx={{ display: "flex" }}>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{ fontWeight: 800 }}
+                        >
+                          {service.price.toLocaleString()}원
+                        </Typography>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            fontWeight: 600,
+                            ml: 0.5,
+                            textDecoration: "line-through",
+                          }}
+                        >
+                          {(service.price + 10000).toLocaleString()}원
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </Card>
+
             {/* <Box
               sx={{
                 position: "relative",
@@ -698,66 +729,60 @@ export const Reservation = () => {
 
               {reservationImgContentByIsUpdate()}
             </Card>
-            <Container sx={{ width: "100%", marginTop: "20px" }}>
-              <Card
-                variant="outlined"
-                sx={{
-                  pb: 1,
-                  boxShadow: 10,
+            <Card
+              variant="outlined"
+              sx={{
+                pb: 1,
+                boxShadow: 10,
+                mt: 2,
+              }}
+            >
+              <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
+                요청 사항
+              </Typography>
+              <TextField
+                variant="standard"
+                name="requestComment"
+                value={reservationData.requestComment}
+                onChange={handleCommentData}
+                placeholder="요청 사항을 입력해주세요."
+                fullWidth
+                multiline
+                rows={2}
+                sx={{ m: "3%" }}
+                InputProps={{
+                  disableUnderline: true, // <== added this
                 }}
-              >
-                <Typography
-                  variant="h6"
-                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
-                >
-                  요청 사항
+              ></TextField>
+            </Card>
+
+            <Card
+              variant="outlined"
+              sx={{
+                pb: 1,
+                boxShadow: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mt: "3%",
+                padding: "3%",
+                width: "100%",
+                height: "100px",
+              }}
+            >
+              <Box>
+                <Typography variant="h6" fontWeight="bold">
+                  방문 시간 선택
                 </Typography>
-                <TextField
-                  variant="standard"
-                  name="requestComment"
-                  value={reservationData.requestComment}
-                  onChange={handleCommentData}
-                  placeholder="요청 사항을 입력해주세요."
-                  fullWidth
-                  multiline
-                  rows={2}
-                  sx={{ m: "3%" }}
-                  InputProps={{
-                    disableUnderline: true, // <== added this
-                  }}
-                ></TextField>
-              </Card>
-            </Container>
+                <Typography variant="body1">
+                  {reservationData.date} {reservationData.time}
+                </Typography>
+              </Box>
 
-            <Container sx={{ width: "100%", marginTop: "20px" }}>
-              <Card
-                variant="outlined"
-                sx={{
-                  pb: 1,
-                  boxShadow: 10,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  mt: "3%",
-                  padding: "3%",
-                  width: "100%",
-                  height: "100px",
-                }}
-              >
-                <Box>
-                  <Typography variant="h6" fontWeight="bold">
-                    방문 시간 선택
-                  </Typography>
-                  <Typography variant="body1">
-                    {reservationData.date} {reservationData.time}
-                  </Typography>
-                </Box>
-
-                <Button variant="contained" sx={{}} onClick={handleOpen}>
-                  날짜/시간 선택
-                </Button>
-              </Card>
-            </Container>
+              <Button variant="contained" sx={{}} onClick={handleOpen}>
+                날짜/시간 선택
+              </Button>
+            </Card>
           </Container>
         </>
       ) : null}
