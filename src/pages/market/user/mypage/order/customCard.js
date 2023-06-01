@@ -1,32 +1,33 @@
-import { Card, CardHeader, Grid, IconButton } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardHeader,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import palette from "../../../../../theme/palette";
 
 export const CustomCard = ({ title, content, action }) => {
   return (
-    <Card sx={{ p: 0, pb: 1, boxShadow: 10, width: "100%" }}>
-      <CardHeader
-        title={title}
-        titleTypographyProps={{ variant: "h3" }}
-        sx={{ mt: -2 }}
-      />
-      <Grid container justifyContent={"space-between"}>
-        <Grid item xs={1}></Grid>
+    <Card sx={{ boxShadow: 10, width: "100%" }}>
+      <Box sx={{ borderBottom: `1px solid ${palette.grey[500]}` }}>
+        <Typography variant={"h5"} sx={{ py: 1, px: 2 }}>
+          {title}
+        </Typography>
+      </Box>
+      <Grid container>
         <Grid
           item
-          xs={action === null ? 11 : 9}
+          xs={action === null ? 12 : 10}
           display={"flex"}
           alignItems={"center"}
         >
           {content}
         </Grid>
         {action === null ? null : (
-          <Grid
-            item
-            xs={2}
-            display={"flex"}
-            justifyContent={"flex-end"}
-            alignItems={"center"}
-          >
+          <Grid item xs={2}>
             <IconButton onClick={action}>
               <KeyboardArrowRightIcon />
             </IconButton>

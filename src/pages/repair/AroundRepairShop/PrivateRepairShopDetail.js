@@ -103,8 +103,7 @@ export const PrivateRepairShopDetail = () => {
                 borderRadius: "5px",
                 my: 2,
                 py: 2,
-              }}
-            >
+              }}>
               <Typography variant="h2" sx={{ mb: 1 }}>
                 {selectShop.shopName}
               </Typography>
@@ -121,8 +120,7 @@ export const PrivateRepairShopDetail = () => {
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
-                  onClick={() => selectMenuHandler(index)}
-                >
+                  onClick={() => selectMenuHandler(index)}>
                   {el.name}
                 </li>
               ))}
@@ -133,8 +131,7 @@ export const PrivateRepairShopDetail = () => {
                   currentTab === 0
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
+                }>
                 <Container sx={{ mt: 3, pb: 20 }}>
                   {selectShop.services.map((service, index) => (
                     <Card
@@ -145,8 +142,7 @@ export const PrivateRepairShopDetail = () => {
                         borderRadius: "5px",
                         py: 1,
                         pl: 1,
-                      }}
-                    >
+                      }}>
                       <Box
                         sx={{
                           display: "flex",
@@ -155,15 +151,13 @@ export const PrivateRepairShopDetail = () => {
                           flexDirection: "column",
                           borderBottom: "2px solid #f1f1f1",
                           pb: 2,
-                        }}
-                      >
+                        }}>
                         <Typography variant="h5">
                           {service.serviceName}
                         </Typography>
                         <Typography
                           variant="subtitle2"
-                          sx={{ fontWeight: 500 }}
-                        >
+                          sx={{ fontWeight: 500 }}>
                           {service.description}
                         </Typography>
                       </Box>
@@ -174,19 +168,16 @@ export const PrivateRepairShopDetail = () => {
                           justifyContent: "center",
                           alignItems: "flex-start",
                           flexDirection: "column",
-                        }}
-                      >
+                        }}>
                         <Typography
                           variant="subtitle2"
-                          sx={{ color: palette.error.main, mt: 0.5 }}
-                        >
+                          sx={{ color: palette.error.main, mt: 0.5 }}>
                           ITEM 특가
                         </Typography>
                         <Box sx={{ display: "flex" }}>
                           <Typography
                             variant="subtitle1"
-                            sx={{ fontWeight: 800 }}
-                          >
+                            sx={{ fontWeight: 800 }}>
                             {service.servicePrice.toLocaleString()}원
                           </Typography>
                           <Typography
@@ -195,8 +186,7 @@ export const PrivateRepairShopDetail = () => {
                               fontWeight: 600,
                               ml: 0.5,
                               textDecoration: "line-through",
-                            }}
-                          >
+                            }}>
                             {(
                               service.servicePrice +
                               service.servicePrice * 0.1
@@ -221,8 +211,7 @@ export const PrivateRepairShopDetail = () => {
                       py: 1,
                       backgroundColor: palette.background.default,
                       borderTop: "solid 3px #f1f1f1",
-                    }}
-                  >
+                    }}>
                     <Card
                       sx={{ py: 2, px: 4, bgcolor: "Highlight" }}
                       onClick={() => {
@@ -239,8 +228,7 @@ export const PrivateRepairShopDetail = () => {
                               }
                             )
                           : window.location.replace("/login");
-                      }}
-                    >
+                      }}>
                       <Typography variant="h5">예약하기</Typography>
                     </Card>
 
@@ -260,8 +248,7 @@ export const PrivateRepairShopDetail = () => {
                               }
                             )
                           : window.location.replace("/login");
-                      }}
-                    >
+                      }}>
                       <Typography variant="h5">견적받기</Typography>
                     </Card>
                   </Box>
@@ -272,8 +259,7 @@ export const PrivateRepairShopDetail = () => {
                   currentTab === 1
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
+                }>
                 <div className="shop_address_and_phonenum">
                   <div className="kakao_map" id="repair_shop_map"></div>
                   <div className="shop_address">
@@ -289,10 +275,9 @@ export const PrivateRepairShopDetail = () => {
                   currentTab === 2
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
+                }>
                 <div className="shop_review_area">
-                  <Reviews />
+                  <Reviews shopId={selectShop.repairShopId} />
                 </div>
               </div>
             </div>

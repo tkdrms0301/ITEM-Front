@@ -8,11 +8,19 @@ import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 import palette from "../../../../theme/palette";
 
-const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
+const DeviceInfo = ({
+  infoData,
+  handleDeviceData,
+  isUpdate,
+  setIsUpdate,
+  handleDeviceDataAdd,
+}) => {
   const [updateOpen, setUpdateOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
-  const [parts, setParts] = useState([...infoData.components]);
-
+  const components = infoData.components;
+  const [parts, setParts] = useState(
+    components === null ? [] : [...components]
+  );
   const handlePartList = (id) => {
     const newParts = parts.filter((part) => {
       return part.id !== id;
@@ -20,8 +28,8 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
     setParts(newParts);
   };
 
-  const handlePartListAdd = (part) => {
-    setParts([...parts, part]);
+  const handlePartListAdd = (data) => {
+    setParts([...parts, data]);
   };
 
   const updateOpenHandle = () => {
@@ -71,7 +79,7 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
             브랜드 : {infoData.brandName}
           </Typography>
         </Grid>
-        {parts.length !== 0 ? (
+        {infoData.brandId === 1 ? (
           <Grid item xs={12}>
             <Grid
               container
@@ -101,6 +109,7 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
                 partInfo={partInfo}
                 itDeviceId={partInfo.id}
                 handlePartList={handlePartList}
+                handlePartListAdd={handlePartListAdd}
                 key={index}
               />
             ))
@@ -134,10 +143,12 @@ const DeviceInfo = ({ infoData, handleDeviceData, isUpdate, setIsUpdate }) => {
         <DevicePartRegister
           registerOpen={registerOpen}
           registerCloseHandle={registerCloseHandle}
-          handlePartListAdd={handlePartListAdd}
+          setParts={setParts}
           itDeviceId={infoData.id}
           isUpdate={isUpdate}
           setIsUpdate={setIsUpdate}
+          handleDeviceDataAdd={handleDeviceDataAdd}
+          handlePartListAdd={handlePartListAdd}
         />
       </Grid>
     </>

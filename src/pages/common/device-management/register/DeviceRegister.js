@@ -13,7 +13,6 @@ import DeviceInput from "./DeviceInput";
 import axios from "axios";
 import { BaseUrl } from "../../../../api/BaseUrl";
 import { get, post } from "../../../../api";
-import { useNavigate } from "react-router";
 
 const DeviceRegister = ({
   registerOpen,
@@ -151,7 +150,7 @@ const DeviceRegister = ({
           if (res.data.success) {
             alert(res.data.msg);
             registerCloseHandle();
-            setIsUpdate(true);
+            window.location.reload();
           } else {
             alert(res.data.msg);
           }

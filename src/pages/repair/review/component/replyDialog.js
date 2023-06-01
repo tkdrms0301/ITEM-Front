@@ -6,6 +6,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { BaseUrl } from "../../../../api/BaseUrl";
+import { post, put } from "../../../../api";
 
 const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
   const handleReplySubmit = () => {
@@ -14,10 +16,44 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
       console.log(`답글 ${type} 완료!`);
       handleReplyClose();
       console.log(replyInfo);
-      // isUpdate
 
-      // !isUpdate
+      // 수정
+      if (replyInfo.isUpdate) {
+        const data = {
+          content: replyInfo.content,
+          reviewId: replyInfo.commentId,
+        };
+        put(BaseUrl + "/api/repair/reply/update", data)
+          .then((res) => {
+            if (res.data.success) {
+              console.log(res.data.msg);
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      // 작성
+      else {
+        const data = {
+          content: replyInfo.content,
+          reviewId: replyInfo.commentId,
+        };
 
+        post(BaseUrl + "/api/repair/reply/create", data)
+          .then((res) => {
+            if (res.data.success) {
+              alert(res.data.msg);
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
       //window.location.reload();
     }
   };
@@ -25,12 +61,46 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
   const handleCommentSubmit = () => {
     const type = replyInfo.isUpdate ? "수정" : "작성";
     if (window.confirm(`댓글을 ${type}하시겠습니까 ?`)) {
-      console.log(`댓글 ${type} 완료!`);
       handleReplyClose();
-      console.log(replyInfo);
-      // isUpdate
-
-      // !isUpdate
+      console.log(replyInfo.content);
+      // 수정
+      if (replyInfo.isUpdate) {
+        const data = {
+          content: replyInfo.content,
+          rating: replyInfo.rating,
+          reviewId: replyInfo.commentId,
+        };
+        put(BaseUrl + "/api/repair/review/update", data)
+          .then((res) => {
+            if (res.data.success) {
+              console.log(res.data.msg);
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      // 작성
+      else {
+        const data = {
+          content: replyInfo.content,
+          rating: replyInfo.rating,
+          repairShopId: replyInfo.shopId,
+        };
+        post(BaseUrl + "/api/repair/review/create", data)
+          .then((res) => {
+            if (res.data.success) {
+              alert(res.data.msg);
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
 
       //window.location.reload();
     }
@@ -68,7 +138,7 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
                   onChange={(e) => {
                     setReplyInfo({
                       ...replyInfo,
-                      rating: e.target.value,
+                      rating: Number(e.target.value),
                     });
                   }}
                 />
@@ -97,10 +167,10 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
             onChange={(e) =>
               setReplyInfo({
                 ...replyInfo,
-                reply: e.target.value,
+                content: e.target.value,
               })
             }
-            value={replyInfo.reply}
+            value={replyInfo.content}
             InputProps={{ sx: { height: "18vh" } }}
             sx={{
               "& .Mui-focused": {
