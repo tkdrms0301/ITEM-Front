@@ -25,13 +25,21 @@ const Reviews = ({ shopId }) => {
       },
     })
       .then((res) => {
-        const newComments = res.data.data.content;
-        console.log(newComments);
-        setComments((prevComments) => [...prevComments, ...newComments]);
-        setPage({
-          page: page.page + 1,
-          hasMore: !res.data.data.last,
-        });
+        if (res.data.data.length !== 0) {
+          const newComments = res.data.data.content;
+          console.log(newComments);
+          setComments((prevComments) => [...prevComments, ...newComments]);
+          setPage({
+            page: page.page + 1,
+            hasMore: !res.data.data.last,
+          });
+        } else {
+          setComments(res.data.data.content);
+          setPage({
+            page: page.page + 1,
+            hasMore: !res.data.data.last,
+          });
+        }
       })
       .catch((error) => {
         console.log(error);
