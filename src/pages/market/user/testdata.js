@@ -234,10 +234,55 @@ const trackingInfoData = {
   state: { id: "information_received", text: "방문예정" },
 };
 
+const productDetail = {
+  id: 1,
+  name: "상품이름123",
+  // name: "Velit aliquip Lorem fugiat nostrud id culpa ad culpa",
+  thumbnailUrl:
+    "https://item0container.blob.core.windows.net/image/computer.webp",
+  price: 10000,
+  deliveryCompany: "우체국택배",
+  deliveryCost: 2500,
+  comment: "상품 설명입니다.",
+  imageUrls: [
+    "https://item0container.blob.core.windows.net/image/computer.webp",
+    "https://item0container.blob.core.windows.net/image/noteBook.png",
+    "https://item0container.blob.core.windows.net/image/tablet.png",
+  ],
+  rating: 4.5,
+  reviewList: [
+    {
+      id: 1,
+      ownerId: 1,
+      ownerName: "홍길동",
+      date: "2020-01-01",
+      comment: "리뷰 내용입니다.",
+      rating: 4.5,
+    },
+    {
+      id: 1,
+      ownerId: 1,
+      ownerName: "홍길동2",
+      date: "2020-01-02",
+      comment: "리뷰 내용입니다.2",
+      rating: 4.5,
+    },
+    {
+      id: 3,
+      ownerId: 2,
+      ownerName: "홍길동3",
+      date: "2020-01-03",
+      comment: "리뷰 내용입니다.3",
+      rating: 4.5,
+    },
+  ],
+};
+
 export {
   topProductsData,
   cartData,
   orderData,
   orderHistoryData,
   trackingInfoData,
+  productDetail,
 };
