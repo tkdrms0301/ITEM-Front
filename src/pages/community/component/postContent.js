@@ -36,8 +36,10 @@ export const PostContent = ({ postId, post }) => {
   };
 
   return (
-    <>
-      <Typography variant="h5">{post.title}</Typography>
+    <Box>
+      <Typography variant="h5" style={{ wordWrap: "break-word" }}>
+        {post.title}
+      </Typography>
       <Box display="flex" justifyContent="flex-end">
         <Typography
           variant="subtitle1"
@@ -66,6 +68,6 @@ export const PostContent = ({ postId, post }) => {
           />
         ))}
       {post.productName && <Chip label={post.productName} sx={{ mt: "5%" }} />}
-    </>
+    </Box>
   );
 };

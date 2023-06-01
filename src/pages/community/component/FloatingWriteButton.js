@@ -6,6 +6,7 @@ export const FloatingWriteButton = () => {
   return (
     <Link to={"/community/newpost"}>
       <Fab
+        color="primary"
         sx={{
           position: "fixed",
           bottom: "10vh",

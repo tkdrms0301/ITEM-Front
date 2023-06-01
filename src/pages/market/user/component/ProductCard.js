@@ -5,12 +5,14 @@ import { styled } from "@mui/material/styles";
 
 // components
 import { fCurrency } from "../../../data/utils/formatNumber";
+import { useNavigate } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
 const StyledProductImg = styled("img")({
   width: 150,
-  maxHeight: 150,
+  // maxHeight: 150,
+  height: 150,
 });
 
 // ----------------------------------------------------------------------
@@ -22,8 +24,15 @@ ProductCard.propTypes = {
 export default function ProductCard({ product }) {
   const { name, thumbnailUrl, comment, price } = product;
 
+  const navigate = useNavigate();
+
   return (
-    <Grid container>
+    <Grid
+      container
+      onClick={() => {
+        navigate("/market/product/" + product.id);
+      }}
+    >
       <Grid item xs={12}>
         <Card sx={{ boxShadow: 10 }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
