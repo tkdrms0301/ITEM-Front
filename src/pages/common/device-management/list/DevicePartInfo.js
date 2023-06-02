@@ -4,7 +4,12 @@ import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 import palette from "../../../../theme/palette";
 
-const DevicePartInfo = ({ partInfo, itDeviceId, handlePartList }) => {
+const DevicePartInfo = ({
+  partInfo,
+  itDeviceId,
+  handlePartList,
+  handlePartListAdd,
+}) => {
   const handlePartDelete = () => {
     if (window.confirm("부품을 삭제하겠습니까?")) {
       const data = {

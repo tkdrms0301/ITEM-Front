@@ -1,32 +1,32 @@
-import { Box, Button, Grid, Typography, Rating } from "@mui/material";
+import { Box, Button, Grid, Typography, Rating, Card } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
-import { useState } from "react";
 
 const Review = ({
   sessionId,
-  handleReplyOpen,
   handleReportOpen,
   comment,
   isReply,
   setReportInfo,
   replyInfo,
   setReplyInfo,
+  setOpenReply,
+  shopId,
+  handleCreateCommentOpen,
+  handleUpdateCommentOpen,
+  handleCreateReplyOpen,
 }) => {
-  const handleReply = () => {
-    handleReplyOpen();
+  const handleReplyOpen = () => {
+    handleCreateReplyOpen();
     setReplyInfo({
       ...replyInfo,
-      commentId: comment.id,
+      isUpdate: false,
+      isComment: false,
+      content: "",
+      commentId: comment.reviewId,
     });
   };
-
   return (
-    <Box
-      sx={{
-        border: "1px solid #C4C4C4",
-        borderRadius: "4px",
-        padding: 3,
-      }}>
+    <Card sx={{ borderRadius: "4px", padding: 3 }}>
       <Grid container>
         <Grid item xs={12}>
           <Grid
@@ -36,7 +36,7 @@ const Review = ({
             spacing={1}>
             <Grid item xs={isReply ? 10 : 5}>
               <Typography variant="subtitle1" fontWeight="bold" align="left">
-                {comment.user.username}
+                {comment.userNickname}
               </Typography>
             </Grid>
             {isReply ? null : (
@@ -51,18 +51,17 @@ const Review = ({
 
             <Grid item xs={2}>
               <MoreButton
-                ownerId={comment.user.id}
-                commentId={comment.id}
-                shopId={comment.shopId}
-                handleReplyOpen={handleReplyOpen}
+                ownerId={comment.userNickname}
+                shopId={shopId}
                 handleReportOpen={handleReportOpen}
-                setReportInfo={setReportInfo}
-                rating={comment.rating}
-                commentContent={comment.body}
-                sessionId={sessionId}
-                isReply={isReply}
+                handleUpdateCommentOpen={handleUpdateCommentOpen}
                 replyInfo={replyInfo}
                 setReplyInfo={setReplyInfo}
+                setReportInfo={setReportInfo}
+                setOpenReply={setOpenReply}
+                comment={comment}
+                sessionId={sessionId}
+                isReply={isReply}
               />
             </Grid>
           </Grid>
@@ -74,19 +73,21 @@ const Review = ({
             justifyContent="center"
             spacing={1}>
             <Grid item xs={!isReply ? 10 : 12}>
-              <Typography align="left">{comment.body}</Typography>
+              <Typography align="left">{comment.reviewContent}</Typography>
             </Grid>
             <Grid item xs={2}>
-              {!isReply && (
-                <Button sx={{ mb: -1 }} onClick={handleReply}>
-                  답글
-                </Button>
-              )}
+              {!isReply &&
+                JSON.parse(window.localStorage.getItem("user")).roleType ===
+                  "MECHANIC" && (
+                  <Button sx={{ mb: -1 }} onClick={handleReplyOpen}>
+                    답글
+                  </Button>
+                )}
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Card>
   );
 };
 export default Review;

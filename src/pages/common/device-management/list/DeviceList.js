@@ -9,15 +9,14 @@ import {
 } from "@mui/material";
 import AccordionDetailList from "./DeviceDetailList";
 
-const AccordionList = ({
-  data,
+const DeviceList = ({
+  datas,
   registerOpenHandle,
   registerCloseHandle,
   isUpdate,
   setIsUpdate,
 }) => {
-  const datas = [...data];
-
+  const newDatas = [...datas];
   return (
     <>
       <Card
@@ -27,7 +26,7 @@ const AccordionList = ({
           mb: 3,
         }}>
         <Grid container spacing={3}>
-          {datas.map((data, index) =>
+          {newDatas.map((data, index) =>
             data.detail.length > 0 ? (
               <Grid item xs={12} key={index}>
                 <Accordion>
@@ -62,26 +61,6 @@ const AccordionList = ({
           )}
         </Grid>
       </Card>
-    </>
-  );
-};
-
-const DeviceList = ({
-  data,
-  registerOpenHandle,
-  registerCloseHandle,
-  isUpdate,
-  setIsUpdate,
-}) => {
-  return (
-    <>
-      <AccordionList
-        data={data}
-        registerOpenHandle={registerOpenHandle}
-        registerCloseHandle={registerCloseHandle}
-        isUpdate={isUpdate}
-        setIsUpdate={setIsUpdate}
-      />
     </>
   );
 };

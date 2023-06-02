@@ -24,9 +24,9 @@ export const Header = ({ title }) => {
   return (
     <>
       <Container
-        maxWidth={false}
         sx={{
           borderBottom: "2px solid gray",
+          backgroundColor: "white",
         }}
       >
         <Box sx={{ height: "56px", display: "flex", alignItems: "center" }}>

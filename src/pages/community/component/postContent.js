@@ -35,7 +35,9 @@ export const PostContent = ({ postId, post }) => {
     );
   };
 
+  
   return (
+
     <Box>
       <Typography variant="h5" style={{ wordWrap: "break-word" }}>
         {post.title}
@@ -45,11 +47,10 @@ export const PostContent = ({ postId, post }) => {
           variant="subtitle1"
           fontWeight="bold"
           sx={{ mr: "1%", color: "inherit", textDecoration: "none" }}
-          // component={Link}
-          // to={`/community/mypage/${post.userId}`}
         >
           {post.memberName} ·
         </Typography>
+
         <DateView date={post.date} />
       </Box>
       <hr />

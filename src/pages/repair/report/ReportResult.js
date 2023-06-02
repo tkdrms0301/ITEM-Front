@@ -293,7 +293,7 @@ export const ReportResult = ({ isRegist }) => {
     } else {
       return (
         <>
-          {reportResult.beforeRepairResultImages !== null ? (
+          {reportResult !== undefined ? (
             <Box>
               {reportResult.beforeRepairResultImages.map((img, index) => (
                 <Box key={index} sx={{ width: "100px", height: "130px" }}>
@@ -317,7 +317,7 @@ export const ReportResult = ({ isRegist }) => {
               ))}
             </Box>
           ) : null}
-          {reportResult.afterRepairResultImages !== null ? (
+          {reportResult !== undefined ? (
             <Box>
               {reportResult.afterRepairResultImages.map((img, index) => (
                 <Box key={index} sx={{ width: "100px", height: "130px" }}>
@@ -379,9 +379,7 @@ export const ReportResult = ({ isRegist }) => {
               >
                 정비 담당자의 코멘트
               </Typography>
-              <Typography variant="subtitle1">
-                {reportResult.comment}
-              </Typography>
+              <div>{reportResult.comment}</div>
             </Card>
           ) : null}
         </Container>
