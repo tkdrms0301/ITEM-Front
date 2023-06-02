@@ -46,7 +46,7 @@ export const EstimateComment = ({ completed, data, handleData, isHistory }) => {
       formData.append("productId", data.product);
       formData.append("repairShopId", data.repairShopId);
 
-      post("https//itemserverapi.azurewebsites.net/api/repair/estimate/regist", formData, {
+      post("https://itemserverapi.azurewebsites.net/api/repair/estimate/regist", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

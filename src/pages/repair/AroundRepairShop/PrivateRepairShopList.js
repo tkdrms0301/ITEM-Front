@@ -106,7 +106,7 @@ export const PrivateRepairShopList = () => {
   }
 
   useEffect(() => {
-    get("https//itemserverapi.azurewebsites.net/api/repair/privateShops").then((response) => {
+    get("https://itemserverapi.azurewebsites.net/api/repair/privateShops").then((response) => {
       drowRepairShopMapMarkAndSort(response.data);
     });
   }, []);
