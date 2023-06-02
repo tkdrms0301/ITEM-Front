@@ -9,7 +9,7 @@ export const ServiceListPanelMain = () => {
 const [serviceList, setServiceList] = useState([]);
 
   useEffect(() => {
-    get("http://localhost:8080/api/repair/serviceList", {})
+    get("https://itemserverapi.azurewebsites.net/api/repair/serviceList", {})
       .then((response) => {
         console.log(response);
         setServiceList(response.data);

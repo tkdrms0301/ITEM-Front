@@ -22,7 +22,7 @@ export const LoginForm = () => {
     };
 
     axios
-      .post(BaseUrl + "/api/auth/login", data)
+      .post("https://itemserverapi.azurewebsites.net/api/auth/login", data)
       .then((response) => {
         console.log(response);
         window.localStorage.setItem(

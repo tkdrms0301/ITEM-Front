@@ -34,7 +34,7 @@ export const ServiceListAddMain = () => {
       servicePrice: servicePriceRef.current.value,
     };
 
-    post("http://localhost:8080/api/repair/serviceList", data)
+    post("https://itemserverapi.azurewebsites.net/api/repair/serviceList", data)
       .then((response) => {
         if (response.data == true)
           window.location.replace("/mypage/serviceList/panel");
