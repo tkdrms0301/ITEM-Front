@@ -65,7 +65,7 @@ export const Reservation = () => {
   const getUpdateData = async () => {
     try {
       const res = await get(
-        "https//itemserverapi.azurewebsites.net/api/repair/reservation/history/detail",
+        "https://itemserverapi.azurewebsites.net/api/repair/reservation/history/detail",
         {
           params: { reservationId: reservationId },
         }
@@ -182,7 +182,7 @@ export const Reservation = () => {
   const handleDateSelect = (e) => {
     setReservationData({ ...reservationData, date: e.target.value });
 
-    get("https//itemserverapi.azurewebsites.net/api/repair/reservation/getEnableTime", {
+    get("https://itemserverapi.azurewebsites.net/api/repair/reservation/getEnableTime", {
       params: {
         repairShopId: finalRepairShopId,
         date: e.target.value,
@@ -223,7 +223,7 @@ export const Reservation = () => {
   }, [reservationData]);
 
   useEffect(() => {
-    post("https//itemserverapi.azurewebsites.net/api/repair/reservation/init", {
+    post("https://itemserverapi.azurewebsites.net/api/repair/reservation/init", {
       repairShopId: finalRepairShopId,
     })
       .then((res) => {
@@ -400,8 +400,8 @@ export const Reservation = () => {
   const onClickReservationRegister = () => {
     if (completed.isCompleted) {
       const query = isUpdate
-        ? "https//itemserverapi.azurewebsites.net/api/repair/reservation/update"
-        : "https//itemserverapi.azurewebsites.net/api/repair/reservation/add";
+        ? "https://itemserverapi.azurewebsites.net/api/repair/reservation/update"
+        : "https://itemserverapi.azurewebsites.net/api/repair/reservation/add";
 
       const formData = new FormData();
       for (let i = 0; i < reservationData.rvRequestImgs.length; i++) {

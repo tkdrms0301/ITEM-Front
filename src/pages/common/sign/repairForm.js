@@ -54,7 +54,7 @@ export const RepairForm = ({ roleType }) => {
       email: emailRef.current?.value,
     };
 
-    axios.post(BaseUrl + "/api/auth/email-check", data).then((response) => {
+    axios.post("https://itemserverapi.azurewebsites.net/api/auth/email-check", data).then((response) => {
       if (response.data.success) {
         if (
           window.confirm(response.data.msg + "\n이메일을 사용하시겠습니까?")
