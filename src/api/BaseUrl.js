@@ -1,3 +1,3 @@
-const BaseUrl = "http://localhost:8080";
+const BaseUrl = "http://itemserverapi.azurewebsites.net";
 
 export { BaseUrl };

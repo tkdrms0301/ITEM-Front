@@ -61,9 +61,8 @@ export const PostForm = () => {
 
   // image upload
   const handleImageChange = (e) => {
-    
     const files = Array.from(e.target.files);
-    if(images.length + imgs.length + files.length > 10){
+    if (images.length + imgs.length + files.length > 10) {
       alert("이미지는 최대 10개까지 업로드 가능합니다.");
       document.getElementById("image").value = "";
       return;
@@ -104,6 +103,10 @@ export const PostForm = () => {
           data,
           config
         );
+        if (response.data === "NOT_IMAGE") {
+          setImages(images.filter((item) => item.name !== image.name));
+          return null;
+        }
         urls.push(response.data);
       } catch (error) {
         console.error(error);
@@ -119,6 +122,10 @@ export const PostForm = () => {
     let urls = [];
     if (images.length > 0 || imgs.length > 0) {
       urls = await uploadImages(images);
+      if (urls === null) {
+        alert("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
       postData = {
         title: title,
         content: content,

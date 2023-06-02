@@ -21,7 +21,7 @@ export const HistoryList = ({ itemList }) => {
     handleClose();
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      remove("http://localhost:8080/api/point/history", {
+      remove("http://itemserverapi.azurewebsites.net/api/point/history", {
         params: {
           id: selectedId,
         },

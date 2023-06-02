@@ -54,50 +54,69 @@ export const CommunityMyPage = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            px: "3%",
-            py: "2%",
+            p: 2,
             borderBottom: 1,
             borderColor: "grey.500",
           }}
         >
           <Grid container>
-            <Grid item container xs={8} spacing={2}>
-              <Grid item xs={4}>
-                <Avatar
-                  sx={{
-                    width: 80,
-                    height: 80,
-                  }}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={8}
-                display="flex"
-                alignItems="center"
-                flexWrap="nowrap"
+            <Grid
+              item
+              xs={6}
+              spacing={2}
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Avatar
+                sx={{
+                  width: 80,
+                  height: 80,
+                  mr: 2,
+                }}
+              />
+
+              <Typography
+                variant="h4"
+                sx={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
               >
+                {info.nickname}
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Box display="flex" flexDirection="column">
                 <Typography
-                  variant="h4"
+                  variant="h6"
                   sx={{
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                     overflow: "hidden",
                   }}
                 >
-                  {info.nickname}
+                  작성글 수 &emsp;&nbsp;{info.postCount}
                 </Typography>
-              </Grid>
-            </Grid>
-            <Grid item container xs={4}>
-              <Grid item xs={12} display="flex" justifyContent="space-around">
-                <Typography variant="h6">작성글 수</Typography>
-                <Typography variant="h6">{info.postCount}</Typography>
-              </Grid>
-              <Grid item xs={12} display="flex" justifyContent="space-around">
-                <Typography variant="h6">작성 댓글 수</Typography>
-                <Typography variant="h6">{info.commentCount}</Typography>
-              </Grid>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  작성 댓글 수 &nbsp;{info.commentCount}
+                </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Box>
@@ -106,13 +125,13 @@ export const CommunityMyPage = () => {
           value={tabValue}
           onChange={handleTabChange}
           variant="fullWidth"
-          sx={{ h: "56px", borderBottom: 1, borderColor: "grey.500" }}
+          sx={{ borderBottom: 1, borderColor: "grey.500" }}
         >
           <Tab label="내가 쓴 글" />
           <Tab label="댓글 단 글" />
         </Tabs>
       </Box>
-      <Box sx={{ mt: 25 }}>
+      <Box sx={{ mt: 28 }}>
         {tabValue === 0 && <PostsList query={postQuery} />}
         {tabValue === 1 && <PostsList query={commentQuery} />}
       </Box>
