@@ -3,13 +3,14 @@ import { Box, IconButton, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 
-export const SearchBar = ({url}) => {
+export const SearchBar = ({ url }) => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const handleSearch = () => {
-    if (searchValue.length >= 2)
+    if (searchValue.length >= 2) {
       navigate(`${url}/?search=${searchValue}`);
-    else alert("검색어는 2글자 이상 입력해주세요.");
+      window.location.reload();
+    } else alert("검색어는 2글자 이상 입력해주세요.");
   };
 
   const handleChange = (event) => {
@@ -19,7 +20,7 @@ export const SearchBar = ({url}) => {
     <>
       <Box
         sx={{
-          padding: "2%",
+          ml: 2,
           width: "100%",
           backgroundColor: "white",
         }}
@@ -33,7 +34,7 @@ export const SearchBar = ({url}) => {
           InputProps={{
             endAdornment: (
               <IconButton onClick={handleSearch}>
-                <SearchIcon sx={{ fontSize: "30px" }} />
+                <SearchIcon sx={{}} />
               </IconButton>
             ),
           }}
