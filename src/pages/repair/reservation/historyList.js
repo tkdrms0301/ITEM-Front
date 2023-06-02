@@ -31,7 +31,7 @@ const MoreButtonRepair = ({ data, role }) => {
     e.stopPropagation();
     handleClose(e);
 
-    post("http://itemserverapi.azurewebsites.net/api/repair/reservation/cancel", {
+    post("https//itemserverapi.azurewebsites.net/api/repair/reservation/cancel", {
       reservationId: data.id,
     })
       .then((res) => {

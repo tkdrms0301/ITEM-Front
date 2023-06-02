@@ -63,7 +63,7 @@ export const ReservationHistory = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     if (user !== null) {
       if (user.roleType === "MEMBER") {
-        get("http://itemserverapi.azurewebsites.net/api/repair/reservation/history")
+        get("https//itemserverapi.azurewebsites.net/api/repair/reservation/history")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);
@@ -72,7 +72,7 @@ export const ReservationHistory = () => {
             // 에러 처리
           });
       } else {
-        get("http://itemserverapi.azurewebsites.net/api/repair/reservation/history/mechanic")
+        get("https//itemserverapi.azurewebsites.net/api/repair/reservation/history/mechanic")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);

@@ -55,7 +55,7 @@ export const Estimate = () => {
   );
 
   useEffect(() => {
-    get("http://itemserverapi.azurewebsites.net/api/repair/estimate/init")
+    get("https//itemserverapi.azurewebsites.net/api/repair/estimate/init")
       .then((res) => {
         setMyItDevices(res.data.myItems);
       })
