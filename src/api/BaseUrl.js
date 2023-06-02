@@ -1,3 +1,3 @@
-const BaseUrl = "http://itemserverapi.azurewebsites.net";
+const BaseUrl = "https//itemserverapi.azurewebsites.net";
 
 export { BaseUrl };

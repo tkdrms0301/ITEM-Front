@@ -19,7 +19,7 @@ export const ReservationHistoryDetail = () => {
   const [imgViewModalImgState, setImgViewModalImgState] = useState("");
 
   useEffect(() => {
-    get("http://itemserverapi.azurewebsites.net/api/repair/reservation/history/detail", {
+    get("https//itemserverapi.azurewebsites.net/api/repair/reservation/history/detail", {
       params: { reservationId: reservationId },
     })
       .then((res) => setData(res.data))
@@ -30,7 +30,7 @@ export const ReservationHistoryDetail = () => {
 
   const handleAccept = () => {
     // 예약 수락
-    post("http://itemserverapi.azurewebsites.net/api/repair/reservation/accept", {
+    post("https//itemserverapi.azurewebsites.net/api/repair/reservation/accept", {
       reservationId: reservationId,
     })
       .then((res) => {
@@ -50,7 +50,7 @@ export const ReservationHistoryDetail = () => {
 
   const handleReject = () => {
     // 예약 거절
-    post("http://itemserverapi.azurewebsites.net/api/repair/reservation/reject", {
+    post("https//itemserverapi.azurewebsites.net/api/repair/reservation/reject", {
       reservationId: reservationId,
     })
       .then((res) => {
