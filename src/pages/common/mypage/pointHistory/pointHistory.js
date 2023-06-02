@@ -15,7 +15,7 @@ export const PointHistory = () => {
   const [itemList, setItemList] = useState([]);
 
   const buttonSubmit = () => {
-    get("http://localhost:8080/api/point/history/date", {
+    get("http://itemserverapi.azurewebsites.net/api/point/history/date", {
       params: {
         startDate: dayjs(firstDate).format("YYYY-MM-DDTHH:mm:ss"),
         endDate: dayjs(secondaryDate).format("YYYY-MM-DDTHH:mm:ss"),
@@ -32,7 +32,7 @@ export const PointHistory = () => {
 
   useEffect(() => {
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
-      get("http://localhost:8080/api/point/history")
+      get("http://itemserverapi.azurewebsites.net/api/point/history")
         .then((response) => {
           setItemList(response.data.data);
           console.log(itemList);
