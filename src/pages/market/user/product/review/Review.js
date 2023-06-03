@@ -48,7 +48,6 @@ const Review = ({
                 variant="subtitle1"
                 fontWeight="bold"
                 align="left"
-                gutturBottom
               >
                 {comment.ownerName}
               </Typography>
