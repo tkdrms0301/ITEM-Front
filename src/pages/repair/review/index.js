@@ -156,7 +156,7 @@ const Reviews = ({ shopId }) => {
   }, [openReply]);
 
   useEffect(() => {
-    setSessionId(JSON.parse(window.localStorage.getItem("user")).name);
+    setSessionId(JSON.parse(window.localStorage.getItem("user"))?.name);
 
     get(BaseUrl + "/api/repair/review/list", {
       params: {
@@ -193,12 +193,14 @@ const Reviews = ({ shopId }) => {
         justifyContent="center"
         sx={{ mb: 2, mt: 1 }}
         spacing={2}
-        onClick={openReply ? handleReplyClose : null}>
+        onClick={openReply ? handleReplyClose : null}
+      >
         <Grid item xs={11}>
           <Button
             variant="contained"
             fullWidth={true}
-            onClick={handleCreateCommentOpen}>
+            onClick={handleCreateCommentOpen}
+          >
             댓글 작성
           </Button>
         </Grid>
@@ -216,7 +218,8 @@ const Reviews = ({ shopId }) => {
               <p style={{ textAlign: "center" }}>
                 <b>Yay! You have seen it all</b>
               </p>
-            }>
+            }
+          >
             <Grid container spacing={2} justifyContent="center">
               {comments.map((comment, index) => {
                 return (
