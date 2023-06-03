@@ -2,22 +2,6 @@ import { Box, Chip, CircularProgress, Typography } from "@mui/material";
 import { DateView } from "./date";
 
 export const PostContent = ({ postId, post }) => {
-  // const [post, setPost] = useState(null);
-  // const [loaded, setLoaded] = useState(false);
-  // const [images, setImages] = useState([]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${testBaseURL}/post/${postId}`)
-  //     .then((response) => {
-  //       setPost(response.data.data);
-  //       setImages(response.data.images);
-  //       setLoaded(true);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [postId]);
   if (post === null) {
     return <CircularProgress />;
   }
