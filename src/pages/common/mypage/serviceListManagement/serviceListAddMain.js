@@ -15,6 +15,7 @@ import { ServiceListPanelHeader } from "./serviceListPanelHeader";
 import { useRef, useState } from "react";
 import { post } from "../../../../api";
 import typography from "../../../../theme/typography";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const ServiceListAddMain = () => {
   const [serviceType, setServivceType] = useState("수리");
@@ -34,7 +35,7 @@ export const ServiceListAddMain = () => {
       servicePrice: servicePriceRef.current.value,
     };
 
-    post("https://itemserverapi.azurewebsites.net/api/repair/serviceList", data)
+    post(BaseUrl + "/api/repair/serviceList", data)
       .then((response) => {
         if (response.data == true)
           window.location.replace("/mypage/serviceList/panel");

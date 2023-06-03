@@ -3,6 +3,7 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { remove } from "../../../../api";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const HistoryList = ({ itemList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -21,7 +22,7 @@ export const HistoryList = ({ itemList }) => {
     handleClose();
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      remove("https://itemserverapi.azurewebsites.net/api/point/history", {
+      remove(BaseUrl + "/api/point/history", {
         params: {
           id: selectedId,
         },

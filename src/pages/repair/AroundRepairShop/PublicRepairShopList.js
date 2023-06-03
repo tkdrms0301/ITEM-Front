@@ -6,6 +6,7 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import PublicRepairListItem from "./PublicRepairListItem";
 import axios from "axios";
 import { get } from "../../../api/index";
+import { BaseUrl } from "../../../api/BaseUrl";
 const { kakao } = window;
 
 export const PublicRepairShopList = () => {
@@ -109,7 +110,7 @@ export const PublicRepairShopList = () => {
       });
     }
 
-    get("https://itemserverapi.azurewebsites.net/api/repair/publicShops").then((response) => {
+    get(BaseUrl + "/api/repair/publicShops").then((response) => {
       setLocation(response.data);
     });
   }, []);

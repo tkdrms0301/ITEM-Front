@@ -8,6 +8,7 @@ import { Box, Link } from "@mui/material";
 import { AccountPopover } from "./accountPopover";
 import { useState, useEffect } from "react";
 import { get } from "../api";
+import { BaseUrl } from "../api/BaseUrl";
 
 function ResponsiveAppBar() {
   const logo = (
@@ -20,6 +21,7 @@ function ResponsiveAppBar() {
 
   const [userState, setUserState] = useState({
     userName: "",
+    nickname: "",
     userId: 0,
     point: 0,
     isSubscription: false,
@@ -32,10 +34,11 @@ function ResponsiveAppBar() {
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
 
-      get("https://itemserverapi.azurewebsites.net/api/member/info")
+      get(BaseUrl + "/api/member/info")
         .then((response) => {
           setUserState({
             ...userState,
+            nickname: response.data.data.nickname,
             userName: response.data.data.name,
             userId: response.data.data.id,
             roleType: response.data.data.roleType,

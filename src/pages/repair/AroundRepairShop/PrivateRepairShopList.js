@@ -6,6 +6,7 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import PrivateRepairListItem from "./PrivateRepairListItem";
 import { get } from "../../../api/index";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 const { kakao } = window;
 
@@ -106,7 +107,7 @@ export const PrivateRepairShopList = () => {
   }
 
   useEffect(() => {
-    get("https://itemserverapi.azurewebsites.net/api/repair/privateShops").then((response) => {
+    get(BaseUrl + "/api/repair/privateShops").then((response) => {
       drowRepairShopMapMarkAndSort(response.data);
     });
   }, []);

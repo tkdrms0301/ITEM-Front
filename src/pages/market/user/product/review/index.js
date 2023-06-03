@@ -34,33 +34,33 @@ const Reviews = ({ commentList }) => {
 
   useEffect(() => {
     const totalCount = commentList.reviewList.length;
-    setRatings({
-      r5:
-        (commentList.reviewList.filter((comment) => comment.rating === 5)
-          .length /
-          totalCount) *
-        100,
-      r4:
-        (commentList.reviewList.filter((comment) => comment.rating === 4)
-          .length /
-          totalCount) *
-        100,
-      r3:
-        (commentList.reviewList.filter((comment) => comment.rating === 3)
-          .length /
-          totalCount) *
-        100,
-      r2:
-        (commentList.reviewList.filter((comment) => comment.rating === 2)
-          .length /
-          totalCount) *
-        100,
-      r1:
-        (commentList.reviewList.filter((comment) => comment.rating === 1)
-          .length /
-          totalCount) *
-        100,
-    });
+    const r5 = Math.round(
+      (commentList.reviewList.filter((comment) => comment.rating === 5).length /
+        totalCount) *
+        100
+    );
+    const r4 = Math.round(
+      (commentList.reviewList.filter((comment) => comment.rating === 4).length /
+        totalCount) *
+        100
+    );
+    const r3 = Math.round(
+      (commentList.reviewList.filter((comment) => comment.rating === 3).length /
+        totalCount) *
+        100
+    );
+    const r2 = Math.round(
+      (commentList.reviewList.filter((comment) => comment.rating === 2).length /
+        totalCount) *
+        100
+    );
+    const r1 = Math.round(
+      (commentList.reviewList.filter((comment) => comment.rating === 1).length /
+        totalCount) *
+        100
+    );
+
+    setRatings({ r5, r4, r3, r2, r1 });
   }, []);
 
   const [comments, setComments] = useState([...commentList.reviewList]);
@@ -151,7 +151,7 @@ const Reviews = ({ commentList }) => {
       return (
         <Grid container spacing={1} alignItems={"center"}>
           <Grid item xs={3}>
-            <Typography variant="body2" textAlign={"end"} inline>
+            <Typography variant="body2" textAlign={"end"}>
               {rating}점
             </Typography>
           </Grid>

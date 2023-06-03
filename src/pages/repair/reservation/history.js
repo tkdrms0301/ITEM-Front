@@ -8,8 +8,11 @@ import { Box, Container } from "@mui/material";
 import { SelectFilter } from "./filter";
 import { get } from "../../../api";
 import { Header } from "./header";
+import { BaseUrl } from "../../../api/BaseUrl";
+import { useNavigate } from "react-router-dom";
 
 export const ReservationHistory = () => {
+  const navigate = useNavigate();
   //select filter
   const [selectValue, setSelectValue] = useState("전체");
 
@@ -50,20 +53,12 @@ export const ReservationHistory = () => {
 
   //user & data
   const [data, setData] = useState();
-  //   JSON.parse(window.localStorage.getItem("user")) !== null
-  //     ? JSON.parse(window.localStorage.getItem("user")).roleType === "MEMBER"
-  //       ? reservationHistoryForUser
-  //       : reservationHistoryForUser //정비사의 경우 데이터 받을 것. 내가 보기엔 정비사와 사용자의
-  //     : //데이터 간 차이가 없어서 reservationHistoryForRepair를 일단 지운 것
-  //       undefined
-  // );
-  //user & data end
 
   useEffect(() => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     if (user !== null) {
       if (user.roleType === "MEMBER") {
-        get("https://itemserverapi.azurewebsites.net/api/repair/reservation/history")
+        get(BaseUrl + "/api/repair/reservation/history")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);
@@ -72,7 +67,7 @@ export const ReservationHistory = () => {
             // 에러 처리
           });
       } else {
-        get("https://itemserverapi.azurewebsites.net/api/repair/reservation/history/mechanic")
+        get(BaseUrl + "/api/repair/reservation/history/mechanic")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);
@@ -81,6 +76,8 @@ export const ReservationHistory = () => {
             // 에러 처리
           });
       }
+    } else {
+      navigate("/login");
     }
   }, []);
 

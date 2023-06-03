@@ -7,6 +7,7 @@ import { get } from "../../../../api";
 import PointOrderTimeline from "./pointOrderTimeline";
 import { Container } from "@mui/system";
 import { Card } from "@mui/material";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const PointHistory = () => {
   const currentDate = dayjs().startOf("month").format("YYYY-MM-DD");
@@ -15,7 +16,7 @@ export const PointHistory = () => {
   const [itemList, setItemList] = useState([]);
 
   const buttonSubmit = () => {
-    get("https://itemserverapi.azurewebsites.net/api/point/history/date", {
+    get(BaseUrl + "/api/point/history/date", {
       params: {
         startDate: dayjs(firstDate).format("YYYY-MM-DDTHH:mm:ss"),
         endDate: dayjs(secondaryDate).format("YYYY-MM-DDTHH:mm:ss"),
@@ -32,7 +33,7 @@ export const PointHistory = () => {
 
   useEffect(() => {
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
-      get("https://itemserverapi.azurewebsites.net/api/point/history")
+      get(BaseUrl + "/api/point/history")
         .then((response) => {
           setItemList(response.data.data);
           console.log(itemList);

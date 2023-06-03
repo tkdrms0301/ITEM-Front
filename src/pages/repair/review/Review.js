@@ -33,7 +33,8 @@ const Review = ({
             container
             alignItems="center"
             justifyContent="center"
-            spacing={1}>
+            spacing={1}
+          >
             <Grid item xs={isReply ? 10 : 5}>
               <Typography variant="subtitle1" fontWeight="bold" align="left">
                 {comment.userNickname}
@@ -71,13 +72,14 @@ const Review = ({
             container
             alignItems="flex-end"
             justifyContent="center"
-            spacing={1}>
+            spacing={1}
+          >
             <Grid item xs={!isReply ? 10 : 12}>
               <Typography align="left">{comment.reviewContent}</Typography>
             </Grid>
             <Grid item xs={2}>
               {!isReply &&
-                JSON.parse(window.localStorage.getItem("user")).roleType ===
+                JSON.parse(window.localStorage.getItem("user"))?.roleType ===
                   "MECHANIC" && (
                   <Button sx={{ mb: -1 }} onClick={handleReplyOpen}>
                     답글

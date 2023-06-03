@@ -22,7 +22,7 @@ export const MarketSearchBar = () => {
         alignItems: "center",
       }}
     >
-      <SearchBar url={"/market/products"} />
+      <SearchBar url={"/market/products/search"} />
       <Badge badgeContent={cartCount} color="secondary">
         <ShoppingCartIcon
           sx={{ fontSize: 40, ml: 1 }}

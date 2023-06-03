@@ -4,12 +4,13 @@ import { FloatingWriteButton } from "./FloatingWriteButton";
 import { ServiceListItem } from "./serviceListItem";
 import { ServiceListPanelHeader } from "./serviceListPanelHeader";
 import { Container, Grid } from "@mui/material";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const ServiceListPanelMain = () => {
-const [serviceList, setServiceList] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
 
   useEffect(() => {
-    get("https://itemserverapi.azurewebsites.net/api/repair/serviceList", {})
+    get(BaseUrl + "/api/repair/serviceList", {})
       .then((response) => {
         console.log(response);
         setServiceList(response.data);

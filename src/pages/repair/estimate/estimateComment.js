@@ -1,4 +1,3 @@
-
 import {
   Container,
   TextField,
@@ -11,6 +10,7 @@ import { is } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { post } from "../../../api";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const EstimateComment = ({ completed, data, handleData, isHistory }) => {
   function isBase64Encoded(data) {
@@ -46,7 +46,7 @@ export const EstimateComment = ({ completed, data, handleData, isHistory }) => {
       formData.append("productId", data.product);
       formData.append("repairShopId", data.repairShopId);
 
-      post("https://itemserverapi.azurewebsites.net/api/repair/estimate/regist", formData, {
+      post(BaseUrl + "/api/repair/estimate/regist", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

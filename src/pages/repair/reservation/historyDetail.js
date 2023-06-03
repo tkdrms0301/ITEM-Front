@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import { get, post } from "../../../api";
 import palette from "../../../theme/palette";
 import { Header } from "./header";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const ReservationHistoryDetail = () => {
   const { reservationId } = useParams();
@@ -19,7 +20,7 @@ export const ReservationHistoryDetail = () => {
   const [imgViewModalImgState, setImgViewModalImgState] = useState("");
 
   useEffect(() => {
-    get("https://itemserverapi.azurewebsites.net/api/repair/reservation/history/detail", {
+    get(BaseUrl + "/api/repair/reservation/history/detail", {
       params: { reservationId: reservationId },
     })
       .then((res) => setData(res.data))
@@ -30,7 +31,7 @@ export const ReservationHistoryDetail = () => {
 
   const handleAccept = () => {
     // 예약 수락
-    post("https://itemserverapi.azurewebsites.net/api/repair/reservation/accept", {
+    post(BaseUrl + "/api/repair/reservation/accept", {
       reservationId: reservationId,
     })
       .then((res) => {
@@ -50,7 +51,7 @@ export const ReservationHistoryDetail = () => {
 
   const handleReject = () => {
     // 예약 거절
-    post("https://itemserverapi.azurewebsites.net/api/repair/reservation/reject", {
+    post(BaseUrl + "/api/repair/reservation/reject", {
       reservationId: reservationId,
     })
       .then((res) => {
