@@ -90,7 +90,7 @@ export const EstimateHistoryDetail = ({ role }) => {
   }, [formData]);
 
   useEffect(() => {
-    get("http://localhost:8080/api/repair/estimate/history/detail", {
+    get("https://itemserverapi.azurewebsites.net/api/repair/estimate/history/detail", {
       params: {
         estimateId: estimateId,
       },
@@ -176,7 +176,7 @@ export const EstimateHistoryDetail = ({ role }) => {
     if (isUpdating) {
       //응답
       post(
-        "http://localhost:8080/api/repair/estimate/responseRegist",
+        "https://itemserverapi.azurewebsites.net/api/repair/estimate/responseRegist",
         formData
       ).then((res) => {
         //console.log(res);

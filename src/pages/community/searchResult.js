@@ -8,28 +8,27 @@ import { testBaseURL } from "./testing-String";
 
 export const SearchResult = () => {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const keyword = searchParams.get("search");
+  const keyword = new URLSearchParams(location.search).get("search");
+  console.log("🚀 ~ file: searchResult.js:12 ~ SearchResult ~ keyword:", keyword)
   const postQuery = testBaseURL + "/community/posts";
   return (
     <>
       <Box
         sx={{
           position: "fixed",
-          bgcolor: "white",
+          backgroundColor: "white",
+          height: 80,
           zIndex: 100,
           width: "100%",
+          display: "flex",
+          alignItems: "center",
+          borderBottom: "1px solid #C4C4C4",
         }}
       >
-        <Box
-          sx={{ height: "56px", mb: -1, display: "flex", alignItems: "center" }}
-        >
-          <BackButton />
-          <SearchBar></SearchBar>
-        </Box>
-        <hr />
+        <BackButton />
+        <SearchBar url={"/community/search"}></SearchBar>
       </Box>
-      <Box sx={{ mt: "56px", pt: "1%" }}>
+      <Box sx={{ mt: 10 }}>
         <PostsList query={postQuery} keyword={keyword}></PostsList>
       </Box>
     </>

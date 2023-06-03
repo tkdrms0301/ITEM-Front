@@ -1,4 +1,4 @@
-import { Grid, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { FloatingWriteButton } from "./component/FloatingWriteButton";
 import { MyPageButton } from "./component/MyPageButton";
 import { PostsList } from "./component/postsList";
@@ -10,27 +10,22 @@ export const CommunityMain = () => {
   return (
     <>
       <FloatingWriteButton />
-      <Grid
-        container
+      <Box
         sx={{
           position: "fixed",
-          backgroundColor: "black",
-          height: 3,
+          backgroundColor: "white",
           width: "100%",
+          height: 80,
           zIndex: 100,
+          alignItems: "center",
+          display: "flex",
+          borderBottom: "1px solid #C4C4C4",
         }}
       >
-        <Grid item xs={8} sx={{ height: "100%" }}>
-          <SearchBar url={"/community/search"} />
-        </Grid>
-        <Grid item xs={4}>
-          <MyPageButton userId={userId} />
-        </Grid>
-        <Grid item xs={12} sx={{ mt: -1 }}>
-          <hr />
-        </Grid>
-      </Grid>
-      <Box sx={{ mt: 7 }}>
+        <SearchBar url={"/community/search"} />
+        <MyPageButton userId={userId} />
+      </Box>
+      <Box sx={{ mt: 10 }}>
         <PostsList query={query} />
       </Box>
     </>

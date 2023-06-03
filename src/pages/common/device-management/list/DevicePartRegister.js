@@ -51,7 +51,7 @@ const DevicePartRegister = ({
   }, [registerOpen]);
 
   useEffect(() => {
-    axios.get(BaseUrl + "/api/device/part-category").then((res) => {
+    axios.get("https://itemserverapi.azurewebsites.net/api/device/part-category").then((res) => {
       setCategoryList([
         { id: 0, url: null, name: "카테고리명" },
         ...res.data.data,
@@ -225,7 +225,8 @@ const DevicePartRegister = ({
                 bgcolor: "action.selected",
                 fontWeight: "fontWeightBold",
               },
-            }}>
+            }}
+          >
             취소
           </Button>
           <Button
@@ -239,7 +240,8 @@ const DevicePartRegister = ({
                 bgcolor: "action.selected",
                 fontWeight: "fontWeightBold",
               },
-            }}>
+            }}
+          >
             등록
           </Button>
         </DialogActions>

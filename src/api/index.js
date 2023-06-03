@@ -2,12 +2,14 @@ import axios from "axios";
 import { BaseUrl } from "./BaseUrl";
 
 const api = axios.create({
-  baseURL: { BaseUrl },
+  // baseURL: BaseUrl,
+  baseURL: "",
   //timeout : 1000,
   //headers: {'Beaerer' : 'test'},
 });
 
 api.interceptors.request.use((config) => {
+  console.log(config);
   if (JSON.parse(localStorage.getItem("token")) !== null) {
     const token = JSON.parse(localStorage.getItem("token")).accessToken.split(
       " "
@@ -22,7 +24,10 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log(response);
+    return response;
+  },
   (error) => {
     console.error(error);
     // ACCESS TOKEN이 만료된 경우, 홈 화면으로 이동하도록 처리

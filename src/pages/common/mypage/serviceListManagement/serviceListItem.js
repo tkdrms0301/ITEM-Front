@@ -26,7 +26,7 @@ export const ServiceListItem = ({ serviceList }) => {
     handleClose();
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      remove("http://localhost:8080/api/repair/serviceList", {
+      remove("https://itemserverapi.azurewebsites.net/api/repair/serviceList", {
         params: {
           serviceId: selectedId,
         },

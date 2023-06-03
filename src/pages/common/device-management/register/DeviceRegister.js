@@ -46,7 +46,7 @@ const DeviceRegister = ({
   }, [registerOpen]);
 
   useEffect(() => {
-    axios.get(BaseUrl + "/api/device/completion-category").then((res) => {
+    axios.get("https://itemserverapi.azurewebsites.net/api/device/completion-category").then((res) => {
       setCategoryList([
         { id: 0, url: null, name: "카테고리명" },
         ...res.data.data,

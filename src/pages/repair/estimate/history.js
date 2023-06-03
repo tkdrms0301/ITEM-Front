@@ -59,7 +59,7 @@ export const EstimateHistory = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     if (user !== null) {
       if (user.roleType === "MEMBER") {
-        get("http://localhost:8080/api/repair/estimate/history")
+        get("https://itemserverapi.azurewebsites.net/api/repair/estimate/history")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);
@@ -68,7 +68,7 @@ export const EstimateHistory = () => {
             // 에러 처리
           });
       } else {
-        get("http://localhost:8080/api/repair/estimate/history/mechanic")
+        get("https://itemserverapi.azurewebsites.net/api/repair/estimate/history/mechanic")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);

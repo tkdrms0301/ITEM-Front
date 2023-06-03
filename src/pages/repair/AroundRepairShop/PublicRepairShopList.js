@@ -109,7 +109,7 @@ export const PublicRepairShopList = () => {
       });
     }
 
-    get("http://localhost:8080/api/repair/publicShops").then((response) => {
+    get("https://itemserverapi.azurewebsites.net/api/repair/publicShops").then((response) => {
       setLocation(response.data);
     });
   }, []);
