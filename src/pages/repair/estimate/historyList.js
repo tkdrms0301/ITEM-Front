@@ -23,7 +23,6 @@ const MoreButtonRepair = ({ data, role }) => {
   const handleUpdate = (e) => {
     e.stopPropagation();
     handleClose(e);
-    console.log("수정: " + selectedId);
     navigate(`/repair/privateShops/${data.shopId}/update/${data.id}`);
   };
 
@@ -32,7 +31,6 @@ const MoreButtonRepair = ({ data, role }) => {
     handleClose(e);
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      console.log(selectedId);
       window.location.reload();
     }
   };
@@ -46,8 +44,7 @@ const MoreButtonRepair = ({ data, role }) => {
           aria-label="more"
           aria-controls={`more-menu-${data.id}`}
           aria-haspopup="true"
-          onClick={(e) => handleMenuOpen(e, data.id)}
-        >
+          onClick={(e) => handleMenuOpen(e, data.id)}>
           <MoreVertIcon sx={{ fontSize: "30px" }} />
         </IconButton>
         <Menu
@@ -57,8 +54,7 @@ const MoreButtonRepair = ({ data, role }) => {
           onClose={(e) => {
             handleClose(e);
             setSelectedId(null);
-          }}
-        >
+          }}>
           <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
         </Menu>
       </>
@@ -73,8 +69,7 @@ const MoreButtonRepair = ({ data, role }) => {
           aria-label="more"
           aria-controls={`more-menu-${data.id}`}
           aria-haspopup="true"
-          onClick={(e) => handleMenuOpen(e, data.id)}
-        >
+          onClick={(e) => handleMenuOpen(e, data.id)}>
           <MoreVertIcon sx={{ fontSize: "30px" }} />
         </IconButton>
         <Menu
@@ -84,8 +79,7 @@ const MoreButtonRepair = ({ data, role }) => {
           onClose={(e) => {
             handleClose(e);
             setSelectedId(null);
-          }}
-        >
+          }}>
           <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
         </Menu>
       </>
@@ -122,7 +116,6 @@ export const HistoryList = ({ itemList, role }) => {
                     }
                   : data.status === "응답 완료"
                   ? () => {
-                      console.log(data.id);
                       navigate(
                         { pathname: `/repair/mypage/estimate/${data.id}` },
                         { state: { role: role } }
@@ -139,7 +132,6 @@ export const HistoryList = ({ itemList, role }) => {
                     }
                   : data.status === "응답 완료"
                   ? () => {
-                      console.log(data.id);
                       navigate(
                         { pathname: `/repair/mypage/estimate/${data.id}` },
                         { state: { role: role } }
@@ -147,9 +139,7 @@ export const HistoryList = ({ itemList, role }) => {
                     }
                   : null
                 : null
-            }
-          >
-            {console.log(data)}
+            }>
             <Grid
               item
               xs={3}
@@ -157,14 +147,12 @@ export const HistoryList = ({ itemList, role }) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <img
                 src={data.requestImg}
                 alt=""
                 width={"80%"}
-                height={"80%"}
-              ></img>
+                height={"80%"}></img>
             </Grid>
             <Grid item xs={7}>
               <Grid container sx={{ ml: 1, p: 1 }}>
@@ -179,8 +167,7 @@ export const HistoryList = ({ itemList, role }) => {
                           : data.status === "응답 완료"
                           ? "#88CDAB"
                           : "#9A9A9A",
-                    }}
-                  >
+                    }}>
                     {data.status}
                   </Typography>
                 </Grid>
@@ -190,8 +177,7 @@ export const HistoryList = ({ itemList, role }) => {
                       fontSize: "20px",
                       fontWeight: "bold",
                       color: "#747373",
-                    }}
-                  >
+                    }}>
                     {data.itDevice.itName}
                   </Typography>
                 </Grid>

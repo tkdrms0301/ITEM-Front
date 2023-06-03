@@ -30,13 +30,12 @@ export const ServiceListUpdateMain = () => {
   const serviceDescriptionRef = useRef();
 
   useEffect(() => {
-    get( BaseUrl + "/api/repair/serviceList/info", {
+    get(BaseUrl + "/api/repair/serviceList/info", {
       params: {
         serviceId: location.state.selectedId,
       },
     })
       .then((response) => {
-        console.log(response);
         setServivceType(response.data.serviceType);
         setServiceName(response.data.serviceName);
         setServcieDescription(response.data.description);
@@ -45,8 +44,6 @@ export const ServiceListUpdateMain = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    console.log(location.state);
   }, []);
 
   const handleChange = (event) => {
@@ -93,14 +90,12 @@ export const ServiceListUpdateMain = () => {
                   <Select
                     sx={{ fontSize: "14px" }}
                     value={serviceType}
-                    onChange={handleChange}
-                  >
+                    onChange={handleChange}>
                     {menuItem.map((data, index) => (
                       <MenuItem
                         key={index}
                         sx={{ fontSize: "14px" }}
-                        value={data.name}
-                      >
+                        value={data.name}>
                         <Typography variant="subtitle2">{data.name}</Typography>
                       </MenuItem>
                     ))}
@@ -125,8 +120,7 @@ export const ServiceListUpdateMain = () => {
                   fontWeight: typography.h5.fontWeight,
                   fontFamily: typography.fontFamily,
                   fontSize: typography.h5.fontSize,
-                }}
-              ></TextField>
+                }}></TextField>
             </Grid>
             <Grid item xs={12} sx={{ my: 1 }}>
               <Typography variant="h5">서비스 이름</Typography>
@@ -145,8 +139,7 @@ export const ServiceListUpdateMain = () => {
                   fontWeight: typography.h5.fontWeight,
                   fontFamily: typography.fontFamily,
                   fontSize: typography.h5.fontSize,
-                }}
-              ></TextField>
+                }}></TextField>
             </Grid>
 
             <Grid item xs={12} sx={{ mt: 1 }}>
@@ -158,16 +151,14 @@ export const ServiceListUpdateMain = () => {
                 rows={8}
                 sx={{ mt: 1 }}
                 defaultValue={servcieDescription}
-                inputRef={serviceDescriptionRef}
-              ></TextField>
+                inputRef={serviceDescriptionRef}></TextField>
             </Grid>
             <Grid item xs={12} sx={{ mt: 3, mb: 2 }}>
               <Button
                 fullWidth
                 color="inherit"
                 variant="contained"
-                onClick={onSubmitServiceUpdate}
-              >
+                onClick={onSubmitServiceUpdate}>
                 등록
               </Button>
             </Grid>

@@ -19,17 +19,12 @@ export const IncomeMain = () => {
   const [incomeServiceList, setIncomeServiceList] = useState([]);
 
   const buttonSubmit = () => {
-    console.log(dayjs(firstDate).toDate());
-    console.log(dayjs(secondaryDate).toDate());
-    console.log(serviceName);
-
     post(BaseUrl + "/api/point/income-history/dateAndServiceName", {
       startDate: dayjs(firstDate).toDate(),
       endDate: dayjs(secondaryDate).toDate(),
       serviceName: serviceName,
     })
       .then((response) => {
-        console.log(response);
         setIncomeServiceList(response.data.data);
 
         setPoint(0);
@@ -45,7 +40,6 @@ export const IncomeMain = () => {
   useEffect(() => {
     get(BaseUrl + "/api/repair/serviceList")
       .then((response) => {
-        console.log(response);
         setServiceList(response.data);
         setServiceName(response.data.map((data) => data.serviceName));
       })
@@ -55,7 +49,6 @@ export const IncomeMain = () => {
 
     get(BaseUrl + "/api/point/income-history")
       .then((response) => {
-        console.log(response);
         setIncomeServiceList(response.data.data);
 
         response.data.data.map((data) => {
@@ -78,13 +71,11 @@ export const IncomeMain = () => {
         buttonSubmit={buttonSubmit}
         serviceList={serviceList}
         serviceName={serviceName}
-        setServiceName={setServiceName}
-      ></SearchDate>
+        setServiceName={setServiceName}></SearchDate>
       <IncomeTotal
         point={point}
         firstDate={firstDate}
-        secondaryDate={secondaryDate}
-      ></IncomeTotal>
+        secondaryDate={secondaryDate}></IncomeTotal>
 
       <Container>
         <Grid
@@ -98,8 +89,7 @@ export const IncomeMain = () => {
             pb: 1,
             mb: 5,
             border: "2px solid gray",
-          }}
-        >
+          }}>
           {incomeServiceList.map((data, index) => (
             <Grid
               item
@@ -110,8 +100,7 @@ export const IncomeMain = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <Grid container>
                 <Grid
                   item
@@ -121,8 +110,7 @@ export const IncomeMain = () => {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                  }}
-                >
+                  }}>
                   <HandymanIcon sx={{ fontSize: "30px" }} />
                 </Grid>
                 <Grid
@@ -130,8 +118,7 @@ export const IncomeMain = () => {
                   xs={9}
                   sx={{
                     borderBottom: "1px solid gray",
-                  }}
-                >
+                  }}>
                   <Grid container>
                     <Grid
                       item
@@ -140,15 +127,13 @@ export const IncomeMain = () => {
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
-                      }}
-                    >
+                      }}>
                       <Typography
                         sx={{
                           color: "gray",
                           fontWeight: "bold",
                           fontSize: "16px",
-                        }}
-                      >
+                        }}>
                         {data.serviceName}
                       </Typography>
                       <Typography
@@ -156,8 +141,7 @@ export const IncomeMain = () => {
                           color: "gray",
                           fontWeight: "bold",
                           fontSize: "13px",
-                        }}
-                      >
+                        }}>
                         {dayjs(data.date).format("YYYY-MM-DD / HH:mm")}
                       </Typography>
                     </Grid>
@@ -168,14 +152,12 @@ export const IncomeMain = () => {
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
-                      }}
-                    >
+                      }}>
                       <Typography
                         sx={{
                           fontWeight: "bold",
                           fontSize: "14px",
-                        }}
-                      >
+                        }}>
                         {data.point} P
                       </Typography>
                     </Grid>

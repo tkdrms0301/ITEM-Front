@@ -24,7 +24,6 @@ export const PointHistory = () => {
     })
       .then((response) => {
         setItemList(response.data.data);
-        console.log(itemList[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -36,7 +35,6 @@ export const PointHistory = () => {
       get(BaseUrl + "/api/point/history")
         .then((response) => {
           setItemList(response.data.data);
-          console.log(itemList);
         })
         .catch((error) => {
           console.log(error);

@@ -9,7 +9,6 @@ import { testBaseURL } from "./testing-String";
 export const SearchResult = () => {
   const location = useLocation();
   const keyword = new URLSearchParams(location.search).get("search");
-  console.log("🚀 ~ file: searchResult.js:12 ~ SearchResult ~ keyword:", keyword)
   const postQuery = testBaseURL + "/community/posts";
   return (
     <>
@@ -23,8 +22,7 @@ export const SearchResult = () => {
           display: "flex",
           alignItems: "center",
           borderBottom: "1px solid #C4C4C4",
-        }}
-      >
+        }}>
         <BackButton />
         <SearchBar url={"/community/search"}></SearchBar>
       </Box>

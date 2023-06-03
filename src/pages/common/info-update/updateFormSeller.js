@@ -6,8 +6,8 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import { useRef, useState } from "react";
-import { post } from "../../../api";
+import { useEffect, useRef, useState } from "react";
+import { get, post } from "../../../api";
 import { BaseUrl } from "../../../api/BaseUrl";
 import axios from "axios";
 
@@ -57,8 +57,7 @@ export const UpdateFormSeller = () => {
     const data = {
       nickname: nickName.current.value,
     };
-    axios
-      .post(BaseUrl + "/api/auth/nickname-check", data)
+    post(BaseUrl + "/api/member/nickname-check-update", data)
       .then((response) => {
         if (response.data.success) {
           if (
@@ -89,9 +88,8 @@ export const UpdateFormSeller = () => {
       companyNumber: companyNumber.current?.value,
     };
 
-    post(BaseUrl + "/api/member/company-number-check", data)
+    post(BaseUrl + "/api/member/company-number-check-update", data)
       .then((response) => {
-        console.log(response);
         if (response.data.success) {
           if (window.confirm("사업자 번호를 사용하시겠습니까?")) {
             setCheck({
@@ -263,6 +261,27 @@ export const UpdateFormSeller = () => {
     },
   ];
 
+  useEffect(() => {
+    get(BaseUrl + "/api/member/info")
+      .then((res) => {
+        const info = res.data.data;
+        console.log(info);
+        nickName.current.value = info.nickname;
+        address.current.value = info.address;
+        phoneNumber.current.value = info.phoneNumber;
+        account.current.value = info.account;
+        companyName.current.value = info.sellerInfoDto.companyName;
+        companyAddress.current.value = info.sellerInfoDto.companyAddress;
+        companyPhoneNumber.current.value =
+          info.sellerInfoDto.companyPhoneNumber;
+        companyNumber.current.value = info.sellerInfoDto.companyNumber;
+        companyDescription.current.value = info.sellerInfoDto.description;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container
       component="main"
@@ -292,6 +311,7 @@ export const UpdateFormSeller = () => {
               key={index}
               sx={{ display: "flex", alignItems: "center" }}>
               <TextField
+                InputLabelProps={{ shrink: true }}
                 name={data.name}
                 variant="outlined"
                 id={data.id}

@@ -15,8 +15,6 @@ export const OrderHistoryPage = () => {
     setData(orderHistoryData);
   }, []);
 
-  console.log(data);
-
   //select filter
   const [selectValue, setSelectValue] = useState("전체");
 
@@ -52,9 +50,6 @@ export const OrderHistoryPage = () => {
           itemTime.isBefore(secondaryDateTime, "minute"))
       );
     });
-
-    console.log(data);
-    console.log(filteredDataByDate);
     setFilteredData(filteredDataByDate);
   };
   //search date end
@@ -75,8 +70,7 @@ export const OrderHistoryPage = () => {
               }}
               sx={{
                 mt: 1,
-              }}
-            >
+              }}>
               <CustomCard
                 title={
                   item.orderData.orderItems[0].name +
@@ -97,8 +91,7 @@ export const OrderHistoryPage = () => {
                       <Grid
                         container
                         alignItems="center"
-                        sx={{ height: "100%" }}
-                      >
+                        sx={{ height: "100%" }}>
                         <Grid item xs={12}>
                           <Typography variant="body1">{item.status}</Typography>
                         </Grid>
@@ -128,8 +121,7 @@ export const OrderHistoryPage = () => {
           width: "100%",
           zIndex: 1000,
           backgroundColor: "white",
-        }}
-      >
+        }}>
         <Header title={"주문목록"} />
       </Box>
       <Container sx={{ mt: "56px", p: 1, pt: 3 }}>
@@ -144,8 +136,7 @@ export const OrderHistoryPage = () => {
           sx={{
             // padding: "0 1rem",
             mt: "1rem",
-          }}
-        >
+          }}>
           <SelectFilter
             selectValue={selectValue}
             handleChange={handleChange}

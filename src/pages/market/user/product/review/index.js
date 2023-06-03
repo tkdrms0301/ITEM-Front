@@ -12,7 +12,6 @@ const Reviews = ({ commentList }) => {
   useEffect(() => {
     get(BaseUrl + "/api/member/info")
       .then((res) => {
-        console.log(res);
         setSessionId(res.data.data.id);
       })
       .catch((err) => {
@@ -162,16 +161,14 @@ const Reviews = ({ commentList }) => {
                 height: "10px",
                 backgroundColor: "#C4C4C4",
                 borderRadius: "4px",
-              }}
-            >
+              }}>
               <Box
                 sx={{
                   width: `${percent}%`,
                   height: "10px",
                   backgroundColor: "#FAAF00",
                   borderRadius: "4px",
-                }}
-              ></Box>
+                }}></Box>
             </Box>
           </Grid>
           <Grid item xs={2}>
@@ -189,8 +186,7 @@ const Reviews = ({ commentList }) => {
           border: "1px solid #C4C4C4",
           borderRadius: "4px",
           p: 1,
-        }}
-      >
+        }}>
         <Grid
           item
           xs={6}
@@ -199,15 +195,13 @@ const Reviews = ({ commentList }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-            }}
-          >
+            }}>
             <Typography variant="subtitle1" gutterBottom>
               평균별점
             </Typography>
@@ -235,8 +229,7 @@ const Reviews = ({ commentList }) => {
         justifyContent="center"
         sx={{ mb: 2, mt: 1 }}
         spacing={2}
-        onClick={openReply ? handleReplyClose : null}
-      >
+        onClick={openReply ? handleReplyClose : null}>
         <Grid item xs={11}>
           <AvgView avg={avgRating} ratingsData={ratings} />
         </Grid>
@@ -244,8 +237,7 @@ const Reviews = ({ commentList }) => {
           <Button
             variant="contained"
             fullWidth={true}
-            onClick={handleCommentOpen}
-          >
+            onClick={handleCommentOpen}>
             리뷰 작성
           </Button>
         </Grid>

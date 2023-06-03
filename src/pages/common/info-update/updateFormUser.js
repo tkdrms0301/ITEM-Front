@@ -6,9 +6,9 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BaseUrl } from "../../../api/BaseUrl";
-import { post } from "../../../api";
+import { get, post } from "../../../api";
 import axios from "axios";
 
 export const UpdateFormUser = () => {
@@ -51,8 +51,7 @@ export const UpdateFormUser = () => {
     const data = {
       nickname: nickName.current.value,
     };
-    axios
-      .post(BaseUrl + "/api/auth/nickname-check", data)
+    post(BaseUrl + "/api/member/nickname-check-update", data)
       .then((response) => {
         if (response.data.success) {
           if (
@@ -178,6 +177,21 @@ export const UpdateFormUser = () => {
     },
   ];
 
+  useEffect(() => {
+    get(BaseUrl + "/api/member/info")
+      .then((res) => {
+        const info = res.data.data;
+        console.log(info);
+        nickName.current.value = info.nickname;
+        address.current.value = info.address;
+        phoneNumber.current.value = info.phoneNumber;
+        account.current.value = info.account;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container
       component="main"
@@ -207,6 +221,7 @@ export const UpdateFormUser = () => {
               key={index}
               sx={{ display: "flex", alignItems: "center" }}>
               <TextField
+                InputLabelProps={{ shrink: true }}
                 name={data.name}
                 variant="outlined"
                 id={data.id}

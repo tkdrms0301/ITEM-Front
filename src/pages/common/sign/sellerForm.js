@@ -100,7 +100,6 @@ export const SellerForm = ({ roleType }) => {
     axios
       .post(BaseUrl + "/api/auth/company-number-check", data)
       .then((response) => {
-        console.log(response);
         if (response.data.success) {
           if (window.confirm("사업자 번호를 사용하시겠습니까?")) {
             setCheck({
@@ -286,8 +285,7 @@ export const SellerForm = ({ roleType }) => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}
-    >
+      }}>
       <CssBaseline />
       <Box>
         <Grid
@@ -297,15 +295,13 @@ export const SellerForm = ({ roleType }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-start",
-          }}
-        >
+          }}>
           {boxList.map((data, index) => (
             <Grid
               item
               xs={12}
               key={index}
-              sx={{ display: "flex", alignItems: "center" }}
-            >
+              sx={{ display: "flex", alignItems: "center" }}>
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -333,8 +329,7 @@ export const SellerForm = ({ roleType }) => {
           variant="contained"
           color="primary"
           onClick={signUpSubmit}
-          sx={{ mt: 2 }}
-        >
+          sx={{ mt: 2 }}>
           Sign Up
         </Button>
         <Grid container justify="flex-end" sx={{ mt: 2 }}>

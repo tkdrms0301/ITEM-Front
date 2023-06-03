@@ -32,7 +32,6 @@ export const MoreButton = (props) => {
     const id = isPost ? props.postId : props.commentId;
     const type = isPost ? "post" : "comment";
     if (window.confirm(`Are you sure you want to delete this ${type}?`)) {
-      console.log(`${type} ${id} deleted successfully!`);
       let url;
       if (isPost) {
         url = testBaseURL + `/community/post/${id}/delete`;
@@ -42,7 +41,6 @@ export const MoreButton = (props) => {
       }
       remove(url)
         .then(() => {
-          console.log(`${type} ${id} deleted successfully!`);
           if (type === "post") navigate(-1);
           else window.location.reload();
         })
@@ -69,8 +67,7 @@ export const MoreButton = (props) => {
         aria-label="more"
         aria-controls="more-menu"
         aria-haspopup="true"
-        onClick={handleMenuOpen}
-      >
+        onClick={handleMenuOpen}>
         <MoreVertIcon sx={{ fontSize: "30px" }} />
       </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>

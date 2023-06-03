@@ -12,6 +12,8 @@ const Reply = ({
   shopId,
   handleUpdateCommentOpen,
   handleUpdateReplyOpen,
+  handleCommentDelete,
+  handleReplyDelete,
 }) => {
   return (
     <Card
@@ -39,12 +41,14 @@ const Reply = ({
                 handleReportOpen={handleReportOpen}
                 handleUpdateCommentOpen={handleUpdateCommentOpen}
                 handleUpdateReplyOpen={handleUpdateReplyOpen}
+                handleCommentDelete={handleCommentDelete}
                 replyInfo={replyInfo}
                 setReplyInfo={setReplyInfo}
                 setReportInfo={setReportInfo}
                 comment={comment}
                 sessionId={sessionId}
                 isReply={isReply}
+                handleReplyDelete={handleReplyDelete}
               />
             </Grid>
           </Grid>

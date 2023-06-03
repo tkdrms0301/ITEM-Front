@@ -9,14 +9,18 @@ import {
 import { BaseUrl } from "../../../../api/BaseUrl";
 import { post, put } from "../../../../api";
 
-const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
+const ReplyDialog = ({
+  handleReplyClose,
+  replyInfo,
+  setReplyInfo,
+  handleCommentAdd,
+  handleCommentUpdate,
+  handleReply,
+}) => {
   const handleReplySubmit = () => {
     const type = replyInfo.isUpdate ? "수정" : "작성";
     if (window.confirm(`답글을 ${type}하시겠습니까 ?`)) {
-      console.log(`답글 ${type} 완료!`);
       handleReplyClose();
-      console.log(replyInfo);
-
       // 수정
       if (replyInfo.isUpdate) {
         const data = {
@@ -26,9 +30,11 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
         put(BaseUrl + "/api/repair/reply/update", data)
           .then((res) => {
             if (res.data.success) {
-              console.log(res.data.msg);
+              alert(res.data.msg);
+              console.log(res.data.data);
+              handleReply(res.data.data);
             } else {
-              console.log(res.data.msg);
+              alert(res.data.msg);
             }
           })
           .catch((err) => {
@@ -46,6 +52,7 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
           .then((res) => {
             if (res.data.success) {
               alert(res.data.msg);
+              handleReply(res.data.data);
             } else {
               alert(res.data.msg);
             }
@@ -73,9 +80,10 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
         put(BaseUrl + "/api/repair/review/update", data)
           .then((res) => {
             if (res.data.success) {
-              console.log(res.data.msg);
+              alert(res.data.msg);
+              handleCommentUpdate(res.data.data);
             } else {
-              console.log(res.data.msg);
+              alert(res.data.msg);
             }
           })
           .catch((err) => {
@@ -93,6 +101,7 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
           .then((res) => {
             if (res.data.success) {
               alert(res.data.msg);
+              handleCommentAdd(res.data.data);
             } else {
               alert(res.data.msg);
             }
@@ -101,8 +110,6 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
             console.log(err);
           });
       }
-
-      //window.location.reload();
     }
   };
 

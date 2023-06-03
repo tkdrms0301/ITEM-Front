@@ -25,10 +25,6 @@ export const TitleButtonBar = ({
   const handleButton = () => {
     if (completed.isCompleted) {
       if (title.includes("예약")) {
-        for (let i = 0; i < transmitData.services.length; i++) {
-          console.log(transmitData.services[i].serviceName);
-          console.log(transmitData.services[i].price);
-        }
         const formData = new FormData();
         for (let i = 0; i < transmitData.rvRequestImgs.length; i++) {
           const imageData = transmitData.rvRequestImgs[i];
@@ -72,12 +68,11 @@ export const TitleButtonBar = ({
             "Content-Type": "multipart/form-data",
           },
         }).then((res) => {
-          //console.log(res);
+          console.log(res);
         });
       } else if (title.includes("견적")) {
         if (isUpdating) {
           //응답
-          console.log(transmitData);
           post(query, transmitData).then((res) => {
             //console.log(res);
           });
@@ -97,8 +92,7 @@ export const TitleButtonBar = ({
           fullWidth
           color="inherit"
           variant="contained"
-          onClick={handleButton}
-        >
+          onClick={handleButton}>
           {buttonLabel}
         </Button>
       )}

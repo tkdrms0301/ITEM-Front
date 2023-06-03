@@ -81,7 +81,6 @@ export const EstimateHistoryDetail = ({ role }) => {
 
   const handleFormData = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(formData);
   };
   const handleChange = (e) => {
     handleFormData(e);
@@ -202,8 +201,7 @@ export const EstimateHistoryDetail = ({ role }) => {
           <EstimateComment
             completed={completed}
             data={data}
-            isHistory={true}
-          ></EstimateComment>
+            isHistory={true}></EstimateComment>
 
           <Container sx={{ width: "100%", marginTop: "20px" }}>
             <Card
@@ -211,8 +209,7 @@ export const EstimateHistoryDetail = ({ role }) => {
               sx={{
                 pb: 1,
                 boxShadow: 10,
-              }}
-            >
+              }}>
               <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                 응답 정보
               </Typography>
@@ -235,8 +232,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                       "MECHANIC" || !isUpdating
                       ? true
                       : false,
-                }}
-              ></TextField>
+                }}></TextField>
             </Card>
           </Container>
 
@@ -247,20 +243,17 @@ export const EstimateHistoryDetail = ({ role }) => {
                 sx={{
                   pb: 1,
                   boxShadow: 10,
-                }}
-              >
+                }}>
                 <Typography
                   variant="h6"
-                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
-                >
+                  sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                   예상 금액
                 </Typography>
                 <Grid
                   container
                   justifyContent="space-around"
                   alignItems="center"
-                  marginTop={2}
-                >
+                  marginTop={2}>
                   <Grid item xs={4}>
                     <TextField
                       label="최소"
@@ -287,8 +280,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                    }}
-                  >
+                    }}>
                     <p>~</p>
                   </Grid>
                   <Grid item xs={4}>
@@ -320,20 +312,17 @@ export const EstimateHistoryDetail = ({ role }) => {
                 sx={{
                   pb: 1,
                   boxShadow: 10,
-                }}
-              >
+                }}>
                 <Typography
                   variant="h6"
-                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
-                >
+                  sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                   예상 소요 시간
                 </Typography>
                 <Grid
                   container
                   justifyContent="space-around"
                   alignItems="center"
-                  marginTop={2}
-                >
+                  marginTop={2}>
                   <Grid item xs={4}>
                     <FormControl fullWidth required>
                       <InputLabel>최소</InputLabel>
@@ -346,8 +335,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                             .roleType !== "MECHANIC" || !isUpdating
                             ? true
                             : false
-                        }
-                      >
+                        }>
                         {timeList.map((time) => (
                           <MenuItem key={time.label} value={time.value}>
                             {time.label}
@@ -364,8 +352,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                    }}
-                  >
+                    }}>
                     <p>~</p>
                   </Grid>
                   <Grid item xs={4}>
@@ -380,8 +367,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                             .roleType !== "MECHANIC" || !isUpdating
                             ? true
                             : false
-                        }
-                      >
+                        }>
                         {timeList.map((time) =>
                           time.value === 0 ? null : (
                             <MenuItem key={time.label} value={time.value}>
@@ -405,8 +391,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                   onClick={handleUpdate}
                   variant="contained"
                   fullWidth
-                  sx={{ mt: "3%" }}
-                >
+                  sx={{ mt: "3%" }}>
                   견적 응답 작성
                 </Button>
               )}
@@ -424,8 +409,7 @@ export const EstimateHistoryDetail = ({ role }) => {
                 mb: 2,
                 backgroundColor: "ButtonFace",
                 color: "ButtonText",
-              }}
-            >
+              }}>
               견적 응답 등록
             </Button>
           ) : null}

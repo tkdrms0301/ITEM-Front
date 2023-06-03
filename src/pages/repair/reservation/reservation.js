@@ -72,7 +72,6 @@ export const Reservation = () => {
         }
       );
       const getData = res.data;
-      console.log(getData);
       setRepairShopServices(getData.services);
 
       getData.requestServices.map((item) => {
@@ -279,15 +278,13 @@ export const Reservation = () => {
         <Modal
           isOpen={deleteModalState}
           style={modalStyles}
-          ariaHideApp={false}
-        >
+          ariaHideApp={false}>
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
-            }}
-          >
+            }}>
             <Button
               onClick={() => {
                 setReservationData({
@@ -297,8 +294,7 @@ export const Reservation = () => {
                   ),
                 });
                 setDeleteModalState(false);
-              }}
-            >
+              }}>
               삭제
             </Button>
             <Button onClick={() => setDeleteModalState(false)}>취소</Button>
@@ -308,8 +304,7 @@ export const Reservation = () => {
         <Modal
           isOpen={imgViewModalState}
           style={modalStyles}
-          ariaHideApp={false}
-        >
+          ariaHideApp={false}>
           <img
             src={imgViewModalImgState}
             onClick={() => setImgViewModalState(false)}
@@ -356,8 +351,7 @@ export const Reservation = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                }}
-              >
+                }}>
                 <Box
                   component="img"
                   src={"/camera-outline.svg"}
@@ -374,8 +368,7 @@ export const Reservation = () => {
                     color: "ButtonText",
                     mb: 2,
                   }}
-                  onClick={() => onClickRvRequestImgPlus()}
-                >
+                  onClick={() => onClickRvRequestImgPlus()}>
                   <Typography variant="subtitle2">+ 사진추가</Typography>
                 </Button>
               </Box>
@@ -439,7 +432,6 @@ export const Reservation = () => {
       formData.append("time", reservationData.time);
 
       if (reservationId !== null && reservationId !== undefined) {
-        console.log(reservationId);
         formData.append("reservationId", reservationId.toString());
       }
 
@@ -502,8 +494,7 @@ export const Reservation = () => {
                     display: "flex",
                     flexWrap: "wrap",
                     justifyContent: "center",
-                  }}
-                >
+                  }}>
                   {filteredTimes.map((time) => {
                     return (
                       <ToggleButton
@@ -514,8 +505,7 @@ export const Reservation = () => {
                           flex: "0 0 auto",
                           whiteSpace: "nowrap",
                           border: "none",
-                        }}
-                      >
+                        }}>
                         {time.time}
                       </ToggleButton>
                     );
@@ -532,8 +522,7 @@ export const Reservation = () => {
                 readOnly={
                   reservationData.date === "" || reservationData.time === ""
                 }
-                onClick={handleClose}
-              >
+                onClick={handleClose}>
                 선택
               </Button>
             </DialogActions>
@@ -545,8 +534,7 @@ export const Reservation = () => {
                 mt: 2,
                 mb: 2,
                 boxShadow: 10,
-              }}
-            >
+              }}>
               <Grid container>
                 <Grid item xs={12}>
                   <Box
@@ -554,8 +542,7 @@ export const Reservation = () => {
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
-                    }}
-                  >
+                    }}>
                     <FormControl fullWidth sx={{ mt: 1 }}>
                       <InputLabel>제품 선택</InputLabel>
                       <Select
@@ -564,8 +551,7 @@ export const Reservation = () => {
                         defaultValue={""}
                         onChange={handleData}
                         label="제품 선택"
-                        fullWidth
-                      >
+                        fullWidth>
                         {userDevice.map((item, index) => (
                           <MenuItem value={item.itName} key={index}>
                             {item.itName}
@@ -583,8 +569,7 @@ export const Reservation = () => {
                     backgroundColor: "ButtonHighlight",
                     display: "flex",
                     justifyContent: "center",
-                  }}
-                ></Grid>
+                  }}></Grid>
                 <Box
                   sx={{
                     position: "relative",
@@ -596,8 +581,7 @@ export const Reservation = () => {
                     mt: "3%",
                     padding: "3%",
                     alignItems: "center",
-                  }}
-                >
+                  }}>
                   <Typography
                     sx={{
                       position: "absolute",
@@ -606,8 +590,7 @@ export const Reservation = () => {
                       bgcolor: "white",
                       px: 1,
                       fontSize: "0.8rem",
-                    }}
-                  >
+                    }}>
                     제품 정보
                   </Typography>
                   <Box
@@ -642,8 +625,7 @@ export const Reservation = () => {
                   borderRadius: "4px",
                   display: "flex",
                   flexDirection: "column",
-                }}
-              >
+                }}>
                 {repairShopServices.map((service, index) => (
                   <ToggleButton
                     key={index}
@@ -656,8 +638,7 @@ export const Reservation = () => {
                       pl: 1,
                       display: "flex",
                       flexDirection: "column",
-                    }}
-                  >
+                    }}>
                     <Box
                       sx={{
                         display: "flex",
@@ -666,8 +647,7 @@ export const Reservation = () => {
                         flexDirection: "column",
                         borderBottom: "2px solid #f1f1f1",
                         pb: 2,
-                      }}
-                    >
+                      }}>
                       <Typography variant="h5">
                         {service.serviceName}
                       </Typography>
@@ -679,19 +659,16 @@ export const Reservation = () => {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         flexDirection: "column",
-                      }}
-                    >
+                      }}>
                       <Typography
                         variant="subtitle2"
-                        sx={{ color: palette.error.main, mt: 0.5 }}
-                      >
+                        sx={{ color: palette.error.main, mt: 0.5 }}>
                         ITEM 특가
                       </Typography>
                       <Box sx={{ display: "flex" }}>
                         <Typography
                           variant="subtitle1"
-                          sx={{ fontWeight: 800 }}
-                        >
+                          sx={{ fontWeight: 800 }}>
                           {service.price.toLocaleString()}원
                         </Typography>
                         <Typography
@@ -700,8 +677,7 @@ export const Reservation = () => {
                             fontWeight: 600,
                             ml: 0.5,
                             textDecoration: "line-through",
-                          }}
-                        >
+                          }}>
                           {(service.price + 10000).toLocaleString()}원
                         </Typography>
                       </Box>
@@ -736,8 +712,7 @@ export const Reservation = () => {
                 pb: 1,
                 boxShadow: 10,
                 mt: 2,
-              }}
-            >
+              }}>
               <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                 요청 사항
               </Typography>
@@ -753,8 +728,7 @@ export const Reservation = () => {
                 sx={{ m: "3%" }}
                 InputProps={{
                   disableUnderline: true, // <== added this
-                }}
-              ></TextField>
+                }}></TextField>
             </Card>
 
             <Card
@@ -769,8 +743,7 @@ export const Reservation = () => {
                 padding: "3%",
                 width: "100%",
                 height: "100px",
-              }}
-            >
+              }}>
               <Box>
                 <Typography variant="h6" fontWeight="bold">
                   방문 시간 선택
@@ -797,8 +770,7 @@ export const Reservation = () => {
           mb: 2,
           backgroundColor: "ButtonFace",
           color: "ButtonText",
-        }}
-      >
+        }}>
         {isUpdate ? "예약 수정" : " 예약 신청"}
       </Button>
     </>

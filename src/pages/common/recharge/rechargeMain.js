@@ -90,9 +90,7 @@ export const RechargeMain = () => {
     }
   };
 
-  const handleChange = (event) => {
-    console.log(event.target.value);
-  };
+  const handleChange = (event) => {};
 
   return (
     <>
@@ -110,8 +108,7 @@ export const RechargeMain = () => {
           fullWidth
           onClick={(e) => {
             onButtonCharge();
-          }}
-        >
+          }}>
           결제하기
         </Button>
       </Container>

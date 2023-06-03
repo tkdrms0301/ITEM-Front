@@ -9,7 +9,6 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  console.log(config);
   if (JSON.parse(localStorage.getItem("token")) !== null) {
     const token = JSON.parse(localStorage.getItem("token")).accessToken.split(
       " "
@@ -25,7 +24,6 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response;
   },
   (error) => {

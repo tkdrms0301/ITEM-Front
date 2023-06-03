@@ -28,7 +28,7 @@ export const HistoryList = ({ itemList }) => {
         },
       })
         .then((response) => {
-          console.log(response);
+          //console.log(response);
         })
         .catch((error) => {
           console.log(error);
@@ -43,8 +43,7 @@ export const HistoryList = ({ itemList }) => {
           <Grid
             container
             key={index}
-            sx={{ mt: 2, backgroundColor: "#F9F9F9" }}
-          >
+            sx={{ mt: 2, backgroundColor: "#F9F9F9" }}>
             <Grid
               item
               xs={3}
@@ -52,8 +51,7 @@ export const HistoryList = ({ itemList }) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <img src={data.img} width={"50%"} height={"80%"}></img>
             </Grid>
             <Grid item xs={7}>
@@ -61,8 +59,7 @@ export const HistoryList = ({ itemList }) => {
                 <Grid item xs={12}>
                   <Typography
                     variant="h7"
-                    sx={{ fontWeight: "bold", color: "#9A9A9A" }}
-                  >
+                    sx={{ fontWeight: "bold", color: "#9A9A9A" }}>
                     {data.serviceName}
                   </Typography>
                 </Grid>
@@ -72,8 +69,7 @@ export const HistoryList = ({ itemList }) => {
                       fontSize: "14px",
                       fontWeight: "bold",
                       color: "#747373",
-                    }}
-                  >
+                    }}>
                     {data.serviceType}
                   </Typography>
                 </Grid>
@@ -89,8 +85,7 @@ export const HistoryList = ({ itemList }) => {
                 aria-label="more"
                 aria-controls={`more-menu-${data.id}`}
                 aria-haspopup="true"
-                onClick={(e) => handleMenuOpen(e, data.id)}
-              >
+                onClick={(e) => handleMenuOpen(e, data.id)}>
                 <MoreVertIcon sx={{ fontSize: "30px" }} />
               </IconButton>
               <Menu
@@ -100,8 +95,7 @@ export const HistoryList = ({ itemList }) => {
                 onClose={() => {
                   handleClose();
                   setSelectedId(null);
-                }}
-              >
+                }}>
                 <MenuItem onClick={(e) => handleDelete(e)}>삭제</MenuItem>
               </Menu>
             </Grid>
