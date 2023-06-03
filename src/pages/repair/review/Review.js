@@ -14,6 +14,7 @@ const Review = ({
   handleCreateCommentOpen,
   handleUpdateCommentOpen,
   handleCreateReplyOpen,
+  handleCommentDelete,
 }) => {
   const handleReplyOpen = () => {
     handleCreateReplyOpen();
@@ -33,8 +34,7 @@ const Review = ({
             container
             alignItems="center"
             justifyContent="center"
-            spacing={1}
-          >
+            spacing={1}>
             <Grid item xs={isReply ? 10 : 5}>
               <Typography variant="subtitle1" fontWeight="bold" align="left">
                 {comment.userNickname}
@@ -56,6 +56,7 @@ const Review = ({
                 shopId={shopId}
                 handleReportOpen={handleReportOpen}
                 handleUpdateCommentOpen={handleUpdateCommentOpen}
+                handleCommentDelete={handleCommentDelete}
                 replyInfo={replyInfo}
                 setReplyInfo={setReplyInfo}
                 setReportInfo={setReportInfo}
@@ -72,8 +73,7 @@ const Review = ({
             container
             alignItems="flex-end"
             justifyContent="center"
-            spacing={1}
-          >
+            spacing={1}>
             <Grid item xs={!isReply ? 10 : 12}>
               <Typography align="left">{comment.reviewContent}</Typography>
             </Grid>

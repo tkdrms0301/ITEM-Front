@@ -12,7 +12,6 @@ export const ServiceListPanelMain = () => {
   useEffect(() => {
     get(BaseUrl + "/api/repair/serviceList", {})
       .then((response) => {
-        console.log(response);
         setServiceList(response.data);
       })
       .catch((error) => {

@@ -18,7 +18,6 @@ export const HistoryDetailPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  console.log(data);
   if (data === null) return <></>;
   else
     return (
@@ -29,8 +28,7 @@ export const HistoryDetailPage = () => {
             width: "100%",
             zIndex: 1000,
             backgroundColor: "white",
-          }}
-        >
+          }}>
           <Header title={"주문 내역"} />
         </Box>
         <Box sx={{ mt: 5, p: 3 }}>
@@ -78,8 +76,7 @@ export const HistoryDetailPage = () => {
           </Box>
           <Card
             onClick={() => setOpen(!open)}
-            sx={{ p: 2, pb: 0, boxShadow: 10 }}
-          >
+            sx={{ p: 2, pb: 0, boxShadow: 10 }}>
             <Typography variant="subtitle1" gutterBottom>
               주문 상태: {data.status}
             </Typography>
@@ -95,8 +92,7 @@ export const HistoryDetailPage = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 mt: 1,
-              }}
-            >
+              }}>
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </Box>
             {open && (
@@ -122,8 +118,7 @@ export const HistoryDetailPage = () => {
                     index === data.orderData.orderItems.length - 1
                       ? null
                       : "1px solid #e0e0e0",
-                }}
-              >
+                }}>
                 <Grid item xs={4}>
                   <img
                     src={item.imageUrl}

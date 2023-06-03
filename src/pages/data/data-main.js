@@ -128,18 +128,13 @@ export const DataMain = () => {
 
   const onClickFinalSearch = async () => {
     try {
-      console.log("최종 선택 키워드");
       const selectedTagIds = selectedProductList.map((product) => product.id);
-      console.log(selectedTagIds);
-      console.log(seachKeywordList);
-
       const data = {
         words: seachKeywordList,
         products: selectedTagIds,
       };
 
       const response = await post(BaseUrl + "/api/data/get", data);
-      console.log(response);
       setDataList(response.data.data);
     } catch (err) {
       console.log(err);
@@ -177,9 +172,6 @@ export const DataMain = () => {
         post(BaseUrl + "/api/data/download-related-word-data", data),
         post(BaseUrl + "/api/data/download-pos-and-neg-data", data),
       ]);
-
-      console.log(responseRelated.data);
-      console.log(responsePosAndNeg.data);
 
       const relatedData = parseCSV(responseRelated.data);
       const posNegData = parseCSV(responsePosAndNeg.data);
@@ -240,8 +232,7 @@ export const DataMain = () => {
         backgroundColor: "white",
         width: "190px",
         pb: 3,
-      }}
-    >
+      }}>
       <Box
         sx={{
           display: "flex",
@@ -250,8 +241,7 @@ export const DataMain = () => {
           alignItems: "center",
           borderBottom: "2px solid #f1f1f1",
           py: 2,
-        }}
-      >
+        }}>
         <Typography variant="h5">검색 카테고리</Typography>
         <Typography variant="subtitle2">찾으시는 제품이 있나요?</Typography>
       </Box>
@@ -265,8 +255,7 @@ export const DataMain = () => {
             sx={{
               backgroundColor:
                 option.id === selectedCategoryId ? "#f1f1f1" : null,
-            }}
-          >
+            }}>
             <Typography variant="subtitle2">{option.name}</Typography>
           </MenuItem>
         ))}
@@ -276,8 +265,7 @@ export const DataMain = () => {
           sx={{
             width: "130px",
             borderBottom: "2px solid #f1f1f1",
-          }}
-        >
+          }}>
           <Typography variant="h6">중분류</Typography>
           {brandList.map((option) => (
             <MenuItem
@@ -287,8 +275,7 @@ export const DataMain = () => {
               sx={{
                 backgroundColor:
                   option.id === selectedBrandId ? "#f1f1f1" : null,
-              }}
-            >
+              }}>
               <Typography variant="subtitle2">{option.name}</Typography>
             </MenuItem>
           ))}
@@ -326,8 +313,7 @@ export const DataMain = () => {
                     height: "calc(100% - 250px)",
                     top: 250,
                   },
-                }}
-              >
+                }}>
                 {categorySideBar()}
               </Drawer>
             </Box>
@@ -388,8 +374,7 @@ export const DataMain = () => {
                 <Button
                   variant="contained"
                   color="inherit"
-                  onClick={onClickFinalSearch}
-                >
+                  onClick={onClickFinalSearch}>
                   검색
                 </Button>
               </Container>
@@ -404,16 +389,14 @@ export const DataMain = () => {
                       alignItems: "center",
                       my: 2,
                       position: "relative",
-                    }}
-                  >
+                    }}>
                     <Box
                       sx={{
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
-                      }}
-                    >
+                      }}>
                       <Typography variant="h4">데이터 분석</Typography>
                       <Typography variant="subtitle2" sx={{ px: 1 }}>
                         최근 1년간의 데이터 중 검색한 제품에 대한 연관어 및
@@ -425,8 +408,7 @@ export const DataMain = () => {
                         variant="contained"
                         color="inherit"
                         onClick={convertExcel}
-                        sx={{ position: "absolute", right: 0, py: 1 }}
-                      >
+                        sx={{ position: "absolute", right: 0, py: 1 }}>
                         <Iconify
                           icon={"vscode-icons:file-type-excel"}
                           width={30}
@@ -444,8 +426,7 @@ export const DataMain = () => {
                             alignItems: "center",
                             px: 1,
                             py: 1,
-                          }}
-                        >
+                          }}>
                           <AppConversionRates
                             title={data.productName}
                             subheader="선택한 제품에 대한 연관어 언급량 결과"
@@ -465,8 +446,7 @@ export const DataMain = () => {
                           alignItems: "center",
                           px: 1,
                           py: 1,
-                        }}
-                      >
+                        }}>
                         <AppCurrentVisits
                           title={data.productName}
                           subheader="검색한 제품에 대한 긍/부정도 분석 결과"
@@ -498,8 +478,7 @@ export const DataMain = () => {
               <Grid
                 item
                 xs={12}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
+                sx={{ display: "flex", justifyContent: "center" }}>
                 <Typography variant="h4" sx={{ mt: 10 }}>
                   찾으시는 제품에 대한 결과가 없습니다.
                 </Typography>
@@ -513,15 +492,13 @@ export const DataMain = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
-                }}
-              >
+                }}>
                 <Typography variant="h4" sx={{ mt: 10 }}>
                   구독 정보가 없습니다
                 </Typography>
                 <Typography
                   variant="subtitle2"
-                  sx={{ opacity: 0.72, mb: 1, mr: 2, color: "MenuText" }}
-                >
+                  sx={{ opacity: 0.72, mb: 1, mr: 2, color: "MenuText" }}>
                   첫 결제 시 3개월간 월 5,000원부터!
                 </Typography>
                 <Button variant="contained" color="inherit">
@@ -530,8 +507,7 @@ export const DataMain = () => {
                     sx={{ opacity: 0.72, color: "MenuText" }}
                     onClick={(e) => {
                       navigate(`/mypage/subscription`);
-                    }}
-                  >
+                    }}>
                     구매 하러 가기{`▶`}
                   </Typography>
                 </Button>

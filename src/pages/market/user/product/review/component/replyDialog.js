@@ -43,9 +43,7 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
       return;
     }
     if (window.confirm(`리뷰을 ${type}하시겠습니까 ?`)) {
-      console.log(`리뷰 ${type} 완료!`);
       handleReplyClose();
-      console.log(replyInfo);
       // productId / rating / content
 
       // isUpdate
@@ -97,16 +95,14 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
       <Grid
         container
         alignItems="center"
-        sx={{ height: "100%", padding: "1%" }}
-      >
+        sx={{ height: "100%", padding: "1%" }}>
         {replyInfo.isComment && (
           <Grid item xs={12}>
             <Grid
               container
               spacing={2}
               justifyContent="flex-start"
-              alignItems="center"
-            >
+              alignItems="center">
               <Grid item>
                 <Typography color="black">별점</Typography>
               </Grid>
@@ -133,8 +129,7 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
             display: "flex",
             alignItems: "center",
             pr: "2%",
-          }}
-        >
+          }}>
           <TextField
             id="reply"
             autoFocus
@@ -173,8 +168,7 @@ const ReplyDialog = ({ handleReplyClose, replyInfo, setReplyInfo }) => {
               height: "7vh",
               width: "100%",
               backgroundColor: "#1f497d",
-            }}
-          >
+            }}>
             {replyInfo.isUpdate ? "수정" : "작성"}
           </Button>
         </Grid>

@@ -19,7 +19,6 @@ const ReportDialog = ({
 
   const reportSubmit = () => {
     if (window.confirm(`신고하시겠습니까 ?`)) {
-      console.log(reportInfo);
       handleReportClose();
     }
   };

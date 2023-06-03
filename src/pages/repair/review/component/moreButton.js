@@ -28,6 +28,8 @@ export const MoreButton = (props) => {
 
   useEffect(() => {}, [props.replyInfo]);
 
+  useEffect(() => {}, [props.comment]);
+
   const handleCommentUpdate = () => {
     props.handleUpdateCommentOpen();
     props.setReplyInfo({
@@ -55,7 +57,6 @@ export const MoreButton = (props) => {
 
   const handleCommentDelete = () => {
     handleClose();
-    console.log(props.comment.reviewId);
     if (window.confirm(`댓글을 삭제하시겠습니까 ?`)) {
       remove(BaseUrl + "/api/repair/review/delete", {
         params: {
@@ -65,6 +66,7 @@ export const MoreButton = (props) => {
         .then((res) => {
           if (res.data.success) {
             alert(res.data.msg);
+            props.handleCommentDelete(props.comment.reviewId);
           } else {
             alert(res.data.msg);
           }
@@ -86,6 +88,7 @@ export const MoreButton = (props) => {
         .then((res) => {
           if (res.data.success) {
             alert(res.data.msg);
+            props.handleReplyDelete(props.comment.reviewId);
           } else {
             alert(res.data.msg);
           }

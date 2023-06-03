@@ -35,7 +35,6 @@ export const ReservationHistoryDetail = () => {
       reservationId: reservationId,
     })
       .then((res) => {
-        console.log(res);
         if (res.data === false) {
           alert("사용자의 포인트가 부족합니다.");
           return;
@@ -55,7 +54,6 @@ export const ReservationHistoryDetail = () => {
       reservationId: reservationId,
     })
       .then((res) => {
-        console.log(res);
         alert("예약이 거절되었습니다.");
         //navigate("/repair/reservation/history");
         navigate(-1);
@@ -88,8 +86,7 @@ export const ReservationHistoryDetail = () => {
           <Modal
             isOpen={imgViewModalState}
             style={modalStyles}
-            ariaHideApp={false}
-          >
+            ariaHideApp={false}>
             <img
               src={imgViewModalImgState}
               onClick={() => setImgViewModalState(false)}
@@ -102,15 +99,13 @@ export const ReservationHistoryDetail = () => {
             sx={{
               pt: "1%",
               mt: 2,
-            }}
-          >
+            }}>
             <Card
               sx={{
                 mt: 2,
                 mb: 2,
                 boxShadow: 10,
-              }}
-            >
+              }}>
               <Typography variant="h6" sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                 제품정보
               </Typography>
@@ -124,8 +119,7 @@ export const ReservationHistoryDetail = () => {
                   mt: "3%",
                   padding: "3%",
                   alignItems: "center",
-                }}
-              >
+                }}>
                 {data.prodImg ? (
                   <Box
                     component="img"
@@ -146,8 +140,7 @@ export const ReservationHistoryDetail = () => {
                       mr: "5%",
                       bgcolor: "#8C92AC",
                       borderRadius: "10px",
-                    }}
-                  ></Box>
+                    }}></Box>
                 )}
                 <Typography>{data.productName}</Typography>
               </Box>
@@ -158,8 +151,7 @@ export const ReservationHistoryDetail = () => {
                 mt: 2,
                 mb: 2,
                 boxShadow: 10,
-              }}
-            >
+              }}>
               <Grid
                 container
                 direction="column"
@@ -168,13 +160,11 @@ export const ReservationHistoryDetail = () => {
                   borderBottom: "1px dashed #C4C4C4",
                   mb: "3%",
                   pb: "3%",
-                }}
-              >
+                }}>
                 {" "}
                 <Typography
                   variant="h6"
-                  sx={{ color: "GrayText", ml: 2, mt: 1 }}
-                >
+                  sx={{ color: "GrayText", ml: 2, mt: 1 }}>
                   신청정보
                 </Typography>
               </Grid>
@@ -187,8 +177,7 @@ export const ReservationHistoryDetail = () => {
                   width: "100%",
                   minHeight: "100px",
                   alignItems: "center",
-                }}
-              >
+                }}>
                 <Grid
                   container
                   direction="column"
@@ -197,12 +186,10 @@ export const ReservationHistoryDetail = () => {
                     borderBottom: "1px dashed #C4C4C4",
                     mb: "3%",
                     pb: "3%",
-                  }}
-                >
+                  }}>
                   <Typography
                     variant="subtitle1"
-                    sx={{ color: "GrayText", ml: 2, mb: 1 }}
-                  >
+                    sx={{ color: "GrayText", ml: 2, mb: 1 }}>
                     신청 서비스
                   </Typography>
                   {data.requestServices.map((item, index) => {
@@ -218,8 +205,7 @@ export const ReservationHistoryDetail = () => {
                           alignItems: "center",
                           pt: 1,
                           pb: 1,
-                        }}
-                      >
+                        }}>
                         <Box
                           sx={{
                             display: "flex",
@@ -229,8 +215,7 @@ export const ReservationHistoryDetail = () => {
                             borderBottom: "2px solid #f1f1f1",
                             pb: 2,
                             textAlign: "center",
-                          }}
-                        >
+                          }}>
                           <Typography variant="h5">
                             {item.serviceName}
                           </Typography>
@@ -241,19 +226,16 @@ export const ReservationHistoryDetail = () => {
                             justifyContent: "center",
                             alignItems: "flex-start",
                             flexDirection: "column",
-                          }}
-                        >
+                          }}>
                           <Typography
                             variant="subtitle2"
-                            sx={{ color: palette.error.main, mt: 0.5 }}
-                          >
+                            sx={{ color: palette.error.main, mt: 0.5 }}>
                             ITEM 특가
                           </Typography>
                           <Box sx={{ display: "flex" }}>
                             <Typography
                               variant="subtitle1"
-                              sx={{ fontWeight: 800 }}
-                            >
+                              sx={{ fontWeight: 800 }}>
                               {item.price.toLocaleString()}원
                             </Typography>
                           </Box>
@@ -272,12 +254,10 @@ export const ReservationHistoryDetail = () => {
                     borderBottom: "1px dashed #A4A4A4",
                     mb: "3%",
                     pb: "3%",
-                  }}
-                >
+                  }}>
                   <Typography
                     variant="subtitle1"
-                    sx={{ color: "GrayText", ml: 2 }}
-                  >
+                    sx={{ color: "GrayText", ml: 2 }}>
                     이미지
                   </Typography>
                   <div className="reservation_img_field">
@@ -290,8 +270,7 @@ export const ReservationHistoryDetail = () => {
                             margin: "0 auto",
                             display: "table-cell",
                             verticalAlign: "middle",
-                          }}
-                        >
+                          }}>
                           <Box
                             component="img"
                             src={img}
@@ -327,12 +306,10 @@ export const ReservationHistoryDetail = () => {
                     mt: "1%",
                     mb: "3%",
                     pb: "3%",
-                  }}
-                >
+                  }}>
                   <Typography
                     variant="subtitle1"
-                    sx={{ color: "GrayText", ml: 2 }}
-                  >
+                    sx={{ color: "GrayText", ml: 2 }}>
                     요청 사항
                   </Typography>
                   <Typography
@@ -344,8 +321,7 @@ export const ReservationHistoryDetail = () => {
                       mb: "3%",
                       pb: "3%",
                       ml: 2,
-                    }}
-                  >
+                    }}>
                     {data.requestComment}
                   </Typography>
                 </Box>
@@ -357,12 +333,10 @@ export const ReservationHistoryDetail = () => {
                     mt: "1%",
                     mb: "3%",
                     pb: "3%",
-                  }}
-                >
+                  }}>
                   <Typography
                     variant="subtitle1"
-                    sx={{ color: "GrayText", ml: 2 }}
-                  >
+                    sx={{ color: "GrayText", ml: 2 }}>
                     예약 시간
                   </Typography>
                   <Typography
@@ -373,8 +347,7 @@ export const ReservationHistoryDetail = () => {
                       mt: "1%",
                       color: "GrayText",
                       textAlign: "center",
-                    }}
-                  >
+                    }}>
                     {data.date} {data.time}
                   </Typography>
                 </Box>
@@ -390,8 +363,7 @@ export const ReservationHistoryDetail = () => {
                     mb: 2,
                     boxShadow: 10,
                     pt: 2,
-                  }}
-                >
+                  }}>
                   <Typography variant="h6" sx={{ color: "GrayText", ml: 2 }}>
                     예약 처리
                   </Typography>
@@ -405,8 +377,7 @@ export const ReservationHistoryDetail = () => {
                       mt: "3%",
                       padding: "3%",
                       alignItems: "center",
-                    }}
-                  >
+                    }}>
                     <Button
                       variant="contained"
                       onClick={() => {
@@ -415,8 +386,7 @@ export const ReservationHistoryDetail = () => {
                       sx={{
                         width: "40%",
                         height: "80%",
-                      }}
-                    >
+                      }}>
                       거절
                     </Button>
                     <Button
@@ -424,8 +394,7 @@ export const ReservationHistoryDetail = () => {
                       onClick={() => {
                         handleAccept();
                       }}
-                      sx={{ width: "40%", height: "80%" }}
-                    >
+                      sx={{ width: "40%", height: "80%" }}>
                       수락
                     </Button>
                   </Box>

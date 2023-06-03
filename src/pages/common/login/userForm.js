@@ -24,7 +24,6 @@ export const LoginForm = () => {
     axios
       .post(BaseUrl + "/api/auth/login", data)
       .then((response) => {
-        console.log(response);
         window.localStorage.setItem(
           "user",
           JSON.stringify({
@@ -77,8 +76,7 @@ export const LoginForm = () => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}
-    >
+      }}>
       <CssBaseline />
       <Box>
         <Grid
@@ -88,8 +86,7 @@ export const LoginForm = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}
-        >
+          }}>
           {boxList.map((data, index) => (
             <Grid
               item
@@ -99,8 +96,7 @@ export const LoginForm = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -120,8 +116,7 @@ export const LoginForm = () => {
             variant="contained"
             color="primary"
             onClick={signInSubmit}
-            sx={{ width: "80%", mt: 2 }}
-          >
+            sx={{ width: "80%", mt: 2 }}>
             로그인
           </Button>
         </Grid>

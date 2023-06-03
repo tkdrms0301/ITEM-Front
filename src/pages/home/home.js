@@ -13,11 +13,9 @@ export const Home = () => {
 
   useEffect(() => {
     get(BaseUrl + "/api/community/posts/latest").then((res) => {
-      console.log(res.data.data);
       setCommunityData(res.data.data);
     });
   }, []);
-
 
   return (
     <>
@@ -25,8 +23,7 @@ export const Home = () => {
         sx={{
           marginTop: "5%",
           width: "100%",
-        }}
-      >
+        }}>
         <MainBanner />
         <RepairServiceMenu />
         {communityData ? (

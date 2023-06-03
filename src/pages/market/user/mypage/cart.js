@@ -106,8 +106,7 @@ export const CartPage = () => {
                   touchAction: "none",
                   display: "flex",
                   justifyContent: "center",
-                }}
-              >
+                }}>
                 <MenuItem value={value}>{value}</MenuItem>
               </Select>
             </FormControl>
@@ -122,8 +121,7 @@ export const CartPage = () => {
                 } else {
                   setValue(targetId, event.target.value);
                 }
-              }}
-            >
+              }}>
               {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
                 <MenuItem key={num} value={num}>
                   {num}
@@ -176,8 +174,7 @@ export const CartPage = () => {
                     setValue(targetId, inputValue);
                     setOpen(false);
                   }
-                }}
-              >
+                }}>
                 확인
               </Button>
             </Box>
@@ -199,8 +196,7 @@ export const CartPage = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-            }}
-          >
+            }}>
             <Grid item xs={2}>
               <Checkbox
                 checked={item.selected}
@@ -227,8 +223,7 @@ export const CartPage = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: 100,
-              }}
-            >
+              }}>
               <Box
                 component={"img"}
                 src={item.imageUrl}
@@ -247,8 +242,7 @@ export const CartPage = () => {
                     flexDirection: "column",
                     alignItems: "flex-start",
                     pl: 2,
-                  }}
-                >
+                  }}>
                   <Typography variant="subtitle1" sx={{ py: 1 }}>
                     {fCurrency(item.price * item.quantity) + " P"}
                   </Typography>
@@ -280,8 +274,7 @@ export const CartPage = () => {
           p: 1,
           borderTop: "1px solid #e0e0e0",
           boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ mr: 2 }}>
           총 {fCurrency(total) + " P"}
         </Typography>
@@ -291,14 +284,11 @@ export const CartPage = () => {
             if (count === 0) {
               alert("상품을 선택해주세요.");
             } else {
-              console.log("주문 시점 카트");
-              console.log(cartItems);
               navigate("/market/mypage/order");
             }
           }}
           variant="contained"
-          sx={{ mr: 1 }}
-        >
+          sx={{ mr: 1 }}>
           주문 ({count}개 항목)
         </Button>
       </Box>
@@ -313,8 +303,7 @@ export const CartPage = () => {
           width: "100%",
           backgroundColor: "white",
           zIndex: 1000,
-        }}
-      >
+        }}>
         <Header title={"장바구니"} />
       </Box>
       <Container sx={{ mt: 8, mb: 20 }}>
@@ -341,8 +330,7 @@ export const CartPage = () => {
           backgroundColor: "white",
           zIndex: 1000,
           mb: 7,
-        }}
-      >
+        }}>
         <CartFooter total={getTotalPrice()} count={getTotalCount()} />
       </Box>
     </>

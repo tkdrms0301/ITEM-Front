@@ -8,9 +8,10 @@ import {
   Select,
   MenuItem,
   Typography,
+  InputLabel,
 } from "@mui/material";
-import { useRef, useState } from "react";
-import { post } from "../../../api";
+import { useRef, useState, useEffect } from "react";
+import { get, post } from "../../../api";
 import { BaseUrl } from "../../../api/BaseUrl";
 import axios from "axios";
 
@@ -71,8 +72,7 @@ export const UpdateFormMechanic = () => {
     const data = {
       nickname: nickName.current.value,
     };
-    axios
-      .post(BaseUrl + "/api/auth/nickname-check", data)
+    post(BaseUrl + "/api/member/nickname-check-update", data)
       .then((response) => {
         if (response.data.success) {
           if (
@@ -150,7 +150,7 @@ export const UpdateFormMechanic = () => {
       });
   };
 
-  const boxList = [
+  let boxList = [
     {
       name: "currentPassword",
       ref: currentPassword,
@@ -202,6 +202,14 @@ export const UpdateFormMechanic = () => {
       disable: false,
     },
     {
+      name: "account",
+      ref: account,
+      id: "account",
+      label: "계좌 번호(은행/-제외 계좌번호)",
+      type: "account",
+      disable: false,
+    },
+    {
       name: "shopName",
       ref: shopName,
       id: "shopName",
@@ -235,6 +243,37 @@ export const UpdateFormMechanic = () => {
     },
   ];
 
+  useEffect(() => {
+    get(BaseUrl + "/api/member/info")
+      .then((res) => {
+        const info = res.data.data;
+        console.log(info);
+        nickName.current.value = info.nickname;
+        address.current.value = info.address;
+        phoneNumber.current.value = info.phoneNumber;
+        account.current.value = info.account;
+        shopName.current.value = info.mechanicInfoDto.shopName;
+        shopAddress.current.value = info.mechanicInfoDto.shopAddress;
+        shopPhoneNumber.current.value = info.mechanicInfoDto.shopPhoneNumber;
+        shopDescription.current.value = info.mechanicInfoDto.description;
+        console.log(info.mechanicInfoDto.repairServiceType);
+        if (info.mechanicInfoDto.repairServiceType === "모바일") {
+          setCurServiceType(1);
+        } else if (info.mechanicInfoDto.repairServiceType === "태블릿") {
+          setCurServiceType(2);
+        } else if (info.mechanicInfoDto.repairServiceType === "노트북") {
+          setCurServiceType(3);
+        } else if (info.mechanicInfoDto.repairServiceType === "컴퓨터") {
+          setCurServiceType(4);
+        } else {
+          setCurServiceType(0);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container
       component="main"
@@ -264,13 +303,14 @@ export const UpdateFormMechanic = () => {
               key={index}
               sx={{ display: "flex", alignItems: "center" }}>
               <TextField
+                InputLabelProps={{ shrink: true }}
                 name={data.name}
                 variant="outlined"
                 id={data.id}
                 required
                 inputRef={data.ref}
-                label={data.label}
                 type={data.type}
+                label={data.label}
                 disabled={data.disable}
                 sx={{ width: "60%" }}
               />

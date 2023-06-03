@@ -51,8 +51,6 @@ export const SubscriptionMain = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    console.log("데이터 구독권 구매");
   };
 
   const planList = [
@@ -96,8 +94,7 @@ export const SubscriptionMain = () => {
             alignItems: "center",
             justifyContent: "center",
             mt: 3,
-          }}
-        >
+          }}>
           <Typography variant="h4">연결제 플랜 이용 시</Typography>
           <Typography variant="h4" sx={{ color: palette.info.dark }}>
             모든 플랜 10% 할인 제공

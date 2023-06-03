@@ -19,13 +19,11 @@ export const AddressSearch = ({ dialogStatus, setStatus, setAddress }) => {
         onClose={() => {
           setStatus(false);
         }}
-        fullWidth
-      >
+        fullWidth>
         <Container>
           <DaumPostcode
             autoClose={false}
             onComplete={(data) => {
-              console.log(data);
               setValue(data.roadAddress);
             }}
           />
@@ -37,23 +35,20 @@ export const AddressSearch = ({ dialogStatus, setStatus, setAddress }) => {
             value={detail}
             onChange={(e) => {
               setDetail(e.target.value);
-            }}
-          ></TextField>
+            }}></TextField>
           <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
               mt: 3,
               mb: 3,
-            }}
-          >
+            }}>
             <Button
               variant="contained"
               onClick={() => {
                 setStatus(false);
               }}
-              sx={{ width: "45%", borderRadius: "0px" }}
-            >
+              sx={{ width: "45%", borderRadius: "0px" }}>
               취소
             </Button>
             <Button
@@ -66,8 +61,7 @@ export const AddressSearch = ({ dialogStatus, setStatus, setAddress }) => {
                 setAddress(value + (detail === "" ? "" : " " + detail + " "));
                 setStatus(false);
               }}
-              sx={{ width: "45%", borderRadius: "0px" }}
-            >
+              sx={{ width: "45%", borderRadius: "0px" }}>
               확인
             </Button>
           </Box>

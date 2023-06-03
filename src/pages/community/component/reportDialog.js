@@ -12,7 +12,6 @@ import { post } from "../../../api/index";
 import { testBaseURL } from "../testing-String";
 
 const reportOne = (type, target, reason, comment) => {
-  console.log(`report ${type} id ${target} for ${reason} with ${comment}`);
   post(`${testBaseURL}/community/${type}/${target}/report`, {
     reportType: reason,
     reason: comment,
@@ -40,8 +39,7 @@ export const ReportDialog = ({
             label="신고 사유"
             onChange={(event) => {
               setReason(event.target.value);
-            }}
-          >
+            }}>
             <MenuItem value={0}>광고성 게시글</MenuItem>
             <MenuItem value={1}>부적절한 게시글</MenuItem>
             <MenuItem value={2}>기타</MenuItem>
@@ -67,8 +65,7 @@ export const ReportDialog = ({
             onReportSubmit();
             reportOne(reportType, reportTarget, reason, comment);
           }}
-          color="primary"
-        >
+          color="primary">
           신고
         </Button>
       </DialogActions>

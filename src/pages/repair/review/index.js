@@ -5,7 +5,7 @@ import Review from "./Review";
 import ReportDialog from "./component/reportDialog";
 import ReplyDialog from "./component/replyDialog";
 import { BaseUrl } from "../../../api/BaseUrl";
-import { get, post } from "../../../api";
+import { get } from "../../../api";
 import Reply from "./Reply";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -17,6 +17,8 @@ const Reviews = ({ shopId }) => {
     page: 0,
   });
 
+  useEffect(() => {}, [comments]);
+
   const fetchMoreComments = () => {
     get(BaseUrl + "/api/repair/review/list", {
       params: {
@@ -27,7 +29,6 @@ const Reviews = ({ shopId }) => {
       .then((res) => {
         if (res.data.data.length !== 0) {
           const newComments = res.data.data.content;
-          console.log(newComments);
           setComments((prevComments) => [...prevComments, ...newComments]);
           setPage({
             page: page.page + 1,
@@ -51,16 +52,38 @@ const Reviews = ({ shopId }) => {
   };
 
   const handleCommentDelete = (commentId) => {
-    setComments(comments.filter((comment) => comment.id !== commentId));
+    const data = comments.filter((comment) => comment.reviewId !== commentId);
+    setComments(data);
   };
 
   const handleCommentUpdate = (comment) => {
-    const newComments = comments.forEach((c) => {
-      if (c.id === comment.id) {
-        c = comment;
-      }
-    });
-    setComments([newComments]);
+    let findIndex = comments.findIndex((c) => c.reviewId === comment.reviewId);
+    let newComments = [...comments];
+    newComments[findIndex].rating = comment.rating;
+    newComments[findIndex].repairShopNickname = comment.repairShopNickname;
+    newComments[findIndex].replyContent = comment?.replyContent;
+    newComments[findIndex].replyId = comment?.replyId;
+    newComments[findIndex].reviewContent = comment.reviewContent;
+    newComments[findIndex].reviewId = comment.reviewId;
+    newComments[findIndex].userNickname = comment.userNickname;
+    setComments([...newComments]);
+  };
+
+  const handleReply = (comment) => {
+    let findIndex = comments.findIndex((c) => c.reviewId === comment.reviewId);
+    let newComments = [...comments];
+    newComments[findIndex].replyContent = comment.replyContent;
+    newComments[findIndex].replyId = comment.replyId;
+    newComments[findIndex].repairShopNickname = comment.repairShopNickname;
+    setComments(newComments);
+  };
+
+  const handleReplyDelete = (commentId) => {
+    let findIndex = comments.findIndex((c) => c.reviewId === commentId);
+    let newComments = [...comments];
+    newComments[findIndex].replyContent = null;
+    newComments[findIndex].replyId = null;
+    setComments(newComments);
   };
 
   //report
@@ -173,7 +196,6 @@ const Reviews = ({ shopId }) => {
       },
     })
       .then((res) => {
-        console.log(res.data.data);
         if (res.data.data.length === 0) {
           setPage({
             page: 0,
@@ -201,14 +223,12 @@ const Reviews = ({ shopId }) => {
         justifyContent="center"
         sx={{ mb: 2, mt: 1 }}
         spacing={2}
-        onClick={openReply ? handleReplyClose : null}
-      >
+        onClick={openReply ? handleReplyClose : null}>
         <Grid item xs={11}>
           <Button
             variant="contained"
             fullWidth={true}
-            onClick={handleCreateCommentOpen}
-          >
+            onClick={handleCreateCommentOpen}>
             댓글 작성
           </Button>
         </Grid>
@@ -226,8 +246,7 @@ const Reviews = ({ shopId }) => {
               <p style={{ textAlign: "center" }}>
                 <b>Yay! You have seen it all</b>
               </p>
-            }
-          >
+            }>
             <Grid container spacing={2} justifyContent="center">
               {comments.map((comment, index) => {
                 return (
@@ -246,8 +265,9 @@ const Reviews = ({ shopId }) => {
                       handleCreateCommentOpen={handleCreateCommentOpen}
                       handleUpdateCommentOpen={handleUpdateCommentOpen}
                       handleCreateReplyOpen={handleCreateReplyOpen}
+                      handleCommentDelete={handleCommentDelete}
                     />
-                    {comment.replyId !== null && (
+                    {comment.replyId && (
                       <Grid container justifyContent="center" sx={{ mt: 2 }}>
                         <Grid item xs={1} sx={{ mt: -1 }}>
                           <SubdirectoryArrowRightIcon />
@@ -264,6 +284,8 @@ const Reviews = ({ shopId }) => {
                             replyInfo={replyInfo}
                             setReplyInfo={setReplyInfo}
                             handleUpdateReplyOpen={handleUpdateReplyOpen}
+                            handleCommentDelete={handleCommentDelete}
+                            handleReplyDelete={handleReplyDelete}
                           />
                         </Grid>
                       </Grid>
@@ -286,6 +308,9 @@ const Reviews = ({ shopId }) => {
           handleReplyClose={handleReplyClose}
           replyInfo={replyInfo}
           setReplyInfo={setReplyInfo}
+          handleCommentAdd={handleCommentAdd}
+          handleCommentUpdate={handleCommentUpdate}
+          handleReply={handleReply}
         />
       )}
     </>

@@ -47,7 +47,6 @@ export const PrivateRepairShopDetail = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.state?.shop);
     setSelectShop(location.state?.shop);
   }, []);
 
