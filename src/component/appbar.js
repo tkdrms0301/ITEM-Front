@@ -21,6 +21,7 @@ function ResponsiveAppBar() {
 
   const [userState, setUserState] = useState({
     userName: "",
+    nickName: "",
     userId: 0,
     point: 0,
     isSubscription: false,
@@ -37,6 +38,7 @@ function ResponsiveAppBar() {
         .then((response) => {
           setUserState({
             ...userState,
+            nickName: response.data.data.nickName,
             userName: response.data.data.name,
             userId: response.data.data.id,
             roleType: response.data.data.roleType,

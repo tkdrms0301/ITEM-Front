@@ -112,7 +112,7 @@ export const AccountPopover = ({ userState }) => {
           >
             <Box sx={{ my: 1.0, px: 3.0 }}>
               <Typography variant="subtitle1" noWrap>
-                {userState.userName}
+                {userState.nickName}
               </Typography>
               <Typography
                 variant="subtitle2"
