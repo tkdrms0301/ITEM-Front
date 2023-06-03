@@ -33,7 +33,7 @@ export const UserForm = ({ roleType }) => {
       email: emailRef.current?.value,
     };
 
-    axios.post("https://itemserverapi.azurewebsites.net/api/auth/email-check", data).then((response) => {
+    post(BaseUrl + "/api/auth/email-check", data).then((response) => {
       if (response.data.success) {
         if (
           window.confirm(response.data.msg + "\n이메일을 사용하시겠습니까?")
@@ -208,7 +208,8 @@ export const UserForm = ({ roleType }) => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}>
+      }}
+    >
       <CssBaseline />
       <Box>
         <Grid
@@ -218,13 +219,15 @@ export const UserForm = ({ roleType }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-start",
-          }}>
+          }}
+        >
           {boxList.map((data, index) => (
             <Grid
               item
               xs={12}
               key={index}
-              sx={{ display: "flex", alignItems: "center" }}>
+              sx={{ display: "flex", alignItems: "center" }}
+            >
               <TextField
                 name={data.name}
                 variant="outlined"
@@ -250,7 +253,8 @@ export const UserForm = ({ roleType }) => {
           variant="contained"
           color="primary"
           onClick={signUpSubmit}
-          sx={{ mt: 2 }}>
+          sx={{ mt: 2 }}
+        >
           Sign Up
         </Button>
         <Grid container justify="flex-end" sx={{ mt: 2 }}>

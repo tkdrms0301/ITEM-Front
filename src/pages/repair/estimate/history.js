@@ -8,6 +8,7 @@ import { Box, Container } from "@mui/material";
 import { SelectFilter } from "../reservation/filter";
 import { get } from "../../../api";
 import { Header } from "./header";
+import { BaseUrl } from "../../../api/BaseUrl";
 export const EstimateHistory = () => {
   //select filter
   const [selectValue, setSelectValue] = useState("전체");
@@ -59,7 +60,7 @@ export const EstimateHistory = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     if (user !== null) {
       if (user.roleType === "MEMBER") {
-        get("https://itemserverapi.azurewebsites.net/api/repair/estimate/history")
+        get(BaseUrl + "/api/repair/estimate/history")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);
@@ -68,7 +69,7 @@ export const EstimateHistory = () => {
             // 에러 처리
           });
       } else {
-        get("https://itemserverapi.azurewebsites.net/api/repair/estimate/history/mechanic")
+        get(BaseUrl + "/api/repair/estimate/history/mechanic")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);

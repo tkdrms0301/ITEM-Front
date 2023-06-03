@@ -4,6 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { post } from "../../../api";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 const MoreButtonRepair = ({ data, role }) => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const MoreButtonRepair = ({ data, role }) => {
     e.stopPropagation();
     handleClose(e);
 
-    post("https://itemserverapi.azurewebsites.net/api/repair/reservation/cancel", {
+    post(BaseUrl + "/api/repair/reservation/cancel", {
       reservationId: data.id,
     })
       .then((res) => {

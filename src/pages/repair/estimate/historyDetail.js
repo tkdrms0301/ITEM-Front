@@ -21,6 +21,7 @@ import { EstimateComment } from "./estimateComment";
 import { useLocation, useParams } from "react-router-dom";
 import { post, get } from "../../../api";
 import { set } from "date-fns";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const EstimateHistoryDetail = ({ role }) => {
   const location = useLocation();
@@ -90,7 +91,7 @@ export const EstimateHistoryDetail = ({ role }) => {
   }, [formData]);
 
   useEffect(() => {
-    get("https://itemserverapi.azurewebsites.net/api/repair/estimate/history/detail", {
+    get(BaseUrl + "/api/repair/estimate/history/detail", {
       params: {
         estimateId: estimateId,
       },
@@ -175,12 +176,11 @@ export const EstimateHistoryDetail = ({ role }) => {
     }
     if (isUpdating) {
       //응답
-      post(
-        "https://itemserverapi.azurewebsites.net/api/repair/estimate/responseRegist",
-        formData
-      ).then((res) => {
-        //console.log(res);
-      });
+      post(BaseUrl + "/api/repair/estimate/responseRegist", formData).then(
+        (res) => {
+          //console.log(res);
+        }
+      );
       navigate(-1);
     } else {
       window.alert(completed.msg);
@@ -189,7 +189,6 @@ export const EstimateHistoryDetail = ({ role }) => {
 
   return (
     <>
-
       {data ? (
         <>
           <Header />

@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import DeviceMenuItem from "../register/DeviceMenuItem";
 import DeviceInput from "../register/DeviceInput";
-import { post } from "../../../../api";
+import { get, post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
 import axios from "axios";
 import { useEffect } from "react";
@@ -51,7 +51,7 @@ const DevicePartRegister = ({
   }, [registerOpen]);
 
   useEffect(() => {
-    axios.get("https://itemserverapi.azurewebsites.net/api/device/part-category").then((res) => {
+    get(BaseUrl + "/api/device/part-category").then((res) => {
       setCategoryList([
         { id: 0, url: null, name: "카테고리명" },
         ...res.data.data,
@@ -66,15 +66,13 @@ const DevicePartRegister = ({
   }, []);
 
   useEffect(() => {
-    axios
-      .get(BaseUrl + "/api/device/part-brand", {
-        params: {
-          category: category,
-        },
-      })
-      .then((res) => {
-        setBrand([{ id: 0, url: null, name: "브랜드명" }, ...res.data.data]);
-      });
+    get(BaseUrl + "/api/device/part-brand", {
+      params: {
+        category: category,
+      },
+    }).then((res) => {
+      setBrand([{ id: 0, url: null, name: "브랜드명" }, ...res.data.data]);
+    });
     setDeviceInfo({
       ...deviceInfo,
       brand: 0,
@@ -84,16 +82,14 @@ const DevicePartRegister = ({
   }, [category]);
 
   useEffect(() => {
-    axios
-      .get(BaseUrl + "/api/device/part-product", {
-        params: {
-          category: category,
-          brand: brand,
-        },
-      })
-      .then((res) => {
-        setProductList([{ id: 0, name: "제품명" }, ...res.data.data]);
-      });
+    get(BaseUrl + "/api/device/part-product", {
+      params: {
+        category: category,
+        brand: brand,
+      },
+    }).then((res) => {
+      setProductList([{ id: 0, name: "제품명" }, ...res.data.data]);
+    });
     setDeviceInfo({
       ...deviceInfo,
       product: 0,

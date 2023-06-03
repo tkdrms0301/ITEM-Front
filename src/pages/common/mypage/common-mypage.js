@@ -4,6 +4,7 @@ import { Point } from "./point";
 import { get } from "../../../api";
 import { SubscriptionManager } from "./subscriptionManager";
 import { BottomMenus } from "./bottomMenus";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const CommonMyPage = () => {
   const [userState, setUserState] = useState({
@@ -22,7 +23,7 @@ export const CommonMyPage = () => {
     console.log();
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
-      get("https://itemserverapi.azurewebsites.net/api/member/info")
+      get(BaseUrl + "/api/member/info")
         .then((response) => {
           setUserState({
             ...userState,
@@ -50,7 +51,8 @@ export const CommonMyPage = () => {
             marginTop: "5%",
             width: "100%",
             justifyContent: "flex-start",
-          }}>
+          }}
+        >
           <Typography variant="h4" sx={{ mb: 2 }}>
             반갑습니다, {userState.userName}님
           </Typography>

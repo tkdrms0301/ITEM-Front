@@ -10,7 +10,6 @@ import {
 import { useEffect, useState } from "react";
 import DeviceMenuItem from "./DeviceMenuItem";
 import DeviceInput from "./DeviceInput";
-import axios from "axios";
 import { BaseUrl } from "../../../../api/BaseUrl";
 import { get, post } from "../../../../api";
 
@@ -46,7 +45,7 @@ const DeviceRegister = ({
   }, [registerOpen]);
 
   useEffect(() => {
-    axios.get("https://itemserverapi.azurewebsites.net/api/device/completion-category").then((res) => {
+    get(BaseUrl + "/api/device/completion-category").then((res) => {
       setCategoryList([
         { id: 0, url: null, name: "카테고리명" },
         ...res.data.data,
@@ -61,15 +60,13 @@ const DeviceRegister = ({
   }, []);
 
   useEffect(() => {
-    axios
-      .get(BaseUrl + "/api/device/completion-brand", {
-        params: {
-          category: category,
-        },
-      })
-      .then((res) => {
-        setBrand([{ id: 0, url: null, name: "브랜드명" }, ...res.data.data]);
-      });
+    get(BaseUrl + "/api/device/completion-brand", {
+      params: {
+        category: category,
+      },
+    }).then((res) => {
+      setBrand([{ id: 0, url: null, name: "브랜드명" }, ...res.data.data]);
+    });
     setDeviceInfo({
       ...deviceInfo,
       brand: 0,
@@ -79,16 +76,14 @@ const DeviceRegister = ({
   }, [category]);
 
   useEffect(() => {
-    axios
-      .get(BaseUrl + "/api/device/completion-product", {
-        params: {
-          category: category,
-          brand: brand,
-        },
-      })
-      .then((res) => {
-        setProductList([{ id: 0, name: "제품명" }, ...res.data.data]);
-      });
+    get(BaseUrl + "/api/device/completion-product", {
+      params: {
+        category: category,
+        brand: brand,
+      },
+    }).then((res) => {
+      setProductList([{ id: 0, name: "제품명" }, ...res.data.data]);
+    });
     setDeviceInfo({
       ...deviceInfo,
       product: 0,
@@ -217,7 +212,8 @@ const DeviceRegister = ({
                 bgcolor: "action.selected",
                 fontWeight: "fontWeightBold",
               },
-            }}>
+            }}
+          >
             취소
           </Button>
           <Button
@@ -231,7 +227,8 @@ const DeviceRegister = ({
                 bgcolor: "action.selected",
                 fontWeight: "fontWeightBold",
               },
-            }}>
+            }}
+          >
             등록
           </Button>
         </DialogActions>

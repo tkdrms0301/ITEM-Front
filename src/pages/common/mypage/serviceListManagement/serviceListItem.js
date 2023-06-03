@@ -7,6 +7,7 @@ import ConstructionIcon from "@mui/icons-material/Construction";
 import { remove } from "../../../../api";
 import { Box } from "@mui/system";
 import palette from "../../../../theme/palette";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
 export const ServiceListItem = ({ serviceList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -26,7 +27,7 @@ export const ServiceListItem = ({ serviceList }) => {
     handleClose();
 
     if (window.confirm("해당 내역을 삭제하시겠습니까?")) {
-      remove("https://itemserverapi.azurewebsites.net/api/repair/serviceList", {
+      remove(BaseUrl + "/api/repair/serviceList", {
         params: {
           serviceId: selectedId,
         },

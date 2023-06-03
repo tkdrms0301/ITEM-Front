@@ -6,6 +6,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { post, get } from "../../../api";
 import { Header } from "./header";
 import { Container, Grid } from "@mui/material";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const Estimate = () => {
   const location = useLocation();
@@ -55,7 +56,7 @@ export const Estimate = () => {
   );
 
   useEffect(() => {
-    get("https://itemserverapi.azurewebsites.net/api/repair/estimate/init")
+    get(BaseUrl + "/api/repair/estimate/init")
       .then((res) => {
         setMyItDevices(res.data.myItems);
       })

@@ -8,6 +8,7 @@ import { Box, Container } from "@mui/material";
 import { SelectFilter } from "./filter";
 import { get } from "../../../api";
 import { Header } from "./header";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const ReservationHistory = () => {
   //select filter
@@ -63,7 +64,7 @@ export const ReservationHistory = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     if (user !== null) {
       if (user.roleType === "MEMBER") {
-        get("https://itemserverapi.azurewebsites.net/api/repair/reservation/history")
+        get(BaseUrl + "/api/repair/reservation/history")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);
@@ -72,7 +73,7 @@ export const ReservationHistory = () => {
             // 에러 처리
           });
       } else {
-        get("https://itemserverapi.azurewebsites.net/api/repair/reservation/history/mechanic")
+        get(BaseUrl + "/api/repair/reservation/history/mechanic")
           .then((res) => {
             setData(res.data);
             setFilteredData(res.data);
