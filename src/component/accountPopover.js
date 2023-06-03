@@ -62,7 +62,7 @@ export const AccountPopover = ({ userState }) => {
         flexWrap: "nowrap",
       }}
     >
-      {userState.userName !== "" ? (
+      {userState.nickname !== "" ? (
         <Grid
           item
           xs={12}
@@ -112,7 +112,7 @@ export const AccountPopover = ({ userState }) => {
           >
             <Box sx={{ my: 1.0, px: 3.0 }}>
               <Typography variant="subtitle1" noWrap>
-                {userState.nickName}
+                {userState.nickname}
               </Typography>
               <Typography
                 variant="subtitle2"
