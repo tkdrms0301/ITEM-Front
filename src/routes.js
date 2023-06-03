@@ -39,6 +39,7 @@ import { OrderPage } from "./pages/market/user/mypage/order";
 import { MarketProductsListPage } from "./pages/market/user/productList";
 import { MarketProductPage } from "./pages/market/user/product";
 import { HistoryDetailPage } from "./pages/market/user/mypage/hitoryDetail";
+import { MarketProductsListSearchPage } from "./pages/market/user/searchProductList";
 
 export const routes = [
   {
@@ -144,6 +145,10 @@ export const routes = [
   {
     path: "/market/product/:productId",
     element: <MarketProductPage />,
+  },
+  {
+    path: "/market/products/search",
+    element: <MarketProductsListSearchPage />,
   },
   {
     path: "/market/mypage",
