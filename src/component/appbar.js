@@ -14,8 +14,8 @@ function ResponsiveAppBar() {
   const logo = (
     <Box
       component="img"
-      src="/Item.svg"
-      sx={{ width: 170, height: 50, cursor: "pointer" }}
+      src="/itemLogo.png"
+      sx={{ width: "auto", height: 50, cursor: "pointer" }}
     />
   );
 
