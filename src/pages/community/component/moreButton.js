@@ -2,8 +2,8 @@ import { useState } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
-import { testBaseURL } from "../testing-String";
 import { remove } from "../../../api/index";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const MoreButton = (props) => {
   const navigate = useNavigate();
@@ -34,10 +34,10 @@ export const MoreButton = (props) => {
     if (window.confirm(`Are you sure you want to delete this ${type}?`)) {
       let url;
       if (isPost) {
-        url = testBaseURL + `/community/post/${id}/delete`;
+        url = BaseUrl + `/api/community/post/${id}/delete`;
       } else {
         url =
-          testBaseURL + `/community/post/${props.postId}/comment/${id}/delete`;
+          BaseUrl + `/api/community/post/${props.postId}/comment/${id}/delete`;
       }
       remove(url)
         .then(() => {
@@ -67,7 +67,8 @@ export const MoreButton = (props) => {
         aria-label="more"
         aria-controls="more-menu"
         aria-haspopup="true"
-        onClick={handleMenuOpen}>
+        onClick={handleMenuOpen}
+      >
         <MoreVertIcon sx={{ fontSize: "30px" }} />
       </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>

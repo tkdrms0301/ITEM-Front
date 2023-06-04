@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { AppBar, Button, Grid, TextField } from "@mui/material";
-import { testBaseURL } from "../testing-String";
 import { get, post, put } from "../../../api/index";
 import { useNavigate } from "react-router-dom";
+import { BaseUrl } from "../../../api/BaseUrl";
 
 export const ReplyDialog = ({
   onHandleClose,
@@ -17,7 +17,7 @@ export const ReplyDialog = ({
   const [reply, setReply] = useState("");
   const [load, setLoad] = useState(false);
   if (isUpdate && !load) {
-    get(`${testBaseURL}/community/post/${postId}/comments/${commentId}`)
+    get(`${BaseUrl}/api/community/post/${postId}/comments/${commentId}`)
       .then((res) => {
         setReply(res.data.data);
         setLoad(true);
@@ -37,7 +37,7 @@ export const ReplyDialog = ({
     let url = "";
     if (isUpdate) {
       put(
-        `${testBaseURL}/community/post/${postId}/comment/${commentId}/update`,
+        `${BaseUrl}/api/community/post/${postId}/comment/${commentId}/update`,
         {
           content: reply,
         }
@@ -49,7 +49,7 @@ export const ReplyDialog = ({
           console.log(err);
         });
     } else if (commentId === null) {
-      post(`${testBaseURL}/community/post/${postId}/comment/create`, {
+      post(`${BaseUrl}/api/community/post/${postId}/comment/create`, {
         content: reply,
       })
         .then((res) => {
@@ -60,7 +60,7 @@ export const ReplyDialog = ({
         });
     } else {
       post(
-        `${testBaseURL}/community/post/${postId}/comment/${commentId}/create`,
+        `${BaseUrl}/api/community/post/${postId}/comment/${commentId}/create`,
         {
           content: reply,
         }

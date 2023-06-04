@@ -4,12 +4,12 @@ import { BackButton } from "../../component/backButton";
 import { PostsList } from "./component/postsList";
 
 import { SearchBar } from "./component/searchBar";
-import { testBaseURL } from "./testing-String";
+import { BaseUrl } from "../../api/BaseUrl";
 
 export const SearchResult = () => {
   const location = useLocation();
   const keyword = new URLSearchParams(location.search).get("search");
-  const postQuery = testBaseURL + "/community/posts";
+  const postQuery = BaseUrl + "/api/community/posts";
   return (
     <>
       <Box
