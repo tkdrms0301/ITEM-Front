@@ -8,6 +8,8 @@ import {
   FormControl,
   MenuItem,
 } from "@mui/material";
+import { post } from "../../../../api";
+import { BaseUrl } from "../../../../api/BaseUrl";
 
 const ReportDialog = ({
   openReport,
@@ -19,7 +21,10 @@ const ReportDialog = ({
 
   const reportSubmit = () => {
     if (window.confirm(`신고하시겠습니까 ?`)) {
+      post(BaseUrl + "/reply/report");
       handleReportClose();
+
+      post(BaseUrl + "/review/report");
     }
   };
 
