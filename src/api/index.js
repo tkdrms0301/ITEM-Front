@@ -27,9 +27,12 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error(error);
     // ACCESS TOKEN이 만료된 경우, 홈 화면으로 이동하도록 처리
     if (error.response.status === 401) {
+      if (window.location.pathname === "/login") {
+        alert("아이디와 비밀번호를 확인해 주세요");
+        return Promise.resolve(error);
+      }
       // window.location.href = "/";
     }
     // 그 외의 경우, 에러 처리 코드 작성
