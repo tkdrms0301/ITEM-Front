@@ -27,6 +27,7 @@ export const CommonMyPage = () => {
           setUserState({
             ...userState,
             userName: response.data.data.name,
+            userNickName: response.data.data.nickname,
             userId: response.data.data.id,
             roleType: response.data.data.roleType,
             point: response.data.data.point,
@@ -53,7 +54,7 @@ export const CommonMyPage = () => {
           }}
         >
           <Typography variant="h4" sx={{ mb: 2 }}>
-            반갑습니다, {userState.userName}님
+            반갑습니다, {userState.userNickName}님
           </Typography>
           <Point userState={userState} />
           <SubscriptionManager userState={userState} />
