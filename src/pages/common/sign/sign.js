@@ -10,7 +10,7 @@ export const Sign = () => {
   const [roleType, setRoleType] = useState("MEMBER");
 
   return (
-    <Grid container spacing={1} sx={{ mb: 3 }}>
+    <Grid container spacing={1} sx={{ mb: 3, maxWidth: "700px", mx: "auto" }}>
       <Header />
       <RoleList setRoleType={setRoleType} roleType={roleType} />
       {roleType === "MEMBER" ? (
