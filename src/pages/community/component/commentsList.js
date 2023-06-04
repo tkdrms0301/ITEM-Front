@@ -3,14 +3,15 @@ import axios from "axios";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import { MoreButton } from "./moreButton";
-import { testBaseURL, userId } from "../testing-String";
 import { DateView } from "./date";
 import { Link } from "react-router-dom";
-import { TestComments } from "../test-comment";
+import { BaseUrl } from "../../../api/BaseUrl";
+import { get } from "../../../api";
 
 export const CommentsList = ({
   postId,
   onReport,
+  sessionId,
   handleOpen,
   handleReply,
   changeTargetCommentId,
@@ -18,8 +19,7 @@ export const CommentsList = ({
   const [loaded, setLoaded] = useState(false);
   const [comments, setComments] = useState([null]);
   useEffect(() => {
-    axios
-      .get(testBaseURL + `/community/post/${postId}/comments`)
+    get(BaseUrl + `/api/community/post/${postId}/comments`)
       .then((response) => {
         setComments(response.data.data.comments);
         setLoaded(true);
@@ -63,7 +63,7 @@ export const CommentsList = ({
             </Grid>
             <Grid item>
               <MoreButton
-                sessionUserId={userId}
+                sessionUserId={sessionId}
                 ownerId={comment.memberId}
                 postId={postId}
                 commentId={comment.id}

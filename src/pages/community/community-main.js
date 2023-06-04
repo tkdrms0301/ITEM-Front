@@ -2,11 +2,11 @@ import { Box } from "@mui/material";
 import { FloatingWriteButton } from "./component/FloatingWriteButton";
 import { MyPageButton } from "./component/MyPageButton";
 import { PostsList } from "./component/postsList";
-import { testBaseURL, userId } from "./testing-String";
 import { SearchBar } from "./component/searchBar";
+import { BaseUrl } from "../../api/BaseUrl";
 
 export const CommunityMain = () => {
-  const query = testBaseURL + "/community/posts";
+  const query = `${BaseUrl}/api/` + "/community/posts";
   return (
     <>
       <FloatingWriteButton />
@@ -23,7 +23,7 @@ export const CommunityMain = () => {
         }}
       >
         <SearchBar url={"/community/search"} />
-        <MyPageButton userId={userId} />
+        <MyPageButton />
       </Box>
       <Box sx={{ mt: 10 }}>
         <PostsList query={query} />

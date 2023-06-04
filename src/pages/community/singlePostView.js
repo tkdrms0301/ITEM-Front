@@ -9,7 +9,6 @@ import { ReportDialog } from "./component/reportDialog";
 import { PostContent } from "./component/postContent";
 import { ReplyDialog } from "./component/replyDialog";
 import { get } from "../../api";
-import { set } from "date-fns";
 
 export const SinglePostView = () => {
   const location = useLocation();
@@ -202,6 +201,7 @@ export const SinglePostView = () => {
           </Button>
           <CommentsList
             postId={postid}
+            sessionId={sessionId}
             onReport={handleReportDialogOpen}
             handleOpen={handleOpen}
             handleReply={handleReply}
