@@ -81,12 +81,11 @@ const PrivateRepairListItem = ({ shop }) => {
                   width: "100px",
                   height: "20px",
                   fontSize: "15px",
-                  justifyContent: "flex-end",
                   pr: 1,
                 }}
                 readOnly
                 name="simple-controlled"
-                value={4}
+                value={shop.rating}
               />
             </Grid>
           </Grid>

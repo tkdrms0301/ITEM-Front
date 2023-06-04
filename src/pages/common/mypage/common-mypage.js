@@ -20,7 +20,6 @@ export const CommonMyPage = () => {
     userState;
 
   useEffect(() => {
-    console.log();
     if (JSON.parse(window.localStorage.getItem("user")) !== null) {
       //서버 호출 - 주는데이터 jwt, 받는데이터(point, account, isSubscription)
       get(BaseUrl + "/api/member/info")
