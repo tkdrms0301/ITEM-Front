@@ -232,7 +232,7 @@ export const PostForm = () => {
           >
             <MenuItem value={0}>선택</MenuItem>
             {products.map((product, index) => (
-              <MenuItem key={index} value={product.id}>
+              <MenuItem key={index} value={product.productId}>
                 {product.productName}
               </MenuItem>
             ))}

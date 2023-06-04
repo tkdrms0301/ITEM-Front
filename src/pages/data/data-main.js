@@ -114,7 +114,6 @@ export const DataMain = () => {
           behavior: "smooth",
         });
         setProductList(res.data.data);
-        textFieldRef.current.click();
       })
       .catch((err) => {
         console.log(err);
