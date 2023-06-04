@@ -10,6 +10,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useRef } from "react";
 import { BaseUrl } from "../../../api/BaseUrl";
+import { post } from "../../../api";
 
 export const LoginForm = () => {
   const idRef = useRef(null);
@@ -21,32 +22,31 @@ export const LoginForm = () => {
       password: passwordRef.current.value,
     };
 
-    axios
-      .post(BaseUrl + "/api/auth/login", data)
+    post(BaseUrl + "/api/auth/login", data)
       .then((response) => {
-        window.localStorage.setItem(
-          "user",
-          JSON.stringify({
-            memberId: response.data.data.id,
-            name: response.data.data.nickname,
-            roleType: response.data.data.roleType,
-          })
-        );
+        if (response.data.success) {
+          window.localStorage.setItem(
+            "user",
+            JSON.stringify({
+              memberId: response.data.data.id,
+              name: response.data.data.nickname,
+              roleType: response.data.data.roleType,
+            })
+          );
 
-        window.localStorage.setItem(
-          "token",
-          JSON.stringify({ accessToken: response.headers["access-token"] })
-        );
+          window.localStorage.setItem(
+            "token",
+            JSON.stringify({ accessToken: response.headers["access-token"] })
+          );
 
-        if (window.innerWidth < 1200) {
-          window.location.replace("/");
-        } else {
-          window.location.replace("/data");
+          if (window.innerWidth < 1200) {
+            window.location.replace("/");
+          } else {
+            window.location.replace("/data");
+          }
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const boxList = [
