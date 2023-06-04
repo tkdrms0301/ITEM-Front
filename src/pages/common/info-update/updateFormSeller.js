@@ -191,7 +191,7 @@ export const UpdateFormSeller = () => {
       ref: newPassword,
       id: "newPassword",
       label: "새 비밀번호",
-      type: "newPassword",
+      type: "password",
       disable: false,
     },
     {
@@ -199,7 +199,7 @@ export const UpdateFormSeller = () => {
       ref: passwordVali,
       id: "passwordVali",
       label: "비밀번호 확인",
-      type: "passwordVali",
+      type: "password",
       disable: false,
     },
     {

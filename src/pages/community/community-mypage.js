@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Box, Tabs, Tab, Typography, Grid, Avatar } from "@mui/material";
 import { BackButton } from "../../component/backButton";
 import { PostsList } from "./component/postsList";
-import { testBaseURL } from "./testing-String";
 import { get } from "../../api/index";
+import { BaseUrl } from "../../api/BaseUrl";
 
 export const CommunityMyPage = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -11,12 +11,12 @@ export const CommunityMyPage = () => {
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
-  const postQuery = `${testBaseURL}/community/user/posts`;
-  const commentQuery = `${testBaseURL}/community/user/comments`;
+  const postQuery = `${BaseUrl}/api/community/user/posts`;
+  const commentQuery = `$${BaseUrl}/api/community/user/comments`;
 
   const [info, setInfo] = useState({});
   useEffect(() => {
-    get(`${testBaseURL}/community/user/myinfo`)
+    get(`${BaseUrl}/api/community/user/myinfo`)
       .then((response) => {
         setInfo(response.data.data);
       })

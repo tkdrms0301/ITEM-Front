@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { IconButton, MenuItem, Select, alpha } from "@mui/material";
+import { MenuItem, Select, alpha } from "@mui/material";
 import { Typography, TextField, Button, Box, Container } from "@mui/material";
 import { BackButton } from "../../component/backButton";
-import { testBaseURL } from "./testing-String";
 import { get, post, put } from "../../api/index";
-import { set } from "date-fns";
+import { BaseUrl } from "../../api/BaseUrl";
 
 export const PostForm = () => {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ export const PostForm = () => {
   const [tagValue, setTagValue] = useState(0);
 
   useEffect(() => {
-    get(`${testBaseURL}/community/user/devices`)
+    get(`${BaseUrl}/api/community/user/devices`)
       .then((response) => {
         setProducts(response.data.data);
       })
@@ -41,7 +40,7 @@ export const PostForm = () => {
 
   useEffect(() => {
     if (postid) {
-      get(`${testBaseURL}/community/post/${postid}`)
+      get(`${BaseUrl}/api/community/post/${postid}`)
         .then((response) => {
           setTitle(response.data.data.title);
           setContent(response.data.data.content);
@@ -99,7 +98,7 @@ export const PostForm = () => {
       };
       try {
         const response = await post(
-          `${testBaseURL}/file/file-upload`,
+          `${BaseUrl}/api/file/file-upload`,
           data,
           config
         );
@@ -116,50 +115,41 @@ export const PostForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (window.confirm("등록하시겠습니까?")) {
+      e.preventDefault();
 
-    let postData;
-    let urls = [];
-    if (images.length > 0 || imgs.length > 0) {
-      urls = await uploadImages(images);
-      if (urls === null) {
-        alert("이미지 파일만 업로드 가능합니다.");
-        return;
-      }
-      postData = {
-        title: title,
-        content: content,
-        productId: tagValue,
-        images: urls,
-      };
-    } else {
-      postData = {
-        title: title,
-        content: content,
-        productId: tagValue,
-        images: [],
-      };
-    }
-    try {
-      let url;
-      if (title.length < 2 || content.length < 2) {
-        alert("제목과 내용은 2글자 이상이어야 합니다.");
-      } else if (content.length > 1000) {
-        alert("내용은 1000자 이내로 작성해주세요.");
+      let postData;
+      let urls = [];
+      if (images.length > 0 || imgs.length > 0) {
+        urls = await uploadImages(images);
+        if (urls === null) {
+          alert("이미지 파일만 업로드 가능합니다.");
+          return;
+        }
+        postData = {
+          title: title,
+          content: content,
+          productId: tagValue,
+          images: urls,
+        };
       } else {
-        if (isUpdating) {
-          url = `${testBaseURL}/community/post/${postid}/update`;
-          await put(url, postData);
-          setTagValue(0);
-          setTitle("");
-          setContent("");
-          setImages([]);
-          setIsUpdating(false);
-          navigate(-1);
+        postData = {
+          title: title,
+          content: content,
+          productId: tagValue,
+          images: [],
+        };
+      }
+      try {
+        let url;
+        if (title.length < 2 || content.length < 2) {
+          alert("제목과 내용은 2글자 이상이어야 합니다.");
+        } else if (content.length > 1000) {
+          alert("내용은 1000자 이내로 작성해주세요.");
         } else {
-          url = `${testBaseURL}/community/post/create`;
-          const response = await post(url, postData);
-          if (response.data.data === true) {
+          if (isUpdating) {
+            url = `${BaseUrl}/api/community/post/${postid}/update`;
+            await put(url, postData);
             setTagValue(0);
             setTitle("");
             setContent("");
@@ -167,12 +157,23 @@ export const PostForm = () => {
             setIsUpdating(false);
             navigate(-1);
           } else {
-            alert("중복 글은 등록 불가능합니다.");
+            url = `${BaseUrl}/api/community/post/create`;
+            const response = await post(url, postData);
+            if (response.data.data === true) {
+              setTagValue(0);
+              setTitle("");
+              setContent("");
+              setImages([]);
+              setIsUpdating(false);
+              navigate(-1);
+            } else {
+              alert("중복 글은 등록 불가능합니다.");
+            }
           }
         }
+      } catch (error) {
+        console.error("Error submitting post:", error);
       }
-    } catch (error) {
-      console.error("Error submitting post:", error);
     }
   };
 
@@ -230,8 +231,8 @@ export const PostForm = () => {
             fullWidth
           >
             <MenuItem value={0}>선택</MenuItem>
-            {products.map((product) => (
-              <MenuItem key={product.id} value={product.id}>
+            {products.map((product, index) => (
+              <MenuItem key={index} value={product.id}>
                 {product.productName}
               </MenuItem>
             ))}
@@ -284,9 +285,9 @@ export const PostForm = () => {
         </Container>
       </form>
       {imgs.length > 0 &&
-        imgs.map((url) => (
+        imgs.map((url, index) => (
           <Box
-            key={url.id}
+            key={index}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -294,7 +295,6 @@ export const PostForm = () => {
             }}
           >
             <img
-              key={url.id}
               src={url.url}
               alt="uploaded"
               style={{
@@ -322,7 +322,7 @@ export const PostForm = () => {
       {images.length > 0 &&
         images.map((image, index) => (
           <Box
-            key={image.index}
+            key={index}
             sx={{
               display: "flex",
               flexDirection: "column",

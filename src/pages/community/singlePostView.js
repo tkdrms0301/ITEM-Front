@@ -3,13 +3,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import { MoreButton } from "./component/moreButton";
 import { BackButton } from "../../component/backButton";
-import { testBaseURL } from "./testing-String";
 import { CommentsList } from "./component/commentsList";
 import { ReportDialog } from "./component/reportDialog";
 import { PostContent } from "./component/postContent";
 import { ReplyDialog } from "./component/replyDialog";
 import { get } from "../../api";
-import { set } from "date-fns";
+import { BaseUrl } from "../../api/BaseUrl";
 
 export const SinglePostView = () => {
   const location = useLocation();
@@ -91,7 +90,7 @@ export const SinglePostView = () => {
 
   const [post, setPost] = useState(null);
   useEffect(() => {
-    get(`${testBaseURL}/community/post/${postid}`)
+    get(`${BaseUrl}/api/community/post/${postid}`)
       .then((response) => {
         setPost(response.data.data);
         setLoaded(true);
@@ -103,7 +102,7 @@ export const SinglePostView = () => {
   }, [postid]);
   const [sessionId, setSessionId] = useState(null);
   useEffect(() => {
-    get(`${testBaseURL}/member/info`)
+    get(`${BaseUrl}/api/member/info`)
       .then((response) => {
         setSessionId(response.data.data.id);
       })
@@ -202,6 +201,7 @@ export const SinglePostView = () => {
           </Button>
           <CommentsList
             postId={postid}
+            sessionId={sessionId}
             onReport={handleReportDialogOpen}
             handleOpen={handleOpen}
             handleReply={handleReply}

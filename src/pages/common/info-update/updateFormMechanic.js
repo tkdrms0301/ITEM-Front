@@ -182,7 +182,7 @@ export const UpdateFormMechanic = () => {
       ref: newPassword,
       id: "newPassword",
       label: "새 비밀번호",
-      type: "newPassword",
+      type: "password",
       disable: false,
     },
     {
@@ -190,7 +190,7 @@ export const UpdateFormMechanic = () => {
       ref: passwordVali,
       id: "passwordVali",
       label: "비밀번호 확인",
-      type: "passwordVali",
+      type: "password",
       disable: false,
     },
     {
@@ -285,7 +285,8 @@ export const UpdateFormMechanic = () => {
         textAlign: "center",
         p: 0,
         pt: 2,
-      }}>
+      }}
+    >
       <CssBaseline />
       <Box>
         <Grid
@@ -295,13 +296,15 @@ export const UpdateFormMechanic = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-start",
-          }}>
+          }}
+        >
           {boxList.map((data, index) => (
             <Grid
               item
               xs={12}
               key={index}
-              sx={{ display: "flex", alignItems: "center" }}>
+              sx={{ display: "flex", alignItems: "center" }}
+            >
               <TextField
                 InputLabelProps={{ shrink: true }}
                 name={data.name}
@@ -325,7 +328,8 @@ export const UpdateFormMechanic = () => {
             <Select
               value={curServiceType}
               onChange={onChangeServiceType}
-              sx={{ width: "60%" }}>
+              sx={{ width: "60%" }}
+            >
               {repairServiceTypes.map((repairServiceType, index) => (
                 <MenuItem key={index} value={repairServiceType.value}>
                   <Typography align="left">
@@ -343,7 +347,8 @@ export const UpdateFormMechanic = () => {
             variant="contained"
             color="primary"
             onClick={infoUpdateSubmit}
-            sx={{ mt: 1 }}>
+            sx={{ mt: 1 }}
+          >
             정보 수정
           </Button>
         </Grid>
