@@ -6,7 +6,7 @@ import { SearchBar } from "./component/searchBar";
 import { BaseUrl } from "../../api/BaseUrl";
 
 export const CommunityMain = () => {
-  const query = `${BaseUrl}/api/` + "/community/posts";
+  const query = `${BaseUrl}` + "/api/community/posts";
   return (
     <>
       <FloatingWriteButton />
