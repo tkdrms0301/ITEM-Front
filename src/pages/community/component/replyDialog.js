@@ -28,49 +28,54 @@ export const ReplyDialog = ({
   }
 
   const handleSubmit = () => {
-    if (reply.trim() === "") {
-      alert("답글을 입력해주세요.");
-      document.getElementById("reply").focus();
-      return;
-    }
-    onHandleClose();
-    let url = "";
-    if (isUpdate) {
-      put(
-        `${BaseUrl}/api/community/post/${postId}/comment/${commentId}/update`,
-        {
+    if (
+      window.confirm(`댓글을 ${isUpdate ? "수정" : "작성"}하시겠습니까?
+    `)
+    ) {
+      if (reply.trim() === "") {
+        alert("답글을 입력해주세요.");
+        document.getElementById("reply").focus();
+        return;
+      }
+      onHandleClose();
+      let url = "";
+      if (isUpdate) {
+        put(
+          `${BaseUrl}/api/community/post/${postId}/comment/${commentId}/update`,
+          {
+            content: reply,
+          }
+        )
+          .then((res) => {
+            navigate(0, { state: { focusOnComment: true } });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (commentId === null) {
+        post(`${BaseUrl}/api/community/post/${postId}/comment/create`, {
           content: reply,
-        }
-      )
-        .then((res) => {
-          navigate(0, { state: { focusOnComment: true } });
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (commentId === null) {
-      post(`${BaseUrl}/api/community/post/${postId}/comment/create`, {
-        content: reply,
-      })
-        .then((res) => {
-          navigate(0, { state: { focusOnComment: true } });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      post(
-        `${BaseUrl}/api/community/post/${postId}/comment/${commentId}/create`,
-        {
-          content: reply,
-        }
-      )
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          .then((res) => {
+            navigate(0, { state: { focusOnComment: true } });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        post(
+          `${BaseUrl}/api/community/post/${postId}/comment/${commentId}/create`,
+          {
+            content: reply,
+          }
+        )
+          .then((res) => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
   };
 

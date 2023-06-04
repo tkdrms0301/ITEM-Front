@@ -11,13 +11,6 @@ import {
 import { post } from "../../../api/index";
 import { BaseUrl } from "../../../api/BaseUrl";
 
-const reportOne = (type, target, reason, comment) => {
-  post(`${BaseUrl}/api/community/${type}/${target}/report`, {
-    reportType: reason,
-    reason: comment,
-  });
-};
-
 export const ReportDialog = ({
   reportType,
   reportTarget,
@@ -26,6 +19,27 @@ export const ReportDialog = ({
   onReportCancel,
   onReportSubmit,
 }) => {
+  const reportOne = (type, target, reason, comment) => {
+    if (window.confirm("신고하시겠습니까?")) {
+      post(`${BaseUrl}/api/community/${type}/${target}/report`, {
+        reportType: reason,
+        reason: comment,
+      }).then((res) => {
+        if (res.data.data === true) {
+          alert("리뷰 신고가 완료되었습니다.");
+          onReportSubmit();
+        } else {
+          alert("이미 신고한 리뷰입니다.");
+          onReportSubmit();
+        }
+      })
+      .catch((err) => {
+        alert("리뷰 신고에 실패했습니다.");
+        onReportSubmit();
+      });
+    }
+  };
+
   const [reason, setReason] = useState(reportReason);
   const [comment, setComment] = useState(reportComment);
 
