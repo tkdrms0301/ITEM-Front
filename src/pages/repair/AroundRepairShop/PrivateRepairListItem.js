@@ -40,7 +40,7 @@ const PrivateRepairListItem = ({ shop }) => {
               </Typography>
               <Typography variant="caption" sx={{ ml: 1, fontWeight: "bold" }}>
                 (
-                {shop.shopType === "MOBILE" || shop.shopType === "TABLET"
+                {shop.shopType === "모바일" || shop.shopType === "테블릿"
                   ? shopTypes[0]
                   : shopTypes[1]}
                 )

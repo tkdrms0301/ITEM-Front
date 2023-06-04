@@ -72,8 +72,8 @@ const Reviews = ({ shopId }) => {
   const handleReply = (comment) => {
     let findIndex = comments.findIndex((c) => c.reviewId === comment.reviewId);
     let newComments = [...comments];
-    newComments[findIndex].replyContent = comment.replyContent;
-    newComments[findIndex].replyId = comment.replyId;
+    newComments[findIndex].replyContent = comment?.replyContent;
+    newComments[findIndex].replyId = comment?.replyId;
     newComments[findIndex].repairShopNickname = comment.repairShopNickname;
     setComments(newComments);
   };
