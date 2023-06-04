@@ -78,25 +78,25 @@ export const DataMain = () => {
     };
   }, []);
 
-  const categoryClick = (categoryId) => {
-    setSelectedCategoryId(categoryId);
+  const categoryClick = async (categoryId) => {
+    try {
+      setSelectedCategoryId(categoryId);
 
-    get(BaseUrl + "/api/data/brand", {
-      params: {
-        category: categoryId,
-      },
-    })
-      .then((res) => {
-        window.scrollTo({
-          top: scrollRef.current.scrollHeight,
-          behavior: "smooth",
-        });
-        setBrandList(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {});
+      const response = await get(BaseUrl + "/api/data/brand", {
+        params: {
+          category: categoryId,
+        },
+      });
+
+      window.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+
+      setBrandList(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const brandCiick = (brandId) => {
@@ -109,7 +109,12 @@ export const DataMain = () => {
       },
     })
       .then((res) => {
+        window.scrollTo({
+          top: 10,
+          behavior: "smooth",
+        });
         setProductList(res.data.data);
+        textFieldRef.current.click();
       })
       .catch((err) => {
         console.log(err);
@@ -117,7 +122,6 @@ export const DataMain = () => {
       .finally(() => {});
 
     setOpen(false);
-    textFieldRef.current.focus();
   };
 
   //검색어 추가 함수
