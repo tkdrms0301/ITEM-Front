@@ -7,6 +7,7 @@ import {
   TextField,
   FormControl,
   MenuItem,
+  Select,
 } from "@mui/material";
 import { post } from "../../../../api";
 import { BaseUrl } from "../../../../api/BaseUrl";
@@ -17,14 +18,50 @@ const ReportDialog = ({
   handleReportInfo,
   handleReportClose,
 }) => {
-  const { reason, comment } = reportInfo;
+  const { reason, reportType } = reportInfo;
 
   const reportSubmit = () => {
     if (window.confirm(`신고하시겠습니까 ?`)) {
-      post(BaseUrl + "/reply/report");
+      if (reportInfo.isComment) {
+        console.log(reportInfo);
+        const data = {
+          reviewId: reportInfo.id,
+          reason: reportInfo.reason,
+          reportType: reportInfo.reportType,
+        };
+        post(BaseUrl + "/api/repair/review/report", data)
+          .then((res) => {
+            console.log(res);
+            if (res.data.success) {
+              alert(res.data.msg);
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        console.log(reportInfo);
+        const data = {
+          replyId: reportInfo.id,
+          reason: reportInfo.reason,
+          reportType: reportInfo.reportType,
+        };
+        post(BaseUrl + "/api/repair/reply/report", data)
+          .then((res) => {
+            console.log(res);
+            if (res.data.success) {
+              alert(res.data.msg);
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
       handleReportClose();
-
-      post(BaseUrl + "/review/report");
     }
   };
 
@@ -33,26 +70,25 @@ const ReportDialog = ({
       <Dialog open={openReport} onClose={handleReportClose} fullWidth>
         <DialogTitle>정비소 리뷰 신고</DialogTitle>
         <DialogContent>
-          <FormControl fullWidth sx={{ mt: 1 }}>
-            <TextField
-              name="reason"
-              value={reason}
-              select
-              label="신고 사유"
-              onChange={(e) => handleReportInfo(e)}>
-              <MenuItem value={0}>광고성 게시글</MenuItem>
-              <MenuItem value={1}>부적절한 게시글</MenuItem>
-              <MenuItem value={2}>기타</MenuItem>
-            </TextField>
-          </FormControl>
+          <Select
+            sx={{ mt: 1 }}
+            fullWidth
+            name="reportType"
+            value={reportType}
+            label="신고 사유"
+            onChange={(e) => handleReportInfo(e)}>
+            <MenuItem value={0}>광고성 게시글</MenuItem>
+            <MenuItem value={1}>부적절한 게시글</MenuItem>
+            <MenuItem value={2}>기타</MenuItem>
+          </Select>
           <TextField
             margin="normal"
             label="상세 사유"
             fullWidth
             multiline
             rows={4}
-            name="comment"
-            value={comment}
+            name="reason"
+            value={reason}
             onChange={(e) => handleReportInfo(e)}
             type="input"
           />
