@@ -55,7 +55,6 @@ export const DataMain = () => {
       width: window.innerWidth,
       height: window.innerHeight,
     });
-    setOpen(true);
   }, 40);
 
   useEffect(() => {
