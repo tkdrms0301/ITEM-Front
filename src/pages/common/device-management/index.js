@@ -3,14 +3,13 @@ import { Grid } from "@mui/material";
 import DeviceList from "./list/DeviceList";
 import DeviceRegister from "./register/DeviceRegister";
 import DeviceManagementButton from "./DeviceManagementButton";
-import { listData } from "./constant";
 import { useEffect, useState } from "react";
 import { get } from "../../../api";
 import { BaseUrl } from "../../../api/BaseUrl";
 import { Header } from "./header";
 
 const DeviceManagement = () => {
-  const [data, setData] = useState([...listData]);
+  const [data, setData] = useState([]);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
 

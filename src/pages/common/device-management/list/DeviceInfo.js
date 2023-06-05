@@ -1,6 +1,5 @@
 import { Grid, Typography, Button, IconButton } from "@mui/material";
 import { useState } from "react";
-import DeviceUpdate from "./DeviceUpdate";
 import DevicePartInfo from "./DevicePartInfo";
 import AddIcon from "@mui/icons-material/Add";
 import DevicePartRegister from "./DevicePartRegister";

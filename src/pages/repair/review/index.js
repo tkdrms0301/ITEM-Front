@@ -91,11 +91,8 @@ const Reviews = ({ shopId }) => {
 
   const [reportInfo, setReportInfo] = useState({
     reason: "",
-    comment: "",
-    commentId: 0,
-    ownerId: "",
-    shopId: shopId,
-    sessionId: sessionId,
+    reportType: 0,
+    id: 0,
   });
 
   const handleReportInfo = (e) => {
@@ -244,7 +241,7 @@ const Reviews = ({ shopId }) => {
             } // Loader component
             endMessage={
               <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
+                <b>글 목록의 끝 입니다.</b>
               </p>
             }>
             <Grid container spacing={2} justifyContent="center">
