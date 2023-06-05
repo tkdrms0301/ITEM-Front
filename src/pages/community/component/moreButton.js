@@ -31,7 +31,11 @@ export const MoreButton = (props) => {
     handleClose();
     const id = isPost ? props.postId : props.commentId;
     const type = isPost ? "post" : "comment";
-    if (window.confirm(`Are you sure you want to delete this ${type}?`)) {
+    if (
+      window.confirm(
+        isPost ? "게시글을 삭제하시겠습니까?" : "댓글을 삭제하시겠습니까?"
+      )
+    ) {
       let url;
       if (isPost) {
         url = BaseUrl + `/api/community/post/${id}/delete`;
@@ -67,8 +71,7 @@ export const MoreButton = (props) => {
         aria-label="more"
         aria-controls="more-menu"
         aria-haspopup="true"
-        onClick={handleMenuOpen}
-      >
+        onClick={handleMenuOpen}>
         <MoreVertIcon sx={{ fontSize: "30px" }} />
       </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>

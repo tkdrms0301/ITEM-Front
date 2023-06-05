@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Badge, Box, Card, Grid, Typography } from "@mui/material";
+import { Box, Card, Grid, Typography } from "@mui/material";
 import { ProductCarousel } from "./component/ProductCarousel";
 import { CategoryCard } from "./component/CategoryCard";
 import { MarketSearchBar } from "./component/SearchBar";
 import { get } from "../../../api";
 import { BaseUrl } from "../../../api/BaseUrl";
-import { set } from "lodash";
 
 export const UserMarketMain = ({ color = "primary" }) => {
   const navigate = useNavigate();
@@ -70,15 +69,13 @@ export const UserMarketMain = ({ color = "primary" }) => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={2}
-      >
+        spacing={2}>
         <Grid
           item
           xs={12}
           sx={{ width: "100%" }}
           display="flex"
-          justifyContent="center"
-        >
+          justifyContent="center">
           <MarketSearchBar />
         </Grid>
         <Grid
@@ -86,8 +83,7 @@ export const UserMarketMain = ({ color = "primary" }) => {
           xs={12}
           sx={{ width: "100%" }}
           display="flex"
-          justifyContent="center"
-        >
+          justifyContent="center">
           <Card sx={{ width: "90%", p: 3, boxShadow: 10 }}>
             {topProducts !== null && (
               <Grid container>
@@ -98,8 +94,7 @@ export const UserMarketMain = ({ color = "primary" }) => {
                   display="flex"
                   flexDirection="column"
                   alignItems="center"
-                  justifyContent="center"
-                >
+                  justifyContent="center">
                   <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
                     이번 달 인기 상품을 확인해보세요!
                   </Typography>
@@ -111,8 +106,7 @@ export const UserMarketMain = ({ color = "primary" }) => {
                   display="flex"
                   flexDirection="column"
                   alignItems="center"
-                  justifyContent="center"
-                >
+                  justifyContent="center">
                   <ProductCarousel data={topProducts} />
                 </Grid>
               </Grid>
@@ -126,8 +120,7 @@ export const UserMarketMain = ({ color = "primary" }) => {
               display: "grid",
               gap: 1,
               gridTemplateColumns: "repeat(4, 1fr)",
-            }}
-          >
+            }}>
             {categorys.map((category, index) => (
               <CategoryCard
                 onClick={() => {

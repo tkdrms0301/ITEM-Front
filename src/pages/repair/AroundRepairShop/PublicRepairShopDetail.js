@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/RepairShopDetail.css";
-import Reviews from "../review/index.js";
 const { kakao } = window;
 
 let map, lat, lng;
@@ -60,7 +59,6 @@ export const PublicRepairShopDetail = () => {
     {
       name: "위치 / 전화번호",
     },
-    { name: "리뷰" },
   ];
 
   const selectMenuHandler = (index) => {
@@ -103,8 +101,7 @@ export const PublicRepairShopDetail = () => {
                   className={
                     index === currentTab ? "submenu focused" : "submenu"
                   }
-                  onClick={() => selectMenuHandler(index)}
-                >
+                  onClick={() => selectMenuHandler(index)}>
                   {el.name}
                 </li>
               ))}
@@ -115,8 +112,7 @@ export const PublicRepairShopDetail = () => {
                   currentTab === 0
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
+                }>
                 <div className="shop_address_and_phonenum">
                   <div className="kakao_map" id="repair_shop_map"></div>
                   <div className="shop_address">
@@ -132,12 +128,7 @@ export const PublicRepairShopDetail = () => {
                   currentTab === 1
                     ? "content_visible"
                     : "content_visible invisible"
-                }
-              >
-                <div className="shop_review_area">
-                  <Reviews />
-                </div>
-              </div>
+                }></div>
             </div>
           </div>
         </>

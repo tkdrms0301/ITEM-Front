@@ -171,7 +171,7 @@ export const ReportResult = ({ isRegist }) => {
             fullWidth
             color="inherit"
             sx={{ my: 2 }}
-            onClick={() => onClickRegist()}>
+            onClick={onClickRegist}>
             등록
           </Button>
         </Container>

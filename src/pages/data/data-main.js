@@ -60,7 +60,6 @@ export const DataMain = () => {
   useEffect(() => {
     get(BaseUrl + "/api/data/category")
       .then((res) => {
-        console.log(res);
         setSubscriptionState(res.data.success);
         setCategoryList(res.data.data);
       })
