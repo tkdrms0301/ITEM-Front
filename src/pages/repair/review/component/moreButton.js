@@ -14,13 +14,25 @@ export const MoreButton = (props) => {
     setAnchorEl(null);
   };
 
-  const handleReport = () => {
+  const handleReplyReport = () => {
+    console.log(props.comment);
     props.setReportInfo({
       reason: "",
-      comment: "",
-      commentId: props.commentId,
-      shopId: props.shopId,
-      ownerId: props.ownerId,
+      reportType: 0,
+      isComment: false,
+      id: props.comment.replyId,
+    });
+    props.handleReportOpen();
+    handleClose();
+  };
+
+  const handleReviewReport = () => {
+    console.log(props.comment);
+    props.setReportInfo({
+      reason: "",
+      reportType: 0,
+      isComment: true,
+      id: props.comment.reviewId,
     });
     props.handleReportOpen();
     handleClose();
@@ -122,7 +134,10 @@ export const MoreButton = (props) => {
           </MenuItem>
         )}
         {props.sessionId !== props.ownerId && (
-          <MenuItem onClick={handleReport}>신고</MenuItem>
+          <MenuItem
+            onClick={props.isReply ? handleReplyReport : handleReviewReport}>
+            신고
+          </MenuItem>
         )}
       </Menu>
     </>
