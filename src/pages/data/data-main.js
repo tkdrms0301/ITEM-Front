@@ -457,7 +457,8 @@ export const DataMain = () => {
                           title={data.productName}
                           subheader="검색한 제품에 대한 긍/부정도 분석 결과"
                           chartData={
-                            data.posAndNegDto
+                            data.posAndNegDto.positive ||
+                            data.posAndNegDto.negative
                               ? [
                                   {
                                     label: "긍정적 반응",
