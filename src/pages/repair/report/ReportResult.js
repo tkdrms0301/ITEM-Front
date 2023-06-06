@@ -465,6 +465,39 @@ export const ReportResult = ({ isRegist }) => {
                   borderBottom: "2px solid",
                   borderColor: palette.grey[400],
                 }}>
+                예약 이미지
+              </Typography>
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}>
+                {reportInfo.reservationImages.map((imgs, index) => (
+                  <Box
+                    key={index}
+                    component="img"
+                    src={imgs}
+                    sx={{ width: "100%", height: "auto", cursor: "pointer" }}
+                    onClick={() => {
+                      setModalState(true);
+                      setModalImgState(imgs);
+                    }}
+                  />
+                ))}
+              </Box>
+            </Card>
+            <Card sx={{ boxShadow: 10, mt: 2, py: 1 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  px: 2,
+                  pb: 1,
+                  borderBottom: "2px solid",
+                  borderColor: palette.grey[400],
+                }}>
                 정비 결과
               </Typography>
               <Box sx={{ display: "flex", flexDirection: "column" }}>

@@ -106,6 +106,11 @@ export const LoginForm = () => {
                 label={data.label}
                 type={data.type}
                 sx={{ width: "80%" }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    signInSubmit();
+                  }
+                }}
               />
             </Grid>
           ))}

@@ -3,17 +3,17 @@
   "name": "ITEM",
   "icons": [
     {
-      "src": "item_icon.ico",
+      "src": "ItemIconLogoBlue.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logoITEM.png",
+      "src": "ItemIconLogoBlue.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logoITEM.png",
+      "src": "ItemIconLogoBlue.png",
       "type": "image/png",
       "sizes": "512x512"
     }
