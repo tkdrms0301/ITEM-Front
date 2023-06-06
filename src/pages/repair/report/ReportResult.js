@@ -143,6 +143,8 @@ export const ReportResult = ({ isRegist }) => {
         });
         alert("등록이 완료되었습니다.");
         window.location.reload();
+      } else {
+        alert("등록에 실패하였습니다.");
       }
     } catch (error) {
       console.error(error);
